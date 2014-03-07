@@ -1,0 +1,32 @@
+#macro(springUrl $relativeUrl )$springMacroRequestContext.getContextPath()${relativeUrl}#end
+
+#macro(pageNav $pageContext $url $suffixUrl $template)
+ #set($totalPage=((${pageContext.totals} - 1)/${pageContext.limit})+1)
+ #set($currentPage=(${pageContext.start}/${pageContext.limit})+1)
+     <ul class="pagination">
+         <li><a href='$!{url}?start=0&pageSize=$!{pageContext.limit}&$!{suffixUrl}' >|&laquo;</a></li>
+         #set($start=${pageContext.start} - ${pageContext.limit})
+         #if(0 >= $start)
+             #set($start = 0)
+         #end
+         <li><a href='$!{url}?start=$!start&pageSize=$!{pageContext.limit}&$!{suffixUrl}' >&laquo;</a></li>
+         #foreach($jj in [-5..3])
+             #if(($currentPage+$jj)>=0 && $totalPage > ($currentPage+$jj))
+                 #set($start = ($currentPage + $jj)*${pageContext.limit} )
+                 #set($nowPage = $currentPage + $jj + 1)
+                 #if($start == ${pageContext.start})
+                     <li class="active"><span>$nowPage <span class="sr-only">(current)</span></span></li>
+                 #else
+                     <li><a href='$!{url}?start=$start&pageSize=$!{pageContext.limit}&$!{suffixUrl}' >$nowPage</a></li>
+                 #end
+             #end
+         #end
+         #set($start=${pageContext.start} + ${pageContext.limit})
+         #if($start > ${pageContext.totals})
+             #set($start=(${totalPage} - 1)*${pageContext.limit})
+         #end
+         <li><a href='$!{url}?start=$!start&pageSize=$!{pageContext.limit}&$!{suffixUrl}' >&raquo;</a></li>
+         #set($start=(${totalPage} - 1)*${pageContext.limit})
+         <li><a href='$!{url}?start=$!start&pageSize=$!{pageContext.limit}&$!{suffixUrl}' >&raquo;|</a></li>
+     </ul>
+#end
