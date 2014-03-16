@@ -1,1 +1,22 @@
-$screen_content
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AA，聚餐，KTV，电影，休闲娱乐，搞活动，用AA</title>
+	<meta name="keywords" content="聚餐,KTV,电影,酒吧,咖啡厅,茶馆,足疗,按摩,洗浴,桌游,休闲娱乐,活动" />
+	<meta name="description" content="聚餐,KTV,电影,酒吧,咖啡厅,茶馆,足疗,按摩,洗浴,桌游,休闲娱乐,活动" />
+	
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+	<link href="#springUrl('/css/global.css')" rel="stylesheet" />
+	<link href="http://cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" rel="stylesheet" />
+	#parse("/common/importBootstrap.vm")
+	
+  </head>
+  <body>
+	
+	#parse("/common/globalHeader.vm")
+	$screen_content
+	
+  </body>
+</html>
+
