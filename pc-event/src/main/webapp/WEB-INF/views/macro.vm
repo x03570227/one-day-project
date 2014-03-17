@@ -1,4 +1,5 @@
 #macro(springUrl $relativeUrl )$springMacroRequestContext.getContextPath()${relativeUrl}#end
+#macro(imgUrl $imgUrl)$springMacroRequestContext.getContextPath()$!{imgUrl}#end
 
 #macro(pageNav $pageContext $url $suffixUrl $template)
  #set($totalPage=((${pageContext.totals} - 1)/${pageContext.limit})+1)
