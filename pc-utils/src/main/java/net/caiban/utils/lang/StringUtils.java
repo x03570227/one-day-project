@@ -317,6 +317,26 @@ public class StringUtils {
         return sb.toString();
     }
 	
+	/**
+	 * 用于判断是否为手机号码 
+	 * 
+	 * 已知号码段：
+	 * 移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
+	 * 联通：130、131、132、152、155、156、185、186
+	 * 电信：133、153、180、189、（1349卫通）
+	 * 
+	 * @param mobile
+	 * @return
+	 */
+	public static boolean isMobile(String mobile){
+		if(isEmpty(mobile)){
+			return false;
+		}
+		Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");  
+		Matcher m = p.matcher(mobile);
+		return m.matches();
+	}
+	
 	public static String getStackTrace(Throwable t){
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw, true);

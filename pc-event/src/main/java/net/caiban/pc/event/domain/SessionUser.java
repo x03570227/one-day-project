@@ -28,6 +28,14 @@ public class SessionUser implements Serializable {
 	public void setAccount(String account) {
 		this.account = account;
 	}
+	public SessionUser() {
+		super();
+	}
+	public SessionUser(Integer uid, String account) {
+		super();
+		this.uid = uid;
+		this.account = account;
+	}
 	
 	
 }
