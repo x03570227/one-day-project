@@ -58,15 +58,15 @@ public class AuthorizeFilter implements Filter {
 		
 		do {
 
-			SessionUser sessionBank = (SessionUser) request.getSession().getAttribute(AppConst.SESSION_KEY);
-			request.setAttribute("sessionBank", sessionBank);
+			SessionUser sessionUser = (SessionUser) request.getSession().getAttribute(AppConst.SESSION_KEY);
+			request.setAttribute("sessionUser", sessionUser);
 
 			if(filterByConfig(noLoginPage, path, uri)){
 				chain.doFilter(request, response);
 				return ;
 			}
 			
-			if(sessionBank==null){
+			if(sessionUser==null){
 				break;
 			}
 			

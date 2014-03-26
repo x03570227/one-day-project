@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-4">
-		<!-- 加入注册窗口 -->
+		
 		#if($!{sessionUser})
         <form class="form-horizontal" role="form">
           <div class="form-group">

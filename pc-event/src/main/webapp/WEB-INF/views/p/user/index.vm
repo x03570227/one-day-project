@@ -4,8 +4,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-4">
-		<!-- 加入注册窗口 -->
-		#if($!{sessionUser})
+			
         <form class="form-horizontal" role="form">
           <div class="form-group">
             <label for="inputEmail3" class="col-sm-3 control-label">用户名</label>
@@ -30,11 +29,12 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default">登录</button>
+              <button type="submit" class="btn btn-default">Sign in</button>
             </div>
           </div>
         </form>
-		#end
+		
+		
 
 		</div>
 		<div class="col-md-8">

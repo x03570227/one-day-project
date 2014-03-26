@@ -13,7 +13,7 @@
         <div class="navbar-collapse collapse">
           
 		  <ul class="nav navbar-nav">
-            <li class="active " >
+            <li #if(${menuIdx} == "index")class="active"#end>
 				<a href="#springUrl('/')">公开活动</a>
 			</li>
 			<li>

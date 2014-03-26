@@ -9,14 +9,13 @@
 		
 	<link href="#springUrl('/css/global.css')" rel="stylesheet" />
 	<link href="http://cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" rel="stylesheet" />
-	#parse("/common/importBootstrap.vm")
+	#parse("/common/import/bootstrap.vm")
 	
   </head>
   <body>
 	
-	#parse("/common/globalHeader.vm")
 	$screen_content
-	
+	#parse("/common/globalFooter.vm")
   </body>
 </html>
 

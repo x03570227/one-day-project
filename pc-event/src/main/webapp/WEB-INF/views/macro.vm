@@ -31,3 +31,13 @@
          <li><a href='$!{url}?start=$!start&pageSize=$!{pageContext.limit}&$!{suffixUrl}' >&raquo;|</a></li>
      </ul>
 #end
+
+##用于确定菜单选中项
+#macro(globalHeader $menuIdx)
+#parse("/common/globalHeader.vm")
+#end
+
+#macro(resource $js $css)
+	##导入所需的js,css
+	##处理下当前版本号
+#end
