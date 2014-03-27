@@ -1,6 +1,7 @@
 #macro(springUrl $relativeUrl )$springMacroRequestContext.getContextPath()${relativeUrl}#end
 #macro(imgUrl $imgUrl)$springMacroRequestContext.getContextPath()$!{imgUrl}#end
 
+
 #macro(pageNav $pageContext $url $suffixUrl $template)
  #set($totalPage=((${pageContext.totals} - 1)/${pageContext.limit})+1)
  #set($currentPage=(${pageContext.start}/${pageContext.limit})+1)
@@ -37,7 +38,15 @@
 #parse("/common/globalHeader.vm")
 #end
 
-#macro(resource $js $css)
-	##导入所需的js,css
-	##处理下当前版本号
+#macro(loadScript $jsArr)
+	#foreach($js in $!{jsArr})
+		<script src="#springUrl('/js')$js"></script>
+	#end
 #end
+
+#macro(loadCss $cssArr)
+	#foreach($css in $!{cssArr})
+		<link href="#springUrl('/css')$css" rel="stylesheet" />
+	#end
+#end
+

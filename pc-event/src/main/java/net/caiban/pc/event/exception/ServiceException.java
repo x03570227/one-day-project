@@ -22,4 +22,8 @@ public class ServiceException extends Exception {
 		super(msg);
 	}
 	
+	public ServiceException(String msg, Throwable cause){
+		super(msg, cause);
+	}
+	
 }

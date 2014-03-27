@@ -33,12 +33,12 @@ public class BaseController {
 		return new ModelAndView("json");
 	}
 	
-	public SessionUser getSessionBank(HttpServletRequest request) {
+	public SessionUser getSessionUser(HttpServletRequest request) {
 		return (SessionUser) request.getSession().getAttribute(AppConst.SESSION_KEY);
 	}
 	
-	public void setSessionUser(HttpServletRequest request, SessionUser bank){
-		request.getSession().setAttribute(AppConst.SESSION_KEY, bank);
+	public void setSessionUser(HttpServletRequest request, SessionUser sessionUser){
+		request.getSession().setAttribute(AppConst.SESSION_KEY, sessionUser);
 	}
 	
 	public void removeSession(HttpServletRequest request, String sessionKey) {

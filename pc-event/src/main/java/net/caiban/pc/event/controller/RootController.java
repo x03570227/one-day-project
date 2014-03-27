@@ -5,8 +5,10 @@ package net.caiban.pc.event.controller;
 
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,19 +20,22 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RootController extends BaseController{
 
+	
+	@Resource
+	MessageSource messageSource;
+	
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, Map<String, Object> out
 			){
 		
-		//判断浏览器类型，手机浏览器则直接跳转到 indexMobel
-		//cookies可设置强制使用电脑版 index
+		out.put("sessionUser", getSessionUser(request));
 		
 		return null;
 	}
 	
 	@RequestMapping
 	public ModelAndView indexMobel(HttpServletRequest request, Map<String, Object> out){
-		
+	
 		return null;
 	}
 }

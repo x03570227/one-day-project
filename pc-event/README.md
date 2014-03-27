@@ -1,5 +1,8 @@
 CHANGE LOG
 
+2014-3-27 mays v1.0.5-SNAPSHOT
+1. 完成登录，注册功能
+
 2014-3-26 mays v1.0.4-SNAPSHOT
 1. 登录注册功能设计，完成一部分接口设计
 2. 更新表设计（sys_user）

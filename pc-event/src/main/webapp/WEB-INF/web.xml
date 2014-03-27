@@ -36,6 +36,7 @@
 				|/p/*
 			</param-value>
 		</init-param>
+		
 	</filter>
 	<filter-mapping>
 		<filter-name>authorizeFilter</filter-name>

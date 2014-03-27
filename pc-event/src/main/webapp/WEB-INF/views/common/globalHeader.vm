@@ -30,18 +30,30 @@
           </ul>
 		  
           <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span class="glyphicon glyphicon-user">
-						x03570227/登录
-					</span>
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu">
-					<li><a href="#">基本资料</a></li>
-					<li><a href="#">密码管理</a></li>
-                </ul>
-			</li>
+				#if($sessionUser)  
+					<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    					<span class="glyphicon glyphicon-user">
+							$!{sessionUser.account}
+    					</span>
+    					<b class="caret"></b>
+    				</a>
+					<ul class="dropdown-menu">
+    					<li><a href="#">基本资料</a></li>
+    					<li><a href="#">密码管理</a></li>
+						<li class="divider"></li>
+						<li><a href="#springUrl('/p/puser/doLogout.do')">退出</a></li>
+                    </ul>
+				</li>
+				#else
+					<li >
+    					<a href="#springUrl('/p/puser/login.do')">
+    						#springMessage("tip.header.login")
+        				</a>
+                    </li>
+				#end
+				
+				
           </ul>
 		  
         </div><!--/.nav-collapse -->
