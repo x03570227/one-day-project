@@ -15,4 +15,5 @@ import net.caiban.pc.event.controller.BaseController;
 @Controller
 public class PEventsController extends BaseController {
 
+	
 }

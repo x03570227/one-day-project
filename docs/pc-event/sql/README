@@ -1,0 +1,11 @@
+用于更新数据库的SQL格式：
+update.v版本号.sql
+例：update.v1.0.0.SNAPSHOT.sql
+
+当数据库更新过SQL后，更改文件名
+update.v版本号.数据库代号A.sql
+例：update.v1.0.0.SNAPSHOT.daoman.sql
+
+如有多个位置更新，可增加代号
+update.v版本号.数据库代号A.数据库代号B.sql
+例：update.v1.0.0.SNAPSHOT.daoman.jx.sql

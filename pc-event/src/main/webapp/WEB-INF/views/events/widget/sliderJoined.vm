@@ -1,3 +1,4 @@
+#if($!{sessionUser})
 <div class="panel panel-default">
 	<div class="panel-heading">
 	#springMessage("addon.slider.event.join.title")
@@ -16,3 +17,4 @@
 		</div>
 </div>
 <!-- AJAX 获取活动内容 -->
+#end
