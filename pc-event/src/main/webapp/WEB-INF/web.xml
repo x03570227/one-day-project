@@ -27,7 +27,7 @@
 		<filter-class>net.caiban.pc.event.filter.AuthorizeFilter</filter-class>
 		<init-param>
 			<param-name>loginURL</param-name>
-			<param-value>/</param-value>
+			<param-value>/p/puser/login.do</param-value>
 		</init-param>
 		<init-param>
 			<param-name>noLoginPage</param-name>

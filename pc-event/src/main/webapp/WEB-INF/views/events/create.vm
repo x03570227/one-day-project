@@ -1,0 +1,35 @@
+#globalHeader("index")
+
+#loadCss(["/button.css"])
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			
+			<div class="panel panel-default">
+            	<div class="panel-heading">
+            	#springMessage("addon.slider.event.join.title")
+            	</div>
+            	<div class="list-group">
+            		
+            		##您还没有参加活动，<a href="" >到处看看</a>
+            		
+            		<a href="#" class="list-group-item">
+            			<h4 class="list-group-item-heading">本周六满觉陇骑行喝茶活动<small>（预算：100/人）</small></h4>
+            			<p class="list-group-item-text">活动时间：2014-3-29</p>
+            			<p class="list-group-item-text">活动地点：满觉陇</p>
+            			<p class="list-group-item-text">活动内容：骑行，喝茶，聚会</p>
+            		</a>
+					
+            		
+            	</div>
+            </div>
+			
+		</div>
+		
+		<div class="col-md-8">
+			
+		</div>
+	</div>
+	<div class="mt16"><!-- 与底部隔开一定距离 --></div>
+</div>

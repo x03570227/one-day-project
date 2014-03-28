@@ -37,7 +37,7 @@ public class PUserController extends BaseController {
 	public ModelAndView login(HttpServletRequest request, Map<String, Object> out, 
 			String refurl, String refparam, String error){
 		
-		out.put("refurl", refparam);
+		out.put("refurl", refurl);
 		out.put("refparam", refparam);
 		out.put("error", error);
 		
@@ -82,7 +82,7 @@ public class PUserController extends BaseController {
 	public ModelAndView regist(HttpServletRequest request, Map<String, Object> out,
 			String refurl, String refparam, String error){
 		
-		out.put("refurl", refparam);
+		out.put("refurl", refurl);
 		out.put("refparam", refparam);
 		out.put("error", error);
 		

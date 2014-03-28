@@ -4,19 +4,11 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
-			
-			<!-- 按钮 -->
-			<a href="#" class="button button-rounded button-flat-primary"><i class="icon-refresh"></i> press me</a>
-
-			<br />
-			<br />
-			<a href="#" class="button button-circle button-primary">press me</a>
-			
-			<br />
-			<br />
-			<span class="button-wrap"><a href="#" class="button button-circle button-primary">press me</a></span>
-			
+		<div class="col-md-12 text-center">
+			<span class="button-wrap"><a href="#springUrl('/events/create.do')" class="button button-circle button-action">#springMessage('tip.create.event')</a></span>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="button-wrap"><a href="#springUrl('/events/index.do')" class="button button-circle button-royal">#springMessage('tip.my.events')</a></span>
 		</div>
 	</div>
+	<div class="mt16"><!-- 与底部隔开一定距离 --></div>
 </div>
