@@ -1,6 +1,13 @@
 #globalHeader("index")
 
-#loadCss(["/button.css"])
+#loadCss([
+	"/css/button.css",
+	"/plugin/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css"
+])
+#loadScript([
+	"/js/jquery.extention/jqBootstrapValidation.js",
+	"/plugin/bootstrap-switch/js/bootstrap-switch.min.js"
+])
 
 <div class="container">
 	<div class="row">
@@ -34,19 +41,23 @@
             			<p class="list-group-item-text">活动地点：满觉陇</p>
             			<p class="list-group-item-text">活动内容：骑行，喝茶，聚会</p>
             		</a>
+					<a href="#" class="list-group-item text-center">
+						更多活动...
+            		</a>
             		
             	</div>
             </div>
 			
 		</div>
-		
 		<div class="col-md-8">
 			<a href="#springUrl('/events/create.do')" class="button glow button-rounded button-flat-action">#springMessage("tip.create.event")</a>
 			<div class="panel panel-default mt8">
             	<div class="panel-heading">
 					//活动名称 
+					<input type="checkbox" />
+					
 					<!-- 如果是本活动的邀请对象 BEGIN -->
-					<div class="dropdown pull-right">
+					<div class="dropdown pull-right" >
                       <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
                         Maybe <span class="caret"></span>
                       </a>
@@ -79,37 +90,210 @@
 				<video width="100%" src="https://ssl.gstatic.com/s2/oz/images/events/themes/201206/26_baby_shower_l.ogv" loop="true" autoplay=""></video>
 				<div class="panel-body" >
 					
+
+<ul class="nav nav-tabs">
+  <li class="active">
+	<a href="#">
+		<span class="glyphicon glyphicon-tint" ></span>
+		基本信息
+	</a>
+  </li>
+  <li>
+	<a href="#">
+		<span class="glyphicon glyphicon-list" ></span>
+		活动内容和费用
+	</a>
+  </li>
+</ul>
+
+<div class="mt8" ></div>
+
 					<div >
-						
-
-<form class="form-horizontal" role="form">
-  <div class="form-group">
-    <label class="col-sm-2 control-label">Email</label>
-    <div class="col-sm-4">
-      <p class="form-control-static">email@example.com</p>
-    </div>
-	<label class="col-sm-2 control-label">Email</label>
-    <div class="col-sm-4">
-      <p class="form-control-static">email@example.com</p>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-2 control-label">Email</label>
-    <div class="col-sm-10">
-      <p class="form-control-static">email@example.com</p>
-    </div>
-  </div>
-</form>
-
+						<table class="table table-bordered">
+							<tr>
+                                <th class="text-right" width="120">活动时间：</th>
+								<td>
+									2014-03-29 到 2014-03-30
+								</td>
+								<th class="text-right" width="120">预算：</th>
+								<td>
+									100 
+									<small class="text-muted">(元/人)</small>
+								</td>
+							</tr>
+							<tr>
+                                <th class="text-right">活动地点：</th>
+								<td colspan="3">满觉陇</td>
+							</tr>
+							<tr>
+                                <th class="text-right">参加人员：</th>
+								<td colspan="3">
+									<span>
+									<button type="button" class="btn btn-info">
+										八月下沙
+									</button>
+									<button type="button" class="btn btn-default">遥远</button>
+									<button type="button" class="btn btn-success">Mar</button>
+									<button type="button" class="btn btn-success">董大侠</button>
+									<button type="button" class="btn btn-default">余晓琳</button>
+									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#joinedModal">罗勋</button>
+									</span>
+									<button type="button" class="btn btn-default">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button>
+								</td>
+							</tr>
+						</table>
 
 					</div>
 					
                     <blockquote class="mt8">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                      <p>
+                        <h4><strong >活动描述：</strong></h4>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+					  </p>
                     </blockquote>
+					
+					<table class="table table-bordered">
+						<tr>
+							<th>项目名称</th>
+							<th width="100">消费</th>
+							<th width="135">时间</th>
+							<th width="95"></th>
+						</tr>
+                        <tr>
+							<td>吃饭</td>
+							<td class="text-danger">
+								12259.89 <small>元</small>
+							</td>
+							<td>2014-03-29 12:32</td>
+							<td class="text-center">
+								<button type="button" class="btn btn-xs btn-primary">变更</button>
+								<button type="button" class="btn btn-xs btn-default">删除</button>
+							</td>
+						</tr>
+						<tr>
+							<td>KTV</td>
+							<td class="text-danger">
+								692.29 <small>元</small>
+							</td>
+							<td>2014-03-29 11:32</td>
+							<td class="text-center">
+								<button type="button" class="btn btn-xs btn-primary">变更</button>
+								<button type="button" class="btn btn-xs btn-default">删除</button>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								<button type="button" class="btn btn-success btn-sm btn-block">
+									<span class="glyphicon glyphicon-plus"></span>
+									增加活动项目
+								</button>
+							</td>
+						</tr>
+                    </table>
+					
+					
+					<table class="table table-bordered">
+						<tr>
+							<th>小伙伴</th>
+							<th width="100">已付金额</th>
+							<th width="200">多退少补</th>
+							<th width="95"></th>
+						</tr>
+                        <tr>
+							<td>八月下沙</td>
+							<td class="text-danger">
+								300 <small>元</small>
+							</td>
+							<td>
+								<span class="label label-danger" >补交：120</span>
+							</td>
+							<td class="text-center">
+								<button type="button" class="btn btn-xs btn-primary">结账</button>
+								<button type="button" class="btn btn-xs btn-default">明细</button>
+							</td>
+						</tr>
+						<tr>
+							<td>阿董大侠</td>
+							<td class="text-danger">
+								300 <small>元</small>
+							</td>
+							<td>
+								<span class="label label-success" ><s>退还：120</s></span>
+							</td>
+							<td class="text-center">
+								<button type="button" class="btn btn-xs btn-default">已结</button>
+								<button type="button" class="btn btn-xs btn-default">明细</button>
+							</td>
+						</tr>
+						<tr>
+							<td>遥远</td>
+							<td class="text-danger">
+								300 <small>元</small>
+							</td>
+							<td>
+								<span class="label label-success" >退还：120</span>
+							</td>
+							<td class="text-center">
+								<button type="button" class="btn btn-xs btn-primary">结账</button>
+								<button type="button" class="btn btn-xs btn-default">明细</button>
+							</td>
+						</tr>
+						<tr>
+							<td>遥远</td>
+							<td class="text-danger">
+								300 <small>元</small>
+							</td>
+							<td>
+								<span class="label label-success" >没补，没退，可以结账了！</span>
+							</td>
+							<td class="text-center">
+								<button type="button" class="btn btn-xs btn-primary">结账</button>
+								<button type="button" class="btn btn-xs btn-default">明细</button>
+							</td>
+						</tr>
+						
+						<tr>
+							<td colspan="4">
+								整个活动共消费：<span class="font24 text-danger" >1878.98</span> 元
+							</td>
+						</tr>
+                    </table>
+					
+					<div >
+						整个活动共消费：<span class="font24 text-danger" >1878.98</span> 元，
+						已付：<span class="font24 text-success" >300</span> 元，
+						需补交：<span class="font24 text-danger" >121.40</span> 元。
+						可退还：<span class="font24 text-success" ><s >121.40</s></span> 元。
+					</div>
+					
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="mt16"><!-- 与底部隔开一定距离 --></div>
 </div>
+
+<!-- modal contact -->
+<div class="modal fade" id="joinedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div  class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        详细的框内内容
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+	

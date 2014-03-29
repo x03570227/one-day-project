@@ -1,35 +1,84 @@
 #globalHeader("index")
-
-#loadCss(["/button.css"])
-
 <div class="container">
-	<div class="row">
-		<div class="col-md-4">
-			
+    <div class="row">
+        <div class="col-md-12">
+            
 			<div class="panel panel-default">
-            	<div class="panel-heading">
-            	#springMessage("addon.slider.event.join.title")
-            	</div>
-            	<div class="list-group">
-            		
-            		##您还没有参加活动，<a href="" >到处看看</a>
-            		
-            		<a href="#" class="list-group-item">
-            			<h4 class="list-group-item-heading">本周六满觉陇骑行喝茶活动<small>（预算：100/人）</small></h4>
-            			<p class="list-group-item-text">活动时间：2014-3-29</p>
-            			<p class="list-group-item-text">活动地点：满觉陇</p>
-            			<p class="list-group-item-text">活动内容：骑行，喝茶，聚会</p>
-            		</a>
+                <div class="panel-heading">
+                    #springMessage("tip.create.event") 
+                </div>
+                <div class="panel-body">
+					$!{locale}
+                    <form class="form-horizontal" role="form">
+						
+						<div class="row" >
+							<div class="col-sm-8">
+								
+								 <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4 control-label">活动名称：</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email" />
+                            </div>
+                        </div>
+						<div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4 control-label">活动时间：</label>
+                            <div class="col-sm-4">
+                                <input type="email" class="form-control" id="inputEmail3" placeholder="开始时间" />
+                            </div>
+							<div class="col-sm-4">
+                                <input type="email" class="form-control" id="inputEmail3" placeholder="结束时间" />
+                            </div>
+                        </div>
+						<div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4 control-label">预算<small class="text-muted">(人均)</small>：</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control"  placeholder="Email" />
+                            </div>
+                        </div>
+						<div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4 control-label">活动地点：</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email" />
+                            </div>
+                        </div>
+						
+						<div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10" id="editor">
+								<textarea class="form-control" rows="4" placeholder="Details"></textarea>
+                            </div>
+                        </div>
+						
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <button type="submit" class="btn btn-primary">创建活动</button>
+                                <button type="submit" class="btn btn-default">取消</button>
+                            </div>
+                        </div>
+						
+							</div>
+							
+							<div class="col-sm-4" >
+								<video src="https://ssl.gstatic.com/s2/oz/images/events/themes/201206/26_baby_shower_l.ogv" loop="true" autoplay="" class="img-thumbnail"></video>
+								<img src="https://lh5.googleusercontent.com/_tcY7QLx6X_8/UY1_kM7Tu-I/AAAAAAAACIU/0pjdi31TA5k/w940-h235/37-fairies.jpg" alt="" class="img-thumbnail" />
+								<img src="https://lh5.googleusercontent.com/_tcY7QLx6X_8/UY1__zN8PyI/AAAAAAAACNs/wANQGQsxlaw/w940-h235/15_redcarpet.jpg" alt="" class=" img-active mt8" />
+								<img src="https://lh4.googleusercontent.com/_tcY7QLx6X_8/Ug539SHQHEI/AAAAAAAAC6w/IQdVYgQt-Gs/w940-h235/23_horse_jumping.jpg" alt="" class="img-thumbnail mt8" />
+							</div>
+						</div>
+						
+                       
+                    </form>
 					
-            		
-            	</div>
+                </div>
             </div>
 			
-		</div>
-		
-		<div class="col-md-8">
-			
-		</div>
-	</div>
-	<div class="mt16"><!-- 与底部隔开一定距离 --></div>
+        </div>
+    </div>
 </div>
+
+##loadScript(["/js/bootstrap-wysiwyg.js"])
+
+<script type="text/javascript" >
+	jQuery(document).ready(function(){
+		//jQuery('#editor').wysiwyg();
+	});
+</script>

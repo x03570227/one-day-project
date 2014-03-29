@@ -1,7 +1,4 @@
 #globalHeader("index")
-
-#loadScript(["/jquery.extention/jqBootstrapValidation.js"])
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-4">
@@ -91,7 +88,9 @@
 			
 		</div>
 		
-
-		
 	</div>
 </div>
+	
+#loadScript([
+	"/js/jquery.extention/jqBootstrapValidation.js"
+])

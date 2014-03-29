@@ -5,3 +5,25 @@ body {padding-top: 70px;}
 
 .mt8 {margin-top:8px;}
 .mt16 {margin-top:16px;}
+
+.font24 {font-size:24px;}
+
+ .htmleditor {overflow:scroll; max-height:300px}
+ 
+.img-active {
+	padding: 4px;
+line-height: 1.42857;
+background-color: rgb(255, 255, 255);
+border: 1px solid rgb(102, 175, 233);
+border-radius: 4px 4px 4px 4px;
+transition: all 0.2s ease-in-out 0s;
+display: inline-block;
+max-width: 100%;
+height: auto;
+box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(102, 175, 233, 0.6);
+}
+
+.img-thumbnail:hover {
+	border: 1px solid rgb(102, 175, 233);
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(102, 175, 233, 0.6);
+}

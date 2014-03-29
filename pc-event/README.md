@@ -1,5 +1,8 @@
 CHANGE LOG
 
+2014-3-29 mays v1.0.7-SNAPSHOT
+1. 完成活动首页，创建活动页面的前端页面
+
 2014-3-28 mays v1.0.6-SNAPSHOT
 1. 活动首页设计，完成一半
 

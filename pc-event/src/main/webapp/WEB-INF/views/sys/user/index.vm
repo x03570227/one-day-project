@@ -1,6 +1,6 @@
 #globalHeader("index")
 
-#loadCss(["/button.css"])
+#loadCss(["/css/button.css"])
 
 <div class="container">
 	<div class="row">

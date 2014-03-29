@@ -1,6 +1,5 @@
- 
-
 #globalHeader("index")
+
 <div class="container">
 <div class="panel panel-default">
     <div class="panel-body">
@@ -65,7 +64,7 @@
     	</div>
     </div>
 </div>
-            
+#loadScript(["/js/jquery.extention/jqBootstrapValidation.js"])
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 		jQuery("#formRegist").jqBootstrapValidation();

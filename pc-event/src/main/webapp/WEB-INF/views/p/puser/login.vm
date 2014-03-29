@@ -1,5 +1,3 @@
- 
-
 #globalHeader("index")
 <div class="container">
 <div class="panel panel-default">
@@ -65,7 +63,7 @@
 	</div>
 </div>
 </div>
-            
+#loadScript(["/js/jquery.extention/jqBootstrapValidation.js"])
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 		jQuery("#formLogin").jqBootstrapValidation();
