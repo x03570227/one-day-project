@@ -129,9 +129,7 @@
                                 <th class="text-right">参加人员：</th>
 								<td colspan="3">
 									<span>
-									<button type="button" class="btn btn-info">
-										八月下沙
-									</button>
+									<button type="button" class="btn btn-info">八月下沙</button>
 									<button type="button" class="btn btn-default">遥远</button>
 									<button type="button" class="btn btn-success">Mar</button>
 									<button type="button" class="btn btn-success">董大侠</button>

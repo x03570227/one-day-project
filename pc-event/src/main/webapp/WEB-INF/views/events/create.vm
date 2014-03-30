@@ -1,4 +1,7 @@
 #globalHeader("index")
+
+#loadCss(["/plugin/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"])
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -8,64 +11,90 @@
                     #springMessage("tip.create.event") 
                 </div>
                 <div class="panel-body">
-					$!{locale}
+					
                     <form class="form-horizontal" role="form">
+						<input type="hidden" name="id" value=""/>
 						
 						<div class="row" >
 							<div class="col-sm-8">
 								
 								 <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-4 control-label">活动名称：</label>
+                            <label for="name" class="col-sm-4 control-label">#springMessage("events.name")：</label>
                             <div class="col-sm-8">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email" />
+                                <input type="text" class="form-control" name="name" placeholder="#springMessage('ph.events.name')" />
                             </div>
                         </div>
 						<div class="form-group">
-                            <label for="inputEmail3" class="col-sm-4 control-label">活动时间：</label>
+                            <label  class="col-sm-4 control-label">#springMessage('events.time')：</label>
                             <div class="col-sm-4">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="开始时间" />
+##								<div class="input-append date form_datetime">
+##                                    <input size="16" type="text" value="" readonly>
+##                                    <span class="add-on"><i class="icon-th"></i></span>
+##                                </div>
+                                <input type="text" class="form-control" name="gmtStart" id="gmtStart" readonly placeholder="#springMessage('ph.events.start')" />
                             </div>
 							<div class="col-sm-4">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="结束时间" />
+                                <input type="text" class="form-control" name="gmtEnd" id="gmtEnd" readonly placeholder="#springMessage('ph.events.end')" />
                             </div>
                         </div>
 						<div class="form-group">
-                            <label for="inputEmail3" class="col-sm-4 control-label">预算<small class="text-muted">(人均)</small>：</label>
+                            <label for="moneyBudget" class="col-sm-4 control-label">#springMessage('events.money.budget')<small class="text-muted">(#springMessage('events.money.budget.explain'))</small>：</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control"  placeholder="Email" />
+                                <input type="number" class="form-control" name="moneyBudget" placeholder="#springMessage('ph.events.money.budget')" />
                             </div>
                         </div>
 						<div class="form-group">
-                            <label for="inputEmail3" class="col-sm-4 control-label">活动地点：</label>
+                            <label for="location" class="col-sm-4 control-label">#springMessage('events.location')：</label>
                             <div class="col-sm-8">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email" />
+                                <input type="text" class="form-control" name="location" placeholder="#springMessage('ph.events.location')" />
+                            </div>
+                        </div>
+						
+						<div class="form-group">
+							<label for="location" class="col-sm-4 control-label">#springMessage('events.join')：</label>
+                            <div class="col-sm-10">
+								<span>
+								<button type="button" class="btn btn-info">八月下沙</button>
+								<button type="button" class="btn btn-default">遥远</button>
+								<button type="button" class="btn btn-success">Mar</button>
+								<button type="button" class="btn btn-success">董大侠</button>
+								<button type="button" class="btn btn-default">余晓琳</button>
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#joinedModal">罗勋</button>
+								</span>
+								<button type="button" class="btn btn-default">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
                             </div>
                         </div>
 						
 						<div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10" id="editor">
-								<textarea class="form-control" rows="4" placeholder="Details"></textarea>
+								<textarea class="form-control" rows="4" placeholder="#springMessage('ph.events.content')"></textarea>
                             </div>
                         </div>
 						
                         <div class="form-group">
                             <div class="col-sm-offset-4 col-sm-8">
-                                <button type="submit" class="btn btn-primary">创建活动</button>
-                                <button type="submit" class="btn btn-default">取消</button>
+                                <button type="submit" class="btn btn-primary">#springMessage('btn.submit')</button>
+                                <button class="btn btn-default">#springMessage('btn.cancel')</button>
                             </div>
                         </div>
 						
 							</div>
 							
-							<div class="col-sm-4" >
-								<video src="https://ssl.gstatic.com/s2/oz/images/events/themes/201206/26_baby_shower_l.ogv" loop="true" autoplay="" class="img-thumbnail"></video>
-								<img src="https://lh5.googleusercontent.com/_tcY7QLx6X_8/UY1_kM7Tu-I/AAAAAAAACIU/0pjdi31TA5k/w940-h235/37-fairies.jpg" alt="" class="img-thumbnail" />
-								<img src="https://lh5.googleusercontent.com/_tcY7QLx6X_8/UY1__zN8PyI/AAAAAAAACNs/wANQGQsxlaw/w940-h235/15_redcarpet.jpg" alt="" class=" img-active mt8" />
-								<img src="https://lh4.googleusercontent.com/_tcY7QLx6X_8/Ug539SHQHEI/AAAAAAAAC6w/IQdVYgQt-Gs/w940-h235/23_horse_jumping.jpg" alt="" class="img-thumbnail mt8" />
+							<div class="col-sm-4" id="banner-selector">
+								#set($banners = [
+									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/14_football_l.ogv",
+									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/04_picnic_l.ogv",
+									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/02_sparkle_candle_l.ogv",
+									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/09_house_party_l.ogv"])
+##								#foreach($banner in $!{banners})
+##									<video src="$banner" loop="true" autoplay="" class="img-thumbnail"></video>
+##								#end
 							</div>
 						</div>
 						
-                       
+                       <input type="hidden" id="picBanner" name="picBanner" value=""/>
                     </form>
 					
                 </div>
@@ -75,10 +104,39 @@
     </div>
 </div>
 
-##loadScript(["/js/bootstrap-wysiwyg.js"])
+#if("$!{locale}"!="en")
+	#set($locales="/plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.$!{locale}.js")
+#end
+#loadScript([
+	"$!{locales}",
+	"/plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"
+])
 
 <script type="text/javascript" >
 	jQuery(document).ready(function(){
+		
 		//jQuery('#editor').wysiwyg();
+		
+		jQuery("#gmtStart").datetimepicker({
+			format:"yyyy-mm-dd",
+			minView:3,
+			autoclose:true
+		});
+		jQuery("#gmtEnd").datetimepicker({
+			format:"yyyy-mm-dd",
+			minView:3,
+			autoclose:true
+		});
+		
+		jQuery("#banner-selector video").click(function(){
+			//console.log(">>>>>>>"+jQuery(this).attr("src"))
+			jQuery("#banner-selector video").each(function(idx, e){
+				if(jQuery(this).attr("class")=="img-active"){
+					jQuery(this).attr("class", "img-thumbnail");
+				}
+			});
+			jQuery(this).attr("class", "img-active");
+			jQuery("#picBanner").val(jQuery(this).attr("src"));
+		});
 	});
 </script>

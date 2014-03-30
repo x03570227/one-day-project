@@ -40,13 +40,17 @@
 
 #macro(loadScript $jsArr)
 	#foreach($js in $!{jsArr})
+		#if($js != "")
 		<script src="#springUrl('')$js"></script>
+		#end
 	#end
 #end
 
 #macro(loadCss $cssArr)
 	#foreach($css in $!{cssArr})
+		#if($css != "")
 		<link href="#springUrl('')$css" rel="stylesheet" />
+		#end
 	#end
 #end
 

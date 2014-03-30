@@ -68,7 +68,7 @@ public class PUserController extends BaseController {
 		out.put("refparam", refparam);
 		out.put("user", user);
 		
-		return new ModelAndView("redirect:/p/puser/login.do"); //Login page
+		return new ModelAndView("/p/puser/login"); //Login page
 	}
 	
 	@Deprecated

@@ -20,6 +20,7 @@ public class EventsJoin extends BaseDomain {
 	private Integer eventsId;
 	private Double moneyPrepaid;
 	private Integer yesOrNo;
+	private String clearStatus;
 	
 	public Integer getUid() {
 		return uid;
@@ -44,6 +45,12 @@ public class EventsJoin extends BaseDomain {
 	}
 	public void setYesOrNo(Integer yesOrNo) {
 		this.yesOrNo = yesOrNo;
+	}
+	public String getClearStatus() {
+		return clearStatus;
+	}
+	public void setClearStatus(String clearStatus) {
+		this.clearStatus = clearStatus;
 	}
 	
 	

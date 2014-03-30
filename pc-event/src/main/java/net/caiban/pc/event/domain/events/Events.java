@@ -28,6 +28,14 @@ public class Events extends BaseDomain {
 	private Double moneyFinalCoast;
 	private Integer statusPublic;
 	private String content;
+	private String picSmall;
+	private String picNormal;
+	private String picLarger;
+	private String picBanner;
+	private String location;
+	private String locationMapx;
+	private String locationMapy;
+	private String clearStatus;
 	
 	public Integer getUid() {
 		return uid;
@@ -76,6 +84,54 @@ public class Events extends BaseDomain {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getPicSmall() {
+		return picSmall;
+	}
+	public void setPicSmall(String picSmall) {
+		this.picSmall = picSmall;
+	}
+	public String getPicNormal() {
+		return picNormal;
+	}
+	public void setPicNormal(String picNormal) {
+		this.picNormal = picNormal;
+	}
+	public String getPicLarger() {
+		return picLarger;
+	}
+	public void setPicLarger(String picLarger) {
+		this.picLarger = picLarger;
+	}
+	public String getPicBanner() {
+		return picBanner;
+	}
+	public void setPicBanner(String picBanner) {
+		this.picBanner = picBanner;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getLocationMapx() {
+		return locationMapx;
+	}
+	public void setLocationMapx(String locationMapx) {
+		this.locationMapx = locationMapx;
+	}
+	public String getLocationMapy() {
+		return locationMapy;
+	}
+	public void setLocationMapy(String locationMapy) {
+		this.locationMapy = locationMapy;
+	}
+	public String getClearStatus() {
+		return clearStatus;
+	}
+	public void setClearStatus(String clearStatus) {
+		this.clearStatus = clearStatus;
 	}
 	
 	
