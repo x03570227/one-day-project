@@ -31,10 +31,16 @@
 ##                                    <input size="16" type="text" value="" readonly>
 ##                                    <span class="add-on"><i class="icon-th"></i></span>
 ##                                </div>
+								<div class="input-group form_datetime">
                                 <input type="text" class="form-control" name="gmtStart" id="gmtStart" readonly placeholder="#springMessage('ph.events.start')" />
+								<span class="input-group-addon glyphicon glyphicon-calendar"></span>
+								</div>
                             </div>
 							<div class="col-sm-4">
+								<div class="input-group form_datetime">
                                 <input type="text" class="form-control" name="gmtEnd" id="gmtEnd" readonly placeholder="#springMessage('ph.events.end')" />
+								<span class="input-group-addon glyphicon glyphicon-calendar"></span>
+								</div>
                             </div>
                         </div>
 						<div class="form-group">
@@ -50,18 +56,18 @@
                             </div>
                         </div>
 						
-						<div class="form-group">
+						<div class="form-group" >
 							<label for="location" class="col-sm-4 control-label">#springMessage('events.join')：</label>
-                            <div class="col-sm-10">
-								<span>
-								<button type="button" class="btn btn-info">八月下沙</button>
-								<button type="button" class="btn btn-default">遥远</button>
-								<button type="button" class="btn btn-success">Mar</button>
-								<button type="button" class="btn btn-success">董大侠</button>
-								<button type="button" class="btn btn-default">余晓琳</button>
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#joinedModal">罗勋</button>
+                            <div class="col-sm-8 tip-attend" >
+								<span id="buddies">
+##								<button type="button" class="btn btn-info" plugin="tooltip" title="自己">八月下沙</button>
+##								<button type="button" class="btn btn-default" plugin="tooltip" title="已交了100元">遥远</button>
+##								<button type="button" class="btn btn-success">Mar</button>
+##								<button type="button" class="btn btn-success">董大侠</button>
+##								<button type="button" class="btn btn-default">余晓琳</button>
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#buddyModal" data-id="2">罗勋</button>
 								</span>
-								<button type="button" class="btn btn-default">
+								<button type="button" class="btn btn-default" plugin="tooltip" data-toggle="modal" data-target="#inviteModal" title="#springMessage('tip.invite.tooltip')">
 									<span class="glyphicon glyphicon-plus"></span>
 								</button>
                             </div>
@@ -75,7 +81,7 @@
 						
                         <div class="form-group">
                             <div class="col-sm-offset-4 col-sm-8">
-                                <button type="submit" class="btn btn-primary">#springMessage('btn.submit')</button>
+                                <button type="submit" class="btn btn-primary" data-loading-text="#springMessage('tip.loading')">#springMessage('btn.submit')</button>
                                 <button class="btn btn-default">#springMessage('btn.cancel')</button>
                             </div>
                         </div>
@@ -95,6 +101,8 @@
 						</div>
 						
                        <input type="hidden" id="picBanner" name="picBanner" value=""/>
+					   <input type="hidden" id="invitedBuddies" name="invitedBuddies" value=""/>
+					   ##<input type="hidden" id="invitedBuddies" name="invitedAccountId" value=""/>
                     </form>
 					
                 </div>
@@ -103,6 +111,56 @@
         </div>
     </div>
 </div>
+
+
+<!-- modal contact -->
+<div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="#springMessage('tip.invite.joiner.title')" aria-hidden="true">
+<div  class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">#springMessage('tip.invite.joiner.title')</h4>
+      </div>
+	 <div class="modal-body">
+      
+	  <form id="inviteForm" action="#" method="post" class="form-horizontal" role="form">
+			<div class="form-group">
+				<div class="col-sm-12">
+					<textarea class="form-control" rows="3" id="inviteAccount"></textarea>
+				</div>
+			</div>
+	  </form>
+	  
+	 </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">#springMessage("btn.close")</button>
+        <button type="button" class="btn btn-primary" >#springMessage("btn.save")</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<!-- modal contact -->
+<div class="modal fade" id="buddyModal" tabindex="-1" role="dialog" aria-labelledby="#springMessage('tip.invite.view.title')" aria-hidden="true">
+<div  class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">#springMessage('tip.invite.view.title')</h4>
+      </div>
+      <div class="modal-body">
+        <form id="inviteForm" action="#" method="post">
+			
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
 
 #if("$!{locale}"!="en")
 	#set($locales="/plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.$!{locale}.js")
@@ -117,15 +175,24 @@
 		
 		//jQuery('#editor').wysiwyg();
 		
-		jQuery("#gmtStart").datetimepicker({
+		jQuery(".form_datetime input").datetimepicker({
 			format:"yyyy-mm-dd",
 			minView:3,
-			autoclose:true
+			autoclose:true,
+			todayBtn:true,
+			pickerPosition: "bottom-left"
 		});
-		jQuery("#gmtEnd").datetimepicker({
-			format:"yyyy-mm-dd",
-			minView:3,
-			autoclose:true
+		
+##		jQuery("#gmtEnd").datetimepicker({
+##			format:"yyyy-mm-dd",
+##			minView:3,
+##			autoclose:true
+##		});
+		
+		// init tooltip
+		$('.tip-attend').tooltip({
+			selector: "[plugin=tooltip]",
+			container: "body"
 		});
 		
 		jQuery("#banner-selector video").click(function(){
@@ -138,5 +205,30 @@
 			jQuery(this).attr("class", "img-active");
 			jQuery("#picBanner").val(jQuery(this).attr("src"));
 		});
+		
+		jQuery('#inviteModal').on("hidden.bs.modal", function(e){
+			
+			var invite = jQuery("#inviteAccount").val();
+			
+			//AJAX 提交给服务端处理可以被添加的小伙伴
+			
+			jQuery("#inviteAccount").val("");
+			
+			jQuery.ajax({
+				url:"#springUrl('/events/ajaxAppendJoin')",
+				dataType:"html",
+				data:{origin:jQuery("#invitedBuddies").val(), invite:invite}
+			}).done(function(response){
+				
+			});
+			
+		});
+		
+		jQuery('#buddyModal').on("shown.bs.modal", function(e){
+			alert("step show"+ jQuery(e.relatedTarget).attr("data-id"))
+			
+		});
+		
+		//
 	});
 </script>

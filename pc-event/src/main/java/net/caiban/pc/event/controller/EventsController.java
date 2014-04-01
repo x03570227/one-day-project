@@ -46,4 +46,13 @@ public class EventsController extends BaseController {
 		
 		return new ModelAndView("/events/create");
 	}
+	
+	@RequestMapping
+	public ModelAndView ajaxAppendJoin(HttpServletRequest request, Map<String, Object> out, 
+			String origin, String append){
+		
+		//通过账号检索ID信息
+		
+		return null;
+	}
 }

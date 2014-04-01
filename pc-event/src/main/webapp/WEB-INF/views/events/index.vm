@@ -198,14 +198,14 @@
 					<table class="table table-bordered">
 						<tr>
 							<th>小伙伴</th>
-							<th width="100">已付金额</th>
+							<th width="200">已付金额</th>
 							<th width="200">多退少补</th>
 							<th width="95"></th>
 						</tr>
                         <tr>
 							<td>八月下沙</td>
 							<td class="text-danger">
-								300 <small>元</small>
+								<input type="number" class="form-control input-sm" value="300" />
 							</td>
 							<td>
 								<span class="label label-danger" >补交：120</span>
