@@ -1,5 +1,8 @@
 CHANGE LOG
 
+2014-4-7 mays v1.0.10-SNAPSHOT
+1. 完成添加参加人员功能，包含去重复，AJAX等
+
 2014-4-1 mays v1.0.9-SNAPSHOT
 1. 完成添加参加人员的功能设计
 

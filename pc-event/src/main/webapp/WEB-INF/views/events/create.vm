@@ -102,7 +102,7 @@
 						
                        <input type="hidden" id="picBanner" name="picBanner" value=""/>
 					   <input type="hidden" id="invitedBuddies" name="invitedBuddies" value=""/>
-					   ##<input type="hidden" id="invitedBuddies" name="invitedAccountId" value=""/>
+					   <input type="hidden" id="invitedAccountId" name="invitedAccountId" value=""/>
                     </form>
 					
                 </div>
@@ -134,7 +134,7 @@
 	 </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">#springMessage("btn.close")</button>
-        <button type="button" class="btn btn-primary" >#springMessage("btn.save")</button>
+        <button type="button" class="btn btn-primary" onclick="saveBuddy()">#springMessage("btn.save")</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -206,29 +206,53 @@
 			jQuery("#picBanner").val(jQuery(this).attr("src"));
 		});
 		
-		jQuery('#inviteModal').on("hidden.bs.modal", function(e){
-			
-			var invite = jQuery("#inviteAccount").val();
-			
-			//AJAX 提交给服务端处理可以被添加的小伙伴
-			
-			jQuery("#inviteAccount").val("");
-			
-			jQuery.ajax({
-				url:"#springUrl('/events/ajaxAppendJoin')",
-				dataType:"html",
-				data:{origin:jQuery("#invitedBuddies").val(), invite:invite}
-			}).done(function(response){
-				
-			});
-			
-		});
+##		jQuery('#inviteModal').on("hide.bs.modal", function(e){
+##			
+##			var invite = jQuery("#inviteAccount").val();
+##			
+##			//AJAX 提交给服务端处理可以被添加的小伙伴
+##			
+##			jQuery("#inviteAccount").val("");
+##			
+##			jQuery.ajax({
+##				url:"#springUrl('/events/ajaxAppendJoin.do')",
+##				dataType:"html",
+##				data:{origin:jQuery("#invitedBuddies").val(), invite:invite}
+##			}).done(function(response){
+##				
+##			});
+##			
+##		});
 		
 		jQuery('#buddyModal').on("shown.bs.modal", function(e){
-			alert("step show"+ jQuery(e.relatedTarget).attr("data-id"))
+			//alert("step show"+ jQuery(e.relatedTarget).attr("data-id"))
 			
 		});
 		
-		//
 	});
+	
+	function saveBuddy(){
+		var invite = jQuery("#inviteAccount").val();
+		
+		if(invite==""){
+    		jQuery('#inviteModal').modal("hide");
+			return null;
+		}
+		
+		jQuery.ajax({
+			url:"#springUrl('/events/ajaxAppendJoin.do')",
+			dataType:"json",
+			type:"post",
+			data:{origin:jQuery("#invitedBuddies").val(), originId:jQuery("#invitedAccountId").val(), append:invite}
+		}).done(function(response){
+			//服务端，去除重复 accoun（放入MAP或SET） MAP<ACCOUNT, ID>
+			for(var k in response.result){
+				//console.log(k+"="+result[k]);
+				alert(k+"="+response.result[k]);
+			}
+			
+			jQuery("#inviteModal").modal("hide");
+		});
+		
+	}
 </script>

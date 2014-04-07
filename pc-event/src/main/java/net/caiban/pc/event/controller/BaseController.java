@@ -3,6 +3,7 @@
  */
 package net.caiban.pc.event.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,13 @@ public class BaseController {
 		}
 		out.put("json", jsonString);
 		return new ModelAndView("json");
+	}
+	
+	public ModelAndView ajaxResult(Boolean success, Object arg, Map<String, Object> out){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("success", success==null?false:success);
+		map.put("result", arg);
+		return printJson(map, out);
 	}
 	
 	public SessionUser getSessionUser(HttpServletRequest request) {

@@ -95,7 +95,8 @@ public class SysUserServiceImpl implements SysUserService {
 		return new SessionUser(registUser.getId(), user.getAccount());
 	}
 
-	private String classifyOfAccount(String account){
+	@Override
+	public String classifyOfAccount(String account){
 		
 		if(StringUtils.isEmail(account)){
 			return SysUserService.CLASSIFY_E;
@@ -143,7 +144,8 @@ public class SysUserServiceImpl implements SysUserService {
 	 * @param account
 	 * @return
 	 */
-	private String rebuildAccount(String classify, String account){
+	@Override
+	public String rebuildAccount(String classify, String account){
 		if(StringUtils.isEmpty(classify) || StringUtils.isEmpty(account)){
 			return null;
 		}
@@ -162,5 +164,17 @@ public class SysUserServiceImpl implements SysUserService {
 			Integer rememberFlag) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Integer queryIdByAccount(String account) {
+		
+		if(StringUtils.isEmpty(account)){
+			return null;
+		}
+		
+		String ac = rebuildAccount(classifyOfAccount(account), account);
+		
+		return sysUserMapper.queryUidByAccount(ac);
 	}
 }

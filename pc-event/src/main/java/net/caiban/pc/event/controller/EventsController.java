@@ -6,12 +6,15 @@ package net.caiban.pc.event.controller;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import net.caiban.pc.event.domain.events.Events;
+import net.caiban.pc.event.service.events.EventsService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContext;
 
@@ -21,6 +24,9 @@ import org.springframework.web.servlet.support.RequestContext;
  */
 @Controller
 public class EventsController extends BaseController {
+	
+	@Resource
+	private EventsService eventsService;
 	
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, Map<String, Object> out){
@@ -42,17 +48,15 @@ public class EventsController extends BaseController {
 	public ModelAndView doCreate(HttpServletRequest request, Map<String, Object> out,
 			Events events){
 		
-		//
-		
 		return new ModelAndView("/events/create");
 	}
 	
 	@RequestMapping
 	public ModelAndView ajaxAppendJoin(HttpServletRequest request, Map<String, Object> out, 
-			String origin, String append){
+			String origin, String originId, String append){
 		
-		//通过账号检索ID信息
+		Map<String, Integer> map = eventsService.filterAppendJoiner(origin, originId, append);
 		
-		return null;
+		return ajaxResult(true, map, out);
 	}
 }

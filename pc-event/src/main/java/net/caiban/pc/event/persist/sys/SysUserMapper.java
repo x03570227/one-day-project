@@ -44,4 +44,11 @@ public interface SysUserMapper {
 	 * @return
 	 */
 	public Integer updateUid(@Param("uid")Integer uid, @Param("id")Integer id);
+	
+	/**
+	 * 根据用户账号查询用户UID
+	 * @param account
+	 * @return
+	 */
+	public Integer queryUidByAccount(String account);
 }

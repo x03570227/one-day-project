@@ -58,4 +58,26 @@ public interface SysUserService {
 	public void rememberMe(HttpServletResponse response, SessionUser user,
 			Integer rememberFlag);
 	
+	/**
+	 * 识别账户类型
+	 * @param account
+	 * @return
+	 */
+	public String classifyOfAccount(String account);
+	
+	/**
+	 * 账户规则为：classify#account
+	 * 可避免多种类型账户重复
+	 * @param classify
+	 * @param account
+	 * @return
+	 */
+	public String rebuildAccount(String classify, String account);
+	
+	/**
+	 * 根据未识别的用户账号查找用户ID
+	 * @param account
+	 * @return
+	 */
+	public Integer queryIdByAccount(String account);
 }
