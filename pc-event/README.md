@@ -1,5 +1,9 @@
 CHANGE LOG
 
+2014-4-15 mays v1.0.11-SNAPSHOT
+1. 完成活动创建页面的各种功能，除验证
+2. 完成创建活动 controller 部分功能，确定日期类型数据的获取方法
+
 2014-4-7 mays v1.0.10-SNAPSHOT
 1. 完成添加参加人员功能，包含去重复，AJAX等
 

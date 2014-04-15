@@ -3,6 +3,7 @@
  */
 package net.caiban.pc.event.controller;
 
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.caiban.pc.event.domain.events.Events;
 import net.caiban.pc.event.service.events.EventsService;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,7 +48,11 @@ public class EventsController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView doCreate(HttpServletRequest request, Map<String, Object> out,
-			Events events){
+			Events event, String gmtStartStr, String gmtEndStr){
+		
+		eventsService.initGmt(event, gmtStartStr, gmtEndStr);
+		
+		eventsService.saveEvent(event);
 		
 		return new ModelAndView("/events/create");
 	}

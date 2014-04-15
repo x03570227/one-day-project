@@ -5,8 +5,6 @@ package net.caiban.pc.event.domain.events;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import net.caiban.pc.event.domain.BaseDomain;
 
 /**
@@ -22,8 +20,10 @@ public class Events extends BaseDomain {
 	
 	private Integer uid;
 	private String name;
-	@DateTimeFormat(pattern="yyyy-MM-dd") private Date gmtStart;
-	@DateTimeFormat(pattern="yyyy-MM-dd") private Date gmtEnd;
+	//@DateTimeFormat(pattern="yyyy-MM-dd") 
+	private Date gmtStart;
+	//@DateTimeFormat(pattern="yyyy-MM-dd") 
+	private Date gmtEnd;
 	private Double moneyBudget;
 	private Double moneyFinalCoast;
 	private Integer statusPublic;

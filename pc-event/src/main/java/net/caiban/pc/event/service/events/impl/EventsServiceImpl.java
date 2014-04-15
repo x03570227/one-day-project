@@ -8,8 +8,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.caiban.pc.event.config.AppConst;
+import net.caiban.pc.event.domain.events.Events;
 import net.caiban.pc.event.service.events.EventsService;
 import net.caiban.pc.event.service.sys.SysUserService;
+import net.caiban.utils.DateUtils;
 import net.caiban.utils.lang.StringUtils;
 
 import org.springframework.stereotype.Component;
@@ -98,6 +101,17 @@ public class EventsServiceImpl implements EventsService {
 		}
 		
 		return arg.replace("，",",");
+	}
+
+	@Override
+	public void initGmt(Events events, String gmtStartStr, String gmtEndStr) {
+		events.setGmtStart(DateUtils.getDate(gmtStartStr, AppConst.DATE_FORMAT_DATE));
+		events.setGmtEnd(DateUtils.getDate(gmtEndStr, AppConst.DATE_FORMAT_DATE));
+	}
+
+	@Override
+	public Integer saveEvent(Events event) {
+		return null;
 	}
 
 }

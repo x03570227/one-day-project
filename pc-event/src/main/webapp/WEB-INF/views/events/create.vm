@@ -12,7 +12,7 @@
                 </div>
                 <div class="panel-body">
 					
-                    <form class="form-horizontal" role="form">
+                    <form class="form-horizontal" action="#springUrl('/events/doCreate.do')" method="post" role="form">
 						<input type="hidden" name="id" value=""/>
 						
 						<div class="row" >
@@ -31,14 +31,14 @@
 ##                                    <input size="16" type="text" value="" readonly>
 ##                                    <span class="add-on"><i class="icon-th"></i></span>
 ##                                </div>
-								<div class="input-group form_datetime">
-                                <input type="text" class="form-control" name="gmtStart" id="gmtStart" readonly placeholder="#springMessage('ph.events.start')" />
+								<div class="input-group form_datetime" >
+                                <input type="text" class="form-control" name="gmtStartStr" id="gmtStart" readonly placeholder="#springMessage('ph.events.start')" />
 								<span class="input-group-addon glyphicon glyphicon-calendar"></span>
 								</div>
                             </div>
 							<div class="col-sm-4">
 								<div class="input-group form_datetime">
-                                <input type="text" class="form-control" name="gmtEnd" id="gmtEnd" readonly placeholder="#springMessage('ph.events.end')" />
+                                <input type="text" class="form-control" name="gmtEndStr" id="gmtEnd" readonly placeholder="#springMessage('ph.events.end')" />
 								<span class="input-group-addon glyphicon glyphicon-calendar"></span>
 								</div>
                             </div>
@@ -56,18 +56,18 @@
                             </div>
                         </div>
 						
+						<div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <input type="checkbox" value="1" name="statusPublic" /> #springMessage("events.status.public")
+                            </div>
+                        </div>
+						
 						<div class="form-group" >
 							<label for="location" class="col-sm-4 control-label">#springMessage('events.join')：</label>
                             <div class="col-sm-8 tip-attend" >
 								<span id="buddies">
-##								<button type="button" class="btn btn-info" plugin="tooltip" title="自己">八月下沙</button>
-##								<button type="button" class="btn btn-default" plugin="tooltip" title="已交了100元">遥远</button>
-##								<button type="button" class="btn btn-success">Mar</button>
-##								<button type="button" class="btn btn-success">董大侠</button>
-##								<button type="button" class="btn btn-default">余晓琳</button>
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#buddyModal" data-id="2">罗勋</button>
 								</span>
-								<button type="button" class="btn btn-default" plugin="tooltip" data-toggle="modal" data-target="#inviteModal" title="#springMessage('tip.invite.tooltip')">
+								<button type="button" class="btn btn-default" plugin="tooltip" data-toggle="modal" data-target="#modal-events-invite" title="#springMessage('tip.invite.tooltip')">
 									<span class="glyphicon glyphicon-plus"></span>
 								</button>
                             </div>
@@ -75,7 +75,7 @@
 						
 						<div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10" id="editor">
-								<textarea class="form-control" rows="4" placeholder="#springMessage('ph.events.content')"></textarea>
+								<textarea class="form-control" name="content" rows="4" placeholder="#springMessage('ph.events.content')"></textarea>
                             </div>
                         </div>
 						
@@ -94,9 +94,9 @@
 									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/04_picnic_l.ogv",
 									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/02_sparkle_candle_l.ogv",
 									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/09_house_party_l.ogv"])
-##								#foreach($banner in $!{banners})
-##									<video src="$banner" loop="true" autoplay="" class="img-thumbnail"></video>
-##								#end
+								#foreach($banner in $!{banners})
+									<video src="$banner" loop="true" autoplay="" class="img-thumbnail"></video>
+								#end
 							</div>
 						</div>
 						
@@ -114,63 +114,19 @@
 
 
 <!-- modal contact -->
-<div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="#springMessage('tip.invite.joiner.title')" aria-hidden="true">
-<div  class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">#springMessage('tip.invite.joiner.title')</h4>
-      </div>
-	 <div class="modal-body">
-      
-	  <form id="inviteForm" action="#" method="post" class="form-horizontal" role="form">
-			<div class="form-group">
-				<div class="col-sm-12">
-					<textarea class="form-control" rows="3" id="inviteAccount"></textarea>
-				</div>
-			</div>
-	  </form>
-	  
-	 </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">#springMessage("btn.close")</button>
-        <button type="button" class="btn btn-primary" onclick="saveBuddy()">#springMessage("btn.save")</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div>
-
-<!-- modal contact -->
-<div class="modal fade" id="buddyModal" tabindex="-1" role="dialog" aria-labelledby="#springMessage('tip.invite.view.title')" aria-hidden="true">
-<div  class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">#springMessage('tip.invite.view.title')</h4>
-      </div>
-      <div class="modal-body">
-        <form id="inviteForm" action="#" method="post">
-			
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div>
-
+#parse("/events/widget/modal-events-invite.vm")
+#parse("/events/widget/modal-events-buddy.vm")
 
 #if("$!{locale}"!="en")
 	#set($locales="/plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.$!{locale}.js")
 #end
 #loadScript([
-	"$!{locales}",
-	"/plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"
+	"/plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+	"$!{locales}"
 ])
 
 <script type="text/javascript" >
+
 	jQuery(document).ready(function(){
 		
 		//jQuery('#editor').wysiwyg();
@@ -180,14 +136,9 @@
 			minView:3,
 			autoclose:true,
 			todayBtn:true,
+			language:"$!{locale}",
 			pickerPosition: "bottom-left"
 		});
-		
-##		jQuery("#gmtEnd").datetimepicker({
-##			format:"yyyy-mm-dd",
-##			minView:3,
-##			autoclose:true
-##		});
 		
 		// init tooltip
 		$('.tip-attend').tooltip({
@@ -196,7 +147,6 @@
 		});
 		
 		jQuery("#banner-selector video").click(function(){
-			//console.log(">>>>>>>"+jQuery(this).attr("src"))
 			jQuery("#banner-selector video").each(function(idx, e){
 				if(jQuery(this).attr("class")=="img-active"){
 					jQuery(this).attr("class", "img-thumbnail");
@@ -206,25 +156,7 @@
 			jQuery("#picBanner").val(jQuery(this).attr("src"));
 		});
 		
-##		jQuery('#inviteModal').on("hide.bs.modal", function(e){
-##			
-##			var invite = jQuery("#inviteAccount").val();
-##			
-##			//AJAX 提交给服务端处理可以被添加的小伙伴
-##			
-##			jQuery("#inviteAccount").val("");
-##			
-##			jQuery.ajax({
-##				url:"#springUrl('/events/ajaxAppendJoin.do')",
-##				dataType:"html",
-##				data:{origin:jQuery("#invitedBuddies").val(), invite:invite}
-##			}).done(function(response){
-##				
-##			});
-##			
-##		});
-		
-		jQuery('#buddyModal').on("shown.bs.modal", function(e){
+		jQuery('#modal-events-buddy').on("shown.bs.modal", function(e){
 			//alert("step show"+ jQuery(e.relatedTarget).attr("data-id"))
 			
 		});
@@ -235,7 +167,7 @@
 		var invite = jQuery("#inviteAccount").val();
 		
 		if(invite==""){
-    		jQuery('#inviteModal').modal("hide");
+    		jQuery('#modal-events-invite').modal("hide");
 			return null;
 		}
 		
@@ -248,10 +180,10 @@
 			//服务端，去除重复 accoun（放入MAP或SET） MAP<ACCOUNT, ID>
 			for(var k in response.result){
 				//console.log(k+"="+result[k]);
-				alert(k+"="+response.result[k]);
+				//alert(k+"="+response.result[k]);
 			}
 			
-			jQuery("#inviteModal").modal("hide");
+			jQuery("#modal-events-invite").modal("hide");
 		});
 		
 	}
