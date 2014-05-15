@@ -21,4 +21,6 @@ public interface EventsService {
 	public void initGmt(Events events, String gmtStartStr, String gmtEndStr);
 	
 	public Integer saveEvent(Events event);
+	
+	public void appendJoiner(Integer eventId, String inviteAccountId);
 }

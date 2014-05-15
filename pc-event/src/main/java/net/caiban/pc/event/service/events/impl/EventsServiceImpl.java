@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import net.caiban.pc.event.config.AppConst;
 import net.caiban.pc.event.domain.events.Events;
+import net.caiban.pc.event.persist.events.EventsMapper;
 import net.caiban.pc.event.service.events.EventsService;
 import net.caiban.pc.event.service.sys.SysUserService;
 import net.caiban.utils.DateUtils;
@@ -26,6 +27,8 @@ public class EventsServiceImpl implements EventsService {
 	
 	@Resource
 	private SysUserService sysUserService;
+	@Resource
+	private EventsMapper eventsMapper;
 
 	@Override
 	public Integer[] changeToIntArray(String origin) {
@@ -111,7 +114,14 @@ public class EventsServiceImpl implements EventsService {
 
 	@Override
 	public Integer saveEvent(Events event) {
+		//TODO 添加事件
 		return null;
+	}
+
+	@Override
+	public void appendJoiner(Integer eventId, String inviteAccountId) {
+//		Integer[] ids = changeToIntArray(inviteAccountId);
+		//TODO 添加参与人员
 	}
 
 }
