@@ -37,6 +37,10 @@ public class Events extends BaseDomain {
 	private String locationMapy;
 	private String clearStatus;
 	
+	public final static int STATUS_PUBLIC = 1;
+	public final static int STATUS_DEFAULT = 0;
+	
+	
 	public Integer getUid() {
 		return uid;
 	}

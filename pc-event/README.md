@@ -1,5 +1,9 @@
 CHANGE LOG
 
+2014-5-16 mays v1.0.13-SNAPSHOT
+1. 增加 tagsinput 插件，用于解决标签输入问题
+2. 完成创建活动功能，修改邀请功能，使用tagsinput邀请（未完成）
+
 2014-5-15 mays v1.0.12-SNAPSHOT
 1. 设计 Events Persist 接口
 2. 添加 guava 依赖

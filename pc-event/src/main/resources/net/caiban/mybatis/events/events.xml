@@ -11,5 +11,15 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		values(#{uid},#{classify},#{account},#{password},now(),now(),#{salt})
 	</insert> -->
 	
+	<insert id="save" parameterType="net.caiban.pc.event.domain.events.Events" keyProperty="id">
+		insert into events(uid, name, gmt_start, gmt_end, money_budget, 
+			money_final_coast, status_public, content, gmt_created, gmt_modified,
+			pic_small, pic_normal, pic_banner, location, location_mapx, location_mapy)
+		values(#{uid}, #{name}, #{gmtStart}, #{gmtEnd}, #{moneyBudget}, 
+			#{moneyFinalCoast}, #{statusPublic}, #{content},now(), now(),
+			#{picSmall}, #{picNormal}, #{picBanner}, #{location}, 
+			#{locationMapx}, #{locationMapy})
+	</insert>
+	
 </mapper>
 

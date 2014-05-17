@@ -18,6 +18,8 @@ import net.caiban.utils.lang.StringUtils;
 
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Strings;
+
 /**
  * @author mays
  *
@@ -114,14 +116,27 @@ public class EventsServiceImpl implements EventsService {
 
 	@Override
 	public Integer saveEvent(Events event) {
-		//TODO 添加事件
-		return null;
+		if(event == null){
+			return null;
+		}
+		
+		if(Strings.isNullOrEmpty(event.getName())){
+			return null;
+		}
+		
+		event.setStatusPublic(event.getStatusPublic()==null?Events.STATUS_DEFAULT:event.getStatusPublic());
+		
+		//保存事件
+		eventsMapper.save(event);
+		
+		return event.getId();
 	}
 
 	@Override
 	public void appendJoiner(Integer eventId, String inviteAccountId) {
 //		Integer[] ids = changeToIntArray(inviteAccountId);
 		//TODO 添加参与人员
+		
 	}
 
 }

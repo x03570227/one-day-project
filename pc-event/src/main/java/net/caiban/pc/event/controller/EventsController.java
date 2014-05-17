@@ -13,6 +13,7 @@ import net.caiban.pc.event.domain.events.Events;
 import net.caiban.pc.event.service.events.EventsService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContext;
@@ -48,16 +49,19 @@ public class EventsController extends BaseController {
 			Events event, String gmtStartStr, String gmtEndStr, String invitedAccountId){
 		
 		eventsService.initGmt(event, gmtStartStr, gmtEndStr);
+		event.setUid(getSessionUser(request).getUid());
 		
 		Integer id = eventsService.saveEvent(event);
 		
 		if(id!=null && id.intValue()>0){
-			eventsService.appendJoiner(id, invitedAccountId);
+//			eventsService.appendJoiner(id, invitedAccountId);
+			return new ModelAndView("redirect:index.do");
 		}
 		
 		return new ModelAndView("/events/create");
 	}
 	
+	@Deprecated
 	@RequestMapping
 	public ModelAndView ajaxAppendJoin(HttpServletRequest request, Map<String, Object> out, 
 			String origin, String originId, String append){

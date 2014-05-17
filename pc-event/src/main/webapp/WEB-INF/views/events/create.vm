@@ -1,6 +1,8 @@
 #globalHeader("index")
 
-#loadCss(["/plugin/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"])
+#loadCss(["/plugin/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
+	"/plugin/bootstrap-tagsinput/bootstrap-tagsinput.css"
+	])
 
 <div class="container">
     <div class="row">
@@ -65,11 +67,14 @@
 						<div class="form-group" >
 							<label for="location" class="col-sm-4 control-label">#springMessage('events.join')：</label>
                             <div class="col-sm-8 tip-attend" >
-								<span id="buddies">
-								</span>
-								<button type="button" class="btn btn-default" plugin="tooltip" data-toggle="modal" data-target="#modal-events-invite" title="#springMessage('tip.invite.tooltip')">
-									<span class="glyphicon glyphicon-plus"></span>
-								</button>
+								<select multiple data-role="tagsinput" id="event-attend">
+									##<option value="$!{sessionUser.account}">$!{sessionUser.uid}</option>
+                                </select>
+##								<span id="buddies">
+##								</span>
+##								<button type="button" class="btn btn-default" plugin="tooltip" data-toggle="modal" data-target="#modal-events-invite" title="#springMessage('tip.invite.tooltip')">
+##									<span class="glyphicon glyphicon-plus"></span>
+##								</button>
                             </div>
                         </div>
 						
@@ -122,7 +127,8 @@
 #end
 #loadScript([
 	"/plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
-	"$!{locales}"
+	"$!{locales}",
+	"/plugin/bootstrap-tagsinput/bootstrap-tagsinput.js"
 ])
 
 <script type="text/javascript" >
@@ -156,35 +162,55 @@
 			jQuery("#picBanner").val(jQuery(this).attr("src"));
 		});
 		
-		jQuery('#modal-events-buddy').on("shown.bs.modal", function(e){
-			//alert("step show"+ jQuery(e.relatedTarget).attr("data-id"))
-			
+		jQuery("#event-attend").tagsinput({
+			itemValue:function(item){
+				return item.id;
+			},
+			itemText: function(item) {
+				return item.account;
+			}
+##			typeahead:{
+##				source:function(query){
+##					alert(query)
+##					return ["八月下沙","遥远","杭州"];
+##					//return jQuery.post("#springUrl('/events/ajaxAttendTypeAhead.do')");
+##				}
+##			}
 		});
+		
+##		jQuery("#event-attend").tagsinput("add", {id:"$!{sessionUser.uid}", account:"$!{session.account}"});
+		
+		
+		
+##		jQuery('#modal-events-buddy').on("shown.bs.modal", function(e){
+##			//alert("step show"+ jQuery(e.relatedTarget).attr("data-id"))
+##			
+##		});
 		
 	});
 	
-	function saveBuddy(){
-		var invite = jQuery("#inviteAccount").val();
-		
-		if(invite==""){
-    		jQuery('#modal-events-invite').modal("hide");
-			return null;
-		}
-		
-		jQuery.ajax({
-			url:"#springUrl('/events/ajaxAppendJoin.do')",
-			dataType:"json",
-			type:"post",
-			data:{origin:jQuery("#invitedBuddies").val(), originId:jQuery("#invitedAccountId").val(), append:invite}
-		}).done(function(response){
-			//服务端，去除重复 accoun（放入MAP或SET） MAP<ACCOUNT, ID>
-			for(var k in response.result){
-				//console.log(k+"="+result[k]);
-				//alert(k+"="+response.result[k]);
-			}
-			
-			jQuery("#modal-events-invite").modal("hide");
-		});
-		
-	}
+##	function saveBuddy(){
+##		var invite = jQuery("#inviteAccount").val();
+##		
+##		if(invite==""){
+##    		jQuery('#modal-events-invite').modal("hide");
+##			return null;
+##		}
+##		
+##		jQuery.ajax({
+##			url:"#springUrl('/events/ajaxAppendJoin.do')",
+##			dataType:"json",
+##			type:"post",
+##			data:{origin:jQuery("#invitedBuddies").val(), originId:jQuery("#invitedAccountId").val(), append:invite}
+##		}).done(function(response){
+##			//服务端，去除重复 accoun（放入MAP或SET） MAP<ACCOUNT, ID>
+##			for(var k in response.result){
+##				console.log(k+"="+response.result[k]);
+##				//alert(k+"="+response.result[k]);
+##			}
+##			
+##			jQuery("#modal-events-invite").modal("hide");
+##		});
+##		
+##	}
 </script>
