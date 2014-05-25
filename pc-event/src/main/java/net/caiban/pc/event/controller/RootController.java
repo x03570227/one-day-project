@@ -38,4 +38,10 @@ public class RootController extends BaseController{
 	
 		return null;
 	}
+	
+	@RequestMapping
+	public ModelAndView test(HttpServletRequest request, Map<String, Object> out){
+	
+		return null;
+	}
 }

@@ -10,7 +10,11 @@
 	<link href="#springUrl('/css/global.css')" rel="stylesheet" />
 	<link href="http://cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" rel="stylesheet" />
 	#parse("/common/import/bootstrap.vm")
-	
+    <script type="text/javascript" >
+		var CONTEXT_PATH="#springUrl('')";
+	</script>
+	<script src="#springUrl('/js/require.js')" ></script>
+	<script src="#springUrl('/js/main.js')" ></script>
   </head>
   <body>
 	

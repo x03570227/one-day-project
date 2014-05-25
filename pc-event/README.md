@@ -1,5 +1,9 @@
 CHANGE LOG
 
+2014-5-25 mays v1.0.14-SNAPSHOT
+1. 换成 requirejs 处理前端 JS 依赖
+2. 增加 bower,npm 安装文件
+
 2014-5-16 mays v1.0.13-SNAPSHOT
 1. 增加 tagsinput 插件，用于解决标签输入问题
 2. 完成创建活动功能，修改邀请功能，使用tagsinput邀请（未完成）

@@ -23,7 +23,7 @@
 								 <div class="form-group">
                             <label for="name" class="col-sm-4 control-label">#springMessage("events.name")：</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="name" placeholder="#springMessage('ph.events.name')" />
+                                <input type="text" class="form-control" name="name" placeholder="#springMessage('ph.events.name')" required />
                             </div>
                         </div>
 						<div class="form-group">
@@ -67,9 +67,10 @@
 						<div class="form-group" >
 							<label for="location" class="col-sm-4 control-label">#springMessage('events.join')：</label>
                             <div class="col-sm-8 tip-attend" >
-								<select multiple data-role="tagsinput" id="event-attend">
-									##<option value="$!{sessionUser.account}">$!{sessionUser.uid}</option>
-                                </select>
+								<input type="text" id="event-attend" data-role="tagsinput"/>
+##								<select multiple data-role="tagsinput" id="event-attend" >
+##									##<option value="$!{sessionUser.account}">$!{sessionUser.uid}</option>
+##                                </select>
 ##								<span id="buddies">
 ##								</span>
 ##								<button type="button" class="btn btn-default" plugin="tooltip" data-toggle="modal" data-target="#modal-events-invite" title="#springMessage('tip.invite.tooltip')">
@@ -122,53 +123,76 @@
 #parse("/events/widget/modal-events-invite.vm")
 #parse("/events/widget/modal-events-buddy.vm")
 
-#if("$!{locale}"!="en")
-	#set($locales="/plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.$!{locale}.js")
-#end
-#loadScript([
-	"/plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
-	"$!{locales}",
-	"/plugin/bootstrap-tagsinput/bootstrap-tagsinput.js"
-])
+
+###loadScript([
+##	"/plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+##	"$!{locales}",
+##	"/plugin/bootstrap-tagsinput/bootstrap-tagsinput.js"
+##])
 
 <script type="text/javascript" >
+###if("$!{locale}"!="en" && "$!{locale}"!="")
+##    require(["plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.$!{locale}"])
+##	##set($locales = ", 'plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.$!{locale}'");
+###end
 
-	jQuery(document).ready(function(){
-		
-		//jQuery('#editor').wysiwyg();
-		
-		jQuery(".form_datetime input").datetimepicker({
-			format:"yyyy-mm-dd",
-			minView:3,
-			autoclose:true,
-			todayBtn:true,
-			language:"$!{locale}",
-			pickerPosition: "bottom-left"
-		});
-		
-		// init tooltip
-		$('.tip-attend').tooltip({
-			selector: "[plugin=tooltip]",
-			container: "body"
-		});
-		
-		jQuery("#banner-selector video").click(function(){
-			jQuery("#banner-selector video").each(function(idx, e){
-				if(jQuery(this).attr("class")=="img-active"){
-					jQuery(this).attr("class", "img-thumbnail");
-				}
-			});
-			jQuery(this).attr("class", "img-active");
-			jQuery("#picBanner").val(jQuery(this).attr("src"));
-		});
-		
-		jQuery("#event-attend").tagsinput({
-			itemValue:function(item){
-				return item.id;
-			},
-			itemText: function(item) {
-				return item.account;
+require([	 "Global","jquery","Bootstrap","datetimepicker","tagsinput"],
+	function (Global,  jQuery,  Bootstrap,  datetimepicker,  tagsinput){
+
+	//jQuery('#editor').wysiwyg();
+	
+	jQuery(".form_datetime input").datetimepicker({
+		format:"yyyy-mm-dd",
+		minView:3,
+		autoclose:true,
+		todayBtn:true,
+		language:"$!{locale}",
+		pickerPosition: "bottom-left"
+	});
+	
+	// init tooltip
+	jQuery('.tip-attend').tooltip({
+		selector: "[plugin=tooltip]",
+		container: "body"
+	});
+	
+	jQuery("#banner-selector video").click(function(){
+		jQuery("#banner-selector video").each(function(idx, e){
+			if(jQuery(this).attr("class")=="img-active"){
+				jQuery(this).attr("class", "img-thumbnail");
 			}
+		});
+		jQuery(this).attr("class", "img-active");
+		jQuery("#picBanner").val(jQuery(this).attr("src"));
+	});
+	
+	
+##	jQuery("#event-attend").tagsinput({
+##		itemValue:"id",
+##		itemText: "account"
+##	});
+	
+##	.typeahead({
+##		valueKey: 'account',
+##		prefetch:"#springUrl('/events/ajaxAttend.do')",
+##		template:"<p>{{account}}</p>",
+##		engine: Hogan
+##	}).bind('typeahead:selected', jQuery.proxy(function (obj, datum) {
+##        this.tagsinput('add', datum.value);
+##        this.tagsinput('input').typeahead('setQuery', '');
+##    }, jQuery("#event-attend")));
+	
+});
+
+##	jQuery(document).ready(function(){
+		
+##		jQuery("#event-attend").tagsinput({
+##			itemValue:function(item){
+##				return item.id;
+##			},
+##			itemText: function(item) {
+##				return item.account;
+##			},
 ##			typeahead:{
 ##				source:function(query){
 ##					alert(query)
@@ -176,7 +200,7 @@
 ##					//return jQuery.post("#springUrl('/events/ajaxAttendTypeAhead.do')");
 ##				}
 ##			}
-		});
+##		});
 		
 ##		jQuery("#event-attend").tagsinput("add", {id:"$!{sessionUser.uid}", account:"$!{session.account}"});
 		
@@ -187,7 +211,7 @@
 ##			
 ##		});
 		
-	});
+##	});
 	
 ##	function saveBuddy(){
 ##		var invite = jQuery("#inviteAccount").val();

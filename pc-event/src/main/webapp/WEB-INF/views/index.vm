@@ -2,7 +2,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-4">
-		
+			
 		#parse("/sys/widget/sliderLogin.vm")
 		#parse("/sys/widget/sliderRegist.vm")
 		#parse("/events/widget/sliderJoined.vm")
@@ -90,7 +90,8 @@
 		
 	</div>
 </div>
-	
-#loadScript([
-	"/js/jquery.extention/jqBootstrapValidation.js"
-])
+
+###loadScript([
+##	"/js/jquery.extention/jqBootstrapValidation.js"
+##])
+

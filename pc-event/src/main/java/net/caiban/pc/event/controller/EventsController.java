@@ -70,4 +70,10 @@ public class EventsController extends BaseController {
 		
 		return ajaxResult(true, map, out);
 	}
+	
+	@RequestMapping
+	public ModelAndView ajaxAttend(HttpServletRequest request, ModelMap out, String account){
+		
+		return null;
+	}
 }

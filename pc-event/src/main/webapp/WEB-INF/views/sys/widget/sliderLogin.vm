@@ -32,8 +32,12 @@
 </div>
 
 <script type="text/javascript">
-	jQuery(document).ready(function(){
-		jQuery("#formLogin").jqBootstrapValidation();
+
+	require([	"jquery","Bootstrap","jqValidation"],
+		function(jQuery, bootstrap, jqValidation){
+			jQuery("#formLogin").jqBootstrapValidation();
 	});
+	
+
 </script>
 #end
