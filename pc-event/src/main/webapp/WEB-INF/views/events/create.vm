@@ -1,8 +1,7 @@
 #globalHeader("index")
 
-#loadCss(["/plugin/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
-	"/plugin/bootstrap-tagsinput/bootstrap-tagsinput.css"
-	])
+#loadCss(["/plugin/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"])
+	##,"/plugin/bootstrap-tagsinput/bootstrap-tagsinput.css"
 
 <div class="container">
     <div class="row">
@@ -67,15 +66,15 @@
 						<div class="form-group" >
 							<label for="location" class="col-sm-4 control-label">#springMessage('events.join')：</label>
                             <div class="col-sm-8 tip-attend" >
-								<input type="text" id="event-attend" data-role="tagsinput"/>
+##								<input type="text" id="event-attend" />  ## data-role="tagsinput"
 ##								<select multiple data-role="tagsinput" id="event-attend" >
 ##									##<option value="$!{sessionUser.account}">$!{sessionUser.uid}</option>
 ##                                </select>
-##								<span id="buddies">
-##								</span>
-##								<button type="button" class="btn btn-default" plugin="tooltip" data-toggle="modal" data-target="#modal-events-invite" title="#springMessage('tip.invite.tooltip')">
-##									<span class="glyphicon glyphicon-plus"></span>
-##								</button>
+								<span id="buddies"></span>
+								
+								<button type="button" class="btn btn-default" plugin="tooltip" data-toggle="modal" data-target="#modal-events-invite" title="#springMessage('tip.invite.tooltip')">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
                             </div>
                         </div>
 						
@@ -136,17 +135,20 @@
 ##	##set($locales = ", 'plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.$!{locale}'");
 ###end
 
-require([	 "Global","jquery","Bootstrap","datetimepicker","tagsinput"],
-	function (Global,  jQuery,  Bootstrap,  datetimepicker,  tagsinput){
+#if("$!{locale}"!="en" && "$!{locale}"!="")
+require(["dplocale"]);
+#end
 
-	//jQuery('#editor').wysiwyg();
-	
+require([	 "Global","jquery","Bootstrap","datetimepicker"],
+	function (Global,  jQuery,  Bootstrap,  datetimepicker){
+
+	//init datetime input
 	jQuery(".form_datetime input").datetimepicker({
 		format:"yyyy-mm-dd",
 		minView:3,
 		autoclose:true,
 		todayBtn:true,
-		language:"$!{locale}",
+		language:LOCALE,
 		pickerPosition: "bottom-left"
 	});
 	
@@ -156,6 +158,7 @@ require([	 "Global","jquery","Bootstrap","datetimepicker","tagsinput"],
 		container: "body"
 	});
 	
+	//right banner selector
 	jQuery("#banner-selector video").click(function(){
 		jQuery("#banner-selector video").each(function(idx, e){
 			if(jQuery(this).attr("class")=="img-active"){
@@ -170,6 +173,14 @@ require([	 "Global","jquery","Bootstrap","datetimepicker","tagsinput"],
 ##	jQuery("#event-attend").tagsinput({
 ##		itemValue:"id",
 ##		itemText: "account"
+		
+##		,
+##		typeahead:{
+##			source:function(query){
+##				console.log(query);
+##				return jQuery.get("http://test.caiban.net");
+##			}
+##		}
 ##	});
 	
 ##	.typeahead({
@@ -204,8 +215,6 @@ require([	 "Global","jquery","Bootstrap","datetimepicker","tagsinput"],
 		
 ##		jQuery("#event-attend").tagsinput("add", {id:"$!{sessionUser.uid}", account:"$!{session.account}"});
 		
-		
-		
 ##		jQuery('#modal-events-buddy').on("shown.bs.modal", function(e){
 ##			//alert("step show"+ jQuery(e.relatedTarget).attr("data-id"))
 ##			
@@ -213,28 +222,28 @@ require([	 "Global","jquery","Bootstrap","datetimepicker","tagsinput"],
 		
 ##	});
 	
-##	function saveBuddy(){
-##		var invite = jQuery("#inviteAccount").val();
-##		
-##		if(invite==""){
-##    		jQuery('#modal-events-invite').modal("hide");
-##			return null;
-##		}
-##		
-##		jQuery.ajax({
-##			url:"#springUrl('/events/ajaxAppendJoin.do')",
-##			dataType:"json",
-##			type:"post",
-##			data:{origin:jQuery("#invitedBuddies").val(), originId:jQuery("#invitedAccountId").val(), append:invite}
-##		}).done(function(response){
-##			//服务端，去除重复 accoun（放入MAP或SET） MAP<ACCOUNT, ID>
-##			for(var k in response.result){
-##				console.log(k+"="+response.result[k]);
-##				//alert(k+"="+response.result[k]);
-##			}
-##			
-##			jQuery("#modal-events-invite").modal("hide");
-##		});
-##		
-##	}
+	function saveBuddy(){
+		var invite = jQuery("#inviteAccount").val();
+		
+		if(invite==""){
+    		jQuery('#modal-events-invite').modal("hide");
+			return null;
+		}
+		
+		jQuery.ajax({
+			url:"#springUrl('/events/ajaxAppendJoin.do')",
+			dataType:"json",
+			type:"post",
+			data:{origin:jQuery("#invitedBuddies").val(), originId:jQuery("#invitedAccountId").val(), append:invite}
+		}).done(function(response){
+			//服务端，去除重复 accoun（放入MAP或SET） MAP<ACCOUNT, ID>
+			for(var k in response.result){
+				console.log(k+"="+response.result[k]);
+				//alert(k+"="+response.result[k]);
+			}
+			
+			jQuery("#modal-events-invite").modal("hide");
+		});
+		
+	}
 </script>

@@ -1,5 +1,8 @@
 CHANGE LOG
 
+2014-7-9 mays v1.0.15-SNAPSHOT
+1. 解决 requirejs 处理日期选择框国际化问题
+
 2014-5-25 mays v1.0.14-SNAPSHOT
 1. 换成 requirejs 处理前端 JS 依赖
 2. 增加 bower,npm 安装文件
