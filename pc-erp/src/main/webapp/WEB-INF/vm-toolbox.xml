@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolbox>
+    <tool>
+		<key>date</key>
+		<scope>application</scope>
+		<class>org.apache.velocity.tools.generic.DateTool</class>
+	</tool>
+
+	<tool>
+		<key>numberUtils</key> 
+		<scope>application</scope>
+		<parameter name="format" value="#,##0.00"/>
+		<class>org.apache.velocity.tools.generic.NumberTool</class>
+	</tool>
+	
+	<tool>
+		<key>mathUtils</key> 
+		<scope>application</scope>
+		<class>org.apache.velocity.tools.generic.MathTool</class>
+	</tool>
+</toolbox>

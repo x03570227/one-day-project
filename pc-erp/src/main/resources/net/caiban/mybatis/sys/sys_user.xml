@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="net.caiban.pc.event.persist.sys.SysUserMapper">
+	
+	<select id="querySalt" resultType="java.lang.String">
+		select salt from sys_user
+		where account=#{account}
+	</select>
+	
+	<select id="queryUidByLogin" resultType="java.lang.Integer" >
+		select uid from sys_user
+		where account=#{account} and password=#{password}
+	</select>
+	
+	<insert id="insert" parameterType="net.caiban.pc.event.domain.sys.SysUser" keyProperty="id">
+		insert into sys_user (`uid`,`classify`,`account`,`password`,
+			`gmt_created`,`gmt_modified`,`salt`)
+		values(#{uid},#{classify},#{account},#{password},now(),now(),#{salt})
+	</insert>
+	
+	<update id="updateUid" >
+		update sys_user set 
+			uid=#{uid},
+			gmt_modified=now()
+		where id=#{id}
+	</update>
+	
+	<select id="queryUidByAccount" resultType="java.lang.Integer" >
+		select uid from sys_user where account=#{account} limit 1
+	</select>
+	
+</mapper>
+

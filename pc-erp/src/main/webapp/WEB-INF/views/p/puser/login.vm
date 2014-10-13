@@ -1,0 +1,79 @@
+#globalHeader("index")
+<div class="container">
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form id="formLogin" name="formLogin" class="form-horizontal" role="form" method="post" action="#springUrl('/p/puser/doLogin.do')">
+			<input type="hidden" name="refurl" value="$!{refurl}" />
+			<input type="hidden" name="refparam" value="$!{refparam}" />
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-4">
+					<h1 >#springMessage("addon.login.title")</h1>
+                </div>
+			</div>
+			#if("$!{error}" !="" )
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-4">
+					<div class="alert alert-warning alert-dismissable">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      <strong>#springMessage("tip.warn")</strong> #springMessage($error) 
+                    </div>
+                </div>
+			</div>
+			#end
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+					<label for="account">#springMessage("sys.user.account")</label>
+					<input type="text" class="form-control" id="account" name="account" value="$!{user.account}" placeholder="#springMessage('ph.sys.user.account')" required />
+    				##<p class="help-block"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+					<label for="inputPassword3">#springMessage("sys.user.password")</label>
+					<input type="password" class="form-control" id="password" name="password" value="" placeholder="#springMessage('ph.sys.user.password')" required />
+    			  ##<p class="help-block"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8 ">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="rememberMe" value="1" checked />#springMessage('addon.login.remember')
+                    </label>
+    				<a href="#springUrl('/p/puser/forget.do')" >#springMessage("addon.login.forget")</a>
+                  </div>
+                </div>
+              </div>
+			  
+			  <div class="form-group" >
+				<div class="col-sm-offset-4 col-sm-8">
+                  <button type="submit" class="btn btn-primary">#springMessage('btn.login')</button>
+                </div>
+			  </div>
+              </a>
+        </form>
+	</div>
+	<div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-8">
+				#springMessage("tip.login.1")
+                <a href="#springUrl('/p/puser/regist.do')" >#springMessage("tip.login.2")</a>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+##loadScript(["/js/jquery.extention/jqBootstrapValidation.js"])
+</div>
+
+<script type="text/javascript">
+
+require([	"jquery","Bootstrap","jqValidation"],
+	function(jQuery){
+		jQuery(document).ready(function(){
+			console.log('DOM Loaded...')
+    		jQuery("#formLogin").jqBootstrapValidation();
+    	});
+});
+
+</script>

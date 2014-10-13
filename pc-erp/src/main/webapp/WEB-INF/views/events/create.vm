@@ -1,0 +1,240 @@
+#globalHeader("index")
+
+#loadCss(["/plugin/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
+	"/plugin/bootstrap-tagsinput/bootstrap-tagsinput.css"
+	])
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            
+			<div class="panel panel-default">
+                <div class="panel-heading">
+                    #springMessage("tip.create.event") 
+                </div>
+                <div class="panel-body">
+					
+                    <form class="form-horizontal" action="#springUrl('/events/doCreate.do')" method="post" role="form">
+						<input type="hidden" name="id" value=""/>
+						
+						<div class="row" >
+							<div class="col-sm-8">
+								
+								 <div class="form-group">
+                            <label for="name" class="col-sm-4 control-label">#springMessage("events.name")：</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="name" placeholder="#springMessage('ph.events.name')" required />
+                            </div>
+                        </div>
+						<div class="form-group">
+                            <label  class="col-sm-4 control-label">#springMessage('events.time')：</label>
+                            <div class="col-sm-4">
+##								<div class="input-append date form_datetime">
+##                                    <input size="16" type="text" value="" readonly>
+##                                    <span class="add-on"><i class="icon-th"></i></span>
+##                                </div>
+								<div class="input-group form_datetime" >
+                                <input type="text" class="form-control" name="gmtStartStr" id="gmtStart" readonly placeholder="#springMessage('ph.events.start')" />
+								<span class="input-group-addon glyphicon glyphicon-calendar"></span>
+								</div>
+                            </div>
+							<div class="col-sm-4">
+								<div class="input-group form_datetime">
+                                <input type="text" class="form-control" name="gmtEndStr" id="gmtEnd" readonly placeholder="#springMessage('ph.events.end')" />
+								<span class="input-group-addon glyphicon glyphicon-calendar"></span>
+								</div>
+                            </div>
+                        </div>
+						<div class="form-group">
+                            <label for="moneyBudget" class="col-sm-4 control-label">#springMessage('events.money.budget')<small class="text-muted">(#springMessage('events.money.budget.explain'))</small>：</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" name="moneyBudget" placeholder="#springMessage('ph.events.money.budget')" />
+                            </div>
+                        </div>
+						<div class="form-group">
+                            <label for="location" class="col-sm-4 control-label">#springMessage('events.location')：</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="location" placeholder="#springMessage('ph.events.location')" />
+                            </div>
+                        </div>
+						
+						<div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <input type="checkbox" value="1" name="statusPublic" /> #springMessage("events.status.public")
+                            </div>
+                        </div>
+						
+						<div class="form-group" >
+							<label for="location" class="col-sm-4 control-label">#springMessage('events.join')：</label>
+                            <div class="col-sm-8 tip-attend" >
+								<input type="text" id="event-attend" data-role="tagsinput"/>
+##								<select multiple data-role="tagsinput" id="event-attend" >
+##									##<option value="$!{sessionUser.account}">$!{sessionUser.uid}</option>
+##                                </select>
+##								<span id="buddies">
+##								</span>
+##								<button type="button" class="btn btn-default" plugin="tooltip" data-toggle="modal" data-target="#modal-events-invite" title="#springMessage('tip.invite.tooltip')">
+##									<span class="glyphicon glyphicon-plus"></span>
+##								</button>
+                            </div>
+                        </div>
+						
+						<div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10" id="editor">
+								<textarea class="form-control" name="content" rows="4" placeholder="#springMessage('ph.events.content')"></textarea>
+                            </div>
+                        </div>
+						
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <button type="submit" class="btn btn-primary" data-loading-text="#springMessage('tip.loading')">#springMessage('btn.submit')</button>
+                                <button class="btn btn-default">#springMessage('btn.cancel')</button>
+                            </div>
+                        </div>
+						
+							</div>
+							
+							<div class="col-sm-4" id="banner-selector">
+								#set($banners = [
+									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/14_football_l.ogv",
+									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/04_picnic_l.ogv",
+									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/02_sparkle_candle_l.ogv",
+									"https://ssl.gstatic.com/s2/oz/images/events/themes/201206/09_house_party_l.ogv"])
+								#foreach($banner in $!{banners})
+									<video src="$banner" loop="true" autoplay="" class="img-thumbnail"></video>
+								#end
+							</div>
+						</div>
+						
+                       <input type="hidden" id="picBanner" name="picBanner" value=""/>
+					   <input type="hidden" id="invitedBuddies" name="invitedBuddies" value=""/>
+					   <input type="hidden" id="invitedAccountId" name="invitedAccountId" value=""/>
+                    </form>
+					
+                </div>
+            </div>
+			
+        </div>
+    </div>
+</div>
+
+
+<!-- modal contact -->
+#parse("/events/widget/modal-events-invite.vm")
+#parse("/events/widget/modal-events-buddy.vm")
+
+
+###loadScript([
+##	"/plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+##	"$!{locales}",
+##	"/plugin/bootstrap-tagsinput/bootstrap-tagsinput.js"
+##])
+
+<script type="text/javascript" >
+###if("$!{locale}"!="en" && "$!{locale}"!="")
+##    require(["plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.$!{locale}"])
+##	##set($locales = ", 'plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.$!{locale}'");
+###end
+
+require([	 "Global","jquery","Bootstrap","datetimepicker","tagsinput"],
+	function (Global,  jQuery,  Bootstrap,  datetimepicker,  tagsinput){
+
+	//jQuery('#editor').wysiwyg();
+	
+	jQuery(".form_datetime input").datetimepicker({
+		format:"yyyy-mm-dd",
+		minView:3,
+		autoclose:true,
+		todayBtn:true,
+		language:"$!{locale}",
+		pickerPosition: "bottom-left"
+	});
+	
+	// init tooltip
+	jQuery('.tip-attend').tooltip({
+		selector: "[plugin=tooltip]",
+		container: "body"
+	});
+	
+	jQuery("#banner-selector video").click(function(){
+		jQuery("#banner-selector video").each(function(idx, e){
+			if(jQuery(this).attr("class")=="img-active"){
+				jQuery(this).attr("class", "img-thumbnail");
+			}
+		});
+		jQuery(this).attr("class", "img-active");
+		jQuery("#picBanner").val(jQuery(this).attr("src"));
+	});
+	
+	
+##	jQuery("#event-attend").tagsinput({
+##		itemValue:"id",
+##		itemText: "account"
+##	});
+	
+##	.typeahead({
+##		valueKey: 'account',
+##		prefetch:"#springUrl('/events/ajaxAttend.do')",
+##		template:"<p>{{account}}</p>",
+##		engine: Hogan
+##	}).bind('typeahead:selected', jQuery.proxy(function (obj, datum) {
+##        this.tagsinput('add', datum.value);
+##        this.tagsinput('input').typeahead('setQuery', '');
+##    }, jQuery("#event-attend")));
+	
+});
+
+##	jQuery(document).ready(function(){
+		
+##		jQuery("#event-attend").tagsinput({
+##			itemValue:function(item){
+##				return item.id;
+##			},
+##			itemText: function(item) {
+##				return item.account;
+##			},
+##			typeahead:{
+##				source:function(query){
+##					alert(query)
+##					return ["八月下沙","遥远","杭州"];
+##					//return jQuery.post("#springUrl('/events/ajaxAttendTypeAhead.do')");
+##				}
+##			}
+##		});
+		
+##		jQuery("#event-attend").tagsinput("add", {id:"$!{sessionUser.uid}", account:"$!{session.account}"});
+		
+		
+		
+##		jQuery('#modal-events-buddy').on("shown.bs.modal", function(e){
+##			//alert("step show"+ jQuery(e.relatedTarget).attr("data-id"))
+##			
+##		});
+		
+##	});
+	
+##	function saveBuddy(){
+##		var invite = jQuery("#inviteAccount").val();
+##		
+##		if(invite==""){
+##    		jQuery('#modal-events-invite').modal("hide");
+##			return null;
+##		}
+##		
+##		jQuery.ajax({
+##			url:"#springUrl('/events/ajaxAppendJoin.do')",
+##			dataType:"json",
+##			type:"post",
+##			data:{origin:jQuery("#invitedBuddies").val(), originId:jQuery("#invitedAccountId").val(), append:invite}
+##		}).done(function(response){
+##			//服务端，去除重复 accoun（放入MAP或SET） MAP<ACCOUNT, ID>
+##			for(var k in response.result){
+##				console.log(k+"="+response.result[k]);
+##				//alert(k+"="+response.result[k]);
+##			}
+##			
+##			jQuery("#modal-events-invite").modal("hide");
+##		});
+##		
+##	}
+</script>

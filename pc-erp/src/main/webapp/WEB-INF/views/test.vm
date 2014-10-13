@@ -1,0 +1,69 @@
+#set($layout="/layout/blank.vm")
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AA，聚餐，KTV，电影，休闲娱乐，搞活动，用AA</title>
+	<meta name="keywords" content="聚餐,KTV,电影,酒吧,咖啡厅,茶馆,足疗,按摩,洗浴,桌游,休闲娱乐,活动" />
+	<meta name="description" content="聚餐,KTV,电影,酒吧,咖啡厅,茶馆,足疗,按摩,洗浴,桌游,休闲娱乐,活动" />
+	
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+	#parse("/common/import/bootstrap.vm")
+	
+	#loadCss(["/plugin/bootstrap-tagsinput/bootstrap-tagsinput.css"])
+	#loadScript(["/plugin/bootstrap-tagsinput/bootstrap-tagsinput.js"])
+  </head>
+  
+  <body>
+	
+##    <div >
+####		<select multiple data-role="tagsinput" id="event-attend" >
+####			
+####		</select>
+##		
+##	<input type="text" id="event-attend"/>
+##	</div>
+##	
+##	<script type="text/javascript">
+##		jQuery(document).ready(function(){
+##			jQuery("#event-attend").tagsinput({
+##    			itemValue:"id",
+##    			itemText: "value",
+##    			typeahead:{
+##    				source:function(query){
+##    					
+##						console.log(query);
+##						
+##    					return [{id:1,account:"八月下沙"},
+##							{id:2,account:"遥远"},
+##							{id:3,account:"杭州"}];
+##    					//return jQuery.post("#springUrl('/events/ajaxAttendTypeAhead.do')");
+##    				}
+##    			}
+##    		});
+##			
+##			$('input').tagsinput('add', { "id": 4 , "account": "Washington" });
+##			$('input').tagsinput('add', { "id": 7 , "account": "Sydney" });
+##		});
+##    </script>
+	
+	
+
+    <input type="text" value="Amsterdam,Washington" data-role="tagsinput" />
+    <script>
+    jQuery('input').tagsinput();
+     
+    // Adding custom typeahead support using http://twitter.github.io/typeahead.js
+    jQuery('input').tagsinput('input').typeahead({
+    	prefetch: 'citynames.json'
+    }).bind('typeahead:selected', 
+		jQuery.proxy(function (obj, datum) {
+    		this.tagsinput('add', datum.value);
+    		this.tagsinput('input').typeahead('setQuery', '');
+    }, jQuery('input')));
+    </script>
+
+
+  </body>
+</html>
+

@@ -1,0 +1,40 @@
+#if(!$!{sessionUser})
+<div class="panel panel-default">
+	<div class="panel-heading">
+	#springMessage("addon.regist.title")
+	</div>
+	<div class="panel-body">
+        <form id="formRegist" name="formRegist" class="form-horizontal" role="form" method="post" action="#springUrl('/p/puser/doRegist.do')">
+			<input type="hidden" name="accept" value="1" />
+          <div class="form-group">
+            <div class="col-sm-12">
+              <input type="account" class="form-control" name="account" placeholder="#springMessage('ph.sys.user.account')" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <input type="password" class="form-control" name="password" placeholder="#springMessage('ph.sys.user.password')" required />
+            </div>
+          </div>
+		  <div class="form-group">
+            <div class="col-sm-12">
+              <input type="password" class="form-control" name="passwordRepeat" placeholder="#springMessage('ph.sys.user.password.repeat')" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-8 col-sm-4">
+              <button type="submit" class="btn btn-success">#springMessage('btn.regist')</button>
+            </div>
+          </div>
+        </form>
+	</div>
+</div>
+<script type="text/javascript">
+	require([	"jquery","Bootstrap","jqValidation"],
+		function(jQuery, bootstrap, jqValidation){
+		
+			jQuery("#formRegist").jqBootstrapValidation();
+	})
+	
+</script>
+#end

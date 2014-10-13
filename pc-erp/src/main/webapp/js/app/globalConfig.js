@@ -1,0 +1,3 @@
+define({
+	CONTEXT_PATH:CONTEXT_PATH
+});

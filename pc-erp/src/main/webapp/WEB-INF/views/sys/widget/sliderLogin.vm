@@ -1,0 +1,43 @@
+#if(!$!{sessionUser})
+<div class="panel panel-default">
+	<div class="panel-body">
+        <form id="formLogin" name="formLogin" class="form-horizontal" role="form" method="post" action="#springUrl('/p/puser/doLogin.do')">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <input type="text" class="form-control" id="account" name="account" placeholder="#springMessage('ph.sys.user.account')" required />
+				##<p class="help-block"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-8">
+              <input type="password" class="form-control" id="password" name="password" placeholder="#springMessage('ph.sys.user.password')" required />
+			  ##<p class="help-block"></p>
+            </div>
+			<div class="col-sm-4">
+              <button type="submit" class="btn btn-primary">#springMessage('btn.login')</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="1" checked />#springMessage('addon.login.remember')
+                </label>
+				<a href="#springUrl('/p/puser/forget.do')" >#springMessage("addon.login.forget")</a>
+              </div>
+            </div>
+          </div>
+        </form>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	require([	"jquery","Bootstrap","jqValidation"],
+		function(jQuery, bootstrap, jqValidation){
+			jQuery("#formLogin").jqBootstrapValidation();
+	});
+	
+
+</script>
+#end

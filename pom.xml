@@ -29,6 +29,7 @@
 
 	<modules>
 		<module>pc-event</module>
+		<module>pc-erp</module>
 		<module>pc-utils</module>
 	</modules>
 
