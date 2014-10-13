@@ -50,6 +50,7 @@ public class HttpRemoteControl {
 			// 设置代理结束
 
 		}
+		
 		try {
 
 			exeControl(httpClient, remoteUrl,nextUrl);
