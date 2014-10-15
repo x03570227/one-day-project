@@ -24,7 +24,7 @@
 				<li><a href="#">我组织的</a></li>
 				<li><a href="#">我参加的</a></li>
 				<li class="divider"></li>
-                <li><a href="#">发起活动</a></li>
+                <li><a href="#springUrl('/events/create.do')">发起活动</a></li>
               </ul>
             </li>
           </ul>
