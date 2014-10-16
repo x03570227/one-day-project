@@ -8,29 +8,25 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">搞活动，用AA</a>
+          <a class="navbar-brand" href="#springUrl('')">YYSoft ERP</a>
         </div>
         <div class="navbar-collapse collapse">
-          
+          #if($sessionUser)
 		  <ul class="nav navbar-nav">
             <li #if(${menuIdx} == "index")class="active"#end>
-				<a href="#springUrl('/')">公开活动</a>
+				<a href="#springUrl('/')">#springMessage("m.index")</a>
 			</li>
-			<li>
-				<a href="#">活动搞起</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的活动<b class="caret"></b></a>
+			
+            <li class="dropdown #if(${menuIdx} == 'product') active #end" >
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">#springMessage("m.product")<b class="caret"></b></a>
               <ul class="dropdown-menu">
-				<li><a href="#">我组织的</a></li>
-				<li><a href="#">我参加的</a></li>
-				<li class="divider"></li>
-                <li><a href="#springUrl('/events/create.do')">发起活动</a></li>
+				<li #if(${subMenuIdx} == 'create') class="active" #end><a href="#">#springMessage("m.product.create")</a></li>
               </ul>
             </li>
           </ul>
-		  
+		  #end
           <ul class="nav navbar-nav navbar-right">
-				#if($sessionUser)  
+				#if($sessionUser)
 					<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
     					<span class="glyphicon glyphicon-user">
@@ -39,10 +35,9 @@
     					<b class="caret"></b>
     				</a>
 					<ul class="dropdown-menu">
-    					<li><a href="#">基本资料</a></li>
-    					<li><a href="#">密码管理</a></li>
+    					<li><a href="#">#springMessage("m.user.password")</a></li>
 						<li class="divider"></li>
-						<li><a href="#springUrl('/p/puser/doLogout.do')">退出</a></li>
+						<li><a href="#springUrl('/p/puser/doLogout.do')">#springMessage("m.user.logout")</a></li>
                     </ul>
 				</li>
 				#else

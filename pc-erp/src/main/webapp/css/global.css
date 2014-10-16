@@ -8,8 +8,8 @@ body {padding-top: 70px;}
 
 .font24 {font-size:24px;}
 
- .htmleditor {overflow:scroll; max-height:300px}
- 
+.htmleditor {overflow:scroll; max-height:300px}
+
 .img-active {
 	padding: 4px;
 line-height: 1.42857;

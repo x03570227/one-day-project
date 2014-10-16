@@ -28,6 +28,8 @@ require.config({
 		"typeahead":"plugin/typeahead/typeahead.jquery.min",
 		"hogan":"plugin/hogan/hogan-2.0.0.min",
 		
+		//项目模块
+		
 		//项目自定义模块
 		"Global":"js/app/globalConfig"
 	},

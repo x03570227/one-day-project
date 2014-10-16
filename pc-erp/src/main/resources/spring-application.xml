@@ -13,7 +13,7 @@
 	
     <context:annotation-config />
 	<!--主动扫描Controller的配置，使得控制器能够扫描到相关的类 -->
-	<context:component-scan base-package="net.caiban.pc.event.controller" />
+	<context:component-scan base-package="net.caiban.pc.erp.controller" />
 	<import resource="spring-service.xml" />
 
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
@@ -28,7 +28,7 @@
 	<bean
 		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
 		<property name="caseSensitive"  value="false" />
-		<property name="basePackage"    value="net.caiban.pc.event.controller" />
+		<property name="basePackage"    value="net.caiban.pc.erp.controller" />
 		<property name="defaultHandler" value="rootController" />
 	</bean>
 

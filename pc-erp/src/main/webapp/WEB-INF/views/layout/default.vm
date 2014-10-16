@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AA，聚餐，KTV，电影，休闲娱乐，搞活动，用AA</title>
-	<meta name="keywords" content="聚餐,KTV,电影,酒吧,咖啡厅,茶馆,足疗,按摩,洗浴,桌游,休闲娱乐,活动" />
-	<meta name="description" content="聚餐,KTV,电影,酒吧,咖啡厅,茶馆,足疗,按摩,洗浴,桌游,休闲娱乐,活动" />
+    <title>YYSOFT - ERP</title>
+	<meta name="keywords" content="YYSOFT,ERP" />
+	<meta name="description" content="YYSOFT,ERP" />
 	
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
@@ -15,10 +15,9 @@
 		var LOCALE="$!{locale}";
 	</script>
 	<script src="#springUrl('/js/require.js')" ></script>
-	<script src="#springUrl('/js/main.js')?123" ></script>
+	<script src="#springUrl('/js/main.js')" ></script>
   </head>
   <body>
-	
 	$screen_content
 	#parse("/common/globalFooter.vm")
   </body>

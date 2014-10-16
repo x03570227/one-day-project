@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="net.caiban.pc.erp.persist.sys.SysCompanyMapper">
+	
+	<select id="query" resultType="net.caiban.pc.erp.domain.sys.SysCompany">
+		select id, name from sys_company
+		limit 100
+	</select>
+	
+</mapper>
+

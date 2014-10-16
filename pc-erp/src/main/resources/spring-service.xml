@@ -17,8 +17,8 @@
 	
     <context:annotation-config />
 	<!--主动扫描Controller的配置，使得控制器能够扫描到相关的类 -->
-	<context:component-scan base-package="net.caiban.pc.event.config" />
-	<context:component-scan base-package="net.caiban.pc.event.service" />
+	<context:component-scan base-package="net.caiban.pc.erp.config" />
+	<context:component-scan base-package="net.caiban.pc.erp.service" />
 	
 	<!-- 
 	 <context:property-placeholder location="classpath*:config.properties" ignore-unresolvable="true" />
@@ -61,7 +61,7 @@
     </bean>
     
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="net.caiban.pc.event.persist" />
+		<property name="basePackage" value="net.caiban.pc.erp.persist" />
 	</bean>
     
     

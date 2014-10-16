@@ -5,83 +5,24 @@
 			
 		#parse("/sys/widget/sliderLogin.vm")
 		#parse("/sys/widget/sliderRegist.vm")
-		#parse("/events/widget/sliderJoined.vm")
+		#parse("/sys/widget/sliderJoined.vm")
 
 		</div>
 		<div class="col-md-8">
 			
-			<div class="thumbnail index_event_list">
+			<div class="thumbnail ">
 				<img alt="300x200" src="#imgUrl('/img/people.jpg')" class="img-rounded index_img_banner" />
 				<div class="caption">
 					<h3>
-						冯诺尔曼结构(活动标题)  
+						#springMessage("m.product") 
 					</h3>
 					<p>
-						也称普林斯顿结构，是一种将程序指令存储器和数据存储器合并在一起的存储器结构。程序指令存储地址和数据存储地址指向同一个存储器的不同物理位置。
-					</p>
-					<p>
-						<a class="btn btn-primary" href="#">浏览</a> <a class="btn" href="#">分享</a>
-					</p>
-				</div>
-			</div>
-			
-			<div class="thumbnail index_event_list">
-				<img alt="300x200" src="#imgUrl('/img/people.jpg')" class="img-rounded index_img_banner" />
-				<div class="caption">
-					<h3>
-						冯诺尔曼结构(活动标题)
-					</h3>
-					<p>
-						也称普林斯顿结构
-					</p>
-					<p>
-						<a class="btn btn-primary" href="#">浏览</a> <a class="btn" href="#">分享</a>
-					</p>
-				</div>
-			</div>
-			
-			<div class="thumbnail index_event_list">
-				<img alt="300x200" src="#imgUrl('/img/people.jpg')" class="img-rounded index_img_banner" />
-				<div class="caption">
-					<h3>
-						冯诺尔曼结构(活动标题)
-					</h3>
-					<p>
-						也称普林斯顿结构，是一种将程序指令存储器和数据存储器合并在一起的存储器结构。程序指令存储地址和数据存储地址指向同一个存储器的不同物理位置。
-						也称普林斯顿结构，是一种将程序指令存储器和数据存储器合并在一起的存储器结构。程序指令存储地址和数据存储地址指向同一个存储器的不同物理位置。
-					</p>
-					<p>
-						<a class="btn btn-primary" href="#">浏览</a> <a class="btn" href="#">分享</a>
-					</p>
-				</div>
-			</div>
-			
-			<div class="thumbnail index_event_list">
-				<img alt="300x200" src="#imgUrl('/img/people.jpg')" class="img-rounded index_img_banner" />
-				<div class="caption">
-					<h3>
-						冯诺尔曼结构(活动标题)
-					</h3>
-					<p>
-						也称普林斯顿结构，是一种将的不同物理位置。
-					</p>
-					<p>
-						<a class="btn btn-primary" href="#">浏览</a> <a class="btn" href="#">分享</a>
-					</p>
-				</div>
-			</div>
-			
-			<div class="thumbnail index_event_list">
-				<img alt="300x200" src="#imgUrl('/img/people.jpg')" class="img-rounded index_img_banner" />
-				<div class="caption">
-					<h3>
-						冯诺尔曼结构(活动标题)
-					</h3>
-					<p>
-						也称普林斯顿结构，是一种将程序指令存储器和数据存储器合并在一起的存储器结构。程序指令存储地址和数据存储地址指向同一个存储器的不同物理位置。
-					</p>
-					<p>
-						<a class="btn btn-primary" href="#">浏览</a> <a class="btn" href="#">分享</a>
+                        <ul>
+							<li >
+                                <a href="#" >#springMessage("m.product.create")</a>
+								<small >(#springMessage("m.product.create.des"))</small>
+							</li>
+						</ul>
 					</p>
 				</div>
 			</div>

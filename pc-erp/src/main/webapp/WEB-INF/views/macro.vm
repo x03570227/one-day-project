@@ -34,7 +34,7 @@
 #end
 
 ##用于确定菜单选中项
-#macro(globalHeader $menuIdx)
+#macro(globalHeader $menuIdx $subMenuIdx)
 #parse("/common/globalHeader.vm")
 #end
 

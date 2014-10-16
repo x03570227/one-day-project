@@ -23,6 +23,8 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
         <mapper resource="net/caiban/mybatis/test.xml" />
         
         <mapper resource="net/caiban/mybatis/sys/sys_user.xml" />
+        <mapper resource="net/caiban/mybatis/sys/sys_company.xml" />
+        
         <mapper resource="net/caiban/mybatis/events/events.xml" />
     </mappers>
 
