@@ -22,6 +22,7 @@ public class ProductController extends BaseController {
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, Map<String, Object> out){
 		// TODO 产品首页，显示所有产品信息，带分页
+		
 		return null;
 	}
 	

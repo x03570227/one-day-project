@@ -27,7 +27,7 @@ public interface SysUserMapper {
 	 * @param password
 	 * @return
 	 */
-	public Integer queryUidByLogin(@Param("account") String account, 
+	public SysUser queryUidByLogin(@Param("account") String account, 
 			@Param("password") String password);
 	
 	/**

@@ -13,6 +13,7 @@
     <script type="text/javascript" >
 		var CONTEXT_PATH="#springUrl('')";
 		var LOCALE="$!{locale}";
+		//var JU=eval('$!{juser}');
 	</script>
 	<script src="#springUrl('/js/require.js')" ></script>
 	<script src="#springUrl('/js/main.js')" ></script>

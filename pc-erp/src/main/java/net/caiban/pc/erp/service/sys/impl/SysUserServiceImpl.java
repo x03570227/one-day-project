@@ -49,14 +49,14 @@ public class SysUserServiceImpl implements SysUserService {
 			throw new ServiceException("e.login");
 		}
 
-		Integer uid = sysUserMapper.queryUidByLogin(
+		SysUser confirmedUser = sysUserMapper.queryUidByLogin(
 				rebuildAccount(classify, user.getAccount()),
 				encodePassword(user.getPassword(), salt));
-		if (uid == null || uid.intValue() <= 0) {
+		if (confirmedUser == null) {
 			throw new ServiceException("e.login.failure");
 		}
 
-		return new SessionUser(uid, user.getAccount());
+		return new SessionUser(confirmedUser.getUid(), user.getAccount(), confirmedUser.getCid());
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class SysUserServiceImpl implements SysUserService {
 		}
 		sysUserMapper.updateUid(registUser.getId(), registUser.getId());
 		
-		return new SessionUser(registUser.getId(), user.getAccount());
+		return new SessionUser(registUser.getId(), user.getAccount(), user.getCid());
 	}
 
 	@Override

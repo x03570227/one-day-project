@@ -8,7 +8,6 @@ package net.caiban.pc.erp.filter;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.Filter;
@@ -19,8 +18,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.servlet.support.RequestContext;
 
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.SessionUser;
@@ -63,6 +60,7 @@ public class AuthorizeFilter implements Filter {
 
 			SessionUser sessionUser = (SessionUser) request.getSession().getAttribute(AppConst.SESSION_KEY);
 			request.setAttribute("sessionUser", sessionUser);
+			request.setAttribute("juser", JSONObject.fromObject(sessionUser));
 
 //			RequestContext requestContext = new RequestContext(request);
 //			Locale locale = requestContext.getLocale();
