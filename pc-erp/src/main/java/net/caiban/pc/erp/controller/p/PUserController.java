@@ -15,6 +15,7 @@ import net.caiban.pc.erp.controller.BaseController;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.SysUser;
 import net.caiban.pc.erp.exception.ServiceException;
+import net.caiban.pc.erp.service.sys.SysCompanyService;
 import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.utils.lang.StringUtils;
 
@@ -32,6 +33,8 @@ public class PUserController extends BaseController {
 	
 	@Resource
 	private SysUserService sysUserService;
+	@Resource
+	private SysCompanyService sysCompanyService;
 
 	@RequestMapping
 	public ModelAndView login(HttpServletRequest request, Map<String, Object> out, 
@@ -85,6 +88,8 @@ public class PUserController extends BaseController {
 		out.put("refurl", refurl);
 		out.put("refparam", refparam);
 		out.put("error", error);
+		
+		out.put("companyList",sysCompanyService.query());
 		
 		return null;
 	}

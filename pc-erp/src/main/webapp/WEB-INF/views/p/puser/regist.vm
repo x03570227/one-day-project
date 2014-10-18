@@ -20,6 +20,18 @@
                 </div>
 			</div>
 			#end
+			
+			
+			  <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+					<label for="account">#springMessage("sys.user.cid")</label>
+					<select name="cid" >
+        				#foreach( $c in $companyList)
+        					<option value="$!{c.id}">$!{c.name}</option>
+        				#end
+                      </select>
+                </div>
+              </div>
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
 					<label for="account">#springMessage("sys.user.account")</label>

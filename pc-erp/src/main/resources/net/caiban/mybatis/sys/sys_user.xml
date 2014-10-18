@@ -17,8 +17,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insert" parameterType="net.caiban.pc.erp.domain.sys.SysUser" keyProperty="id">
 		insert into sys_user (`uid`,`classify`,`account`,`password`,
-			`gmt_created`,`gmt_modified`,`salt`)
-		values(#{uid},#{classify},#{account},#{password},now(),now(),#{salt})
+			`gmt_created`,`gmt_modified`,`salt`, `cid`)
+		values(#{uid},#{classify},#{account},#{password},now(),now(),#{salt}, #{cid})
 	</insert>
 	
 	<update id="updateUid" >

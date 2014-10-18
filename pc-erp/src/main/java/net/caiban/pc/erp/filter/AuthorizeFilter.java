@@ -64,9 +64,9 @@ public class AuthorizeFilter implements Filter {
 			SessionUser sessionUser = (SessionUser) request.getSession().getAttribute(AppConst.SESSION_KEY);
 			request.setAttribute("sessionUser", sessionUser);
 
-			RequestContext requestContext = new RequestContext(request);
-			Locale locale = requestContext.getLocale();
-			request.setAttribute("locale", locale);
+//			RequestContext requestContext = new RequestContext(request);
+//			Locale locale = requestContext.getLocale();
+//			request.setAttribute("locale", locale);
 			
 			if(filterByConfig(noLoginPage, path, uri)){
 				chain.doFilter(request, response);

@@ -80,6 +80,7 @@ public class SysUserServiceImpl implements SysUserService {
 		registUser.setAccount(rebuildAccount(registUser.getClassify(), user.getAccount()));
 		registUser.setPassword(encodePassword(user.getPassword(), registUser.getSalt()));
 		registUser.setUid(DEFAULT_UID);
+		registUser.setCid(user.getCid());
 		
 		try {
 			sysUserMapper.insert(registUser);
