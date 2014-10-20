@@ -1,0 +1,10 @@
+#globalHeader("product", "index")
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			正文，简易搜索
+			表格
+		</div>
+		
+	</div>
+</div>

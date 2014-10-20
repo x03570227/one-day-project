@@ -11,11 +11,15 @@ import net.caiban.pc.erp.domain.product.ProductDefine;
  */
 public interface ProductDefineMapper {
 
-	public Integer save(ProductDefine define);
+	public Integer insert(ProductDefine define);
 	
 	public ProductDefine queryOne(Integer id);
 	
+	public ProductDefine queryOneByPid(Integer pid);
+	
 	public Integer delete(Integer id);
+	
+	public Integer deleteByPid(Integer pid);
 	
 	public Integer update(ProductDefine define);
 	

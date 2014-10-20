@@ -2,6 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -9,6 +10,8 @@
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
 	">
 	
     <context:annotation-config />
@@ -19,11 +22,19 @@
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="webBindingInitializer">
-			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+			<bean
+				class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
 				<property name="conversionService" ref="conversionService" />
 			</bean>
 		</property>
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter" /><!-- json转换器 -->
+			</list>
+		</property>
 	</bean>
+
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
 	
 	<bean
 		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">

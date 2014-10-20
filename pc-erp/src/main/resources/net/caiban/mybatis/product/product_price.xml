@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="net.caiban.pc.erp.persist.product.ProductPriceMapper">
+	
+	<insert id="insert" parameterType="net.caiban.pc.erp.domain.product.ProductPrice" keyProperty="id">
+		INSERT INTO `product_price`
+		(
+			`product_id`,
+			`price_code`,
+			`price_unit_code`,
+			`price_value`,
+			`gmt_expired`,
+			`gmt_created`,
+			`gmt_modified`,
+			`remark`
+		)
+		VALUES(
+			#{productId},
+			#{priceCode},
+			#{priceUnitCode},
+			#{priceValue},
+			#{gmtExpired},
+			NOW(),
+			NOW(),
+			#{remark}
+
+		)
+	</insert>
+	
+	<sql id="default_column">
+		`product_price`.`id`,
+		`product_price`.`product_id` as productId,
+		`product_price`.`price_code` as priceCode,
+		`product_price`.`price_unit_code` as priceUnitCode,
+		`product_price`.`price_value` as priceValue,
+		`product_price`.`gmt_expired` as gmtExpired,
+		`product_price`.`gmt_created` as gmtCreated,
+		`product_price`.`gmt_modified` as gmtModified,
+		`product_price`.`remark`
+	</sql>
+	
+	<delete id="delete">
+		delete from `product_price` where id=#{id}
+	</delete>
+	
+	<delete id="deleteByPid">
+		delete from `product_price` where product_id=#{pid}
+	</delete>
+	
+	<select id="queryByPid" resultType="net.caiban.pc.erp.domain.product.ProductPrice">
+		select 
+			<include refid="default_column"/>
+		from `product_price`
+		where product_id=#{pid}
+		<if test="minExpired!=null">
+			and gmt_expired > #{minExpired}
+		</if>
+		<if test="maxExpired !=null">
+			and #{maxExpired} > gmt_expired
+		</if>
+		limit 100
+	</select>
+	
+	<update id="update" parameterType="net.caiban.pc.erp.domain.product.ProductPrice">
+		update `product_price` set
+		
+			<if test="productId!=null">
+				`product_id`=#{productId},
+			</if>
+			<if test="priceCode !=null">
+				`price_code`=#{priceCode},
+			</if>
+			<if test="priceUnitCode !=null">
+				`price_unit_code`=#{priceUnitCode},
+			</if>
+			<if test="priceValue !=null">
+				`price_value`=#{priceValue},
+			</if>
+			<if test="gmtExpired !=null">
+				`gmt_expired`=#{gmtExpired},
+			</if>
+			<if test="remark !=null">
+				`remark`=#{remark},
+			</if>
+			`gmt_modified`=now()
+		where id=#{id}
+	</update>
+</mapper>
+

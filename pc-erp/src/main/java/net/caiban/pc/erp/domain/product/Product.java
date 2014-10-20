@@ -11,10 +11,11 @@ import net.caiban.pc.erp.domain.BaseDomain;
  */
 public class Product extends BaseDomain {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
+	public final static String LIFE_DRAFT="DRAFT";
+	public final static String LIFE_SALING="SALING";
+	public final static String LIFE_SHELVES="SHELVES";
 	
 	private String code;
 	private String name;
@@ -23,6 +24,7 @@ public class Product extends BaseDomain {
 	private Integer cid;
 	private Integer uidCreated;
 	private Integer uidModified;
+	private String statusLife;
 	
 	public String getCode() {
 		return code;
@@ -65,6 +67,12 @@ public class Product extends BaseDomain {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getStatusLife() {
+		return statusLife;
+	}
+	public void setStatusLife(String statusLife) {
+		this.statusLife = statusLife;
 	}
 	
 

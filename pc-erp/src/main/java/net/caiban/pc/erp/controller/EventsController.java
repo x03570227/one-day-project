@@ -15,6 +15,7 @@ import net.caiban.pc.erp.service.events.EventsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContext;
 
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.support.RequestContext;
  * @author mays
  *
  */
+@Deprecated
 @Controller
 public class EventsController extends BaseController {
 	
@@ -63,12 +65,11 @@ public class EventsController extends BaseController {
 	
 	@Deprecated
 	@RequestMapping
-	public ModelAndView ajaxAppendJoin(HttpServletRequest request, Map<String, Object> out, 
+	@ResponseBody
+	public Map<String, Integer> ajaxAppendJoin(HttpServletRequest request, Map<String, Object> out, 
 			String origin, String originId, String append){
 		
-		Map<String, Integer> map = eventsService.filterAppendJoiner(origin, originId, append);
-		
-		return ajaxResult(true, map, out);
+		return eventsService.filterAppendJoiner(origin, originId, append);
 	}
 	
 	@RequestMapping

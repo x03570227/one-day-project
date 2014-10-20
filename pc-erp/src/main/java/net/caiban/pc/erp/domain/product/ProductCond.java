@@ -20,6 +20,12 @@ public class ProductCond extends BaseCond{
 	private String name;
 	private String categoryCode;
 	private Integer cid;
+	private String statusLife;
+	
+	private String categoryCodeMatchBefore; //前匹配
+	private String nameMatchBefore; //前匹配
+	private String nameFuzzy; //按名称模糊查询
+	
 	public String getCode() {
 		return code;
 	}
@@ -44,5 +50,30 @@ public class ProductCond extends BaseCond{
 	public void setCid(Integer cid) {
 		this.cid = cid;
 	}
+	public String getStatusLife() {
+		return statusLife;
+	}
+	public void setStatusLife(String statusLife) {
+		this.statusLife = statusLife;
+	}
+	public String getCategoryCodeMatchBefore() {
+		return categoryCodeMatchBefore;
+	}
+	public void setCategoryCodeMatchBefore(String categoryCodeMatchBefore) {
+		this.categoryCodeMatchBefore = categoryCodeMatchBefore;
+	}
+	public String getNameMatchBefore() {
+		return nameMatchBefore;
+	}
+	public void setNameMatchBefore(String nameMatchBefore) {
+		this.nameMatchBefore = nameMatchBefore;
+	}
+	public String getNameFuzzy() {
+		return nameFuzzy;
+	}
+	public void setNameFuzzy(String nameFuzzy) {
+		this.nameFuzzy = nameFuzzy;
+	}
+	
 
 }

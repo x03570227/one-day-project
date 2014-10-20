@@ -1,0 +1,12 @@
+#globalHeader("product", "create")
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			左侧
+		</div>
+		<div class="col-md-8">
+			右侧
+		</div>
+		
+	</div>
+</div>
