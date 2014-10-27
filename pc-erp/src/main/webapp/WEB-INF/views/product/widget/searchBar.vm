@@ -1,0 +1,59 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12" id="product_search_form">
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	require([	"jquery","template","product/prop","product"],
+		function(jQuery,  template,  prop,          product){
+			
+			var html=template("tpl_product_search_form", prop);
+			
+			jQuery("#product_search_form").html(html);
+			
+			jQuery("#search_form").submit(function(fm){
+				product.search(jQuery("#search_form").serialize());
+				return false;
+			});
+			
+		}
+	);
+</script>
+
+<script id="tpl_product_search_form" type="text/html">
+<form class="form-inline" role="form" action="#springUrl('/product/index.do')" id="search_form">
+				
+	<div class="form-group">
+		<label class="sr-only" for="exampleInputEmail2">#springMessage('ph.product.search.name')</label>
+		<input type="text" class="form-control" name="nameMatchBefore" placeholder="#springMessage('ph.product.search.name')" ／>
+	</div>
+	
+	<div class="form-group">
+		<select class="form-control" name="categoryCode">
+			<option value="" >--#springMessage('ph.product.category.code')--</option>
+			{{each category as p}}
+			<option value="{{p.code}}" >{{p.name}}</option>
+			{{/each}}
+		</select>
+	</div>
+	
+	<div class="form-group">
+		<select class="form-control" name="statusLife">
+			<option value="" >--#springMessage('ph.product.status.life')--</option>
+			{{each statusLife as p}}
+			<option value="{{p.code}}" >{{p.name}}</option>
+			{{/each}}
+		</select>
+	</div>
+	
+	<div  class="form-group">
+	<button type="submit" class="btn btn-primary">
+		<span class="glyphicon glyphicon-search"></span> #springMessage('btn.search')
+	</button>
+    </div>
+</form>
+</script>
+
+	

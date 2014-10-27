@@ -18,6 +18,8 @@ require.config({
 //		Bootstrap:"//cdn.bootcss.com/bootstrap/3.1.1/js/bootstrap.min",
 		Bootstrap:"plugin/bootstrap/js/bootstrap.min",
 		
+		template:"plugin/template",
+		
 		//各种插件
 		"datetimepicker":"plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker",
 		"dplocale":"plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker."+LOCALE,
@@ -27,8 +29,16 @@ require.config({
 		"jqValidation":"plugin/jquery.extention/jqBootstrapValidation",
 		"typeahead":"plugin/typeahead/typeahead.jquery.min",
 		"hogan":"plugin/hogan/hogan-2.0.0.min",
+		"messenger":"plugin/messenger/build/js/messenger.min",
 		
 		//项目模块
+		"util/dt":"js/erp/config/util.dt",
+		"util/form":"js/erp/config/util.form",
+		"util/table":"js/erp/config/util.table",
+		"product/prop":"js/erp/config/product.prop",
+		"product/define":"js/erp/confit/product.define",
+		
+		"product":"js/erp/product",
 		
 		//项目自定义模块
 		"Global":"js/app/globalConfig"
@@ -55,8 +65,21 @@ require.config({
 //			exports:"switch",
 			deps:['jquery']
 		},
-		"hogan": {exports: "Hogan"}
+		"hogan": {exports: "Hogan"},
+		"messenger":{
+			exports:"messenger",
+			deps:["jquery"]
+		}
 	}
 });
 
-require(["jquery","Bootstrap"]);
+require([    "jquery","Bootstrap", "messenger"],
+	function(jQuery,  bootstrap,   messenger){
+		
+		Messenger.options = {
+			extraClasses : 'messenger-fixed messenger-on-top',
+			theme : 'block'
+		};
+		
+	}	
+);

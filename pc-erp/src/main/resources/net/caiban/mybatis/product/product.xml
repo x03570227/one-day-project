@@ -90,7 +90,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 				${pager.desc}
 			</if>
 		</if>
-		<if test="pager.start>0 and pager.limit>0">
+		<if test="pager.start>=0 and pager.limit>0">
 			limit #{pager.start}, #{pager.limit}
 		</if>
 	</select>

@@ -1,0 +1,67 @@
+<div class="container mt8">
+	<div class="row">
+		<div class="col-md-12 table-responsive" id="product_list">
+			#springMessage("tip.loading")
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	require([	"jquery","template","product/prop", "product","messenger"],
+		function(jQuery,  template,  prop,           product,  messenger){
+		
+			product.init({
+				tpl:{
+					"table":"tpl_product_list"
+				},
+				renderTo:"product_list",
+				url:"#springUrl('/product/list.do')",
+				pager:{
+					start:0,
+					limit:20
+				}
+			});
+			
+			product.search();
+			
+			/**
+			var html=template("tpl_product_list", {});
+			
+			jQuery("#product_list").html(html);
+			
+			var pager=template("tpl_product_list_pager",{})
+			
+			jQuery("#product_list").append(pager);
+			*/
+		}
+	);
+</script>
+
+<script id="tpl_product_list" type="text/html">
+	<table class="table table-hover table-bordered">
+		<thead>
+		<tr class="active">
+			<th class="text-center" width="10">#</th>
+			<th class="text-center" width="80">#springMessage('tb.product.code')</th>
+			<th class="text-center" width="80">#springMessage('tb.product.category.name')</th>
+			<th class="text-center" width="80">#springMessage('tb.product.status.life')</th>
+			<th class="text-center">#springMessage('tb.product.name')</th>
+			<th class="text-center">#springMessage('tb.product.remark')</th>
+		</tr>
+		</thead>
+		<tbody>
+		{{each records as product i}}
+		<tr >
+			<td >{{i + 1}}</td>
+			<td >{{product.code}}</td>
+			<td >{{product.categoryName}}</td>
+			<td >{{product.statusLife}}</td>
+			<td >{{product.name}}</td>
+			<td >{{product.remark}}</td>
+		</tr>
+		{{/each}}
+		</tbody>
+	</table>
+</script>
+
+#parse("/tpl/util/table.pager.bar.vm")

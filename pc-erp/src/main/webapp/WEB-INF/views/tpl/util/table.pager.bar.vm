@@ -1,0 +1,10 @@
+<script id="tpl_pager" type="text/html">
+<ul class="pagination pagination-lg">
+	<li><a href="#" page-start="{{pre}}" >&laquo;</a></li>
+	{{each nav as n }}
+	<li {{if n.page == currentPage}} class="active" {{/if}}><a href="#" page-start="{{n.start}}">{{n.page}}</a></li>
+	{{/each}}
+	<li><a href="#"  page-start="{{next}}">&raquo;</a></li>
+</ul>
+
+</script>
