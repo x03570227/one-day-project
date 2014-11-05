@@ -35,8 +35,9 @@ require.config({
 		"util/dt":"js/erp/config/util.dt",
 		"util/form":"js/erp/config/util.form",
 		"util/table":"js/erp/config/util.table",
+		"util/cache":"js/erp/config/util.cache",
 		"product/prop":"js/erp/config/product.prop",
-		"product/define":"js/erp/confit/product.define",
+		"product/define":"js/erp/config/product.define",
 		
 		"product":"js/erp/product",
 		

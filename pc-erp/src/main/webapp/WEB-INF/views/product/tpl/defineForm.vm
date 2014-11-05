@@ -1,0 +1,64 @@
+
+<script id="tpl_product_form_text" type="text/html">
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{label}}：</label>
+	<div class="col-sm-10">
+		<input type="text" class="form-control" id="{{id}}" name="{{id}}" placeholder="{{placeholder}}" />
+	</div>
+</div>
+</script>
+
+<script id="tpl_product_form_radio" type="text/html">
+<div class="form-group">
+	<label for="name" class="col-sm-2 control-label">{{label}}：</label>
+	<div class="col-sm-10">
+		{{each dataList as item idx}}
+		<div class="radio">
+			<label >
+				<input type="radio" name="{{id}}" value="{{item.key}}" />
+				{{item.value}}
+			</label>
+		</div>
+		{{/each}}
+	</div>
+</div>
+</script>
+
+<script id="tpl_product_form_checkbox" type="text/html">
+<div class="form-group">
+	<label for="name" class="col-sm-2 control-label">{{label}}：</label>
+	<div class="col-sm-10">
+		{{each dataList as item idx}}
+		<div class="checkbox">
+			<label >
+				<input type="checkbox" name="{{id}}" value="{{item.key}}"  />
+				{{item.value}}
+			</label>
+		</div>
+		{{/each}}
+	</div>
+</div>
+</script>
+
+<script id="tpl_product_form_text_area" type="text/html">
+<div class="form-group">
+	<label  class="col-sm-2 control-label">{{label}}：</label>
+	<div class="col-sm-10">
+		<textarea class="form-control" id="{{id}}" name="{{id}}" rows="4" placeholder="{{placeholder}}"></textarea>
+	</div>
+</div>
+</script>
+
+<script id="tpl_product_form_select" type="text/html">
+<div class="form-group">
+	<label  class="col-sm-2 control-label">{{label}}：</label>
+	<div class="col-sm-10">
+		<select id="categoryCode" id="{{id}}" name="{{id}}" class="form-control" required >
+			<option value="">{{placeholder}}</option>
+			{{each dataList as item idx}}
+				<option value="{{item.key}}">{{item.value}}</option>
+			{{/each}}
+		</select>
+	</div>
+</div>
+</script>

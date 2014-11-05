@@ -1,103 +1,149 @@
 #globalHeader("product", "create")
-<div class="container">
+<div class="container" >
 	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-default">
-                <div class="panel-heading">
-                    #springMessage("tip.create.event") 
-                </div>
-                <div class="panel-body">
-					
-                    <form class="form-horizontal" action="#springUrl('/events/doCreate.do')" method="post" role="form">
-						<input type="hidden" name="id" value=""/>
-								
-								 <div class="form-group">
-                            <label for="name" class="col-sm-4 control-label">#springMessage("events.name")：</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="name" placeholder="#springMessage('ph.events.name')" required />
-                            </div>
-                        </div>
-						<div class="form-group">
-                            <label  class="col-sm-4 control-label">#springMessage('events.time')：</label>
-                            <div class="col-sm-4">
-##								<div class="input-append date form_datetime">
-##                                    <input size="16" type="text" value="" readonly>
-##                                    <span class="add-on"><i class="icon-th"></i></span>
-##                                </div>
-								<div class="input-group form_datetime" >
-                                <input type="text" class="form-control" name="gmtStartStr" id="gmtStart" readonly placeholder="#springMessage('ph.events.start')" />
-								<span class="input-group-addon glyphicon glyphicon-calendar"></span>
-								</div>
-                            </div>
-							<div class="col-sm-4">
-								<div class="input-group form_datetime">
-                                <input type="text" class="form-control" name="gmtEndStr" id="gmtEnd" readonly placeholder="#springMessage('ph.events.end')" />
-								<span class="input-group-addon glyphicon glyphicon-calendar"></span>
-								</div>
-                            </div>
-                        </div>
-						<div class="form-group">
-                            <label for="moneyBudget" class="col-sm-4 control-label">#springMessage('events.money.budget')<small class="text-muted">(#springMessage('events.money.budget.explain'))</small>：</label>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" name="moneyBudget" placeholder="#springMessage('ph.events.money.budget')" />
-                            </div>
-                        </div>
-						<div class="form-group">
-                            <label for="location" class="col-sm-4 control-label">#springMessage('events.location')：</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="location" placeholder="#springMessage('ph.events.location')" />
-                            </div>
-                        </div>
-						
-						<div class="form-group">
-                            <div class="col-sm-offset-4 col-sm-8">
-                                <input type="checkbox" value="1" name="statusPublic" /> #springMessage("events.status.public")
-                            </div>
-                        </div>
-						
-						<div class="form-group" >
-							<label for="location" class="col-sm-4 control-label">#springMessage('events.join')：</label>
-                            <div class="col-sm-8 tip-attend" >
-##								<input type="text" id="event-attend" />  ## data-role="tagsinput"
-##								<select multiple data-role="tagsinput" id="event-attend" >
-##									##<option value="$!{sessionUser.account}">$!{sessionUser.uid}</option>
-##                                </select>
-								<span id="buddies"></span>
-								
-								<button type="button" class="btn btn-default" plugin="tooltip" data-toggle="modal" data-target="#modal-events-invite" title="#springMessage('tip.invite.tooltip')">
-									<span class="glyphicon glyphicon-plus"></span>
-								</button>
-                            </div>
-                        </div>
-						
-						<div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10" id="editor">
-								<textarea class="form-control" name="content" rows="4" placeholder="#springMessage('ph.events.content')"></textarea>
-                            </div>
-                        </div>
-						
-                        <div class="form-group">
-                            <div class="col-sm-offset-4 col-sm-8">
-                                <button type="submit" class="btn btn-primary" data-loading-text="#springMessage('tip.loading')">#springMessage('btn.submit')</button>
-                                <button class="btn btn-default">#springMessage('btn.cancel')</button>
-                            </div>
-                        </div>
-						
-                       <input type="hidden" id="picBanner" name="picBanner" value=""/>
-					   <input type="hidden" id="invitedBuddies" name="invitedBuddies" value=""/>
-					   <input type="hidden" id="invitedAccountId" name="invitedAccountId" value=""/>
-                    </form>
-					
-                </div>
-            </div>
-			
-			
-			
+		<div class="col-md-2" >
+			<nav class="affix" data-spy="affix" role="navigation" id="product_define_nav">
+				<ul class="nav nav-pills nav-stacked" >
+					<li>
+						<a href="#product">#springMessage("tip.product.define")</a>
+					</li>
+					<li >
+						<a href="#product_define_common">#springMessage("tip.product.define.common")</a>
+					</li>
+					<li >
+						<a href="#product_define_category">#springMessage("tip.product.define.category")</a>
+					</li>
+				</ul>
+				
+				<button id="product_submit_btn" type="submit" class="btn btn-primary" data-loading-text="#springMessage('tip.loading')">#springMessage('btn.submit')</button>
+			</nav>
+		
 		</div>
+		
+		<div class="col-md-8">
+			<form id="product_form" class="form-horizontal" action="#springUrl('/product/')" method="post" role="form">
+				<input type="hidden" name="id" value=""/>
+				<input type="text" name="details" id="details" value="" />
+			
+			<div class="panel panel-default" id="product">
+				<div class="panel-heading">
+					#springMessage("tip.product.define")
+				</div>
+				<div class="panel-body">
+					
+						<div class="form-group">
+							<label for="name" class="col-sm-2 control-label">#springMessage("lb.product.code")：</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" name="code" placeholder="#springMessage('ph.product.code')" required />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="name" class="col-sm-2 control-label">#springMessage("lb.product.name")：</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" name="name" placeholder="#springMessage('ph.product.name')" required />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="name" class="col-sm-2 control-label">#springMessage("lb.product.category")：</label>
+							<div class="col-sm-10">
+								<select id="categoryCode" name="categoryCode" class="form-control" required >
+									<option value="">#springMessage('ph.product.category')</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class=" col-sm-12" id="editor">
+								<textarea class="form-control" name="content" rows="4" placeholder="#springMessage('ph.product.remark')"></textarea>
+							</div>
+						</div>
+						
+                </div>
+			</div>
+			
+			<div class="panel panel-default" id="product_define_common">
+				<div class="panel-heading">
+					#springMessage("tip.product.define.common")
+				</div>
+				<div class="panel-body">
+					//公共属性
+				</div>
+			</div>
+			
+			<div class="panel panel-default" id="product_define_category">
+				<div class="panel-heading">
+					#springMessage("tip.product.define.category")
+				</div>
+				<div class="panel-body">
+				</div>
+			</div>
+			
+			</form>
+		</div>
+		
 	</div>
 </div>
 
+<script type="text/javascript">
+	require([	"jquery","template","product/prop", "product","messenger", "util/cache"],
+		function(jQuery,  template,  prop,           product,  messenger,   cache){
+			
+			//init base form
+			jQuery("#categoryCode").append(product.compileOption("category"));
+			
+			//setting common properties
+			jQuery("#product_define_common .panel-body").empty();
+			jQuery("#product_define_common .panel-body").append(product.initDefineForm("common"));
+			
+			//setting event of category change
+			jQuery("#categoryCode").change(function(){
+				
+				var _this=jQuery(this);
+				var v = _this.val();
+				
+				var html = "";
+				if(v==""){
+					html=cache.get("prop_define", function(){
+						return jQuery("#product_define_category .panel-body").html();
+					});
+					
+					jQuery("#product_define_category .panel-body").html(html);
+					return true;
+				}
+				
+				var cacheKey = "prop_define_"+v;
+				
+				html = cache.get(cacheKey, function(){
+					return product.initDefineForm(v);
+				});
+				
+				jQuery("#product_define_category .panel-body").html(html);
+				
+			});
+			
+			jQuery("#product_submit_btn").click(function(){
+				jQuery("#product_form").submit();
+			});
+			
+			jQuery("#product_form").submit(function(){
+				//表单验证
+				//收集数据，提交表单（AJAX）
+				var df = new Array();
+				df.push("common");
+				if(jQuery("#categoryCode").val()!=""){
+					df.push(jQuery("#categoryCode").val());
+				}
+				var productDefine = product.buildDefine(df);
+				jQuery("#details").val(productDefine);
+				
+				product.save("",jQuery(this));
+				
+				return false;
+			});
+		}
+	);
+</script>
 
+#parse("/product/tpl/defineForm.vm")
 
 
 //产品基本信息

@@ -1,7 +1,20 @@
 <div class="container">
 	<div class="row">
-		<div class="col-md-12" id="product_search_form">
-		</div>
+		<nav class=" navbar navbar-default" >
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#product_search_form" >
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">#springMessage("tip.product.search.brand")</a>
+				</div>
+				<div class="collapse navbar-collapse" id="product_search_form">
+				</div>
+			</div>
+		</nav>
 	</div>
 </div>
 
@@ -23,7 +36,7 @@
 </script>
 
 <script id="tpl_product_search_form" type="text/html">
-<form class="form-inline" role="form" action="#springUrl('/product/index.do')" id="search_form">
+<form class="navbar-form navbar-left" role="search" action="#springUrl('/product/index.do')" id="search_form">
 				
 	<div class="form-group">
 		<label class="sr-only" for="exampleInputEmail2">#springMessage('ph.product.search.name')</label>

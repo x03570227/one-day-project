@@ -1,8 +1,8 @@
 /**
  * Product 模块相关的操作
  * */
-define(		["jquery","template","product/prop","util/table","messenger"],
-	function(jQuery,  template,  prop,          tb,          messenger){
+define(		["jquery","template","product/prop","util/table","messenger","product/define"],
+	function(jQuery,  template,  prop,          tb,          messenger,  df){
 	
 		var product={};
 	
@@ -94,6 +94,55 @@ define(		["jquery","template","product/prop","util/table","messenger"],
 			pager["limit"]=limit;
 			this.config.pager = pager;
 		};
+		
+		product["compileOption"] = function (type, selected){
+			var source ="{{each "+type+" as c idx}}"+ 
+				"<option value='{{c.code}}' {{if c.code == '"+selected+"'}} selected {{/if}}>{{c.name}}</option>"+
+				"{{/each}}";
+			var render = template.compile(source);
+			return render(prop);
+		};
+		
+		product["initDefineForm"]=function(type, dv){
+			var html = "";
+			
+			jQuery.each(df[type], function (idx, obj){
+				
+				html += template(obj.formItem.tpl, obj);
+			});
+			
+			return html;
+		};
+		
+		product["buildDefine"] = function(types){
+			//build define
+			
+			var result = {};
+			jQuery.each(types, function(idx, category){
+				
+				jQuery.each(df[category], function(i, o){
+					
+					if(typeof o.formItem.getObj(o.id) !="undefined"){
+						result[o.id] = o.formItem.getObj(o.id);
+//						console.log("OBJ:"+JSON.stringify(o.formItem.getObj(o.id)));
+					}
+				});
+				
+			});
+			
+			debugger;
+			
+			console.log(JSON.stringify(result));
+			return JSON.stringify(result);
+		}
+		
+		product["save"] = function(url, form){
+			//post form
+			
+//			jQuery.post(url, form.serialize(), function(result`){
+//				
+//			}, "json");
+		}
 		
 		return product;
 	}

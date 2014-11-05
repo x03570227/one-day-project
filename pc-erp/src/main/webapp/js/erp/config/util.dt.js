@@ -1,7 +1,7 @@
 define({
-	integer:0,
-	decimal:1,
-	string:2,
-	object:3,
-	array:4
+	integer:"integer",
+	decimal:"decimal",
+	string:"string",
+	object:"object",
+	array:"array"
 });
