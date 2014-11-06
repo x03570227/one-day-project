@@ -9,9 +9,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import net.caiban.pc.erp.domain.Pager;
+import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.product.Product;
 import net.caiban.pc.erp.domain.product.ProductCond;
+import net.caiban.pc.erp.domain.product.ProductDefine;
 import net.caiban.pc.erp.domain.product.ProductFull;
+import net.caiban.pc.erp.domain.product.ProductPrice;
 import net.caiban.pc.erp.service.product.ProductService;
 import net.caiban.utils.AssertHelper;
 
@@ -67,7 +70,18 @@ public class ProductController extends BaseController {
 	@RequestMapping
 	@ResponseBody
 	public ProductFull doCreate(HttpServletRequest request,
-			ProductFull productFull) {
+			Product product, ProductDefine define) {
+		ProductFull productFull = new ProductFull();
+		productFull.setProduct(product);
+		productFull.setDefine(define);
+		
+		SessionUser user = getSessionUser(request);
+		product.setUidCreated(user.getUid());
+		product.setUidModified(user.getUid());
+		product.setCid(user.getCid());
+		
+		product.setStatusLife(Product.LIFE_SALING);
+		
 		return productService.saveFull(productFull);
 	}
 	

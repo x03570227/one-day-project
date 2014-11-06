@@ -122,26 +122,26 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 				
 				jQuery.each(df[category], function(i, o){
 					
-					if(typeof o.formItem.getObj(o.id) !="undefined"){
-						result[o.id] = o.formItem.getObj(o.id);
-//						console.log("OBJ:"+JSON.stringify(o.formItem.getObj(o.id)));
+					var r = o.formItem.getObj(o.id);
+					if(typeof r !="undefined"){
+						result[o.id] = r;
+//						console.log("OBJ:"+JSON.stringify(result[o.id]));
 					}
 				});
 				
 			});
-			
-			debugger;
 			
 			console.log(JSON.stringify(result));
 			return JSON.stringify(result);
 		}
 		
 		product["save"] = function(url, form){
-			//post form
 			
-//			jQuery.post(url, form.serialize(), function(result`){
-//				
-//			}, "json");
+			jQuery.post(url, form.serialize(), function(resp){
+				//提示消息
+				console.log("保存成功："+JSON.stringify(resp));
+			}, "json");
+			
 		}
 		
 		return product;

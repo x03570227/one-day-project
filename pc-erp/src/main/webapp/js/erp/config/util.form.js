@@ -11,23 +11,28 @@ function(jQuery){
 			return jQuery("#"+id).val();
 		},
 		getObj:function(id){
-			var obj={};
-			obj["dk"]=id;
-			obj["dv"]=this.get(id);
-			return obj;
+//			var obj={};
+//			obj["dk"]=this.get(id);
+//			obj["dv"]=this.get(id);
+			return this.get(id);
 		}
 	};
 	
 	form["radio"]={
 		tpl:"tpl_product_form_radio",
 		init:function(id, initValue){
-			//初始化表单项及具体内容
+			//TODO 待验证 初始化表单项及具体内容
+			jQuery("input[name="+id+"][value='"+initValue+"']").prop("checked",true);
 		},
 		get:function(id){
 			//获取表单项的值
+			return jQuery("input[name="+id+"]").val();
 		},
 		getObj:function(id){
-			
+			var obj={};
+			obj["dk"]=this.get(id);
+			obj["dv"]=jQuery("input[name="+id+"]").attr("dv");
+			return obj;
 		}
 	};
 	
@@ -38,9 +43,24 @@ function(jQuery){
 		},
 		get:function(id){
 			//获取表单项的值
+			var result = new Array();
+			
+			jQuery("input[name='"+id+"']:checked").each(function(idx, obj){
+				result.push(jQuery(this).val());
+			});
+			
+			return result.join(",");
 		},
 		getObj:function(id){
+			var result = new Array();
 			
+			jQuery("input[name='"+id+"']:checked").each(function(idx, obj){
+				var o={};
+				o["dk"]=jQuery(this).val();
+				o["dv"]=jQuery(this).attr("dv");
+				result.push(o);
+			});
+			return result;
 		}
 	};
 	
@@ -48,12 +68,17 @@ function(jQuery){
 		tpl:"tpl_product_form_text_area",
 		init:function(id, initValue){
 			//初始化表单项及具体内容
+			jQuery("#"+id).val(initValue);
 		},
 		get:function(id){
 			//获取表单项的值
+			return jQuery("#"+id).val();
 		},
 		getObj:function(id){
-			
+//			var obj={};
+//			obj["dk"]=id;
+//			obj["dv"]=this.get(id);
+			return this.get(id);
 		}
 	};
 	
@@ -61,12 +86,17 @@ function(jQuery){
 		tpl:"tpl_product_form_select",
 		init:function(id, initValue){
 			//初始化表单项及具体内容
+			jQuery("#"+id).val(initValue);
 		},
 		get:function(id){
 			//获取表单项的值
+			return jQuery("#"+id).val();
 		},
 		getObj:function(id){
-			
+			var obj={};
+			obj["dk"]=this.get(id);
+			obj["dv"]=jQuery("#"+id).find("option:selected").text();
+			return obj;
 		}
 	};
 	
