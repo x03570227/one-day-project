@@ -22,9 +22,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<sql id="default_column">
-		`product`.`id`,
-		`product`.`name`,
-		`product`.`details`
+		`product_define`.`id`,
+		`product_define`.`product_id` as productId,
+		`product_define`.`details`
 	</sql>
 	
 	<delete id="delete">
@@ -54,6 +54,13 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			details=#{details}
 			gmt_modified=now()
 		where id=#{id}
+	</update>
+	
+	<update id="updateByPid" parameterType="net.caiban.pc.erp.domain.product.ProductDefine">
+		update `product_define` set
+			details=#{details},
+			gmt_modified=now()
+		where product_id=#{productId}
 	</update>
 </mapper>
 

@@ -24,7 +24,7 @@ define([      "template","jquery"],
 			pageConfig["currentPage"]=currentPage;
 			
 			next = pageConfig.start+pageConfig.limit;
-			next = next > pageConfig.totals ? pageConfig.totals:next;
+			next = next > pageConfig.totals ? (totalPage-1)*pageConfig.limit:next;
 //			console.log("next:"+next);
 			pageConfig["next"]=next;
 			
@@ -52,7 +52,7 @@ define([      "template","jquery"],
 					start:0
 				});
 			}else{
-				for(var i=begin; i<end; i++){
+				for(var i=begin; i<=end; i++){
 					nav.push({
 						page:i,
 						start:(i-1)*pageConfig.limit
@@ -71,7 +71,7 @@ define([      "template","jquery"],
 		
 		table["doPage"]=function(renderTo, e){
 			jQuery("#"+renderTo+" .pagination li a").click(function(){
-				e();
+				e(jQuery(this));
 			});
 		}
 		

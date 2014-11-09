@@ -16,6 +16,7 @@
 				},
 				renderTo:"product_list",
 				url:"#springUrl('/product/list.do')",
+				"url-d":"#springUrl('/product/doDelete.do')",
 				pager:{
 					start:0,
 					limit:20
@@ -24,15 +25,9 @@
 			
 			product.search();
 			
-			/**
-			var html=template("tpl_product_list", {});
-			
-			jQuery("#product_list").html(html);
-			
-			var pager=template("tpl_product_list_pager",{})
-			
-			jQuery("#product_list").append(pager);
-			*/
+			jQuery("#product_list .act-delete").bind("click", function(o){
+				alert(jQuery(this).attr("model-product-id"));
+			});
 		}
 	);
 </script>
@@ -47,6 +42,7 @@
 			<th class="text-center" width="80">#springMessage('tb.product.status.life')</th>
 			<th class="text-center">#springMessage('tb.product.name')</th>
 			<th class="text-center">#springMessage('tb.product.remark')</th>
+            <th class="text-center" width="10"></th>
 		</tr>
 		</thead>
 		<tbody>
@@ -56,8 +52,13 @@
 			<td >{{product.code}}</td>
 			<td >{{product.categoryName}}</td>
 			<td >{{product.statusLife}}</td>
-			<td >{{product.name}}</td>
+			<td ><a href="#springUrl('/product/edit.do?id='){{product.id}}" target="_blank">{{product.name}}</a></td>
 			<td >{{product.remark}}</td>
+			<td >
+			<button type="button" class="btn btn-danger btn-xs act-delete" model-product-id="{{product.id}}">
+				<span class="glyphicon glyphicon-remove"></span>
+			</button>
+			</td>
 		</tr>
 		{{/each}}
 		</tbody>

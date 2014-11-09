@@ -54,12 +54,19 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			jQuery("#"+product.config.renderTo).append(pagerBar);
 			
 			//绑定分页导航事件
-			tb.doPage(product.config.renderTo, function(){
-				var start = jQuery(this).attr("page-start")||0;
+			tb.doPage(product.config.renderTo, function(item){
+				var start = item.attr("page-start");
+				start = start||0;
 				product.setStart(start);
 				product.search(product.searchCond);
 			});
 			
+			jQuery("#"+product.config.renderTo+" .act-delete").click(function(){
+				var pid= jQuery(this).attr("model-product-id");
+				
+				product.remove(pid, jQuery(this));
+				
+			});
 		};
 		
 		product["preBuildHtml"] = function(p){
@@ -68,10 +75,10 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			}
 			
 			jQuery.each(p.records, function (idx, obj){
-				obj.categoryName=prop.getName("category", obj.categoryCode, "红包");
+				obj.categoryName=prop.getName("category", obj.categoryCode, "Error Category");
 			});
 			
-			console.log(p.records);
+//			console.log(p.totals);
 			
 			return p.records;
 		}
@@ -103,7 +110,7 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			return render(prop);
 		};
 		
-		product["initDefineForm"]=function(type, dv){
+		product["initDefineForm"]=function(type){
 			var html = "";
 			
 			jQuery.each(df[type], function (idx, obj){
@@ -133,7 +140,7 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			
 			console.log(JSON.stringify(result));
 			return JSON.stringify(result);
-		}
+		};
 		
 		product["save"] = function(url, form){
 			
@@ -142,8 +149,86 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 				console.log("保存成功："+JSON.stringify(resp));
 			}, "json");
 			
-		}
+		};
 		
+		product["fillForm"]=function(url, pid, formId, defineContainer){
+			//TODO 
+			//获取产品信息
+			//初始化基础信息（product）
+			//初始化 common and category define
+			//init price list
+			
+//			var msg = Messenger().post({
+//				  message: 'There was an explosion while processing your request.',
+//				  type: 'info',
+//				  showCloseButton: true
+//			});
+			
+			var data = {id:pid};
+			jQuery.post(url, data, function(resp){
+				
+				var prod = resp.product;
+				var define = resp.define;
+				
+				defineContainer.html(product.initDefineForm(prod.categoryCode));
+				
+				product.fillBaseForm(prod, formId);
+				product.fillDefine(prod.categoryCode, define);
+				
+			}, "json");
+		};
+		
+		product["fillBaseForm"]=function(p, formId){
+			var item = null;
+			for(var name in p){
+				jQuery("#"+formId+" input[name="+name+"]").val(p[name]);
+			}
+			jQuery("#"+formId+" select[name=categoryCode]").val(p["categoryCode"]);
+			jQuery("#"+formId+" textarea[name=remark]").val(p["remark"]);
+		};
+		
+		product["fillDefine"] = function(categoryCode, define){
+			var details = define.details||"{}";
+			details = JSON.parse(details);
+			categoryCode = categoryCode||"";
+			
+			var types = new Array();
+			types.push("common");
+			if(categoryCode !=""){
+				types.push(categoryCode);
+			}
+			
+			jQuery.each(types, function(idx, category){
+				
+				jQuery.each(df[category], function(i, o){
+					o.formItem.setObj(o.id, details[o.id]);
+				});
+				
+			});
+			
+		};
+		
+		product["remove"] = function(pid, btn){
+			
+			if(!confirm("are you sure?")){
+				return false;
+			}
+			
+			var data = {};
+			data["id"]=pid;
+			
+			jQuery.post(product.config["url-d"], data, function(resp){
+				if(resp.result){
+					btn.parent().parent().hide();
+				}else{
+					Message().post({
+						msg:"Error: information not removed!",
+						type: 'error'
+					});
+				}
+			}, "json");
+			
+		}
 		return product;
 	}
 );

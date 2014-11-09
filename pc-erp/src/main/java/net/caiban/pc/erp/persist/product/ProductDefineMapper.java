@@ -23,4 +23,6 @@ public interface ProductDefineMapper {
 	
 	public Integer update(ProductDefine define);
 	
+	public Integer updateByPid(ProductDefine define);
+	
 }

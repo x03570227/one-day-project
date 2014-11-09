@@ -14,12 +14,10 @@ import net.caiban.pc.erp.domain.product.Product;
 import net.caiban.pc.erp.domain.product.ProductCond;
 import net.caiban.pc.erp.domain.product.ProductDefine;
 import net.caiban.pc.erp.domain.product.ProductFull;
-import net.caiban.pc.erp.domain.product.ProductPrice;
 import net.caiban.pc.erp.service.product.ProductService;
 import net.caiban.utils.AssertHelper;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,47 +55,56 @@ public class ProductController extends BaseController {
 		
 		pager = productService.pager(pager, cond);
 		
+//		pager.setTotals(12);
 		return pager;
 	}
 
 	@RequestMapping
-	public ModelAndView create(HttpServletRequest request,
-			Map<String, Object> out) {
-
+	public ModelAndView edit(HttpServletRequest request,
+			Map<String, Object> out, Integer id) {
+		
+		out.put("id", id);
+		
 		return null;
 	}
 
 	@RequestMapping
 	@ResponseBody
-	public ProductFull doCreate(HttpServletRequest request,
+	public ProductFull doUpdate(HttpServletRequest request,
 			Product product, ProductDefine define) {
-		ProductFull productFull = new ProductFull();
-		productFull.setProduct(product);
-		productFull.setDefine(define);
 		
 		SessionUser user = getSessionUser(request);
-		product.setUidCreated(user.getUid());
-		product.setUidModified(user.getUid());
-		product.setCid(user.getCid());
+		ProductFull productFull = productService.initFull(user, product, define);
 		
-		product.setStatusLife(Product.LIFE_SALING);
+		if(product.getId()!=null && product.getId().intValue()>0){
+			return productService.updateFull(productFull);
+		}
 		
 		return productService.saveFull(productFull);
 	}
 	
 	@RequestMapping
 	@ResponseBody
-	public Map<String, Object> doDelete(HttpServletRequest request, Integer id){
-		Integer impact = productService.remove(id);
-		return ajaxResult(AssertHelper.positiveInt(impact), null);
+	public ProductFull queryFull(HttpServletRequest request, Integer id){
+		SessionUser user = getSessionUser(request);
+		return productService.queryOneFull(id, true, user);
 	}
 	
 	@RequestMapping
-	public ModelAndView view(HttpServletRequest request, ModelMap out, 
-			Integer id){
-		//TODO 验证可否访问
+	@ResponseBody
+	public Map<String, Object> doDelete(HttpServletRequest request, Integer id){
+		Integer impact = productService.remove(id);
 		
-		return null;
+		boolean result = AssertHelper.positiveInt(impact);
+		return ajaxResult(result, null);
 	}
 	
+//	@RequestMapping
+//	public ModelAndView view(HttpServletRequest request, ModelMap out, 
+//			Integer id){
+//		//TODO 验证可否访问
+//		
+//		return null;
+//	}
+//	
 }

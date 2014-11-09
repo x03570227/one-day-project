@@ -10,6 +10,10 @@ function(jQuery){
 		get:function(id){
 			return jQuery("#"+id).val();
 		},
+		setObj:function(id, o){
+			o=o||"";
+			jQuery("#"+id).val(o);
+		},
 		getObj:function(id){
 //			var obj={};
 //			obj["dk"]=this.get(id);
@@ -28,6 +32,12 @@ function(jQuery){
 			//获取表单项的值
 			return jQuery("input[name="+id+"]").val();
 		},
+		setObj:function(id, o){
+			if(typeof o =="undefined"){
+				return ;
+			}
+			jQuery("input[name="+id+"][value='"+o.dk+"']").prop("checked",true);
+		},
 		getObj:function(id){
 			var obj={};
 			obj["dk"]=this.get(id);
@@ -40,6 +50,11 @@ function(jQuery){
 		tpl:"tpl_product_form_checkbox",
 		init:function(id, initValue){
 			//初始化表单项及具体内容
+			jQuery("input[name='"+id+"']").each(function(idx, obj){
+				if(jQuery(this).val() == initValue){
+					jQuery(this).attr("checked",true);
+				}
+			});
 		},
 		get:function(id){
 			//获取表单项的值
@@ -50,6 +65,19 @@ function(jQuery){
 			});
 			
 			return result.join(",");
+		},
+		setObj:function(id, o){
+			if(typeof o =="undefined"){
+				return ;
+			}
+			
+			jQuery(o).each(function(idx, chkItem){
+				jQuery("input[name='"+id+"']").each(function(i, obj){
+					if(jQuery(this).val() == chkItem.dk){
+						jQuery(this).attr("checked",true);
+					}
+				});
+			});
 		},
 		getObj:function(id){
 			var result = new Array();
@@ -74,10 +102,13 @@ function(jQuery){
 			//获取表单项的值
 			return jQuery("#"+id).val();
 		},
+		setObj:function(id, o){
+			if(typeof o =="undefined"){
+				return ;
+			}
+			jQuery("#"+id).val(o);
+		},
 		getObj:function(id){
-//			var obj={};
-//			obj["dk"]=id;
-//			obj["dv"]=this.get(id);
 			return this.get(id);
 		}
 	};
@@ -91,6 +122,12 @@ function(jQuery){
 		get:function(id){
 			//获取表单项的值
 			return jQuery("#"+id).val();
+		},
+		setObj:function(id, o){
+			if(typeof o =="undefined"){
+				return ;
+			}
+			jQuery("#"+id).val(o.dk);
 		},
 		getObj:function(id){
 			var obj={};

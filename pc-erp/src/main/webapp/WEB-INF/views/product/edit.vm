@@ -1,4 +1,4 @@
-#globalHeader("product", "create")
+#globalHeader("product", "edit")
 <div class="container" >
 	<div class="row">
 		<div class="col-md-2" >
@@ -23,7 +23,7 @@
 		<div class="col-md-8">
 			<form id="product_form" class="form-horizontal" action="#springUrl('/product/')" method="post" role="form">
 				<input type="hidden" name="id" value=""/>
-				<input type="text" name="details" id="details" value="" />
+				<input type="hidden" name="details" id="details" value="" />
 			
 			<div class="panel panel-default" id="product">
 				<div class="panel-heading">
@@ -137,10 +137,25 @@
 				var productDefine = product.buildDefine(df);
 				jQuery("#details").val(productDefine);
 				
-				product.save("#springUrl('/product/doCreate.do')",jQuery(this));
+				product.save("#springUrl('/product/doUpdate.do')",jQuery(this));
 				
 				return false;
 			});
+			
+			//初始化各种信息
+			
+			#if(${id} && ${id} >0 )
+			
+			//Messenger().post("#springMessage('tip.loading')");
+			
+			product.fillForm(
+				"#springUrl('/product/queryFull.do')", 
+				${id}, 
+				"product_form", 
+				jQuery("#product_define_category .panel-body")
+			);
+			
+			#end
 		}
 	);
 </script>

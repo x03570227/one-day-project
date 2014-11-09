@@ -23,8 +23,8 @@
 				<li #if(${subMenuIdx} == 'index') class="active" #end>
 						<a href="#springUrl('/product/index.do')">#springMessage("m.product")</a>
 				</li>
-				<li #if(${subMenuIdx} == 'create') class="active" #end>
-						<a href="#springUrl('/product/create.do')">#springMessage("m.product.create")</a>
+				<li #if(${subMenuIdx} == 'edit') class="active" #end>
+						<a href="#springUrl('/product/edit.do')">#springMessage("m.product.create")</a>
 				</li>
               </ul>
             </li>

@@ -12,6 +12,7 @@ import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.product.Product;
 import net.caiban.pc.erp.domain.product.ProductCond;
+import net.caiban.pc.erp.domain.product.ProductDefine;
 import net.caiban.pc.erp.domain.product.ProductFull;
 import net.caiban.pc.erp.domain.product.ProductPrice;
 import net.caiban.pc.erp.persist.product.ProductDefineMapper;
@@ -89,6 +90,9 @@ public class ProductServiceImpl implements ProductService {
 		
 		//初始化
 		Product product = productFull.getProduct();
+		
+		product.setStatusLife(Product.LIFE_SALING);
+		
 		Integer impact = productMapper.insert(product);
 		if(!AssertHelper.positiveInt(impact) || !AssertHelper.positiveInt(product.getId())){
 			return null;
@@ -138,12 +142,48 @@ public class ProductServiceImpl implements ProductService {
 		return full;
 	}
 
-	private boolean available(Integer id, SessionUser user){
+	public boolean available(Integer id, SessionUser user){
 		if(id==null||id.intValue()<=0){
 			return false;
 		}
 		
 		//FIXME v1 验证用户对产品信息的访问权限
 		return true;
+	}
+
+	@Override
+	public ProductFull updateFull(ProductFull productFull) {
+		
+		if(productFull==null || productFull.getProduct()==null ){
+			return null;
+		}
+		
+		//初始化
+		Product product = productFull.getProduct();
+		
+		Integer impact = productMapper.update(productFull.getProduct());
+		if(!AssertHelper.positiveInt(impact) || !AssertHelper.positiveInt(product.getId())){
+			return null;
+		}
+		
+		productFull.getDefine().setProductId(product.getId());
+		productDefineMapper.updateByPid(productFull.getDefine());
+		
+		return productFull;
+	}
+
+	@Override
+	public ProductFull initFull(SessionUser user, Product product,
+			ProductDefine define) {
+		
+		ProductFull productFull = new ProductFull();
+		productFull.setProduct(product);
+		productFull.setDefine(define);
+		
+		product.setUidCreated(user.getUid());
+		product.setUidModified(user.getUid());
+		product.setCid(user.getCid());
+		
+		return productFull;
 	}
 }

@@ -7,6 +7,7 @@ import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.product.Product;
 import net.caiban.pc.erp.domain.product.ProductCond;
+import net.caiban.pc.erp.domain.product.ProductDefine;
 import net.caiban.pc.erp.domain.product.ProductFull;
 
 /**
@@ -26,4 +27,8 @@ public interface ProductService {
 	public Product queryOne(Integer id, SessionUser user);
 	
 	public ProductFull queryOneFull(Integer id, Boolean readDefine, SessionUser user);
+	
+	public ProductFull updateFull(ProductFull productFull);
+	
+	public ProductFull initFull(SessionUser user, Product product, ProductDefine define);
 }
