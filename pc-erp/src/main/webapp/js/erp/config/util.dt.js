@@ -3,5 +3,7 @@ define({
 	decimal:"decimal",
 	string:"string",
 	object:"object",
-	array:"array"
+	array:"array",
+	image:"image",
+	url:"url"
 });
