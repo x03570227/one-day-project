@@ -3,7 +3,7 @@
 <div class="form-group">
 	<label class="col-sm-2 control-label">{{label}}：</label>
 	<div class="col-sm-10">
-		<input type="text" class="form-control" id="{{id}}" name="{{id}}" placeholder="{{placeholder}}" />
+		<input type="text" class="form-control" id="{{id}}" name="{{id}}" placeholder="{{placeholder}}" value="{{defaultValue}}" />
 	</div>
 </div>
 </script>
@@ -15,7 +15,7 @@
 		{{each dataList as item idx}}
 		<div class="radio">
 			<label >
-				<input type="radio" name="{{id}}" value="{{item.key}}" dv="{{item.value}}" />
+				<input type="radio" name="{{id}}" value="{{item.key}}" dv="{{item.value}}" {{if defaultValue == item.key}} checked="checked" {{/if}} />
 				{{item.value}}
 			</label>
 		</div>
@@ -31,7 +31,7 @@
 		{{each dataList as item idx}}
 		<div class="checkbox">
 			<label >
-				<input type="checkbox" name="{{id}}" value="{{item.key}}" dv="{{item.value}}" />
+				<input type="checkbox" name="{{id}}" value="{{item.key}}" dv="{{item.value}}" {{each defaultValue as dv }} {{if dv == item.key}} checked="checked" {{/if}} {{/each}} />
 				{{item.value}}
 			</label>
 		</div>
@@ -44,7 +44,7 @@
 <div class="form-group">
 	<label  class="col-sm-2 control-label">{{label}}：</label>
 	<div class="col-sm-10">
-		<textarea class="form-control" id="{{id}}" name="{{id}}" rows="4" placeholder="{{placeholder}}"></textarea>
+		<textarea class="form-control" id="{{id}}" name="{{id}}" rows="4" placeholder="{{placeholder}}">{{defaultValue}}</textarea>
 	</div>
 </div>
 </script>
@@ -56,9 +56,25 @@
 		<select id="{{id}}" name="{{id}}" class="form-control" required >
 			<option value="">{{placeholder}}</option>
 			{{each dataList as item idx}}
-				<option value="{{item.key}}">{{item.value}}</option>
+				<option value="{{item.key}}" {{if defaultValue == item.key}} selected {{/if}}>{{item.value}}</option>
 			{{/each}}
 		</select>
+	</div>
+</div>
+</script>
+
+<script id="tpl_product_form_image" type="text/html">
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{label}}：</label>
+	<div class="col-sm-10">
+		<div class="form-group">
+			<div class="input-group">
+				<input type="text" class="form-control" id="{{id}}" name="{{id}}" placeholder="{{placeholder}}" />
+				<div class="input-group-addon">
+					<span class="glyphicon glyphicon-picture"></span>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 </script>

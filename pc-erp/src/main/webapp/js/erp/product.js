@@ -114,7 +114,6 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			var html = "";
 			
 			jQuery.each(df[type], function (idx, obj){
-				
 				html += template(obj.formItem.tpl, obj);
 			});
 			
@@ -152,11 +151,6 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 		};
 		
 		product["fillForm"]=function(url, pid, formId, defineContainer){
-			//TODO 
-			//获取产品信息
-			//初始化基础信息（product）
-			//初始化 common and category define
-			//init price list
 			
 //			var msg = Messenger().post({
 //				  message: 'There was an explosion while processing your request.',

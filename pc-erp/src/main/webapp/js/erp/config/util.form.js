@@ -150,5 +150,24 @@ function(jQuery){
 		}
 	};
 	
+	form["image"]={
+		tpl:"tpl_product_form_image",
+		init:function(id, initValue){
+			//初始化表单项及具体内容
+			jQuery("#"+id).val(initValue);
+		},
+		get:function(id){
+			//获取表单项的值
+			return jQuery("#"+id).val();
+		},
+		setObj:function(id, o){
+			o=o||"";
+			jQuery("#"+id).val(o);
+		},
+		getObj:function(id){
+			return this.get(id);
+		}
+	};
+	
 	return form;
 });

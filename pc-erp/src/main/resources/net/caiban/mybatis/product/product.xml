@@ -49,30 +49,30 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	
 	<sql id="where_cond">
 		<where>
-			<if test="cond.code != null">
+			<if test="cond.code != null and cond.code !='' ">
 				and `product`.code=#{cond.code}
 			</if>
 			<if test="cond.cid != null">
-				and `product`.code=#{cond.cid}
+				and `product`.cid=#{cond.cid}
 			</if>
-			<if test="cond.statusLife != null">
+			<if test="cond.statusLife != null and cond.statusLife != ''">
 				and `product`.status_life=#{cond.statusLife}
 			</if>
 			
-			<if test="cond.categoryCode != null">
+			<if test="cond.categoryCode != null and cond.categoryCode != ''">
 				and `product`.category_code=#{cond.categoryCode}
 			</if>
-			<if test="cond.categoryCodeMatchBefore != null">
+			<if test="cond.categoryCodeMatchBefore != null and cond.categoryCodeMatchBefore != ''">
 				and `product`.category_code like concat(#{cond.categoryCodeMatchBefore}, '%')
 			</if>
 			
-			<if test="cond.name != null">
+			<if test="cond.name != null and cond.name != ''">
 				and `product`.name=#{cond.name}
 			</if>
-			<if test="cond.nameMatchBefore != null">
+			<if test="cond.nameMatchBefore != null and cond.nameMatchBefore != '' ">
 				and `product`.name like concat(#{cond.nameMatchBefore},'%')
 			</if>
-			<if test="cond.nameFuzzy != null">
+			<if test="cond.nameFuzzy != null and cond.nameFuzzy != '' ">
 				and `product`.name like concat('%', #{cond.nameFuzzy},'%')
 			</if>
 		</where>

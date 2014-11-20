@@ -3,15 +3,24 @@ define([     "util/form","util/dt"],
 	
 	var pdefine={};
 	
-	pdefine["common"]=[
-	                   {
+	pdefine["common"]=[{
+		"id":"comm_price_image",
+		"label":"主图",
+		"placeholder":"主图URL（完整地址）",
+		"dataType":dt.string,
+		"searchAble":false,
+		"formItem":form.image,
+		"multiValue":false,
+		"defaultValue":""
+	},{
 		"id":"comm_price_sale",
 		"label":"销售价格",
 		"placeholder":"销售价格（阿里巴巴）",
 		"dataType":dt.decimal,
 		"searchAble":false,
 		"formItem":form.text,
-		"multiValue":false
+		"multiValue":false,
+		"defaultValue":"0"
 	},{
 		"id":"comm_stock",
 		"label":"库存数量",
@@ -19,7 +28,8 @@ define([     "util/form","util/dt"],
 		"dataType":dt.integer,
 		"searchAble":false,
 		"formItem":form.text,
-		"multiValue":false
+		"multiValue":false,
+		"defaultValue":"0"
 	},{
 		"id":"comm_size_length",
 		"label":"长度",
@@ -27,7 +37,8 @@ define([     "util/form","util/dt"],
 		"dataType":dt.string,
 		"searchAble":false,
 		"formItem":form.text,
-		"multiValue":false
+		"multiValue":false,
+		"defaultValue":"0"
 	},{
 		"id":"comm_size_width",
 		"label":"宽度",
@@ -35,7 +46,8 @@ define([     "util/form","util/dt"],
 		"dataType":dt.string,
 		"searchAble":false,
 		"formItem":form.text,
-		"multiValue":false
+		"multiValue":false,
+		"defaultValue":"0"
 	},{
 		"id":"comm_size_unit",
 		"label":"单位",
@@ -43,7 +55,8 @@ define([     "util/form","util/dt"],
 		"dataType":dt.string,
 		"searchAble":false,
 		"formItem":form.text,
-		"multiValue":false
+		"multiValue":false,
+		"defaultValue":"CM"
 	},{
 		"id":"comm_size_k",
 		"label":"纸张大小（K）",
@@ -51,7 +64,8 @@ define([     "util/form","util/dt"],
 		"dataType":dt.integer,
 		"searchAble":false,
 		"formItem":form.text,
-		"multiValue":false
+		"multiValue":false,
+		"defaultValue":"8"
 	},{
 		"id":"comm_tuan",
 		"label":"图案",
@@ -80,22 +94,7 @@ define([     "util/form","util/dt"],
 	
 	];
 	
-	pdefine["HB"]=[{
-		"id":"c5",
-		"label":"长文本",
-		"placeholder":"请填写信息",
-		"dataType":dt.string,
-		"searchAble":false,
-		"formItem":form.select,
-		"dataList":[{
-			"key":0,
-			"value":"普通纸"
-		},{
-			"key":1,
-			"value":"普通纸22"
-		}],
-		"multiValue":false
-	}];
+	pdefine["HB"]=[];
 	
 	pdefine["XT"]=[];
 	
@@ -109,7 +108,8 @@ define([     "util/form","util/dt"],
 		"dataList":[{
 			"key":0,
 			"value":"卡纸"
-		}]
+		}],
+		"defaultValue":0
 	},{
 		"id":"qt_paper_color",
 		"label":"纸张颜色",
@@ -121,7 +121,8 @@ define([     "util/form","util/dt"],
 		"dataList":[{
 			"key":0,
 			"value":"荧光红"
-		}]
+		}],
+		"defaultValue":0
 	},{
 		"id":"qt_paper_weight",
 		"label":"纸张重量",
@@ -133,7 +134,8 @@ define([     "util/form","util/dt"],
 		"dataList":[{
 			"key":250,
 			"value":"250克"
-		}]
+		}],
+		"defaultValue":250
 	},{
 		"id":"qt_paper_type",
 		"label":"纸张类型",
@@ -148,7 +150,8 @@ define([     "util/form","util/dt"],
 		},{
 			"key":1,
 			"value":"厚板"
-		}]
+		}],
+		"defaultValue":0
 	},{
 		"id":"qt_paper_technics",
 		"label":"特殊工艺",
@@ -171,7 +174,8 @@ define([     "util/form","util/dt"],
 			"key":"N",
 			"value":"无"
 		}],
-		"multiValue":false
+		"multiValue":false,
+		"defaultValue":"Y"
 	},{
 		"id":"qt_inner_paper_name",
 		"label":"内页纸张名称",
@@ -183,7 +187,8 @@ define([     "util/form","util/dt"],
 			"key":0,
 			"value":"道林纸"
 		}],
-		"multiValue":false
+		"multiValue":false,
+		"defaultValue":0
 	},{
 		"id":"qt_inner_paper_color",
 		"label":"内页纸张颜色",
@@ -198,7 +203,8 @@ define([     "util/form","util/dt"],
 		},{
 			"key":1,
 			"value":"荧光红"
-		}]
+		}],
+		"defaultValue":0
 	},{
 		"id":"qt_inner_paper_weight",
 		"label":"内页纸张重量",
@@ -213,7 +219,8 @@ define([     "util/form","util/dt"],
 		},{
 			"key":120,
 			"value":"120克"
-		}]
+		}],
+		"defaultValue":90
 	},{
 		"id":"qt_inner_paper_technics",
 		"label":"内页工艺",
@@ -236,7 +243,8 @@ define([     "util/form","util/dt"],
 			"key":"N",
 			"value":"无"
 		}],
-		"multiValue":false
+		"multiValue":false,
+		"defaultValue":"Y"
 	},{
 		"id":"qt_addon_diaozhui",
 		"label":"吊坠",
@@ -251,7 +259,8 @@ define([     "util/form","util/dt"],
 			"key":"N",
 			"value":"无"
 		}],
-		"multiValue":false
+		"multiValue":false,
+		"defaultValue":"Y"
 	}];
 	
 	

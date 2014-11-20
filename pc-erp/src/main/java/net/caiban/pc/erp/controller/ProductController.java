@@ -53,6 +53,8 @@ public class ProductController extends BaseController {
 	public Pager<Product> list(HttpServletRequest request,
 			Pager<Product> pager, ProductCond cond) {
 		
+		SessionUser user = getSessionUser(request);
+		cond.setCid(user.getCid());
 		pager = productService.pager(pager, cond);
 		
 //		pager.setTotals(12);
