@@ -399,14 +399,14 @@
 			<id>production</id>
 			<properties>
 				<package.environment>production</package.environment>
-				<jdbc.location>file:/usr/tools/config/db/db-ec-finance.properties</jdbc.location>
+                <jdbc.location>file:/mnt/config/db-pc-erp.properties</jdbc.location>
 			</properties>
 		</profile>
 		<profile>
 			<id>test</id>
 			<properties>
 				<package.environment>test</package.environment>
-				<jdbc.location>file:/usr/tools/config/db/db-ec-finance.properties</jdbc.location>
+				<jdbc.location>file:/usr/tools/config/db/db-pc-erp.properties</jdbc.location>
 			</properties>
 		</profile>
 	</profiles>
