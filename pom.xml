@@ -287,6 +287,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
 				<configuration>
 					<source>${java.source.version}</source>
 					<target>${java.target.version}</target>
@@ -297,6 +298,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+                <version>2.4</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -312,6 +314,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.1</version>
 				<configuration>
 					<charset>${encoding}</charset>
 					<encoding>${encoding}</encoding>
@@ -320,6 +323,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
 				<configuration>
 					<excludes>
 						<exclude>log4j.properties</exclude>
@@ -329,6 +333,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
+                <version>2.5</version>
 				<configuration>
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
