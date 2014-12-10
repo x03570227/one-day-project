@@ -52,6 +52,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			<if test="cond.code != null and cond.code !='' ">
 				and `product`.code=#{cond.code}
 			</if>
+			<if test="cond.codeMatchBefore != null and cond.codeMatchBefore !='' ">
+				and `product`.code like concat(#{cond.codeMatchBefore}, '%')
+			</if>
 			<if test="cond.cid != null">
 				and `product`.cid=#{cond.cid}
 			</if>

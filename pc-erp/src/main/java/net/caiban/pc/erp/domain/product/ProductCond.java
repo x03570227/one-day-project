@@ -25,6 +25,7 @@ public class ProductCond extends BaseCond{
 	private String categoryCodeMatchBefore; //前匹配
 	private String nameMatchBefore; //前匹配
 	private String nameFuzzy; //按名称模糊查询
+	private String codeMatchBefore;
 	
 	public String getCode() {
 		return code;
@@ -73,6 +74,12 @@ public class ProductCond extends BaseCond{
 	}
 	public void setNameFuzzy(String nameFuzzy) {
 		this.nameFuzzy = nameFuzzy;
+	}
+	public String getCodeMatchBefore() {
+		return codeMatchBefore;
+	}
+	public void setCodeMatchBefore(String codeMatchBefore) {
+		this.codeMatchBefore = codeMatchBefore;
 	}
 	
 

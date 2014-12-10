@@ -5,7 +5,7 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 	function(jQuery,  template,  prop,          tb,          messenger,  df){
 	
 		var product={};
-	
+		
 		product["search"] = function(searchCond){
 			
 			searchCond=searchCond||{};
@@ -36,6 +36,7 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			jQuery.each(pager,function(k, v){
 				searchCond[k]=encodeURIComponent(v);
 			});
+			
 			
 			return searchCond;
 			
@@ -182,6 +183,8 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 		};
 		
 		product["fillDefine"] = function(categoryCode, define){
+			//XXX define == null 的时候需要给出错误提示
+			debugger;
 			var details = define.details||"{}";
 			details = JSON.parse(details);
 			categoryCode = categoryCode||"";
