@@ -23,10 +23,10 @@ ec)
 	mvn eclipse:clean
 	;;
 td)
-	mvnDebug tomcat:run
+	mvnDebug tomcat7:run
 	;;
 t)
-	mvn tomcat:run
+	mvn tomcat7:run
 	;;
 s)
 	mvn dependency:sources

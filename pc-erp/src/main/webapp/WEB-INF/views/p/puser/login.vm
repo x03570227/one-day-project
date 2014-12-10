@@ -53,14 +53,14 @@
               </a>
         </form>
 	</div>
-	<div class="panel-footer">
-		<div class="row">
-			<div class="col-sm-offset-4 col-sm-8">
-				#springMessage("tip.login.1")
-                <a href="#springUrl('/p/puser/regist.do')" >#springMessage("tip.login.2")</a>
-			</div>
-		</div>
-	</div>
+##	<div class="panel-footer">
+##		<div class="row">
+##			<div class="col-sm-offset-4 col-sm-8">
+##				#springMessage("tip.login.1")
+##                <a href="#springUrl('/p/puser/regist.do')" >#springMessage("tip.login.2")</a>
+##			</div>
+##		</div>
+##	</div>
 </div>
 </div>
 ##loadScript(["/js/jquery.extention/jqBootstrapValidation.js"])

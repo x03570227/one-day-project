@@ -15,7 +15,7 @@ define([      "template","jquery"],
 			var next=0;
 			var nav=new Array();
 			
-			var totalPage=parseInt(pageConfig.totals/pageConfig.limit)+1;
+			var totalPage=parseInt((pageConfig.totals-1)/pageConfig.limit)+1;
 //			console.log("totalPage:"+totalPage);
 			pageConfig["totalPage"]=totalPage;
 			
@@ -24,7 +24,7 @@ define([      "template","jquery"],
 			pageConfig["currentPage"]=currentPage;
 			
 			next = pageConfig.start+pageConfig.limit;
-			next = next > pageConfig.totals ? (totalPage-1)*pageConfig.limit:next;
+			next = next >= pageConfig.totals ? (totalPage-1)*pageConfig.limit:next;
 //			console.log("next:"+next);
 			pageConfig["next"]=next;
 			
