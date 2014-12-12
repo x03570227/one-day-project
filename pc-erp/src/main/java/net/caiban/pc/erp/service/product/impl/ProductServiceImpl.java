@@ -23,6 +23,8 @@ import net.caiban.utils.AssertHelper;
 
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Strings;
+
 /**
  * @author mays
  *
@@ -39,6 +41,10 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Pager<Product> pager(Pager<Product> pager, ProductCond cond) {
+		
+		if(Strings.isNullOrEmpty(pager.getSort())){
+			pager.setSort(Product.SORT_COLUMN_ID);
+		}
 		
 		pager.setRecords(productMapper.pagerDefault(pager, cond));
 		pager.setTotals(productMapper.pagerDefaultCount(cond));

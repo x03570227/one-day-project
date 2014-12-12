@@ -30,18 +30,18 @@ function(jQuery){
 		},
 		get:function(id){
 			//获取表单项的值
-			return jQuery("input[name="+id+"]").val();
+			return jQuery("input[name="+id+"]:checked").val();
 		},
 		setObj:function(id, o){
 			if(typeof o =="undefined"){
 				return ;
 			}
-			jQuery("input[name="+id+"][value='"+o.dk+"']").prop("checked",true);
+			jQuery("input[name="+id+"][value="+o.dk+"]").prop("checked",true);
 		},
 		getObj:function(id){
 			var obj={};
 			obj["dk"]=this.get(id);
-			obj["dv"]=jQuery("input[name="+id+"]").attr("dv");
+			obj["dv"]=jQuery("input[name="+id+"]:checked").attr("dv");
 			return obj;
 		}
 	};

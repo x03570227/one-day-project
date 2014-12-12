@@ -9,13 +9,13 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.service.sys.SysCompanyService;
 
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.RequestContext;
 
 /**
  * @author mays
@@ -31,15 +31,16 @@ public class RootController extends BaseController{
 	private SysCompanyService sysCompanyService;
 	
 	@RequestMapping
-	public ModelAndView index(HttpServletRequest request, Map<String, Object> out
-			){
+	public ModelAndView index(HttpServletRequest request, Map<String, Object> out,
+			Locale locale){
 		
-		out.put("sessionUser", getSessionUser(request));
+		SessionUser user = getSessionUser(request);
+		if(user==null){
+			return new ModelAndView("redirect:p/puser/login.do");
+		}
 		
-		out.put("companyList", sysCompanyService.query());
+		out.put("sessionUser", user);
 		
-		RequestContext requestContext = new RequestContext(request);
-		Locale locale = requestContext.getLocale();
 		request.setAttribute("locale", locale);
 		
 		return null;

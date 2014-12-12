@@ -10,20 +10,20 @@
 	require([	"jquery","template","product/prop", "product","messenger"],
 		function(jQuery,  template,  prop,           product,  messenger){
 		
-			product.init({
+			product.table.init({
 				tpl:{
 					"table":"tpl_product_list"
 				},
 				renderTo:"product_list",
 				url:"#springUrl('/product/list.do')",
-				"url-d":"#springUrl('/product/doDelete.do')",
+				//"url-d":"#springUrl('/product/doDelete.do')",
 				pager:{
 					start:0,
 					limit:20
 				}
 			});
 			
-			product.search();
+			product.table.search();
 			
 			jQuery("#product_list .act-delete").bind("click", function(o){
 				alert(jQuery(this).attr("model-product-id"));

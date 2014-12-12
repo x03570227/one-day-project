@@ -10,6 +10,7 @@ console.log('Global Config: Locale-> ',LOCALE)
 //	}
 //});
 require.config({
+	urlArgs:"v=20141211.1",
 	baseUrl:CONTEXT_PATH,
 	paths:{
 		//基础JS库
@@ -30,12 +31,14 @@ require.config({
 		"typeahead":"plugin/typeahead/typeahead.jquery.min",
 		"hogan":"plugin/hogan/hogan-2.0.0.min",
 		"messenger":"plugin/messenger/build/js/messenger.min",
+		"validator":"plugin/bootstrap-validator/dist/validator.min",
 		
 		//项目模块
-		"util/dt":"js/erp/config/util.dt",
-		"util/form":"js/erp/config/util.form",
-		"util/table":"js/erp/config/util.table",
-		"util/cache":"js/erp/config/util.cache",
+		"util/dt":"js/utils/util.dt",
+		"util/form":"js/utils/util.form",
+		"util/table/pager":"js/utils/util.table.pager",
+		"util/table":"js/utils/util.table",
+		"util/cache":"js/utils/util.cache",
 		"product/prop":"js/erp/config/product.prop",
 		"product/define":"js/erp/config/product.define",
 		
@@ -69,6 +72,9 @@ require.config({
 		"hogan": {exports: "Hogan"},
 		"messenger":{
 			exports:"messenger",
+			deps:["jquery"]
+		},
+		"validator":{
 			deps:["jquery"]
 		}
 	}

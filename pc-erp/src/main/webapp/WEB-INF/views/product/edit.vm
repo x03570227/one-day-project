@@ -1,6 +1,7 @@
 #globalHeader("product", "edit")
 <div class="container" >
 	<div class="row">
+		<form id="product_form" class="form-horizontal" action="#springUrl('/product/')" method="post" role="form" onsubmit="return false;">
 		<div class="col-md-2" >
 			<nav class="affix" data-spy="affix" role="navigation" id="product_define_nav">
 				<ul class="nav nav-pills nav-stacked" >
@@ -21,10 +22,8 @@
 		</div>
 		
 		<div class="col-md-8">
-			<form id="product_form" class="form-horizontal" action="#springUrl('/product/')" method="post" role="form">
-				<input type="hidden" name="id" value=""/>
-				<input type="hidden" name="details" id="details" value="" />
-			
+			<input type="hidden" name="id" value=""/>
+			<input type="hidden" name="details" id="details" value="" />
 			<div class="panel panel-default" id="product">
 				<div class="panel-heading">
 					#springMessage("tip.product.define")
@@ -77,15 +76,14 @@
 				</div>
 			</div>
 			
-			</form>
 		</div>
-		
+		</form>
 	</div>
 </div>
 
 <script type="text/javascript">
-	require([	"jquery","template","product/prop", "product","messenger", "util/cache"],
-		function(jQuery,  template,  prop,           product,  messenger,   cache){
+	require([	"jquery","template","product/prop", "product","messenger", "util/cache", "validator"],
+		function(jQuery,  template,  prop,           product,  messenger,   cache,        validator){
 			
 			//init base form
 			jQuery("#categoryCode").append(product.compileOption("category"));
@@ -120,13 +118,19 @@
 				
 			});
 			
+			var vr = jQuery("#product_form").validator();
+			
+			/*
 			jQuery("#product_submit_btn").click(function(){
 				jQuery("#product_form").submit();
 			});
+			*/
 			
-			jQuery("#product_form").submit(function(){
-				//表单验证
-				//收集数据，提交表单（AJAX）
+			jQuery("#product_form").submit(function(e){
+			
+				if(jQuery("#product_submit_btn").hasClass("disabled")){
+					return false;
+				}
 				
 				var df = new Array();
 				df.push("common");
@@ -161,8 +165,3 @@
 </script>
 
 #parse("/product/tpl/defineForm.vm")
-
-
-//产品基本信息
-//通用产品属性
-//按类别定义的产品属性（根据类别变化动态调整）

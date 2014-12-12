@@ -2,75 +2,14 @@
  * Product 模块相关的操作
  * */
 define(		["jquery","template","product/prop","util/table","messenger","product/define"],
-	function(jQuery,  template,  prop,          tb,          messenger,  df){
+	function(jQuery,  template,  prop,          table,            messenger,  df){
 	
-		var product={};
+		var product={table:table, };
 		
-		product["search"] = function(searchCond){
-			
-			searchCond=searchCond||{};
-			
-			this.searchCond=searchCond;
-			
-			jQuery.post(this.config.url, this.buildSubmit(searchCond), this.buildHtml, "json");
-			
-		};
+		var message=Messenger();
 		
-		product["init"] = function(config){
-			config = config||{};
-			this.config=config;
-			if(this.config.pager==null){
-				this.config.pager={};
-			}
-		};
-		
-		product["buildSubmit"]=function(searchCond){
-			var pager = this.config.pager;
-			if(typeof searchCond == "string"){
-				jQuery.each(pager,function(k, v){
-					searchCond = searchCond+"&"+k+"="+encodeURIComponent(v);
-				});
-				return searchCond;
-			}
+		table["preBuildTable"] = function(p){
 			
-			jQuery.each(pager,function(k, v){
-				searchCond[k]=encodeURIComponent(v);
-			});
-			
-			
-			return searchCond;
-			
-		};
-		
-		product["buildHtml"]=function(p){
-			
-			p.records = product.preBuildHtml(p);
-			
-			var table = template(product.config.tpl.table, p);
-			var pagerBar = tb.pageBar(p);
-			
-			jQuery("#"+product.config.renderTo).empty();
-			
-			jQuery("#"+product.config.renderTo).html(table);
-			jQuery("#"+product.config.renderTo).append(pagerBar);
-			
-			//绑定分页导航事件
-			tb.doPage(product.config.renderTo, function(item){
-				var start = item.attr("page-start");
-				start = start||0;
-				product.setStart(start);
-				product.search(product.searchCond);
-			});
-			
-			jQuery("#"+product.config.renderTo+" .act-delete").click(function(){
-				var pid= jQuery(this).attr("model-product-id");
-				
-				product.remove(pid, jQuery(this));
-				
-			});
-		};
-		
-		product["preBuildHtml"] = function(p){
 			if(p.records == null){
 				return p;
 			}
@@ -79,28 +18,16 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 				obj.categoryName=prop.getName("category", obj.categoryCode, "Error Category");
 			});
 			
-//			console.log(p.totals);
-			
-			return p.records;
-		}
-		
-		product["setOrder"]=function(sort, desc){
-			var pager = this.config.pager||{};
-			pager["sort"]=sort;
-			pager["desc"]=desc;
-			this.config.pager = pager;
+			return p;
 		};
 		
-		product["setStart"]=function(start){
-			var pager = this.config.pager||{};
-			pager["start"]=start;
-			this.config.pager = pager;
-		};
-		
-		product["setLimit"]=function(limit){
-			var pager = this.config.pager||{};
-			pager["limit"]=limit;
-			this.config.pager = pager;
+		table["afterBuildTable"] = function(){
+			jQuery("#"+table.config.renderTo+" .act-delete").click(function(){
+				var pid= jQuery(this).attr("model-product-id");
+				
+				product.remove(pid, jQuery(this));
+				
+			});
 		};
 		
 		product["compileOption"] = function (type, selected){
@@ -146,14 +73,17 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			
 			jQuery.post(url, form.serialize(), function(resp){
 				//提示消息
-				console.log("保存成功："+JSON.stringify(resp));
+				message.post({
+					msg:"Save Success"
+				});
+				
 			}, "json");
 			
 		};
 		
 		product["fillForm"]=function(url, pid, formId, defineContainer){
 			
-//			var msg = Messenger().post({
+//			var msg = .post({
 //				  message: 'There was an explosion while processing your request.',
 //				  type: 'info',
 //				  showCloseButton: true
@@ -184,7 +114,6 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 		
 		product["fillDefine"] = function(categoryCode, define){
 			//XXX define == null 的时候需要给出错误提示
-			debugger;
 			var details = define.details||"{}";
 			details = JSON.parse(details);
 			categoryCode = categoryCode||"";
@@ -214,7 +143,7 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			var data = {};
 			data["id"]=pid;
 			
-			jQuery.post(product.config["url-d"], data, function(resp){
+			jQuery.post(CONTEXT_PATH+"/product/doDelete.do", data, function(resp){
 				if(resp.result){
 					btn.parent().parent().hide();
 				}else{

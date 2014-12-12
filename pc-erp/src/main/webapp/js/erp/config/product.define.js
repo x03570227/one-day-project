@@ -75,23 +75,6 @@ define([     "util/form","util/dt"],
 		"formItem":form.text,
 		"multiValue":false
 	}
-//	,{
-//		"id":"c1",
-//		"label":"纸质",
-//		"placeholder":"请填写信息",
-//		"dataType":dt.array,
-//		"dataList":[{
-//			"key":0,
-//			"value":"普通纸"
-//		},{
-//			"key":1,
-//			"value":"普通纸22"
-//		}],
-//		"searchAble":false,
-//		"formItem":form.radio,
-//		"multiValue":false
-//	}
-	
 	];
 	
 	pdefine["HB"]=[];

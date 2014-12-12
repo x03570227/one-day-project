@@ -28,9 +28,9 @@
 			
 			jQuery("#search_form").submit(function(fm){
 				
-				product.setStart(0);
+				product.table.setStart(0);
 				
-				product.search(jQuery("#search_form").serialize());
+				product.table.search(jQuery("#search_form").serialize());
 				return false;
 			});
 			

@@ -17,6 +17,8 @@ public class Product extends BaseDomain {
 	public final static String LIFE_SALING="SALING";
 	public final static String LIFE_SHELVES="SHELVES";
 	
+	public final static String SORT_COLUMN_ID="product.id";
+	
 	private String code;
 	private String name;
 	private String categoryCode;
