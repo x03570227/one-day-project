@@ -120,15 +120,14 @@
 			
 			var vr = jQuery("#product_form").validator();
 			
-			/*
-			jQuery("#product_submit_btn").click(function(){
-				jQuery("#product_form").submit();
-			});
-			*/
-			
 			jQuery("#product_form").submit(function(e){
 			
+				console.log(">>>>>>>>"+jQuery("#product_submit_btn").hasClass("disabled"));
 				if(jQuery("#product_submit_btn").hasClass("disabled")){
+					product.message.post({
+						message:"#springMessage('msg.form.invalid')",
+						hideAfter:3
+					});
 					return false;
 				}
 				
@@ -141,7 +140,20 @@
 				var productDefine = product.buildDefine(df);
 				jQuery("#details").val(productDefine);
 				
-				product.save("#springUrl('/product/doUpdate.do')",jQuery(this));
+				product.save("#springUrl('/product/doUpdate.do')",jQuery(this), function(resp){
+				
+					if(resp.product.id>0){
+						product.message.post({
+							message:"#springMessage('msg.form.save.success')",
+							hideAfter:3
+						})
+					#if("$!{id}"=="")
+						jQuery("#product_form input[name=code]").val("");
+						jQuery("#product_form input[name=code]").focus();
+					#end
+					}
+				
+				});
 				
 				return false;
 			});

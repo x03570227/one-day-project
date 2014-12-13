@@ -109,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		batchSavePrice(productFull.getPrice(), product.getId());
 		
-		return null;
+		return productFull;
 	}
 	
 	private void batchSavePrice(List<ProductPrice> list, Integer pid) {

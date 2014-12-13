@@ -82,7 +82,8 @@ public class ProductController extends BaseController {
 			return productService.updateFull(productFull);
 		}
 		
-		return productService.saveFull(productFull);
+		productFull = productService.saveFull(productFull);
+		return productFull;
 	}
 	
 	@RequestMapping

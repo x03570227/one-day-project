@@ -3,10 +3,11 @@
  * */
 define(		["jquery","template","product/prop","util/table","messenger","product/define"],
 	function(jQuery,  template,  prop,          table,            messenger,  df){
-	
-		var product={table:table, };
 		
 		var message=Messenger();
+	
+		var product={table:table, message:message};
+		
 		
 		table["preBuildTable"] = function(p){
 			
@@ -69,14 +70,10 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			return JSON.stringify(result);
 		};
 		
-		product["save"] = function(url, form){
+		product["save"] = function(url, form, cb){
 			
 			jQuery.post(url, form.serialize(), function(resp){
-				//提示消息
-				message.post({
-					msg:"Save Success"
-				});
-				
+				cb(resp);
 			}, "json");
 			
 		};
