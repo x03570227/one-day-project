@@ -51,4 +51,6 @@ public interface SysUserMapper {
 	 * @return
 	 */
 	public Integer queryUidByAccount(String account);
+	
+	public Integer countByAccount(String account);
 }

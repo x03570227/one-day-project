@@ -24,18 +24,21 @@
 			
 			  <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
-					<label for="account">#springMessage("sys.user.cid")</label>
-					<select name="cid" >
-        				#foreach( $c in $companyList)
-        					<option value="$!{c.id}">$!{c.name}</option>
-        				#end
-                      </select>
+					<label for="account">#springMessage("lb.sys.company.name")</label>
+					<input type="text" class="form-control" 
+						id="companyName" name="name" value="$!{company.name}" 
+						placeholder="#springMessage('ph.sys.company.name')" 
+						required />
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
 					<label for="account">#springMessage("sys.user.account")</label>
-					<input type="text" class="form-control" id="account" name="account" value="$!{user.account}" placeholder="#springMessage('ph.sys.user.account')" required />
+					<input type="text" class="form-control" 
+						id="account" name="account" value="$!{user.account}" 
+						placeholder="#springMessage('ph.sys.user.account')" 
+						pattern="^([a-zA-Z0-9\u4E00-\u9FA5]{3,16})$" 
+						required />
     				##<p class="help-block"></p>
                 </div>
               </div>
@@ -50,8 +53,13 @@
 			  <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
 					<label for="inputPassword3">#springMessage("sys.user.password.repeat")</label>
-					<input type="password" class="form-control" name="passwordRepeat" value="" placeholder="#springMessage('ph.sys.user.password.repeat')" required />
-    			  ##<p class="help-block"></p>
+					<input type="password" class="form-control" 
+						name="passwordRepeat" value="" 
+						placeholder="#springMessage('ph.sys.user.password.repeat')" 
+						required
+						data-match="#password"
+						 />
+					##<p class="help-block with-errors"></p>
                 </div>
               </div>
 			  
@@ -60,7 +68,7 @@
                   <div class="checkbox">
                     <label>
                       <input type="checkbox" name="accept" value="1" checked />#springMessage('addon.regist.accept')
-					  <a href="#springUrl('/p/puser/forget.do')" >#springMessage("addon.regist.term.service")</a>
+					  <a href="#springUrl('/p/about/teamOfService.do')" target="_blank" >#springMessage("addon.regist.term.service")</a>
                     </label>
                   </div>
                 </div>
@@ -76,10 +84,11 @@
     	</div>
     </div>
 </div>
-#loadScript(["/js/jquery.extention/jqBootstrapValidation.js"])
 <script type="text/javascript">
-	jQuery(document).ready(function(){
-		jQuery("#formRegist").jqBootstrapValidation();
-	});
+	require([	"jquery","Bootstrap","validator"],
+    	function(jQuery){
+    		jQuery("#formRegist").validator();
+    	}
+    );
 </script>
 </div>

@@ -6,6 +6,7 @@ package net.caiban.pc.erp.service.sys;
 import javax.servlet.http.HttpServletResponse;
 
 import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.domain.sys.SysCompany;
 import net.caiban.pc.erp.domain.sys.SysUser;
 import net.caiban.pc.erp.exception.ServiceException;
 
@@ -38,7 +39,7 @@ public interface SysUserService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public SessionUser regist(SysUser user, String passwordRepeat, Integer accept) throws ServiceException;
+	public SessionUser doRegist(SysUser user, SysCompany company, String passwordRepeat, Integer accept) throws ServiceException;
 	
 	/**
 	 * 老用户增加更多登录账户

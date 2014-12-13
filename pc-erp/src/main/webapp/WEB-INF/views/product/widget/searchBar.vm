@@ -34,6 +34,12 @@
 				return false;
 			});
 			
+			jQuery("#product_search_form").on("click","#btn-clear-filter", function(){
+				jQuery("#search_form")[0].reset();
+				product.table.setStart(0);
+				product.table.search();
+			});
+			
 		}
 	);
 </script>
@@ -72,6 +78,12 @@
 	<div  class="form-group">
 	<button type="submit" class="btn btn-primary">
 		<span class="glyphicon glyphicon-search"></span> #springMessage('btn.search')
+	</button>
+    </div>
+	
+	<div  class="form-group">
+	<button id="btn-clear-filter" type="button" class="btn btn-default" title="#springMessage('btn.search.clear')">
+		<span class="glyphicon glyphicon-filter"></span>
 	</button>
     </div>
 </form>

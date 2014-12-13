@@ -10,5 +10,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		limit 100
 	</select>
 	
+	<insert id="insert" parameterType="net.caiban.pc.erp.domain.sys.SysCompany" keyProperty="id">
+		insert into sys_company (name, gmt_created, gmt_modified)
+		values(#{name}, now(), now())
+	</insert>
 </mapper>
 

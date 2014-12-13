@@ -21,4 +21,5 @@ public interface SysCompanyMapper {
 	 */
 	public List<SysCompany> query();
 	
+	public Integer insert(SysCompany company);
 }

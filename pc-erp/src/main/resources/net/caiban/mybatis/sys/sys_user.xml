@@ -32,5 +32,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		select uid from sys_user where account=#{account} limit 1
 	</select>
 	
+	<select id="countByAccount" resultType="java.lang.Integer" >
+		select count(1) as c from sys_user where account=#{account}
+	</select>
+	
 </mapper>
 

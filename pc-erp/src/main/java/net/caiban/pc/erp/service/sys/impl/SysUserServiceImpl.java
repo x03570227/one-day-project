@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import net.caiban.MD5;
 import net.caiban.pc.erp.config.LogHelper;
 import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.domain.sys.SysCompany;
 import net.caiban.pc.erp.domain.sys.SysUser;
 import net.caiban.pc.erp.exception.ServiceException;
+import net.caiban.pc.erp.persist.sys.SysCompanyMapper;
 import net.caiban.pc.erp.persist.sys.SysUserMapper;
 import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.utils.lang.StringUtils;
@@ -29,6 +31,8 @@ public class SysUserServiceImpl implements SysUserService {
 
 	@Resource
 	private SysUserMapper sysUserMapper;
+	@Resource
+	private SysCompanyMapper sysCompanyMapper;
 
 	@Override
 	public SessionUser login(SysUser user) throws ServiceException {
@@ -60,8 +64,8 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public SessionUser regist(SysUser user, String passwordRepeat, Integer accept) throws ServiceException {
-		// TODO 需要事务控制
+	public SessionUser doRegist(SysUser user, SysCompany company,
+			String passwordRepeat, Integer accept) throws ServiceException {
 		
 		if(accept == null || accept.intValue()!=SysUserService.ACCEPT_TRUE){
 			throw new ServiceException("e.regist");
@@ -74,13 +78,24 @@ public class SysUserServiceImpl implements SysUserService {
 		if(StringUtils.isEmpty(passwordRepeat) || !passwordRepeat.equals(user.getPassword())){
 			throw new ServiceException("e.regist");
 		}
+		
+		String rebuildedAccount = rebuildAccount(classifyOfAccount(user.getAccount()), user.getAccount());
+		if(existAccount(rebuildedAccount)){
+			throw new ServiceException("e.regist.exist.account");
+		}
+		
+		sysCompanyMapper.insert(company);
+		if(company.getId()==null || company.getId().intValue()==0){
+			throw new ServiceException("e.regist");
+		}
+		
 		SysUser registUser = new SysUser();
 		registUser.setSalt(randomSalt());
 		registUser.setClassify(classifyOfAccount(user.getAccount()));
-		registUser.setAccount(rebuildAccount(registUser.getClassify(), user.getAccount()));
+		registUser.setAccount(rebuildedAccount);
 		registUser.setPassword(encodePassword(user.getPassword(), registUser.getSalt()));
 		registUser.setUid(DEFAULT_UID);
-		registUser.setCid(user.getCid());
+		registUser.setCid(company.getId());
 		
 		try {
 			sysUserMapper.insert(registUser);
@@ -156,15 +171,12 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public Integer registNewAccount(SysUser user, String passwordRepeat)
 			throws ServiceException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void rememberMe(HttpServletResponse response, SessionUser user,
 			Integer rememberFlag) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -177,5 +189,13 @@ public class SysUserServiceImpl implements SysUserService {
 		String ac = rebuildAccount(classifyOfAccount(account), account);
 		
 		return sysUserMapper.queryUidByAccount(ac);
+	}
+	
+	private boolean existAccount(String account){
+		Integer c = sysUserMapper.countByAccount(account);
+		if(c!=null && c.intValue()>0){
+			return true;
+		}
+		return false;
 	}
 }

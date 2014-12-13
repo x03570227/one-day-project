@@ -13,6 +13,7 @@ import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.config.ExceptionHelper;
 import net.caiban.pc.erp.controller.BaseController;
 import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.domain.sys.SysCompany;
 import net.caiban.pc.erp.domain.sys.SysUser;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.sys.SysCompanyService;
@@ -89,18 +90,18 @@ public class PUserController extends BaseController {
 		out.put("refparam", refparam);
 		out.put("error", error);
 		
-		out.put("companyList",sysCompanyService.query());
+//		out.put("companyList",sysCompanyService.query());
 		
 		return null;
 	}
 	
 	@RequestMapping
 	public ModelAndView doRegist(HttpServletRequest request, Map<String, Object> out,
-			String refurl, String refparam, SysUser user, 
+			String refurl, String refparam, SysUser user, SysCompany company,
 			String passwordRepeat, Integer accept){
 		
 		try {
-			SessionUser sessionUser = sysUserService.regist(user, passwordRepeat, accept);
+			SessionUser sessionUser = sysUserService.doRegist(user, company, passwordRepeat, accept);
 			if(sessionUser!=null){
 				setSessionUser(request, sessionUser);
 				return redirect(refurl, refparam);
@@ -110,9 +111,11 @@ public class PUserController extends BaseController {
 			out.put(ExceptionHelper.PAGE_ERROR_FLAG, e.getMessage());
 		}
 		
+		out.put("company", company);
 		out.put("user", user);
 		out.put("refurl", refurl);
 		out.put("refparam", refparam);
+		
 		return new ModelAndView("/p/puser/regist");
 	}
 	
