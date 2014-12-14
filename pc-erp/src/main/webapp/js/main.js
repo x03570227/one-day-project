@@ -9,6 +9,9 @@ console.log('Global Config: Locale-> ',LOCALE)
 //		Bootstrap:"//cdn.bootcss.com/bootstrap/3.1.1/js/bootstrap.min"
 //	}
 //});
+var STATIC_UPLOAD="http://su.caiban.net";
+var STATIC="http://s.caiban.net";
+
 require.config({
 	urlArgs:"v=20141211.1",
 	baseUrl:CONTEXT_PATH,

@@ -49,7 +49,12 @@
 		{{each records as product i}}
 		<tr >
 			<td >{{i + 1}}</td>
-			<td >{{product.code}}</td>
+			<td >
+				<a href="{{product.picturePath}}" target="_blank">
+					<span class="glyphicon glyphicon-picture"></span>
+				</a>
+				{{product.code}}
+			</td>
 			<td >{{product.categoryName}}</td>
 			<td >{{product.statusLife}}</td>
 			<td ><a href="#springUrl('/product/edit.do?id='){{product.id}}" target="_blank">{{product.name}}</a></td>

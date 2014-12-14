@@ -17,6 +17,7 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			
 			jQuery.each(p.records, function (idx, obj){
 				obj.categoryName=prop.getName("category", obj.categoryCode, "Error Category");
+				obj.picturePath=STATIC_UPLOAD+"/erp/product/"+obj.code;
 			});
 			
 			return p;
