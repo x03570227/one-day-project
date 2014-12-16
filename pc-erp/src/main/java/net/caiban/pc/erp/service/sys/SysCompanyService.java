@@ -14,4 +14,6 @@ import net.caiban.pc.erp.domain.sys.SysCompany;
 public interface SysCompanyService {
 
 	public List<SysCompany> query();
+	
+	public SysCompany queryOne(Integer cid);
 }

@@ -14,5 +14,10 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		insert into sys_company (name, gmt_created, gmt_modified)
 		values(#{name}, now(), now())
 	</insert>
+	
+	<select id="queryOne" resultType="net.caiban.pc.erp.domain.sys.SysCompany">
+		select id, name from sys_company
+		where id=#{cid}
+	</select>
 </mapper>
 

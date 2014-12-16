@@ -48,7 +48,7 @@ define(function(){
 		code:"DRAFT",
 		name:"草稿"
 	},{
-		code:"SAILING",
+		code:"SALING",
 		name:"在售"
 	},{
 		code:"SHELVES",

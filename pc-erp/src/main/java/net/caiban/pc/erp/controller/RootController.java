@@ -10,6 +10,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.domain.sys.SysCompany;
+import net.caiban.pc.erp.service.product.ProductService;
 import net.caiban.pc.erp.service.sys.SysCompanyService;
 
 import org.springframework.context.MessageSource;
@@ -29,6 +31,8 @@ public class RootController extends BaseController{
 	MessageSource messageSource;
 	@Resource
 	private SysCompanyService sysCompanyService;
+	@Resource
+	private ProductService productService;
 	
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, Map<String, Object> out,
@@ -42,6 +46,11 @@ public class RootController extends BaseController{
 		out.put("sessionUser", user);
 		
 		request.setAttribute("locale", locale);
+		
+		SysCompany company = sysCompanyService.queryOne(user.getCid());
+		out.put("company", company);
+		
+		out.put("productCount", productService.countProduct(user.getCid()));
 		
 		return null;
 	}

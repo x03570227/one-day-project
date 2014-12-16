@@ -192,4 +192,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		return productFull;
 	}
+
+	@Override
+	public Integer countProduct(Integer cid) {
+		ProductCond cond = new ProductCond();
+		cond.setCid(cid);
+//		cond.setStatusLife(Product.LIFE_SALING);
+		return productMapper.pagerDefaultCount(cond);
+	}
 }

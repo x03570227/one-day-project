@@ -6,7 +6,7 @@
 			<input type="hidden" name="refurl" value="$!{refurl}" />
 			<input type="hidden" name="refparam" value="$!{refparam}" />
 			<div class="form-group">
-				<div class="col-sm-offset-4 col-sm-4">
+				<div class="col-sm-offset-3 col-sm-6 text-center">
 					<h1 >#springMessage("addon.login.title")</h1>
                 </div>
 			</div>

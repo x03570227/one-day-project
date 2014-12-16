@@ -49,12 +49,12 @@
 
 	<div class="form-group">
 		<label class="sr-only" for="exampleInputEmail2">#springMessage('ph.product.search.code')</label>
-		<input type="text" class="form-control" name="codeMatchBefore" placeholder="#springMessage('ph.product.search.code')" ／>
+		<input type="text" class="form-control" name="codeMatchBefore" placeholder="#springMessage('ph.product.search.code')" />
 	</div>
 	
 	<div class="form-group">
 		<label class="sr-only" for="exampleInputEmail2">#springMessage('ph.product.search.name')</label>
-		<input type="text" class="form-control" name="nameMatchBefore" placeholder="#springMessage('ph.product.search.name')" ／>
+		<input type="text" class="form-control" name="nameMatchBefore" placeholder="#springMessage('ph.product.search.name')" />
 	</div>
 	
 	<div class="form-group">

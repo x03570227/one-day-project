@@ -8,27 +8,46 @@
 		#parse("/sys/widget/sliderJoined.vm")
 
 		</div>
-		<div class="col-md-8">
-			
-			<div class="thumbnail ">
-				<img alt="300x200" src="#imgUrl('/img/people.jpg')" class="img-rounded index_img_banner" />
-				<div class="caption">
-					<h3>
-						#springMessage("m.product") 
-					</h3>
-					<p>
-                        <ul>
-							<li >
-                                <a href="#" >#springMessage("m.product.create")</a>
-								<small >(#springMessage("m.product.create.des"))</small>
-							</li>
-						</ul>
-					</p>
-				</div>
+		<div class="col-md-4">
+			<div class="panel panel-primary">
+            	<div class="panel-heading">
+					#springMessage("tip.index.product.count")
+            	</div>
+				<div class="panel-body text-center">
+                    <h3>$!{productCount}</h3>
+            	</div>
 			</div>
-			
 		</div>
 		
+		<div class="col-md-4">
+			<div class="panel panel-success">
+            	<div class="panel-heading">
+					#springMessage("tip.index.account.count")
+            	</div>
+				<div class="panel-body text-center">
+                    <h3>0</h3>
+            	</div>
+			</div>
+		</div>
+		
+	</div>
+	
+    <div class="row">
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
 	</div>
 </div>
 

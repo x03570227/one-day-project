@@ -27,6 +27,14 @@ public class SysCompanyServiceImpl implements SysCompanyService{
 	public List<SysCompany> query() {
 		return sysCompanyMapper.query();
 	}
+
+	@Override
+	public SysCompany queryOne(Integer cid) {
+		if(cid==null && cid.intValue()<=0){
+			return null;
+		}
+		return sysCompanyMapper.queryOne(cid);
+	}
 	
 	
 }

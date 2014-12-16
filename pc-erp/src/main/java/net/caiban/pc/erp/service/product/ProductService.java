@@ -31,4 +31,7 @@ public interface ProductService {
 	public ProductFull updateFull(ProductFull productFull);
 	
 	public ProductFull initFull(SessionUser user, Product product, ProductDefine define);
+	
+	public Integer countProduct(Integer cid);
+	
 }
