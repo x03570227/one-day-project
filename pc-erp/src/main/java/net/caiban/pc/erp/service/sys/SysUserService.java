@@ -81,4 +81,15 @@ public interface SysUserService {
 	 * @return
 	 */
 	public Integer queryIdByAccount(String account);
+	
+	/**
+	 * 密码重置
+	 * @param origin
+	 * @param password
+	 * @param confirm
+	 * @throws ServiceException
+	 */
+	public void resetPassword(Integer uid, String origin, String password,
+			String confirm) throws ServiceException;
+	
 }

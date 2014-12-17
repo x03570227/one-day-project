@@ -22,6 +22,12 @@ public interface SysUserMapper {
 	public String querySalt(@Param("account") String account);
 	
 	/**
+	 * 根据账户ID获取盐值
+	 * @param uid
+	 * @return
+	 */
+	public String querySaltByUid(@Param("uid") Integer uid);
+	/**
 	 * 密码验证，返回 UID
 	 * @param account
 	 * @param password
@@ -53,4 +59,8 @@ public interface SysUserMapper {
 	public Integer queryUidByAccount(String account);
 	
 	public Integer countByAccount(String account);
+	
+	public Integer countByPassword(@Param("uid")Integer uid, @Param("password")String password);
+	
+	public Integer updatePassword(@Param("uid")Integer uid, @Param("password")String password);
 }

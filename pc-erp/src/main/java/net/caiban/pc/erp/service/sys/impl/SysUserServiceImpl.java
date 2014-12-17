@@ -22,6 +22,8 @@ import net.caiban.utils.lang.StringUtils;
 
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Strings;
+
 /**
  * @author mays
  *
@@ -45,7 +47,7 @@ public class SysUserServiceImpl implements SysUserService {
 				|| StringUtils.isEmpty(user.getPassword())) {
 			throw new ServiceException("e.login");
 		}
-
+		//XXX 变更为通过查找UID对应的密码登录
 		String classify = classifyOfAccount(user.getAccount());
 		String salt = sysUserMapper.querySalt(rebuildAccount(classify,
 				user.getAccount()));
@@ -197,5 +199,28 @@ public class SysUserServiceImpl implements SysUserService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void resetPassword(Integer uid, String origin, String password, String confirm)
+			throws ServiceException {
+		if(Strings.isNullOrEmpty(password)){
+			throw new ServiceException("e.sys.user.reset.password.invalid");
+		}
+		
+		if(!password.equals(confirm)){
+			throw new ServiceException("e.sys.user.reset.password.confirm.invalid");
+		}
+		
+		String salt=sysUserMapper.querySaltByUid(uid);
+		Integer c = sysUserMapper.countByPassword(uid, encodePassword(origin, salt));
+		if(c==null || c.intValue()<=0){
+			throw new ServiceException("e.sys.user.reset.password.origin.invalid");
+		}
+		
+		Integer impact = sysUserMapper.updatePassword(uid, encodePassword(password, salt));
+		if(impact==null || impact.intValue()<=0){
+			throw new ServiceException("e.sys.user.reset.password.failure");
+		}
 	}
 }

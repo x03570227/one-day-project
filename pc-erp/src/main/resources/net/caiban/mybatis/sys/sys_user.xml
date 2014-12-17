@@ -10,6 +10,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		where account=#{account}
 	</select>
 	
+	<select id="querySaltByUid" resultType="java.lang.String">
+		select salt from sys_user
+		where id=#{uid}
+	</select>
+	
 	<select id="queryUidByLogin" resultType="net.caiban.pc.erp.domain.sys.SysUser" >
 		select uid,cid from sys_user
 		where account=#{account} and password=#{password}
@@ -35,6 +40,17 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<select id="countByAccount" resultType="java.lang.Integer" >
 		select count(1) as c from sys_user where account=#{account}
 	</select>
+	
+	<select id="countByPassword" resultType="java.lang.Integer">
+		select count(1) as c from sys_user where id=#{uid} and password=#{password}
+	</select>
+	
+	<update id="updatePassword">
+		update sys_user set
+			password=#{password},
+			gmt_modified=now()
+		where uid=#{uid}
+	</update>
 	
 </mapper>
 
