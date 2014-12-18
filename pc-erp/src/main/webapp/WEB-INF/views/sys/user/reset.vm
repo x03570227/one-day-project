@@ -4,17 +4,7 @@
 	<div class="row">
 		<div class="col-md-4">
 			
-			<div class="panel panel-default">
-            	<div class="panel-heading">
-            		#springMessage("tip.settings")
-            	</div>
-            	<div class="list-group">
-            		<a href="#springUrl('/sys/user/reset.do')" class="list-group-item">
-            			<span class="glyphicon glyphicon-lock"></span> 
-            			#springMessage('m.user.password')
-            		</a>
-            	</div>
-            </div>
+			#parse("/sys/user/widget/menu.vm")
 		</div>
 		
 		<div class="col-md-8">

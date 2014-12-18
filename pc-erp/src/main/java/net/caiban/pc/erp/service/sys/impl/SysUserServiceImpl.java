@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.caiban.MD5;
 import net.caiban.pc.erp.config.LogHelper;
+import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.SysCompany;
 import net.caiban.pc.erp.domain.sys.SysUser;
+import net.caiban.pc.erp.domain.sys.SysUserCond;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.sys.SysCompanyMapper;
 import net.caiban.pc.erp.persist.sys.SysUserMapper;
@@ -91,6 +93,12 @@ public class SysUserServiceImpl implements SysUserService {
 			throw new ServiceException("e.regist");
 		}
 		
+		SysUser registUser = saveAccount(user, company, rebuildedAccount);
+		
+		return new SessionUser(registUser.getId(), user.getAccount(), user.getCid());
+	}
+	
+	private SysUser saveAccount(SysUser user, SysCompany company, String rebuildedAccount) throws ServiceException{
 		SysUser registUser = new SysUser();
 		registUser.setSalt(randomSalt());
 		registUser.setClassify(classifyOfAccount(user.getAccount()));
@@ -110,7 +118,7 @@ public class SysUserServiceImpl implements SysUserService {
 		}
 		sysUserMapper.updateUid(registUser.getId(), registUser.getId());
 		
-		return new SessionUser(registUser.getId(), user.getAccount(), user.getCid());
+		return registUser;
 	}
 
 	@Override
@@ -222,5 +230,13 @@ public class SysUserServiceImpl implements SysUserService {
 		if(impact==null || impact.intValue()<=0){
 			throw new ServiceException("e.sys.user.reset.password.failure");
 		}
+	}
+
+	@Override
+	public Pager<SysUser> pager(SysUserCond cond, Pager<SysUser> pager) {
+		
+		pager.setTotals(sysUserMapper.pageDefaultCount(cond));
+		pager.setRecords(sysUserMapper.pageDefault(cond, pager));
+		return pager;
 	}
 }

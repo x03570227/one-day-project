@@ -1,14 +1,11 @@
 #globalHeader("index")
 
-#loadCss(["/css/button.css"])
-
 <div class="container">
 	<div class="row">
-		<div class="col-md-12 text-center">
-			<span class="button-wrap"><a href="#springUrl('/events/create.do')" class="button button-circle button-action">#springMessage('tip.create.event')</a></span>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<span class="button-wrap"><a href="#springUrl('/events/index.do')" class="button button-circle button-royal">#springMessage('tip.my.events')</a></span>
+		<div class="col-md-4">
+			#parse("/sys/user/widget/menu.vm")
 		</div>
+		
+		#parse("/sys/user/widget/accounts.vm")
 	</div>
-	<div class="mt16"><!-- 与底部隔开一定距离 --></div>
 </div>

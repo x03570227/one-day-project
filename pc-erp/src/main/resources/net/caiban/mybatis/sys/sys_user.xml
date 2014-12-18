@@ -52,5 +52,32 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		where uid=#{uid}
 	</update>
 	
+	<sql id="where_cond" >
+		where cid=#{cond.cid}
+		<if test="cond.uidNot > 0">
+			and uid != #{cond.uidNot}
+		</if>
+	</sql>
+	
+	<select id="pageDefault" resultType="net.caiban.pc.erp.domain.sys.SysUser">
+		select id, uid, classify, account, cid from sys_user
+		
+		<include refid="where_cond" />
+		<if test="pager.sort !=null ">
+			order by ${pager.sort}
+			<if test="pager.dir != null">
+				${pager.dir}
+			</if>
+		</if>
+		<if test="pager.start>=0 and pager.limit>0">
+			limit #{pager.start}, #{pager.limit}
+		</if>
+	</select>
+	
+	<select id="pageDefaultCount" resultType="java.lang.Integer">
+		select count(1) as c from sys_user
+		<include refid="where_cond" />
+	</select>
+	
 </mapper>
 

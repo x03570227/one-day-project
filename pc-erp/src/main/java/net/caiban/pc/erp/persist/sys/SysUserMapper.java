@@ -3,7 +3,11 @@
  */
 package net.caiban.pc.erp.persist.sys;
 
+import java.util.List;
+
+import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.sys.SysUser;
+import net.caiban.pc.erp.domain.sys.SysUserCond;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -63,4 +67,9 @@ public interface SysUserMapper {
 	public Integer countByPassword(@Param("uid")Integer uid, @Param("password")String password);
 	
 	public Integer updatePassword(@Param("uid")Integer uid, @Param("password")String password);
+	
+	public List<SysUser> pageDefault(@Param("cond") SysUserCond cond, @Param("pager") Pager<SysUser> pager);
+	
+	public Integer pageDefaultCount(@Param("cond") SysUserCond cond);
+	
 }

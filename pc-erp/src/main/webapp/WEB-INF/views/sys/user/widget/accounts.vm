@@ -1,0 +1,58 @@
+<div class="col-md-8 table-responsive" id="sys_user_list">
+	#springMessage("tip.loading")
+</div>
+
+<script type="text/javascript">
+	require([	"jquery","template","product/prop", "sysUser","messenger"],
+		function(jQuery,  template,  prop,           users,    messenger){
+		
+			users.table.init({
+				tpl:{
+					"table":"tpl_sys_user_list"
+				},
+				renderTo:"sys_user_list",
+				url:"#springUrl('/sys/user/list.do')",
+				//"url-d":"#springUrl('/product/doDelete.do')",
+				pager:{
+					start:0,
+					limit:20
+				}
+			});
+			
+			users.table.search();
+			
+			/*
+			jQuery("#sys_user_list").bind("click", ".act-leave", function(o){
+				alert(jQuery(this).attr("model-product-id"));
+			});
+			*/
+		}
+	);
+</script>
+
+<script id="tpl_sys_user_list" type="text/html">
+	<table class="table table-hover table-bordered">
+		<thead>
+		<tr class="active">
+			<th class="text-center" width="10">#</th>
+			<th class="text-center" >#springMessage('lb.sys.user.account')</th>
+##            <th class="text-center" width="10"></th>
+		</tr>
+		</thead>
+		<tbody>
+		{{each records as user i}}
+		<tr >
+			<td >{{i + 1}}</td>
+			<td >{{user.account}}</td>
+##			<td >
+##			<button type="button" class="btn btn-danger btn-xs act-delete" model-product-id="{{product.id}}">
+##				<span class="glyphicon glyphicon-remove"></span>
+##			</button>
+##			</td>
+		</tr>
+		{{/each}}
+		</tbody>
+	</table>
+</script>
+
+#parse("/tpl/util/table.pager.bar.vm")

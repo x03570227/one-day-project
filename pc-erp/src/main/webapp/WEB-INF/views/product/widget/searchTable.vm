@@ -25,9 +25,11 @@
 			
 			product.table.search();
 			
+			/**
 			jQuery("#product_list .act-delete").bind("click", function(o){
 				alert(jQuery(this).attr("model-product-id"));
 			});
+			**/
 		}
 	);
 </script>

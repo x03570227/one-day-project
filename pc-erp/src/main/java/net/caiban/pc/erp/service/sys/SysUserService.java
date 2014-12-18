@@ -5,9 +5,11 @@ package net.caiban.pc.erp.service.sys;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.SysCompany;
 import net.caiban.pc.erp.domain.sys.SysUser;
+import net.caiban.pc.erp.domain.sys.SysUserCond;
 import net.caiban.pc.erp.exception.ServiceException;
 
 /**
@@ -92,4 +94,5 @@ public interface SysUserService {
 	public void resetPassword(Integer uid, String origin, String password,
 			String confirm) throws ServiceException;
 	
+	public Pager<SysUser> pager(SysUserCond cond, Pager<SysUser> pager);
 }

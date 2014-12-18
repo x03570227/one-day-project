@@ -46,6 +46,7 @@ require.config({
 		"product/define":"js/erp/config/product.define",
 		
 		"product":"js/erp/product",
+		"sysUser":"js/erp/sysUser",
 		
 		//项目自定义模块
 		"Global":"js/app/globalConfig"

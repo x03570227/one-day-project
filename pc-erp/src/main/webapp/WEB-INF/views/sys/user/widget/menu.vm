@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		#springMessage("tip.settings")
+	</div>
+	<div class="list-group">
+		<a href="#springUrl('/sys/user/index.do')" class="list-group-item">
+			<span class="glyphicon glyphicon-user"></span> 
+			#springMessage('m.user.accounts')
+		</a>
+	</div>
+	
+	<div class="list-group">
+		<a href="#springUrl('/sys/user/reset.do')" class="list-group-item">
+			<span class="glyphicon glyphicon-lock"></span> 
+			#springMessage('m.user.password')
+		</a>
+	</div>
+</div>
