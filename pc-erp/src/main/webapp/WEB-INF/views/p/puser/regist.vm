@@ -68,7 +68,7 @@
                   <div class="checkbox">
                     <label>
                       <input type="checkbox" name="accept" value="1" checked />#springMessage('addon.regist.accept')
-					  <a href="#springUrl('/p/about/teamOfService.do')" target="_blank" >#springMessage("addon.regist.term.service")</a>
+					  <a href="#springUrl('/p/about/termOfService.do')" target="_blank" >#springMessage("addon.regist.term.service")</a>
                     </label>
                   </div>
                 </div>

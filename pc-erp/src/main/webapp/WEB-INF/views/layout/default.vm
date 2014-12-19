@@ -4,7 +4,7 @@
     <title>#springMessage("global.seo.title")</title>
 	<meta name="keywords" content="#springMessage('global.seo.keywords')" />
 	<meta name="description" content="#springMessage('global.seo.description')" />
-	
+	<link rel="shortcut icon" href="http://caiban.net/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
 	<link href="#springUrl('/css/global.css')" rel="stylesheet" />
