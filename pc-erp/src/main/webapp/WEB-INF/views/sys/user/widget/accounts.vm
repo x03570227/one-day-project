@@ -76,7 +76,7 @@
 				}
 			
 				users.form.save("#springUrl('/sys/user/create.do')", jQuery(this), function(resp){
-					if(resp.id>0){
+					if(resp.data>0){
 						users.message.post({
 							message:"#springMessage('msg.form.save.success')",
 							hideAfter:3
