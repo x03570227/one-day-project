@@ -122,7 +122,6 @@
 			
 			jQuery("#product_form").submit(function(e){
 			
-				console.log(">>>>>>>>"+jQuery("#product_submit_btn").hasClass("disabled"));
 				if(jQuery("#product_submit_btn").hasClass("disabled")){
 					product.message.post({
 						message:"#springMessage('msg.form.invalid')",

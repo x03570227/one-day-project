@@ -4,6 +4,7 @@
 package net.caiban.pc.erp.controller.sys;
 
 import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,8 @@ public class UserController extends BaseController {
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, ModelMap model){
 		
+		SessionUser user = getSessionUser(request);
+		model.put("editAble", user.getAccount().contains(":")?"0":"1");
 		return null;
 	}
 	
@@ -77,5 +80,24 @@ public class UserController extends BaseController {
 		
 		pager = sysUserService.pager(cond, pager);
 		return pager;
+	}
+	
+	@RequestMapping
+	@ResponseBody
+	public Map<String, Object> create(HttpServletRequest request,
+			String account, String password, String confirm,
+			Locale locale){
+		
+		SessionUser user = getSessionUser(request);
+		String error = null; 
+		try {
+			SysUser registedUser = sysUserService.doRegistByCompany(
+					user.getAccount(), user.getCid(), account, password,
+					confirm);
+			return ajaxResult(true, registedUser.getId());
+		} catch (ServiceException e) {
+			error = messageSource.getMessage(e.getMessage(), null, locale);
+		}
+		return ajaxResult(false, error);
 	}
 }

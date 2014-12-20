@@ -95,4 +95,7 @@ public interface SysUserService {
 			String confirm) throws ServiceException;
 	
 	public Pager<SysUser> pager(SysUserCond cond, Pager<SysUser> pager);
+	
+	public SysUser doRegistByCompany(String mainAccount, Integer cid, String account,
+			String password, String confirm) throws ServiceException;
 }

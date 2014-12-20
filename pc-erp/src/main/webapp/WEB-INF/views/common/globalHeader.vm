@@ -43,6 +43,7 @@
     				</a>
 					<ul class="dropdown-menu">
     					<li><a href="#springUrl('/sys/user/reset.do')">#springMessage("m.user.password")</a></li>
+    					<li><a href="#springUrl('/sys/user/index.do')">#springMessage("m.user.accounts")</a></li>
 						<li class="divider"></li>
 						<li><a href="#springUrl('/p/puser/doLogout.do')">#springMessage("m.user.logout")</a></li>
                     </ul>

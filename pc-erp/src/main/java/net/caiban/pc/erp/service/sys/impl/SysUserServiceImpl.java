@@ -93,19 +93,19 @@ public class SysUserServiceImpl implements SysUserService {
 			throw new ServiceException("e.regist");
 		}
 		
-		SysUser registUser = saveAccount(user, company, rebuildedAccount);
+		SysUser registUser = saveAccount(user, company.getId(), rebuildedAccount);
 		
 		return new SessionUser(registUser.getId(), user.getAccount(), user.getCid());
 	}
 	
-	private SysUser saveAccount(SysUser user, SysCompany company, String rebuildedAccount) throws ServiceException{
+	private SysUser saveAccount(SysUser user, Integer cid, String rebuildedAccount) throws ServiceException{
 		SysUser registUser = new SysUser();
 		registUser.setSalt(randomSalt());
 		registUser.setClassify(classifyOfAccount(user.getAccount()));
 		registUser.setAccount(rebuildedAccount);
 		registUser.setPassword(encodePassword(user.getPassword(), registUser.getSalt()));
 		registUser.setUid(DEFAULT_UID);
-		registUser.setCid(company.getId());
+		registUser.setCid(cid);
 		
 		try {
 			sysUserMapper.insert(registUser);
@@ -237,6 +237,33 @@ public class SysUserServiceImpl implements SysUserService {
 		
 		pager.setTotals(sysUserMapper.pageDefaultCount(cond));
 		pager.setRecords(sysUserMapper.pageDefault(cond, pager));
+		//TODO 需要处理账号前缀
 		return pager;
+	}
+
+	@Override
+	public SysUser doRegistByCompany(String mainAccount, Integer cid, String account,
+			String password, String confirm) throws ServiceException {
+		if(mainAccount.contains(":")){
+			throw new ServiceException("e.sys.user.accoun.save.noauth");
+		}
+		if(!account.startsWith(mainAccount+":")){
+			throw new ServiceException("e.sys.user.accoun.format.invalid");
+		}
+		
+		if(Strings.isNullOrEmpty(confirm) || !confirm.equals(password)){
+			throw new ServiceException("e.sys.user.reset.password.confirm.invalid");
+		}
+		
+		String rebuildedAccount = rebuildAccount(classifyOfAccount(account), account);
+		if(existAccount(rebuildedAccount)){
+			throw new ServiceException("e.regist.exist.account");
+		}
+		
+		SysUser user = new SysUser();
+		user.setAccount(account);
+		user.setPassword(password);
+		
+		return saveAccount(user, cid, rebuildedAccount);
 	}
 }

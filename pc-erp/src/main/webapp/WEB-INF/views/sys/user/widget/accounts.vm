@@ -1,10 +1,51 @@
-<div class="col-md-8 table-responsive" id="sys_user_list">
+<div class="col-md-8 table-responsive" >
+	#if($!{editAble}=="1")
+    <div>
+		<form id="sys_user_form" class="form-inline" action="#springUrl('/sys/user/create.do')" method="post" role="form" onsubmit="return false;">
+			<input type="hidden" name="cid" value="$!{sessionUser.cid}" />
+			<div class="form-group">
+        		<label class="sr-only" >#springMessage('lb.sys.user.account')</label>
+        		<input type="text" class="form-control" name="account"
+					value="${sessionUser.account}:"
+					placeholder="#springMessage('ph.sys.user.account')"
+    				pattern="^(${sessionUser.account}:[a-zA-Z0-9\u4E00-\u9FA5]{2,16})$" 
+    				required
+				/>
+        	</div>
+        	
+        	<div class="form-group">
+        		<label class="sr-only" >#springMessage('lb.sys.user.password')</label>
+        		<input type="password" class="form-control" name="password" 
+					placeholder="#springMessage('ph.sys.user.password')" 
+					required
+				/>
+        	</div>
+			
+			<div class="form-group">
+        		<label class="sr-only" >#springMessage('lb.sys.user.password.repeat')</label>
+        		<input type="password" class="form-control" name="confirm" 
+					placeholder="#springMessage('ph.sys.user.password.repeat')" 
+					required
+				/>
+        	</div>
+			
+			<div  class="form-group">
+            	<button id="sys_user_submit_btn" type="submit" class="btn btn-success" title="#springMessage('btn.save')">
+            		<span class="glyphicon glyphicon-plus"></span>
+            	</button>
+            </div>
+		</form>
+	</div>
+	#set($mtcls="class='mt8'")
+	#end
+	<div id="sys_user_list" $!{mtcls}>
 	#springMessage("tip.loading")
+    </div>
 </div>
 
 <script type="text/javascript">
-	require([	"jquery","template","product/prop", "sysUser","messenger"],
-		function(jQuery,  template,  prop,           users,    messenger){
+	require([	"jquery","template","product/prop", "sysUser","messenger","validator"],
+		function(jQuery,  template,  prop,           users,    messenger,  validator){
 		
 			users.table.init({
 				tpl:{
@@ -21,11 +62,38 @@
 			
 			users.table.search();
 			
-			/*
-			jQuery("#sys_user_list").bind("click", ".act-leave", function(o){
-				alert(jQuery(this).attr("model-product-id"));
+			#if($!{editAble}=="1")
+			jQuery("#sys_user_form").validator();
+			
+			jQuery("#sys_user_form").submit(function(){
+			
+				if(jQuery("#sys_user_submit_btn").hasClass("disabled")){
+					users.message.post({
+						message:"#springMessage('msg.form.invalid')",
+						hideAfter:3
+					});
+					return false;
+				}
+			
+				users.form.save("#springUrl('/sys/user/create.do')", jQuery(this), function(resp){
+					if(resp.id>0){
+						users.message.post({
+							message:"#springMessage('msg.form.save.success')",
+							hideAfter:3
+						});
+						jQuery("#sys_user_form")[0].reset();
+						users.table.search();
+					}else{
+						users.message.post({
+							message:resp.data,
+							type:"error"
+						});
+					}
+				});
+				
+				return null;
 			});
-			*/
+			#end
 		}
 	);
 </script>
@@ -43,7 +111,7 @@
 		{{each records as user i}}
 		<tr >
 			<td >{{i + 1}}</td>
-			<td >{{user.account}}</td>
+			<td >{{user.accountWithoutClassify}}</td>
 ##			<td >
 ##			<button type="button" class="btn btn-danger btn-xs act-delete" model-product-id="{{product.id}}">
 ##				<span class="glyphicon glyphicon-remove"></span>
