@@ -13,6 +13,33 @@ define([     "util/form","util/dt"],
 		"multiValue":false,
 		"defaultValue":""
 	},{
+		"id":"comm_each_package",
+		"label":"包装(每包)",
+		"placeholder":"包装(每包)",
+		"dataType":dt.integer,
+		"searchAble":false,
+		"formItem":form.text,
+		"multiValue":false,
+		"defaultValue":"0"
+	},{
+		"id":"comm_each_box",
+		"label":"包装(每箱)",
+		"placeholder":"包装(每箱)",
+		"dataType":dt.integer,
+		"searchAble":false,
+		"formItem":form.text,
+		"multiValue":false,
+		"defaultValue":"0"
+	},{
+		"id":"comm_weight",
+		"label":"重量",
+		"placeholder":"重量",
+		"dataType":dt.decimal,
+		"searchAble":false,
+		"formItem":form.text,
+		"multiValue":false,
+		"defaultValue":"0"
+	},{
 		"id":"comm_price_sale",
 		"label":"销售价格",
 		"placeholder":"销售价格（阿里巴巴）",

@@ -49,6 +49,9 @@ public class SysUserServiceImpl implements SysUserService {
 				|| StringUtils.isEmpty(user.getPassword())) {
 			throw new ServiceException("e.login");
 		}
+		
+		user.setAccount(user.getAccount().replace("：", ":"));
+		
 		//XXX 变更为通过查找UID对应的密码登录
 		String classify = classifyOfAccount(user.getAccount());
 		String salt = sysUserMapper.querySalt(rebuildAccount(classify,

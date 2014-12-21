@@ -25,10 +25,11 @@
 			<input type="hidden" name="id" value=""/>
 			<input type="hidden" name="details" id="details" value="" />
 			<div class="panel panel-default" id="product">
-				<div class="panel-heading">
+				<div class="panel-heading" data-toggle="collapse" data-target="#product-body">
 					#springMessage("tip.product.define")
+					<small>(#springMessage("tip.collapse"))</small>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body collapse in" id="product-body">
 					
 						<div class="form-group">
 							<label for="name" class="col-sm-2 control-label">#springMessage("lb.product.code")：</label>
@@ -60,19 +61,20 @@
 			</div>
 			
 			<div class="panel panel-default" id="product_define_common">
-				<div class="panel-heading">
+				<div class="panel-heading" data-toggle="collapse" data-target="#product_define_common_body">
 					#springMessage("tip.product.define.common")
+					<small>(#springMessage("tip.collapse"))</small>
 				</div>
-				<div class="panel-body">
-					//公共属性
+				<div class="panel-body collapse in" id="product_define_common_body">
 				</div>
 			</div>
 			
 			<div class="panel panel-default" id="product_define_category">
-				<div class="panel-heading">
+				<div class="panel-heading" data-toggle="collapse" data-target="#product_define_category_body">
 					#springMessage("tip.product.define.category")
+					<small>(#springMessage("tip.collapse"))</small>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body collapse in" id="product_define_category_body">
 				</div>
 			</div>
 			
