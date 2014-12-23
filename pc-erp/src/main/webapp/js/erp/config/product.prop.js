@@ -7,28 +7,53 @@
  * 	parentCode:""
  * }
  * */
-//按产品品类分
-//按销售范围划分
-//按材质划分
 
 define(function(){
 	var prop={};
 	
-	//类别
-	prop["category"]=[{
-		code:"QT",
-		name:"请帖"
+	var df={"gyp":"gyp",
+			"ly":"ly"};
+//	//类别
+//	prop["category"]=[{
+//		code:"GYP",
+//		name:"工艺品、礼品",
+//		define:df.gyp,
 //		child:[{
-//			code:"HB",
-//			name:"子红包",
-//			parentCode:"QT"
+//			name:"婚庆用品",
+//			code:"GYP-HQ",
+//			define:df.gyp,
+//			child:[{
+//				code:"GYP-HQ-QT",
+//				name:"请帖",
+//				define:df.gyp
+//			},{
+//				code:"GYP-HQ-HB",
+//				name:"红包",
+//				define:df.gyp
+//			},{
+//				code:"GYP-HQ-XT",
+//				name:"喜糖盒",
+//				define:df.gyp
+//			}]
 //		}]
+//	}];
+	
+	prop["category"]=[{
+		code:"GYP-HQ-QT",
+		name:"工艺品、礼品-婚庆用品-请帖",
+		define:df.gyp
 	},{
-		code:"HB",
-		name:"红包"
+		code:"GYP-HQ-HB",
+		name:"工艺品、礼品-婚庆用品-红包",
+		define:df.gyp
 	},{
-		code:"XT",
-		name:"喜糖盒"
+		code:"GYP-HQ-XT",
+		name:"工艺品、礼品-婚庆用品-喜糖盒",
+		define:df.gyp
+	},{
+		code:"XN-LY-MP",
+		name:"虚拟-旅游-门票",
+		define:df.ly
 	}];
 	
 	//价格单位
@@ -98,7 +123,8 @@ define(function(){
 		
 		return r;
 		
-	}
+	};
 	
 	return prop;
 });
+

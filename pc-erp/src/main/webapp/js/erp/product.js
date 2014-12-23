@@ -42,7 +42,6 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 		
 		product["initDefineForm"]=function(type){
 			var html = "";
-			
 			jQuery.each(df[type], function (idx, obj){
 				html += template(obj.formItem.tpl, obj);
 			});
@@ -67,7 +66,7 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 				
 			});
 			
-			console.log(JSON.stringify(result));
+//			console.log(JSON.stringify(result));
 			return JSON.stringify(result);
 		};
 		
@@ -117,7 +116,7 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 			categoryCode = categoryCode||"";
 			
 			var types = new Array();
-			types.push("common");
+//			types.push("common");
 			if(categoryCode !=""){
 				types.push(categoryCode);
 			}

@@ -8,9 +8,9 @@
 					<li>
 						<a href="#product">#springMessage("tip.product.define")</a>
 					</li>
-					<li >
-						<a href="#product_define_common">#springMessage("tip.product.define.common")</a>
-					</li>
+##					<li >
+##						<a href="#product_define_common">#springMessage("tip.product.define.common")</a>
+##					</li>
 					<li >
 						<a href="#product_define_category">#springMessage("tip.product.define.category")</a>
 					</li>
@@ -60,14 +60,14 @@
                 </div>
 			</div>
 			
-			<div class="panel panel-default" id="product_define_common">
-				<div class="panel-heading" data-toggle="collapse" data-target="#product_define_common_body">
-					#springMessage("tip.product.define.common")
-					<small>(#springMessage("tip.collapse"))</small>
-				</div>
-				<div class="panel-body collapse in" id="product_define_common_body">
-				</div>
-			</div>
+##			<div class="panel panel-default" id="product_define_common">
+##				<div class="panel-heading" data-toggle="collapse" data-target="#product_define_common_body">
+##					#springMessage("tip.product.define.common")
+##					<small>(#springMessage("tip.collapse"))</small>
+##				</div>
+##				<div class="panel-body collapse in" id="product_define_common_body">
+##				</div>
+##			</div>
 			
 			<div class="panel panel-default" id="product_define_category">
 				<div class="panel-heading" data-toggle="collapse" data-target="#product_define_category_body">
@@ -90,13 +90,13 @@
 			//init base form
 			jQuery("#categoryCode").append(product.compileOption("category"));
 			
-			//setting common properties
-			jQuery("#product_define_common .panel-body").empty();
-			jQuery("#product_define_common .panel-body").append(product.initDefineForm("common"));
+##			//setting common properties
+##			jQuery("#product_define_common .panel-body").empty();
+##			jQuery("#product_define_common .panel-body").append(product.initDefineForm("common"));
 			
 			//setting event of category change
-			jQuery("#categoryCode").change(function(){
-				
+			jQuery("#categoryCode").on("change", function(){
+			
 				var _this=jQuery(this);
 				var v = _this.val();
 				
@@ -133,7 +133,7 @@
 				}
 				
 				var df = new Array();
-				df.push("common");
+				//df.push("common");
 				if(jQuery("#categoryCode").val()!=""){
 					df.push(jQuery("#categoryCode").val());
 				}

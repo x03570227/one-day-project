@@ -104,11 +104,11 @@ define([     "util/form","util/dt"],
 	}
 	];
 	
-	pdefine["HB"]=[];
+	pdefine["GYP-HQ-HB"]=pdefine["common"];
 	
-	pdefine["XT"]=[];
+	pdefine["GYP-HQ-XT"]=pdefine["common"];
 	
-	pdefine["QT"]=[{
+	pdefine["GYP-HQ-QT"] = pdefine["common"].concat([{
 		"id":"qt_paper_name",
 		"label":"纸张名称",
 		"dataType":dt.array,
@@ -271,8 +271,17 @@ define([     "util/form","util/dt"],
 		}],
 		"multiValue":false,
 		"defaultValue":"Y"
-	}];
+	}]);
 	
+	pdefine["XN-LY-MP"] = [{
+		"id":"qt_intro",
+		"label":"景区介绍",
+		"placeholder":"景区介绍",
+		"dataType":dt.string,
+		"searchAble":false,
+		"formItem":form.textArea,
+		"multiValue":false
+	}];
 	
 	return pdefine;
 });
