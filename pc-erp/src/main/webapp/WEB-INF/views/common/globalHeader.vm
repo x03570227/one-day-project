@@ -14,7 +14,7 @@
         </div>
         <div class="navbar-collapse collapse">
           #if($sessionUser)
-		  <ul class="nav navbar-nav">
+			<ul class="nav navbar-nav">
             <li #if(${menuIdx} == "index")class="active"#end>
 				<a href="#springUrl('/')">#springMessage("m.index")</a>
 			</li>
@@ -30,6 +30,9 @@
 				</li>
               </ul>
             </li>
+			<li #if(${menuIdx} == "trade")class="active"#end>
+				<a href="#springUrl('/trade/index.do')">#springMessage("m.trade")</a>
+			</li>
           </ul>
 		  #end
           <ul class="nav navbar-nav navbar-right">

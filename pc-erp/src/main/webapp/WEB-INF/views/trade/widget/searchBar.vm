@@ -1,0 +1,78 @@
+<div class="container">
+	<div class="row">
+		<nav class=" navbar navbar-default" >
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#trade_search_form" >
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">#springMessage("tip.trade.search.brand")</a>
+				</div>
+				<div class="collapse navbar-collapse" id="trade_search_form">
+				</div>
+			</div>
+		</nav>
+	</div>
+</div>
+
+<script type="text/javascript">
+	require([	"jquery","template","trade","trade/prop"],
+		function(jQuery,  template,  trade,  prop){
+			
+			var html=template("tpl_trade_search_form", prop);
+			
+			jQuery("#trade_search_form").html(html);
+			
+			jQuery("#search_form").submit(function(fm){
+				
+				trade.table.setStart(0);
+				
+				trade.table.search(jQuery("#search_form").serialize());
+				return false;
+			});
+			
+			jQuery("#trade_search_form").on("click","#btn-clear-filter", function(){
+				jQuery("#search_form")[0].reset();
+				trade.table.setStart(0);
+				trade.table.search();
+			});
+			
+		}
+	);
+</script>
+
+<script id="tpl_trade_search_form" type="text/html">
+<form class="navbar-form navbar-left" role="search" action="#springUrl('/trade/index.do')" id="search_form">
+
+	<div class="form-group">
+		<label class="sr-only">#springMessage('lb.trade.num')</label>
+		<input type="text" class="form-control" name="tradeNumMatchBefore" placeholder="#springMessage('ph.trade.num')" />
+	</div>
+	
+	<div class="form-group">
+		<select class="form-control" name="status">
+			<option value="" >--#springMessage('ph.trade.status')--</option>
+			{{each status as p}}
+			<option value="{{p.code}}" >{{p.name}}</option>
+			{{/each}}
+		</select>
+	</div>
+	
+	<div  class="form-group">
+	<button type="submit" class="btn btn-primary">
+		<span class="glyphicon glyphicon-search"></span> #springMessage('btn.search')
+	</button>
+    </div>
+	
+	<div  class="form-group">
+	<button id="btn-clear-filter" type="button" class="btn btn-default" title="#springMessage('btn.search.clear')">
+		<span class="glyphicon glyphicon-filter"></span>
+	</button>
+    </div>
+</form>
+</script>
+
+	

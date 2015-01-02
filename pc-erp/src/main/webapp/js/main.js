@@ -44,6 +44,9 @@ require.config({
 		"util/cache":"js/utils/util.cache",
 		"product/prop":"js/erp/config/product.prop",
 		"product/define":"js/erp/config/product.define",
+		"trade/prop":"js/erp/config/trade.prop",
+		
+		"trade":"js/erp/trade",
 		
 		"product":"js/erp/product",
 		"sysUser":"js/erp/sysUser",

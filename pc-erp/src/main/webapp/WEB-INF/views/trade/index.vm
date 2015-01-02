@@ -1,0 +1,3 @@
+#globalHeader("trade")
+#parse("/trade/widget/searchBar.vm")
+#parse("/trade/widget/searchTable.vm")
