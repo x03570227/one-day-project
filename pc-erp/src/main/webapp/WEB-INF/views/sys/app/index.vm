@@ -1,0 +1,76 @@
+#globalHeader("index")
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="panel panel-default">
+            	<div class="panel-heading">
+            		#springMessage("tip.settings")
+            	</div>
+            	<div class="list-group">
+            		<a href="#springUrl('/sys/app/index.do')?domain=$!{domain}" class="list-group-item">
+            			<span class="glyphicon glyphicon-lock"></span> 
+            			$!{domain}
+            		</a>
+            	</div>
+				
+            </div>
+
+		</div>
+		
+        <div class="col-md-8">
+			<div class="panel panel-default">
+            	<div class="panel-heading">
+            		$!{domain}
+            	</div>
+				<div class="panel-body">
+					<form id="formApp" name="formApp" class="form-horizontal" role="form" method="post"
+						action="#springUrl('/sys/app/saveOrUpdate.do')">
+						<input type="hidden" name="id" value="$!{app.id}"></input>
+						<input type="hidden" name="domain" value="$!{domain}"></input>
+            			#if("$!{success}" !="" )
+            			<div class="form-group">
+            				<div class=" col-sm-12 text-center">
+            					<div class="alert alert-success alert-dismissable">
+                                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                  <strong>#springMessage("tip.info")</strong> #springMessage($success) 
+                                </div>
+                            </div>
+            			</div>
+            			#end
+                          <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+            					<label >#springMessage("lb.sys.app.key")</label>
+            					<input type="text" class="form-control" name="appKey" value="$!{app.appKey}" placeholder="#springMessage('ph.sys.app.key')" required />
+                            </div>
+                          </div>
+						  <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+            					<label>#springMessage("lb.sys.app.secret")</label>
+            					<input type="text" class="form-control" name="appSecret" value="$!{app.appSecret}" placeholder="#springMessage('ph.sys.app.secret')" required />
+                			  ##<p class="help-block"></p>
+                            </div>
+                          </div>
+            			  
+            			  <div class="form-group" >
+            				<div class="col-sm-offset-2 col-sm-8">
+                              <button type="submit" class="btn btn-primary">#springMessage('btn.save')</button>
+                            </div>
+            			  </div>
+                    </form>
+				</div>
+            </div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+
+require([	"jquery","Bootstrap","validator"],
+	function(jQuery){
+		jQuery("#formApp").validator();
+	}
+);
+
+</script>

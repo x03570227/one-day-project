@@ -30,7 +30,7 @@ public class SysCompanyServiceImpl implements SysCompanyService{
 
 	@Override
 	public SysCompany queryOne(Integer cid) {
-		if(cid==null && cid.intValue()<=0){
+		if(cid==null || cid.intValue()<=0){
 			return null;
 		}
 		return sysCompanyMapper.queryOne(cid);

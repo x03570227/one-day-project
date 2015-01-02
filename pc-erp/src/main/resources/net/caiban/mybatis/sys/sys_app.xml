@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.caiban.pc.erp.persist.sys.SysAppMapper">
+	
+	
+	<insert id="insert" parameterType="net.caiban.pc.erp.domain.sys.SysApp" keyProperty="id">
+	insert into sys_app ( `cid`, `domain`, `app_key`, `app_secret`,
+	`refresh_token`, `access_token`, `gmt_created`, `gmt_modified`) VALUES
+	(#{cid}, #{domain}, #{appKey}, #{appSecret}, #{refreshToken},
+	#{accessToken}, now(), now())
+	</insert>
+	
+	<update id="update">
+		update sys_app set
+		<if test="domain!=null">
+		`domain` = #{domain},
+		</if>
+		<if test="appKey != null" >
+		`app_key` = #{appKey},
+		</if>
+		<if test="appSecret!=null" >
+		`app_secret` = #{appSecret},
+		</if>
+		<if test="refreshToken!=null" >
+		`refresh_token` = #{refreshToken},
+		</if>
+		<if test="accessToken!=null" >
+		`access_token` = #{accessToken},
+		</if>
+		`gmt_modified` = now()
+		where id=#{id}
+	</update>
+	
+	<sql id="default_column">
+		`sys_app`.`id`,
+		`sys_app`.`cid`,
+		`sys_app`.`domain`,
+		`sys_app`.`app_key` as appKey,
+		`sys_app`.`app_secret` as appSecret,
+		`sys_app`.`refresh_token` as refreshToken,
+		`sys_app`.`access_token` as accessToken,
+		`sys_app`.`gmt_created` as gmtCreated,
+		`sys_app`.`gmt_modified` as gmtModified
+	</sql>
+	
+	<select id="queryByDomain" resultType="net.caiban.pc.erp.domain.sys.SysApp">
+		select 
+			<include refid="default_column"/>
+		 from sys_app
+		where domain=#{domain} and cid=#{cid}
+	</select>
+		
+</mapper>
+

@@ -54,7 +54,6 @@
                               <button type="submit" class="btn btn-primary">#springMessage('btn.save')</button>
                             </div>
             			  </div>
-                          </a>
                     </form>
 				</div>
 			</div>
