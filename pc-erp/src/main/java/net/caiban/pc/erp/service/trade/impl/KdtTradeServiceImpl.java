@@ -21,6 +21,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -30,6 +31,7 @@ import com.kdt.api.KdtApiClient;
  * @author mays
  *
  */
+@Component("kdtTradeService")
 public class KdtTradeServiceImpl implements KdtTradeService {
 
 	@Resource
@@ -41,6 +43,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 	@Resource
 	private ProductMapper productMapper;
 	
+	final static int DEFAULT_STATUS=0;
 	
 	final static String SOURCE_DOMAIN="koudaitong.com";
 	final static String SOURCE_TYPE="API";
@@ -48,7 +51,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 	final static String READY_STATUS = "WAIT_BUYER_CONFIRM_GOODS";
 	
 	@Override
-	public void checkTicket(Integer cid, String tradeNum)
+	public JSONObject checkTicket(Integer cid, String tradeNum)
 			throws ServiceException {
 		//获取appkey throw e.sys.app.unfound
 		//从appclient获取订单 throw e.trade.unfound, e.sys.app.client.exception
@@ -96,6 +99,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 			trade.setSourceDomain(SOURCE_DOMAIN);
 			trade.setSourceType(SOURCE_TYPE);
 			trade.setTradeNum(tradeNum);
+			trade.setStatus(DEFAULT_STATUS);
 			tradeMapper.insert(trade);
 			
 			TradeDefine define = new TradeDefine();
@@ -103,6 +107,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 			define.setDetails(tradeJson.toString());
 			tradeDefineMapper.insert(define);
 		}
+		return tradeJson;
 	}
 	
 	private JSONObject getResponseTrade(KdtApiClient client, SysApp app, String tradeNum) throws ServiceException {

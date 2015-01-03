@@ -18,6 +18,7 @@ public class Trade extends BaseDomain {
 	private String tradeNum;
 	private String sourceDomain;
 	private String sourceType;
+	private Integer status;
 	
 	public Integer getCid() {
 		return cid;
@@ -48,6 +49,12 @@ public class Trade extends BaseDomain {
 	}
 	public void setSourceType(String sourceType) {
 		this.sourceType = sourceType;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 }

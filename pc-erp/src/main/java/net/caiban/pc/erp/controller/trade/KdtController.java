@@ -12,6 +12,7 @@ import net.caiban.pc.erp.controller.BaseController;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.trade.KdtTradeService;
+import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,7 +30,11 @@ public class KdtController extends BaseController {
 	private KdtTradeService kdtTradeService;
 
 	@RequestMapping
-	public ModelAndView ticket(HttpServletRequest request, ModelMap model){
+	public ModelAndView ticket(HttpServletRequest request, ModelMap model, String error, String success){
+		
+		model.put("error", error);
+		
+		model.put("success", success);
 		
 		return null;
 	}
@@ -46,13 +51,16 @@ public class KdtController extends BaseController {
 		String error = null; 
 		
 		try {
-			kdtTradeService.checkTicket(user.getCid(), tradeNum);
+			JSONObject tradeJson = kdtTradeService.checkTicket(user.getCid(), tradeNum);
+			model.put("trade", tradeJson);
+			model.put("tradeNum", tradeNum);
+			return null;
 		} catch (ServiceException e) {
 			error = e.getMessage();
 		}
 		
 		model.put("error", error);
-		return null;
+		return new ModelAndView("redirect:/trade/kdt/ticket.do");
 	}
 	
 	@RequestMapping
@@ -65,7 +73,7 @@ public class KdtController extends BaseController {
 		try {
 			kdtTradeService.marksign(user.getCid(), tradeNum);
 			//TODO 跳转到打印页面
-			
+			model.put("success", "e.trade.marksign.success");
 		} catch (ServiceException e) {
 			model.put("error", e.getMessage());
 		}

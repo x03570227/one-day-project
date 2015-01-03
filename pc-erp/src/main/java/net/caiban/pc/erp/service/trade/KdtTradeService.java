@@ -4,6 +4,7 @@
 package net.caiban.pc.erp.service.trade;
 
 import net.caiban.pc.erp.exception.ServiceException;
+import net.sf.json.JSONObject;
 
 /**
  * @author mays
@@ -11,7 +12,7 @@ import net.caiban.pc.erp.exception.ServiceException;
  */
 public interface KdtTradeService {
 
-	public void checkTicket(Integer cid, String tradeNum) throws ServiceException;
+	public JSONObject checkTicket(Integer cid, String tradeNum) throws ServiceException;
 	
 	public void marksign(Integer cid, String tradeNum) throws ServiceException;
 }
