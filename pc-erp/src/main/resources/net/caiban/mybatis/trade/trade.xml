@@ -7,7 +7,22 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	
 	
 	<insert id="insert" parameterType="net.caiban.pc.erp.domain.trade.Trade" keyProperty="id">
-	insert into trade 
+	insert into trade (
+		`cid`,
+		`pid_first`,
+		`trade_num`,
+		`source_domain`,
+		`source_type`,
+		`gmt_created`,
+		`gmt_modified`,
+		`status`)
+	values(#{cid},
+		#{pidFirst},
+		#{tradeNum},
+		#{sourceDomain},
+		#{sourceType},
+		now(),now()
+		#{status})
 	</insert>
 	
 	<sql id="default_column">
@@ -57,6 +72,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			count(1) as c
 		from trade
 		<include refid="where_cond" />
+	</select>
+	
+	<select id="queryIdByTradeNum" >
+		select id from trade 
+		where cid=#{cid} and trade_num=#{tradeNum}
 	</select>
 		
 </mapper>

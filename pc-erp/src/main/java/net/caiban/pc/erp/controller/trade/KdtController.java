@@ -1,0 +1,82 @@
+/**
+ * 
+ */
+package net.caiban.pc.erp.controller.trade;
+
+import java.util.Locale;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import net.caiban.pc.erp.controller.BaseController;
+import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.exception.ServiceException;
+import net.caiban.pc.erp.service.trade.KdtTradeService;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * @author mays
+ *
+ */
+@Controller
+public class KdtController extends BaseController {
+	
+	@Resource
+	private KdtTradeService kdtTradeService;
+
+	@RequestMapping
+	public ModelAndView ticket(HttpServletRequest request, ModelMap model){
+		
+		return null;
+	}
+	
+	@RequestMapping
+	public ModelAndView doCheckTicket(HttpServletRequest request, ModelMap model,
+			String tradeNum, Locale locale){
+		//TODO 检查订单情况
+		//1. 从口袋通获取订单
+		//2. 写入或更新本地订单信息（特别注意状态）
+		//3. 根据状态返回信息
+		SessionUser user = getSessionUser(request);
+		
+		String error = null; 
+		
+		try {
+			kdtTradeService.checkTicket(user.getCid(), tradeNum);
+		} catch (ServiceException e) {
+			error = e.getMessage();
+		}
+		
+		model.put("error", error);
+		return null;
+	}
+	
+	@RequestMapping
+	public ModelAndView doMarksign(HttpServletRequest request, ModelMap model, 
+			String tradeNum){
+		//TODO 标记物流信息
+		//1. 标记
+		//2. 返回结果
+		SessionUser user = getSessionUser(request);
+		try {
+			kdtTradeService.marksign(user.getCid(), tradeNum);
+			//TODO 跳转到打印页面
+			
+		} catch (ServiceException e) {
+			model.put("error", e.getMessage());
+		}
+		
+		return new ModelAndView("redirect:/trade/kdt/ticket.do");
+	}
+	
+	@RequestMapping
+	public ModelAndView print(HttpServletRequest request, ModelMap model,
+			String tradeNum){
+		
+		return null;
+	}
+}

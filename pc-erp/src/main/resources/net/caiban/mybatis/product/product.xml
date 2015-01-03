@@ -142,5 +142,12 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			gmt_modified=now()
 		where id=#{id}
 	</update>
+	
+	<select id="queryOneByCode" resultType="net.caiban.pc.erp.domain.product.Product">
+		select 
+			<include refid="default_column"/>
+		from `product`
+		where cid=#{cid} and code=#{code}
+	</select>
 </mapper>
 

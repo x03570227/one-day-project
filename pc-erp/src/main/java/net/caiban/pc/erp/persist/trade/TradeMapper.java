@@ -24,4 +24,6 @@ public interface TradeMapper {
 	
 	public Integer insert(Trade trade);
 	
+	public Integer queryIdByTradeNum(@Param("cid") Integer cid, @Param("tradeNum") String tradeNum);
+	
 }

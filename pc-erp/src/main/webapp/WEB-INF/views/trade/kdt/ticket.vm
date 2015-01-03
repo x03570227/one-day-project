@@ -1,0 +1,55 @@
+#globalHeader("trade")
+
+<div class="container mt8">
+	<div class="row">
+		<div class="col-md-12" id="trade_list">
+			
+			<div class="panel panel-default">
+            	<div class="panel-heading">
+            		$!{domain}
+            	</div>
+				<div class="panel-body">
+					<form id="formKdt" name="formKdt" class="form-horizontal" role="form" method="post" action="#springUrl('/trade/kdt/doCheckTicket.do')">
+            			#if("$!{error}" !="" )
+            			<div class="form-group">
+            				<div class=" col-sm-12 text-center">
+            					<div class="alert alert-warning alert-dismissable">
+                                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                  <strong>#springMessage("tip.warn")</strong> #springMessage($error) 
+                                </div>
+                            </div>
+            			</div>
+            			#end
+                          <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+            					<label >#springMessage("lb.sys.user.password.current")</label>
+            					<input type="password" class="form-control" name="origin" value="" placeholder="#springMessage('ph.sys.user.password.current')" required />
+                            </div>
+                          </div>
+						  <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+            					<label>#springMessage("lb.sys.user.password.new")</label>
+            					<input type="password" class="form-control" name="password" value="" placeholder="#springMessage('ph.sys.user.password.new')" required />
+                			  ##<p class="help-block"></p>
+                            </div>
+                          </div>
+						  <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+            					<label>#springMessage("sys.user.password.repeat")</label>
+            					<input type="password" class="form-control" name="confirm" value="" placeholder="#springMessage('ph.sys.user.password.repeat')" required />
+                            </div>
+                          </div>
+            			  
+            			  <div class="form-group" >
+            				<div class="col-sm-offset-2 col-sm-8">
+                              <button type="submit" class="btn btn-primary">#springMessage('btn.save')</button>
+                            </div>
+            			  </div>
+                    </form>
+					
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>

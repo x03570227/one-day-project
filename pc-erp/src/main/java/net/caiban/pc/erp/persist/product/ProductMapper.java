@@ -29,4 +29,6 @@ public interface ProductMapper {
 	
 	public Product queryOne(Integer id);
 	
+	public Product queryOneByCode(@Param("cid")Integer cid, @Param("code") String code);
+	
 }
