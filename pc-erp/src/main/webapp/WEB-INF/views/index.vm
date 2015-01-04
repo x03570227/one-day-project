@@ -33,11 +33,26 @@
 	</div>
 	
     <div class="row">
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
+		
+		<div class="col-md-4">
+    		
+			<div class="panel panel-success">
+            	<div class="panel-heading">
+    				#springMessage("m.trade.kdt.scan")
+            	</div>
+    			<div class="panel-body text-center">
+					<h3>
+                    <a href="#springUrl('/trade/kdt/ticket.do')" >#springMessage("m.trade.kdt.scan")</a>
+					</h3>
+            	</div>
+    		</div>
+			
+		</div>
+		
+	</div>
+	
+    <div class="row">
+		
 		<br />
 		<br />
 		<br />

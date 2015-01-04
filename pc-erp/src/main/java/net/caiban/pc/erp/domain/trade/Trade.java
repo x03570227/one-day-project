@@ -13,6 +13,18 @@ public class Trade extends BaseDomain {
 
 	private static final long serialVersionUID = 1L;
 	
+	public enum STATUS{
+		DEFAULT(0), DONE(-1);
+		private Integer key;
+		
+		STATUS(Integer key){
+			this.key=key;
+		}
+		public Integer getKey(){
+			return key;
+		}
+	}
+	
 	private Integer cid;
 	private Integer pidFirst;
 	private String tradeNum;

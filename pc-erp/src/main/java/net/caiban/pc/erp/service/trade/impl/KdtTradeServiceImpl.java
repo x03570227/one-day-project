@@ -43,7 +43,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 	@Resource
 	private ProductMapper productMapper;
 	
-	final static int DEFAULT_STATUS=0;
+//	final static int DEFAULT_STATUS=0;
 	
 	final static String SOURCE_DOMAIN="koudaitong.com";
 	final static String SOURCE_TYPE="API";
@@ -99,7 +99,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 			trade.setSourceDomain(SOURCE_DOMAIN);
 			trade.setSourceType(SOURCE_TYPE);
 			trade.setTradeNum(tradeNum);
-			trade.setStatus(DEFAULT_STATUS);
+			trade.setStatus(Trade.STATUS.DEFAULT.getKey());
 			tradeMapper.insert(trade);
 			
 			TradeDefine define = new TradeDefine();
@@ -154,6 +154,8 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 			Boolean result = jobj.getJSONObject("response").getBoolean("is_success");
 			if(!result){
 				throw new ServiceException("e.trade.marksign.failure");
+			}else{
+				tradeMapper.updateStatus(cid, tradeNum, Trade.STATUS.DONE.getKey());
 			}
 		} catch (Exception e) {
 			throw new ServiceException("e.sys.app.client.exception");

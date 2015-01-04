@@ -26,4 +26,6 @@ public interface TradeMapper {
 	
 	public Integer queryIdByTradeNum(@Param("cid") Integer cid, @Param("tradeNum") String tradeNum);
 	
+	public Integer updateStatus(@Param("cid") Integer cid,
+			@Param("tradeNum") String tradeNum, @Param("status") Integer status);
 }

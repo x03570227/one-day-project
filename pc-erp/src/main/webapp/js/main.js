@@ -13,7 +13,7 @@ var STATIC_UPLOAD="http://su.caiban.net";
 var STATIC="http://s.caiban.net";
 
 require.config({
-	urlArgs:"v=20141223.4",
+	urlArgs:"v=20150104.6",
 	baseUrl:CONTEXT_PATH,
 	paths:{
 		//基础JS库

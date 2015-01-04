@@ -78,6 +78,12 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		select id from trade 
 		where cid=#{cid} and trade_num=#{tradeNum}
 	</select>
-		
+	
+	<update id="updateStatus" >
+		update trade set 
+			status = #{status},
+			gmt_modified=now()
+		where cid=#{cid} and trade_num=#{tradeNum}
+	</update>
 </mapper>
 

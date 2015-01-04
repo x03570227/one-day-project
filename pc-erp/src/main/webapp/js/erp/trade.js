@@ -16,7 +16,7 @@ define(		["jquery","template","trade/prop","util/table","messenger"],
 			}
 			
 			jQuery.each(p.records, function (idx, obj){
-				obj.statusName=prop.getName("category", obj.categoryCode, "Error Category");
+				obj.statusName=prop.getName("status", ""+obj.trade.status, "Error Category");
 			});
 			
 			return p;
