@@ -157,6 +157,9 @@ public class SysUserServiceImpl implements SysUserService {
 		}
 		return null;
 	}
+	public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		System.out.println(MD5.encode("135246e25iirlljqq73hqp7023d2i701n503mq", MD5.LENGTH_32));
+	}
 	
 	/**
 	 * 生成随机盐值，用于新保存密码时
