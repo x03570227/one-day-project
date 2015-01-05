@@ -3,7 +3,11 @@
  */
 package net.caiban.pc.erp.service.trade.impl;
 
+import hirondelle.date4j.DateTime;
+
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.annotation.Resource;
 
@@ -46,4 +50,17 @@ public class TradeServiceImpl implements TradeService {
 		return page;
 	}
 
+	@Override
+	public Integer doCountToday(Integer cid, Integer status) {
+		
+		TradeCond cond = new TradeCond();
+		cond.setCid(cid);
+		cond.setStatus(status);
+		DateTime dt = DateTime.today(TimeZone.getDefault());
+		cond.setGmtCreatedMin(new Date(dt.getMilliseconds(TimeZone.getDefault())));
+		cond.setGmtCreatedMax(new Date(dt.plusDays(1).getMilliseconds(TimeZone.getDefault())));
+		
+		return tradeMapper.pageDefaultCount(cond);
+	}
+	
 }

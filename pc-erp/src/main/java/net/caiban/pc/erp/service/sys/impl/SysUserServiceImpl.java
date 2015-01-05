@@ -272,4 +272,15 @@ public class SysUserServiceImpl implements SysUserService {
 		
 		return saveAccount(user, cid, rebuildedAccount);
 	}
+
+	@Override
+	public Integer doCountUserOfCompany(Integer cid, Boolean withMainUser) {
+		
+		SysUserCond cond = new SysUserCond();
+		cond.setCid(cid);
+		Integer count = sysUserMapper.pageDefaultCount(cond);
+		
+		withMainUser = withMainUser==null?false:withMainUser;
+		return withMainUser?count:count-1;
+	}
 }

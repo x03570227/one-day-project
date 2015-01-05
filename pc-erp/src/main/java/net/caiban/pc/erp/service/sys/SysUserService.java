@@ -98,4 +98,6 @@ public interface SysUserService {
 	
 	public SysUser doRegistByCompany(String mainAccount, Integer cid, String account,
 			String password, String confirm) throws ServiceException;
+	
+	public Integer doCountUserOfCompany(Integer cid, Boolean withMainUser);
 }

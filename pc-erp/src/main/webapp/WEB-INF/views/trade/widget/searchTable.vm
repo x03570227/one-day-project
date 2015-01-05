@@ -33,10 +33,10 @@
 		<thead>
 		<tr class="active">
 			<th class="text-center" width="10">#</th>
-			<th class="text-center" >#springMessage('lb.trade.num')</th>
-			<th class="text-center" >#springMessage('lb.trade.source.domain')</th>
+			<th class="text-center">#springMessage('lb.trade.num')</th>
+			<th class="text-center">#springMessage('lb.trade.source.domain')</th>
 			<th class="text-center">#springMessage('lb.trade.status')</th>
-            <th class="text-center"></th>
+            <th class="text-center">#springMessage('lb.trade.gmt.modified')</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -47,6 +47,7 @@
 			<td >{{dto.trade.sourceDomain}}</td>
 			<td >{{dto.statusName}}</td>
 			<td >
+				{{dto.gmtModifiedStr}}
 ##				{{if dto.trade.status == 0}}
 ##					<a href="#springUrl('/trade/kdt/doCheckTicket.do')" >确认使用</a>
 ##				{{/if}}

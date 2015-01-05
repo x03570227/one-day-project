@@ -14,7 +14,11 @@
 					#springMessage("tip.index.product.count")
             	</div>
 				<div class="panel-body text-center">
-                    <h3>$!{productCount}</h3>
+                    <h3>
+						<a href="#springUrl('/product/index.do')" >
+						$!{productCount}
+						</a>
+					</h3>
             	</div>
 			</div>
 		</div>
@@ -25,7 +29,11 @@
 					#springMessage("tip.index.account.count")
             	</div>
 				<div class="panel-body text-center">
-                    <h3>0</h3>
+                    <h3>
+						<a href="#springUrl('/sys/user/index.do')" >
+						$!{accountCount}
+						</a>
+					</h3>
             	</div>
 			</div>
 		</div>
@@ -47,6 +55,19 @@
             	</div>
     		</div>
 			
+		</div>
+		
+		<div class="col-md-4">
+			<div class="panel panel-warning">
+            	<div class="panel-heading">
+    				#springMessage("m.trade.statistics.today")
+            	</div>
+    			<div class="panel-body text-center">
+					<h3>
+						<a href="#springUrl('/trade/index.do')" >$!{tradeTodayCount}</a>
+					</h3>
+            	</div>
+    		</div>
 		</div>
 		
 	</div>

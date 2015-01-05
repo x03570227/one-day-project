@@ -3,6 +3,8 @@
  */
 package net.caiban.pc.erp.domain.trade;
 
+import java.util.Date;
+
 import net.caiban.pc.erp.domain.BaseCond;
 
 /**
@@ -19,6 +21,8 @@ public class TradeCond extends BaseCond{
 	private Integer status;
 	
 	private String tradeNumMatchBefore;
+	private Date gmtCreatedMin;
+	private Date gmtCreatedMax;
 
 	public Integer getCid() {
 		return cid;
@@ -51,6 +55,21 @@ public class TradeCond extends BaseCond{
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	
+
+	public Date getGmtCreatedMin() {
+		return gmtCreatedMin;
+	}
+
+	public void setGmtCreatedMin(Date gmtCreatedMin) {
+		this.gmtCreatedMin = gmtCreatedMin;
+	}
+
+	public Date getGmtCreatedMax() {
+		return gmtCreatedMax;
+	}
+
+	public void setGmtCreatedMax(Date gmtCreatedMax) {
+		this.gmtCreatedMax = gmtCreatedMax;
+	}
 	
 }

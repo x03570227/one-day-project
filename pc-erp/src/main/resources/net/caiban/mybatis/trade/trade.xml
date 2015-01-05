@@ -48,6 +48,14 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<if test="cond.tradeNumMatchBefore != null and cond.tradeNumMatchBefore != '' ">
 			and trade.trade_num like concat(#{cond.tradeNumMatchBefore} , '%')
 		</if>
+		
+		<if test="cond.gmtCreatedMin != null" >
+			and trade.gmt_created > #{cond.gmtCreatedMin}
+		</if>
+		
+		<if test="cond.gmtCreatedMax != null" >
+			and #{cond.gmtCreatedMax} > trade.gmt_created
+		</if>
 	</sql>
 	
 	<select id="pageDefault" resultType="net.caiban.pc.erp.domain.trade.Trade">

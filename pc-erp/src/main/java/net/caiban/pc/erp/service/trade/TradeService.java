@@ -15,4 +15,6 @@ import net.caiban.pc.erp.domain.trade.TradeFull;
 public interface TradeService {
 
 	public Pager<TradeFull> pager(TradeCond cond, Pager<TradeFull> page);
+	
+	public Integer doCountToday(Integer cid, Integer status);
 }

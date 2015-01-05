@@ -275,6 +275,12 @@
 				<artifactId>aspectjweaver</artifactId>
 				<version>1.8.2</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>com.darwinsys</groupId>
+				<artifactId>hirondelle-date4j</artifactId>
+				<version>1.5.1</version>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>

@@ -17,6 +17,7 @@ define(		["jquery","template","trade/prop","util/table","messenger"],
 			
 			jQuery.each(p.records, function (idx, obj){
 				obj.statusName=prop.getName("status", ""+obj.trade.status, "Error Category");
+				obj.gmtModifiedStr=new Date(obj.trade.gmtModified).format('yyyy-MM-dd hh:mm:ss');
 			});
 			
 			return p;

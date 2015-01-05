@@ -1,29 +1,56 @@
 #globalHeader("trade")
 
 <div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<br /><br /><br /><br /><br /><br />
-			#if("$!{error}"!="")
-				<div class=" col-sm-12 text-center">
-					<div class="alert alert-warning alert-dismissable">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <strong>#springMessage("tip.warn")</strong> #springMessage($error) 
-                    </div>
+	
+	#if("$!{error}"!="")
+		<div class="row">
+    		<div class=" col-sm-12 text-center">
+    			<div class="alert alert-warning alert-dismissable">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <strong>#springMessage("tip.warn")</strong> #springMessage($error) 
                 </div>
-			#else
-    			<form id="formKdt" name="formKdt" class="form-horizontal" role="form" method="post" action="#springUrl('/trade/kdt/doMarksign.do')" >
-						<div class="text-center">
-							<h3>$!{trade.title}－$!{tradeNum}</h3>
-						</div>
-						<input type="hidden" name="tradeNum" value="$!{tradeNum}" />
-    					<button type="submit" class="btn btn-primary col-sm-offset-3 col-sm-6">#springMessage('btn.trade.confirm')</button>
-                </form>
-			#end
-			<br /><br /><br /><br /><br /><br />
-			<br /><br /><br /><br /><br /><br />
+            </div>
 		</div>
-	</div>
+	#else
+		<form id="formKdt" name="formKdt" class="form-horizontal" role="form" method="post" action="#springUrl('/trade/kdt/doMarksign.do')" >
+			<div class="row">
+    			<div class="thumbnail col-md-offset-2 col-md-2" >
+    				<img src="$!{trade.pic_thumb_path}" alt="$!{trade.title}"/>
+    			</div>
+    			<div class="col-md-6">
+					<h2>$!{trade.title} * $!{trade.num} <small>$!{tradeNum}</small> </h2>
+					<h3>#springMessage("tip.trade.customer.nick")：$!{trade.buyer_nick}</h3>
+					<div class="table-responsive">
+                        <h4>#springMessage("tb.trade.kdt.order.table.title")：</h4>
+						
+						<table class="table">
+                            <tr>
+								<th>#springMessage("tb.trade.kdt.order.num.iid")</th>
+								<th>#springMessage("tb.trade.kdt.order.title")</th>
+								<th>#springMessage("tb.trade.kdt.order.num")</th>
+								<th>#springMessage("tb.trade.kdt.order.seller.nick")</th>
+							</tr>
+							#foreach($order in $!{trade.orders})
+							<tr>
+								<td>$!{order.num_iid}</td>
+								<td>$!{order.title}</td>
+								<td><span class="badge">$!{order.num}</span></td>
+								<td>$!{order.seller_nick}</td>
+							</tr>
+							#end
+                        </table>
+					</div>
+    			</div>
+			</div>
+			
+			<div class="row">
+				<button type="submit" class="btn btn-primary col-sm-offset-2 col-sm-8">#springMessage('btn.trade.confirm')</button>
+			</div>
+			<input type="hidden" name="tradeNum" value="$!{tradeNum}" />
+		</form>
+		<br /><br /><br />
+	#end
+	
 </div>
 	
 <script type="text/javascript">
