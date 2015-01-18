@@ -162,6 +162,29 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		}
 	}
 
+	@Override
+	public TradeDefine queryDefineBytradeNum(Integer cid, String tradeNum) {
+		
+		if(Strings.isNullOrEmpty(tradeNum)){
+			return null;
+		}
+		
+		Integer tradeId = tradeMapper.queryIdByTradeNum(cid, tradeNum);
+		
+		return tradeDefineMapper.queryByTradeId(tradeId);
+	}
+
+	@Override
+	public JSONObject getDetails(TradeDefine define) {
+		if(define==null || Strings.isNullOrEmpty(define.getDetails())){
+			return null;
+		}
+		if(!define.getDetails().startsWith("{")){
+			return null;
+		}
+		return JSONObject.fromObject(define.getDetails());
+	}
+	
 //	public static void main(String[] args) throws Exception {
 //		KdtApiClient client = new KdtApiClient("f92d3321b5af77d7e2", "f74f1a49faaae58c24388af9c9697153");
 //		HashMap<String, String> params = new HashMap<String, String>(); 

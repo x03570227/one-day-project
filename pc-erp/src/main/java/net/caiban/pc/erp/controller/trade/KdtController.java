@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.caiban.pc.erp.controller.BaseController;
 import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.domain.trade.TradeDefine;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.trade.KdtTradeService;
 import net.sf.json.JSONObject;
@@ -30,11 +31,13 @@ public class KdtController extends BaseController {
 	private KdtTradeService kdtTradeService;
 
 	@RequestMapping
-	public ModelAndView ticket(HttpServletRequest request, ModelMap model, String error, String success){
+	public ModelAndView ticket(HttpServletRequest request, ModelMap model,
+			String error, String success, String tradeNum) {
 		
 		model.put("error", error);
 		
 		model.put("success", success);
+		model.put("tradeNum", tradeNum);
 		
 		return null;
 	}
@@ -73,6 +76,7 @@ public class KdtController extends BaseController {
 		try {
 			kdtTradeService.marksign(user.getCid(), tradeNum);
 			//TODO 跳转到打印页面
+			model.put("tradeNum", tradeNum);
 			model.put("success", "e.trade.marksign.success");
 		} catch (ServiceException e) {
 			model.put("error", e.getMessage());
@@ -83,8 +87,15 @@ public class KdtController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView print(HttpServletRequest request, ModelMap model,
-			String tradeNum){
+			String tradeNum, Integer preview){
 		
+		
+		model.put("preview", preview);
+		
+		SessionUser user = getSessionUser(request);
+		TradeDefine define = kdtTradeService.queryDefineBytradeNum(user.getCid(), tradeNum);
+		model.put("define", define);
+		model.put("details", kdtTradeService.getDetails(define));
 		return null;
 	}
 }

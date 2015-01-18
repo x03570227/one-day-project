@@ -1,0 +1,76 @@
+#set($layout="/layout/blank.vm")
+
+<div id="printArea">
+	<div style="padding-left:4px;">TID:$!{details.tid}</div>
+	<table class="table">
+		<tr>
+			<th>#springMessage("tb.trade.kdt.order.num.iid")</th>
+			<th>#springMessage("tb.trade.kdt.order.title")</th>
+			<th>#springMessage("tb.trade.kdt.order.num")</th>
+			<th>#springMessage("tb.trade.kdt.order.seller.nick")</th>
+		</tr>
+		#foreach($order in $!{details.orders})
+		<tr>
+			<td>$!{order.num_iid}</td>
+			<td>$!{order.title}</td>
+			<td><span class="badge">$!{order.num}</span></td>
+			<td>$!{order.seller_nick}</td>
+		</tr>
+		#end
+    </table>
+</div>
+#if($!preview == 1)
+<div >
+	<input type="button" onclick="print();" value="打印" />
+</div>
+#end
+
+<script type="text/javascript" src="http://s0.caiban.net/downloads/lodop/LodopFuncs.js"></script>
+
+<script type="text/javascript">
+	var LODOP;
+	
+	#if($!preview != 1)
+		print();
+	#end
+	
+	function print(){
+    	addTitle();
+    	printBody();
+		
+		LODOP.PRINT;
+	}
+	
+	function printBody(){
+		LODOP=getLodop(); 
+##		LODOP.SET_PRINT_STYLE("FontSize",18);
+##		LODOP.SET_PRINT_STYLE("Bold",1);
+		LODOP.ADD_PRINT_HTM(35,102,335,400, document.getElementById("printArea").innerHTML);
+	}
+	
+	function addTitle(){	
+    	LODOP=getLodop();
+		SET_PRINT_PAGESIZE(3,400,30,"");
+		
+    	LODOP.PRINT_INIT("$!{details.title} - $!{details.tid}");
+		LODOP.ADD_PRINT_TEXT(15,102,355,30,"$!{details.title}-使用票据");
+		LODOP.SET_PRINT_STYLEA(1,"FontSize",13);
+		
+##    	LODOP.ADD_PRINT_TEXT(15,102,355,30,"北京市东城区沃乐福商城收款票据");
+##    	LODOP.SET_PRINT_STYLEA(1,"FontSize",13);
+##    	LODOP.SET_PRINT_STYLEA(1,"Bold",1);
+##    	LODOP.ADD_PRINT_TEXT(50,15,100,20,"商品编号");
+##    	LODOP.SET_PRINT_STYLEA(2,"FontSize",10);
+##    	LODOP.SET_PRINT_STYLEA(2,"Bold",1);
+##    	LODOP.ADD_PRINT_TEXT(50,149,100,20,"商品名称");
+##    	LODOP.SET_PRINT_STYLEA(3,"FontSize",10);
+##    	LODOP.SET_PRINT_STYLEA(3,"Bold",1);
+##    	LODOP.ADD_PRINT_TEXT(50,289,100,20,"商品数量");
+##    	LODOP.SET_PRINT_STYLEA(4,"FontSize",10);
+##    	LODOP.SET_PRINT_STYLEA(4,"Bold",1);
+##    	LODOP.ADD_PRINT_TEXT(50,409,100,20,"单价(元)");
+##    	LODOP.SET_PRINT_STYLEA(5,"FontSize",10);
+##    	LODOP.SET_PRINT_STYLEA(5,"Bold",1);
+##    	LODOP.ADD_PRINT_LINE(72,14,73,510,0,1);
+	}
+</script>

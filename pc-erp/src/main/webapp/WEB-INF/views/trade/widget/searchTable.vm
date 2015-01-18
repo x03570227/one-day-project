@@ -37,6 +37,7 @@
 			<th class="text-center">#springMessage('lb.trade.source.domain')</th>
 			<th class="text-center">#springMessage('lb.trade.status')</th>
             <th class="text-center">#springMessage('lb.trade.gmt.modified')</th>
+            <th class="text-center" width="40"></th>
 		</tr>
 		</thead>
 		<tbody>
@@ -51,6 +52,15 @@
 ##				{{if dto.trade.status == 0}}
 ##					<a href="#springUrl('/trade/kdt/doCheckTicket.do')" >确认使用</a>
 ##				{{/if}}
+			</td>
+			<td>
+				<!-- koudaitong.com -->
+				{{if dto.trade.sourceDomain == 'koudaitong.com'}}
+				<a href="#springUrl('/trade/kdt/print.do')?tradeNum={{dto.trade.tradeNum}}&preview=1" target="_blank" 
+					class="btn btn-info btn-xs">
+					<span class="glyphicon glyphicon-print"></span>
+				</a>
+				{{/if}}
 			</td>
 		</tr>
 		{{/each}}

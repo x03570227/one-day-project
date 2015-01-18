@@ -20,6 +20,11 @@
                       #springMessage($success) 
                     </div>
                 </div>
+				#if("$!{tradeNum}"!="")
+                    <script type="text/javascript">
+						window.open("#springUrl('/trade/kdt/print.do')?tradeNum=$!{tradeNum}");
+					</script>
+				#end
 			#end
 			
 			<form id="formKdt" name="formKdt" class="form-horizontal" role="form" method="post" action="#springUrl('/trade/kdt/doCheckTicket.do')" >
