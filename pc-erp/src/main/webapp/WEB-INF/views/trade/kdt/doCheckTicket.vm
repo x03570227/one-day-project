@@ -70,4 +70,7 @@
 			});
     	}
     );
+	
+	//TODO 此处处理和打印，用 AJAX 处理doMarksign
+	
 </script>

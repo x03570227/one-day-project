@@ -32,12 +32,12 @@ public class KdtController extends BaseController {
 
 	@RequestMapping
 	public ModelAndView ticket(HttpServletRequest request, ModelMap model,
-			String error, String success, String tradeNum) {
+			String error, String success) {
 		
 		model.put("error", error);
 		
 		model.put("success", success);
-		model.put("tradeNum", tradeNum);
+//		model.put("tradeNum", tradeNum);
 		
 		return null;
 	}
@@ -69,9 +69,6 @@ public class KdtController extends BaseController {
 	@RequestMapping
 	public ModelAndView doMarksign(HttpServletRequest request, ModelMap model, 
 			String tradeNum){
-		//TODO 标记物流信息
-		//1. 标记
-		//2. 返回结果
 		SessionUser user = getSessionUser(request);
 		try {
 			kdtTradeService.marksign(user.getCid(), tradeNum);
