@@ -4,6 +4,7 @@
 package net.caiban.pc.erp.controller.trade;
 
 import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +16,14 @@ import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.trade.KdtTradeService;
 import net.sf.json.JSONObject;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.common.collect.Maps;
 
 /**
  * @author mays
@@ -29,6 +34,8 @@ public class KdtController extends BaseController {
 	
 	@Resource
 	private KdtTradeService kdtTradeService;
+	@Resource
+	private MessageSource messageSource;
 
 	@RequestMapping
 	public ModelAndView ticket(HttpServletRequest request, ModelMap model,
@@ -45,18 +52,15 @@ public class KdtController extends BaseController {
 	@RequestMapping
 	public ModelAndView doCheckTicket(HttpServletRequest request, ModelMap model,
 			String tradeNum, Locale locale){
-		//TODO 检查订单情况
-		//1. 从口袋通获取订单
-		//2. 写入或更新本地订单信息（特别注意状态）
-		//3. 根据状态返回信息
-		SessionUser user = getSessionUser(request);
 		
+		SessionUser user = getSessionUser(request);
 		String error = null; 
 		
 		try {
 			JSONObject tradeJson = kdtTradeService.checkTicket(user.getCid(), tradeNum);
 			model.put("trade", tradeJson);
 			model.put("tradeNum", tradeNum);
+
 			return null;
 		} catch (ServiceException e) {
 			error = e.getMessage();
@@ -67,19 +71,28 @@ public class KdtController extends BaseController {
 	}
 	
 	@RequestMapping
-	public ModelAndView doMarksign(HttpServletRequest request, ModelMap model, 
-			String tradeNum){
+	@ResponseBody
+	public Map<String, Object> doMarksign(HttpServletRequest request, 
+			String tradeNum, Locale locale){
+		
 		SessionUser user = getSessionUser(request);
+		String error = null;
 		try {
 			kdtTradeService.marksign(user.getCid(), tradeNum);
-			//TODO 跳转到打印页面
-			model.put("tradeNum", tradeNum);
-			model.put("success", "e.trade.marksign.success");
+			
+			TradeDefine define = kdtTradeService.queryDefineBytradeNum(user.getCid(), tradeNum);
+			
+			Map<String, Object> result = Maps.newHashMap();
+			result.put("message", messageSource.getMessage("e.trade.marksign.success", null, locale));
+			result.put("details", define.getDetails());
+			
+			return ajaxResult(true, result);
+			
 		} catch (ServiceException e) {
-			model.put("error", e.getMessage());
+			error = e.getMessage();
 		}
 		
-		return new ModelAndView("redirect:/trade/kdt/ticket.do");
+		return ajaxResult(false, error);
 	}
 	
 	@RequestMapping

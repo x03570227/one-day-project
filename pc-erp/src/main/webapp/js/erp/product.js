@@ -2,7 +2,7 @@
  * Product 模块相关的操作
  * */
 define(		["jquery","template","product/prop","util/table","messenger","product/define"],
-	function(jQuery,  template,  prop,          table,            messenger,  df){
+	function(jQuery,  template,  prop,          table,      messenger,   df){
 		
 		var message=Messenger();
 	

@@ -12,7 +12,11 @@
             </div>
 		</div>
 	#else
-		<form id="formKdt" name="formKdt" class="form-horizontal" role="form" method="post" action="#springUrl('/trade/kdt/doMarksign.do')" >
+		<form id="formKdt" name="formKdt" class="form-horizontal" role="form" 
+			method="post" 
+			action="#springUrl('/trade/kdt/doMarksign.do')"
+			onsubmit="return false;"
+			>
 			<div class="row">
     			<div class="thumbnail col-md-offset-2 col-md-2" >
     				<img src="$!{trade.pic_thumb_path}" alt="$!{trade.title}"/>
@@ -21,13 +25,14 @@
 					<h2>$!{trade.title} * $!{trade.num} <small>$!{tradeNum}</small> </h2>
 					<h3>#springMessage("tip.trade.customer.nick")：$!{trade.buyer_nick}</h3>
 					<div class="table-responsive">
-                        <h4>#springMessage("tb.trade.kdt.order.table.title")：</h4>
+                        <h4>#springMessage("tb.trade.kdt.order.table.title")<small>(￥$!{trade.total_fee})</small>：</h4>
 						
 						<table class="table">
                             <tr>
 								<th>#springMessage("tb.trade.kdt.order.num.iid")</th>
 								<th>#springMessage("tb.trade.kdt.order.title")</th>
 								<th>#springMessage("tb.trade.kdt.order.num")</th>
+								<th>#springMessage("tb.trade.kdt.order.price")</th>
 								<th>#springMessage("tb.trade.kdt.order.seller.nick")</th>
 							</tr>
 							#foreach($order in $!{trade.orders})
@@ -35,6 +40,7 @@
 								<td>$!{order.num_iid}</td>
 								<td>$!{order.title}</td>
 								<td><span class="badge">$!{order.num}</span></td>
+								<td>￥$!{order.price}</td>
 								<td>$!{order.seller_nick}</td>
 							</tr>
 							#end
@@ -49,28 +55,123 @@
 			<input type="hidden" name="tradeNum" value="$!{tradeNum}" />
 		</form>
 		<br /><br /><br />
+		
+		<script type="text/javascript">
+        	require([	"jquery","messenger","Bootstrap","validator"],
+            	function(jQuery){
+					var message=Messenger();
+					
+            		jQuery("#formKdt").submit(function(){
+						var data={"tradeNum":"$!{tradeNum}"};
+						jQuery.post("#springUrl('/trade/kdt/doMarksign.do')", data, function(resp){
+						debugger;
+            				if(resp.result){
+            					//TODO 显示正确的信息，并且打印出来
+								console.log(resp.data.message);
+								message.post({
+            						message:resp.data.message,
+            						type: 'info'
+            					});
+								
+								print(resp.data.details);
+								
+								window.location.href="#springUrl('/trade/kdt/ticket.do')";
+            				}else{
+            					message.post({
+            						message:resp.data,
+            						type: 'error'
+            					});
+            				}
+            			}, "json");
+						return false;
+					});
+            	}
+            );
+        	
+			var LODOP;
+			
+			function print(details){
+        		LODOP = getLodop();
+        		
+                LODOP.PRINT_INIT("");
+        
+                var width="45mm";
+        
+                LODOP.SET_PRINT_PAGESIZE(3,width,"5mm","");
+        
+                var marginTop=4;
+                var marginLeft=4;
+        
+        
+                //打印小票标题
+                LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,50,details.title);  //11 words ZH_CN
+        //      LODOP.ADD_PRINT_TEXT(4,4,580,100,"ABCDEFGHIJKLMNOPQRSTUVWXYZ");  //22 words EN
+        //      LODOP.ADD_PRINT_TEXT(4,4,580,100,"012345678901234567890123456789");  //21 Numbers
+                LODOP.SET_PRINT_STYLEA(1,"FontSize",12);
+                marginTop = marginTop + 50;
+        
+                //横线
+                LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"--------------------------");
+                marginTop = marginTop + 16;
+        
+                //添加order
+        		var sellerNick="";
+        		
+        		var orders = details.orders;
+        		for(var i=0;i<orders.length;i++){
+        			addOrder(marginTop,marginLeft,width, orders[i]);
+        			sellerNick=orders[i].seller_nick;
+        		}
+        		
+                //总计
+                var totalFee= 116.00; //details.total_fee;
+                LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"总    计："+totalFee+"元");
+                marginTop = marginTop + 16;
+        
+                //店铺
+                LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"店    铺："+sellerNick);
+                marginTop = marginTop + 16;
+        
+                //时间
+                var now=new Date();
+                LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"时    间："+now);
+                marginTop = marginTop + 16;
+        
+        //      marginTop = marginTop + 16;
+        //      LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,30,"");
+            }
+        
+            function addOrder(marginTop, marginLeft, width, order){
+                //商品名称
+                var skuArr = order.sku_properties_name;
+                var skus = skuArr.split(";", 1);
+                var skuName=skus[0];
+                skuName=skuName.replace(":","：");
+                LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16, skuName);
+                marginTop = marginTop + 16;
+        
+                //购买数量
+                var num = order.num;
+                LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"购买数量："+num+"张");
+                marginTop = marginTop + 16;
+        
+                //单价
+                var price = order.price;
+                LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"单    价："+price+"元");
+                marginTop = marginTop + 16;
+        
+                //小计
+                var totalFee= order.total_fee;
+                LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"小    计："+totalFee+"元");
+                marginTop = marginTop + 16;
+        
+                //横线
+                LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"--------------------------");
+                marginTop = marginTop + 16;
+            }
+			
+        </script>
 	#end
 	
 </div>
 	
-<script type="text/javascript">
-	require([	"jquery","Bootstrap","validator"],
-    	function(jQuery){
-    		jQuery("#formKdt").validator();
-			
-			jQuery("#tradeNum").focus();
-			
-			jQuery("#tradeNum").change(function(){
-				var _val=jQuery(this).val();
-				
-				if(_val.length == 21){
-					jQuery("#formKdt").submit();
-				}
-				
-			});
-    	}
-    );
-	
-	//TODO 此处处理和打印，用 AJAX 处理doMarksign
-	
-</script>
