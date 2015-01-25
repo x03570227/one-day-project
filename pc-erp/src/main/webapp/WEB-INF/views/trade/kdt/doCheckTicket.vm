@@ -74,8 +74,8 @@
             						message:resp.data.message,
             						type: 'info'
             					});
-								
-								print(resp.data.details);
+								var details = JSON.parse(resp.data.details);
+								print(details);
 								
 								window.location.href="#springUrl('/trade/kdt/ticket.do')";
             				}else{
@@ -141,6 +141,7 @@
         
         //      marginTop = marginTop + 16;
         //      LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,30,"");
+        	LODOP.print();
             }
         
             function addOrder(marginTop, marginLeft, width, order){
