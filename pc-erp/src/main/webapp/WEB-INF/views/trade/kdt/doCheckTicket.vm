@@ -1,5 +1,7 @@
 #globalHeader("trade")
 
+<script type="text/javascript" src="http://s0.caiban.net/downloads/lodop/LodopFuncs.js"></script>
+
 <div class="container">
 	
 	#if("$!{error}"!="")
