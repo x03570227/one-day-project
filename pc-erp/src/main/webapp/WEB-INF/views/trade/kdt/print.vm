@@ -7,7 +7,7 @@
 
 	var details=$!{details};
 	
-	//print(details);
+	print(details);
 	window.close();
 	
     function print(details){
@@ -59,6 +59,7 @@
 
 //      marginTop = marginTop + 16;
 //      LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,30,"");
+	LODOP.print();
     }
 
     function addOrder(marginTop, marginLeft, width, order){
