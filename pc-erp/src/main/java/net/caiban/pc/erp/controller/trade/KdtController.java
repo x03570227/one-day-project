@@ -49,6 +49,7 @@ public class KdtController extends BaseController {
 		return null;
 	}
 	
+	@Deprecated
 	@RequestMapping
 	public ModelAndView doCheckTicket(HttpServletRequest request, ModelMap model,
 			String tradeNum, Locale locale){
@@ -70,6 +71,7 @@ public class KdtController extends BaseController {
 		return new ModelAndView("redirect:/trade/kdt/ticket.do");
 	}
 	
+	@Deprecated
 	@RequestMapping
 	@ResponseBody
 	public Map<String, Object> doMarksign(HttpServletRequest request, 
@@ -96,16 +98,34 @@ public class KdtController extends BaseController {
 	}
 	
 	@RequestMapping
-	public ModelAndView print(HttpServletRequest request, ModelMap model,
-			String tradeNum, Integer preview){
+	@ResponseBody
+	public Map<String, Object> checkAndMarksign(HttpServletRequest request, String tradeNum, Locale locale){
 		
+		SessionUser user = getSessionUser(request);
 		
-		model.put("preview", preview);
+		String error = null;
+		try {
+			
+			kdtTradeService.checkTicket(user.getCid(), tradeNum);
+			
+			kdtTradeService.marksign(user.getCid(), tradeNum);
+			
+			TradeDefine define = kdtTradeService.queryDefineBytradeNum(user.getCid(), tradeNum);
+			
+			return ajaxResult(true, define);
+		} catch (ServiceException e) {
+			error = e.getMessage();
+		}
+		
+		return ajaxResult(false, error);
+	}
+	
+	@RequestMapping
+	public TradeDefine print(HttpServletRequest request, ModelMap model,
+			String tradeNum){
 		
 		SessionUser user = getSessionUser(request);
 		TradeDefine define = kdtTradeService.queryDefineBytradeNum(user.getCid(), tradeNum);
-		model.put("define", define);
-		model.put("details", kdtTradeService.getDetails(define));
-		return null;
+		return define;
 	}
 }

@@ -7,9 +7,10 @@
 </div>
 
 <script type="text/javascript">
-	require([	"jquery","template","trade/prop", "trade","messenger"],
-		function(jQuery,  template,  prop,         trade,  messenger){
+	require([	"jquery","template","trade/prop", "trade","messenger", "util/kdtprint"],
+		function(jQuery,template,   prop,               trade,   messenger,    kdtprint){
 		
+			var message = new Messenger();
 			trade.table.init({
 				tpl:{
 					"table":"tpl_trade_list"
@@ -23,6 +24,23 @@
 			});
 			
 			trade.table.search();
+			
+			jQuery("#trade_list").on("click", "td button[data-act=print]", function(){
+				
+				var tradeNum = jQuery(this).attr("model-trade-num");
+				
+				jQuery.post(url,{"tradeNum":tradeNum}, function(resp){
+					
+					var details = JSON.parse(resp.details);
+    				kdtprint.print(details);
+					
+					message.post({
+						message:"#springMessage('tip.trade.kdt.post.print')",
+						type:"info"
+					});
+					
+    			}, "json");
+			});
 			
 		}
 	);
@@ -56,10 +74,9 @@
 			<td>
 				<!-- koudaitong.com -->
 				{{if dto.trade.sourceDomain == 'koudaitong.com'}}
-				<a href="#springUrl('/trade/kdt/print.do')?tradeNum={{dto.trade.tradeNum}}&preview=1" target="_blank" 
-					class="btn btn-info btn-xs">
+				<button class="btn btn-info btn-xs" data-act="print" model-trade-num="{{dto.trade.tradeNum}}">
 					<span class="glyphicon glyphicon-print"></span>
-				</a>
+				</button>
 				{{/if}}
 			</td>
 		</tr>

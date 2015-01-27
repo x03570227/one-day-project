@@ -42,9 +42,11 @@ require.config({
 		"util/table/pager":"js/utils/util.table.pager",
 		"util/table":"js/utils/util.table",
 		"util/cache":"js/utils/util.cache",
+		"util/kdtprint":"js/utils/util.kdt.print",
 		"product/prop":"js/erp/config/product.prop",
 		"product/define":"js/erp/config/product.define",
 		"trade/prop":"js/erp/config/trade.prop",
+		
 		
 		"trade":"js/erp/trade",
 		
