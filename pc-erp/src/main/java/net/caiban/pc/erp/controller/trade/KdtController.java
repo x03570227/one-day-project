@@ -59,7 +59,7 @@ public class KdtController extends BaseController {
 		String error = null;
 		
 		try {
-//			kdtTradeService.checkTicket(user.getCid(), tradeNum);
+			kdtTradeService.checkTicket(user.getCid(), tradeNum);
 			
 			kdtTradeService.marksign(user.getCid(), tradeNum);
 			

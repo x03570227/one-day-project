@@ -50,6 +50,7 @@ define(["jquery"],
 			marginTop = marginTop + 16;
 	
 			LODOP.print();
+//			LODOP.preview();
 		}
 	
 		def["addOrder"]=function(marginTop, marginLeft, width, order){
