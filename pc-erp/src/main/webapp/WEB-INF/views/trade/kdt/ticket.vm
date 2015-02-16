@@ -22,7 +22,10 @@
                 </div>
 			#end
 			
-			<form id="formKdt" name="formKdt" class="form-horizontal" role="form" method="post" action="#springUrl('/trade/kdt/doCheckTicket.do')" >
+			<form id="formKdt" name="formKdt" class="form-horizontal" role="form" 
+				method="post"
+				onsubmit="return false;"
+				>
 				<div class="form-group ">
 					<div class="col-sm-offset-3 col-sm-6">
 					<label>#springMessage("tip.trade.scan")</label>
@@ -39,23 +42,159 @@
 	</div>
 </div>
 	
+<script type="text/javascript" src="http://s0.caiban.net/downloads/lodop/LodopFuncs.js"></script>
+
 <script type="text/javascript">
-	require([	"jquery","Bootstrap","validator"],
+	require([	"jquery","Bootstrap","validator","messenger"],
     	function(jQuery){
+		
     		jQuery("#formKdt").validator();
 			
 			jQuery("#tradeNum").focus();
 			
 			jQuery("#tradeNum").change(function(){
+				/*
 				var _val=jQuery(this).val();
 				
-				console.log(_val.length);
+				//console.log(_val.length);
 				
 				if(_val.length == 21){
-					jQuery("#formKdt").submit();
+					//jQuery("#formKdt").submit();
 				}
+				*/
+				
+				//markAndPrint();
 				
 			});
+			
+			var message=Messenger();
+			
+			jQuery("#formKdt").submit(function(e){
+				markAndPrint(message);
+			});
+			
+			
     	}
     );
+	
+	var LODOP;
+	
+	function markAndPrint(message){
+		var tradeNum = jQuery("#tradeNum").val();
+		
+		tradeNum=tradeNum||"";
+		if(tradeNum==""){
+			
+			return false;
+		}
+		
+		var data = {"tradeNum":tradeNum};
+		
+		jQuery.post("#springUrl('/trade/kdt/doMarkAndPrint.do')", data, function(resp){
+		
+			if(!resp.result){
+				message.post({
+					message: resp.data,
+					type: 'error'
+				});
+				return false;
+			}
+			
+			console.log(resp.data.details);
+			print(JSON.parse(resp.data.details));
+			
+			message.post({
+				message: resp.data.message,
+				type: 'info'
+			});
+			
+			jQuery("#tradeNum").val("");
+			jQuery("#tradeNum").focus();
+			
+		}, "json");
+		
+	}
+	
+	function print(details){
+		LODOP = getLodop();
+		
+        LODOP.PRINT_INIT("");
+
+        var width="45mm";
+
+        LODOP.SET_PRINT_PAGESIZE(3,width,"5mm","");
+
+        var marginTop=4;
+        var marginLeft=4;
+
+
+        //打印小票标题
+        LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,50,details.title);  //11 words ZH_CN
+//      LODOP.ADD_PRINT_TEXT(4,4,580,100,"ABCDEFGHIJKLMNOPQRSTUVWXYZ");  //22 words EN
+//      LODOP.ADD_PRINT_TEXT(4,4,580,100,"012345678901234567890123456789");  //21 Numbers
+        LODOP.SET_PRINT_STYLEA(1,"FontSize",12);
+        marginTop = marginTop + 50;
+
+        //横线
+        LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"--------------------------");
+        marginTop = marginTop + 16;
+
+        //添加order
+		var sellerNick="";
+		
+		alert(typeof details)
+		
+		var orders = details.orders;
+		for(var i=0;i<orders.length;i++){
+			addOrder(marginTop,marginLeft,width, orders[i]);
+			sellerNick=orders[i].seller_nick;
+		}
+		
+        //总计
+        var totalFee= 116.00; //details.total_fee;
+        LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"总    计："+totalFee+"元");
+        marginTop = marginTop + 16;
+
+        //店铺
+        LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"店    铺："+sellerNick);
+        marginTop = marginTop + 16;
+
+        //时间
+        var now=new Date();
+        LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"时    间："+now);
+        marginTop = marginTop + 16;
+
+//      marginTop = marginTop + 16;
+//      LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,30,"");
+		LODOP.preview();
+    }
+
+    function addOrder(marginTop, marginLeft, width, order){
+        //商品名称
+        var skuArr = order.sku_properties_name;
+        var skus = skuArr.split(";", 1);
+        var skuName=skus[0];
+        skuName=skuName.replace(":","：");
+        LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16, skuName);
+        marginTop = marginTop + 16;
+
+        //购买数量
+        var num = order.num;
+        LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"购买数量："+num+"张");
+        marginTop = marginTop + 16;
+
+        //单价
+        var price = order.price;
+        LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"单    价："+price+"元");
+        marginTop = marginTop + 16;
+
+        //小计
+        var totalFee= order.total_fee;
+        LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"小    计："+totalFee+"元");
+        marginTop = marginTop + 16;
+
+        //横线
+        LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"--------------------------");
+        marginTop = marginTop + 16;
+    }
 </script>

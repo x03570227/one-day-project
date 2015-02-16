@@ -51,6 +51,42 @@ public class KdtController extends BaseController {
 	
 	@Deprecated
 	@RequestMapping
+	@ResponseBody
+	public Map<String, Object> doMarkAndPrint(HttpServletRequest request,
+			String tradeNum, Locale locale){
+		
+		SessionUser user = getSessionUser(request);
+		String error = null;
+		
+		try {
+//			kdtTradeService.checkTicket(user.getCid(), tradeNum);
+			
+			kdtTradeService.marksign(user.getCid(), tradeNum);
+			
+			TradeDefine define = kdtTradeService.queryDefineBytradeNum(user.getCid(), tradeNum);
+			
+			Map<String, Object> result = Maps.newHashMap();
+			result.put("message", messageSource.getMessage("e.trade.marksign.success", null, locale));
+			result.put("details", define.getDetails());
+			
+			return ajaxResult(true, result);
+			
+		} catch (ServiceException e) {
+			error = messageSource.getMessage(e.getMessage(), null, locale);
+		}
+		
+		return ajaxResult(false, error);
+	}
+	
+	@RequestMapping
+	@ResponseBody
+	public Map<String, Object> doPrint(){
+		
+		return null;
+	}
+	
+	@Deprecated
+	@RequestMapping
 	public ModelAndView doCheckTicket(HttpServletRequest request, ModelMap model,
 			String tradeNum, Locale locale){
 		
@@ -97,6 +133,7 @@ public class KdtController extends BaseController {
 		return ajaxResult(false, error);
 	}
 	
+	@Deprecated
 	@RequestMapping
 	@ResponseBody
 	public Map<String, Object> checkAndMarksign(HttpServletRequest request, String tradeNum, Locale locale){
