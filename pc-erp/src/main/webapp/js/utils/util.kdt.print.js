@@ -49,8 +49,8 @@ define(["jquery"],
 			LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"时	间："+now);
 			marginTop = marginTop + 16;
 	
-//			LODOP.print();
-			LODOP.preview();
+			LODOP.print();
+//			LODOP.preview();
 		}
 	
 		def["addOrder"]=function(marginTop, marginLeft, width, order){
