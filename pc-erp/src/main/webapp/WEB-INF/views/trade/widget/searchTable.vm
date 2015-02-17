@@ -6,9 +6,11 @@
 	</div>
 </div>
 
+<script type="text/javascript" src="http://s0.caiban.net/downloads/lodop/LodopFuncs.js"></script>
+
 <script type="text/javascript">
 	require([	"jquery","template","trade/prop", "trade","messenger", "util/kdtprint"],
-		function(jQuery,template,   prop,               trade,   messenger,    kdtprint){
+		function(jQuery,template,   prop,          trade,  messenger,   kdtprint){
 		
 			var message = new Messenger();
 			trade.table.init({
@@ -29,9 +31,12 @@
 				
 				var tradeNum = jQuery(this).attr("model-trade-num");
 				
-				jQuery.post(url,{"tradeNum":tradeNum}, function(resp){
+				
+				jQuery.post("#springUrl('/trade/kdt/doPrint.do')",{"tradeNum":tradeNum}, function(resp){
 					
 					var details = JSON.parse(resp.details);
+					
+					
     				kdtprint.print(details);
 					
 					message.post({

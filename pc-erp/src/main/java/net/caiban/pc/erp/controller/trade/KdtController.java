@@ -49,7 +49,6 @@ public class KdtController extends BaseController {
 		return null;
 	}
 	
-	@Deprecated
 	@RequestMapping
 	@ResponseBody
 	public Map<String, Object> doMarkAndPrint(HttpServletRequest request,
@@ -76,13 +75,6 @@ public class KdtController extends BaseController {
 		}
 		
 		return ajaxResult(false, error);
-	}
-	
-	@RequestMapping
-	@ResponseBody
-	public Map<String, Object> doPrint(){
-		
-		return null;
 	}
 	
 	@Deprecated
@@ -158,7 +150,8 @@ public class KdtController extends BaseController {
 	}
 	
 	@RequestMapping
-	public TradeDefine print(HttpServletRequest request, ModelMap model,
+	@ResponseBody
+	public TradeDefine doPrint(HttpServletRequest request, ModelMap model,
 			String tradeNum){
 		
 		SessionUser user = getSessionUser(request);
