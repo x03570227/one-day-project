@@ -83,11 +83,15 @@
         		
         		jQuery.post("#springUrl('/trade/kdt/doMarkAndPrint.do')", data, function(resp){
         		
+        			jQuery("#tradeNum").val("");
+        			jQuery("#tradeNum").focus();
+					
         			if(!resp.result){
         				message.post({
         					message: resp.data,
         					type: 'error'
         				});
+						
         				return false;
         			}
         			
@@ -98,9 +102,6 @@
         				message: resp.data.message,
         				type: 'info'
         			});
-        			
-        			jQuery("#tradeNum").val("");
-        			jQuery("#tradeNum").focus();
         			
         		}, "json");
 				
