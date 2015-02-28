@@ -25,9 +25,14 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
+<!-- 		<dependency>
 			<groupId>net.caiban</groupId>
 			<artifactId>pc-utils</artifactId>
+		</dependency> -->
+		
+		<dependency>
+			<groupId>net.caiban</groupId>
+			<artifactId>yy-utils</artifactId>
 		</dependency>
 
 		<dependency>

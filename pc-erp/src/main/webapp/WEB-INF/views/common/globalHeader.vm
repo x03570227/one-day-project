@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
           </button>
 		  <a class="navbar-brand" href="#springUrl('')">
-			<img src="http://s0.caiban.net/caiban/logo.128.png" width="96"/>
+			<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
 		  </a>
         </div>
         <div class="navbar-collapse collapse">

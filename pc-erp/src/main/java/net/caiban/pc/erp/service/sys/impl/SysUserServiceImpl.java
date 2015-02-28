@@ -9,7 +9,6 @@ import java.security.NoSuchAlgorithmException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
-import net.caiban.MD5;
 import net.caiban.pc.erp.config.LogHelper;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
@@ -20,6 +19,8 @@ import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.sys.SysCompanyMapper;
 import net.caiban.pc.erp.persist.sys.SysUserMapper;
 import net.caiban.pc.erp.service.sys.SysUserService;
+import net.caiban.pc.erp.utils.ValidateUtil;
+import net.caiban.utils.MD5;
 import net.caiban.utils.lang.StringUtils;
 
 import org.springframework.stereotype.Component;
@@ -131,7 +132,7 @@ public class SysUserServiceImpl implements SysUserService {
 			return SysUserService.CLASSIFY_E;
 		}
 		
-		if(StringUtils.isMobile(account)){
+		if(ValidateUtil.isMobile(account)){
 			return SysUserService.CLASSIFY_M;
 		}
 		

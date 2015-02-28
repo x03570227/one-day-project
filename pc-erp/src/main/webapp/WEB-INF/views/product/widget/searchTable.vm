@@ -1,6 +1,6 @@
 <div class="container mt8">
 	<div class="row">
-		<div class="col-md-12 table-responsive" id="product_list">
+		<div class="table-responsive" id="product_list">
 			#springMessage("tip.loading")
 		</div>
 	</div>
@@ -39,11 +39,11 @@
 		<thead>
 		<tr class="active">
 			<th class="text-center" width="10">#</th>
-			<th class="text-center" width="80">#springMessage('tb.product.code')</th>
-			<th class="text-center" width="80">#springMessage('tb.product.category.name')</th>
+			<th class="text-center" >#springMessage('tb.product.code')</th>
+			<th class="text-center" >#springMessage('tb.product.category.name')</th>
 			<th class="text-center" width="80">#springMessage('tb.product.status.life')</th>
-			<th class="text-center">#springMessage('tb.product.name')</th>
-			<th class="text-center">#springMessage('tb.product.remark')</th>
+			<th class="text-center" >#springMessage('tb.product.name')</th>
+			<th class="text-center" >#springMessage('tb.product.remark')</th>
             <th class="text-center" width="10"></th>
 		</tr>
 		</thead>
@@ -52,9 +52,9 @@
 		<tr >
 			<td >{{i + 1}}</td>
 			<td >
-				<a href="{{product.picturePath}}" target="_blank">
-					<span class="glyphicon glyphicon-picture"></span>
-				</a>
+##				<a href="{{product.picturePath}}" target="_blank">
+##					<span class="glyphicon glyphicon-picture"></span>
+##				</a>
 				{{product.code}}
 			</td>
 			<td >{{product.categoryName}}</td>

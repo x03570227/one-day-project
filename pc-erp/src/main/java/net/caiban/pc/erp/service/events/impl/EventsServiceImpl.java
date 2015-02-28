@@ -3,6 +3,7 @@
  */
 package net.caiban.pc.erp.service.events.impl;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import net.caiban.pc.erp.domain.events.Events;
 import net.caiban.pc.erp.persist.events.EventsMapper;
 import net.caiban.pc.erp.service.events.EventsService;
 import net.caiban.pc.erp.service.sys.SysUserService;
-import net.caiban.utils.DateUtils;
+import net.caiban.utils.DateUtil;
 import net.caiban.utils.lang.StringUtils;
 
 import org.springframework.stereotype.Component;
@@ -110,8 +111,13 @@ public class EventsServiceImpl implements EventsService {
 
 	@Override
 	public void initGmt(Events events, String gmtStartStr, String gmtEndStr) {
-		events.setGmtStart(DateUtils.getDate(gmtStartStr, AppConst.DATE_FORMAT_DATE));
-		events.setGmtEnd(DateUtils.getDate(gmtEndStr, AppConst.DATE_FORMAT_DATE));
+		
+		try {
+			events.setGmtStart(DateUtil.getDate(gmtStartStr, AppConst.DATE_FORMAT_DATE));
+			events.setGmtEnd(DateUtil.getDate(gmtEndStr, AppConst.DATE_FORMAT_DATE));
+		} catch (ParseException e) {
+			
+		}
 	}
 
 	@Override
