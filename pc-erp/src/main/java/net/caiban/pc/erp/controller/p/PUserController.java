@@ -17,7 +17,9 @@ import net.caiban.pc.erp.domain.sys.SysCompany;
 import net.caiban.pc.erp.domain.sys.SysUser;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.sys.SysCompanyService;
+import net.caiban.pc.erp.service.sys.SysLoginRememberService;
 import net.caiban.pc.erp.service.sys.SysUserService;
+import net.caiban.utils.http.CookiesUtil;
 import net.caiban.utils.lang.StringUtils;
 
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,8 @@ public class PUserController extends BaseController {
 	private SysUserService sysUserService;
 	@Resource
 	private SysCompanyService sysCompanyService;
+	@Resource
+	private SysLoginRememberService sysLoginRememberService;
 
 	@RequestMapping
 	public ModelAndView login(HttpServletRequest request, Map<String, Object> out, 
@@ -56,7 +60,7 @@ public class PUserController extends BaseController {
 			String refurl, String refparam, Integer rememberMe, SysUser user){
 		
 		try {
-			SessionUser sessionUser = sysUserService.login(user);
+			SessionUser sessionUser = sysUserService.doLogin(user);
 			if(sessionUser!=null){
 				setSessionUser(request, sessionUser);
 				sysUserService.rememberMe(response, sessionUser, rememberMe);
@@ -135,6 +139,11 @@ public class PUserController extends BaseController {
 	@RequestMapping
 	public ModelAndView doLogout(HttpServletRequest request, Map<String, Object> out){
 		removeSession(request, AppConst.SESSION_KEY);
+		
+		String token = CookiesUtil.getCookie(request, AppConst.LOGIN_REMEMBER_TOKEN, null);
+		
+		sysLoginRememberService.removeToken(token);
+		
 		return new ModelAndView("redirect:/");
 	}
 }

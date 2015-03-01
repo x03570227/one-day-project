@@ -72,4 +72,6 @@ public interface SysUserMapper {
 	
 	public Integer pageDefaultCount(@Param("cond") SysUserCond cond);
 	
+	public SysUser queryById(Integer id);
+	
 }

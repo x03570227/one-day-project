@@ -5,22 +5,29 @@ package net.caiban.pc.erp.service.sys.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.config.LogHelper;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.SysCompany;
+import net.caiban.pc.erp.domain.sys.SysLoginRemember;
 import net.caiban.pc.erp.domain.sys.SysUser;
 import net.caiban.pc.erp.domain.sys.SysUserCond;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.sys.SysCompanyMapper;
+import net.caiban.pc.erp.persist.sys.SysLoginRememberMapper;
 import net.caiban.pc.erp.persist.sys.SysUserMapper;
 import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.pc.erp.utils.ValidateUtil;
+import net.caiban.utils.DateUtil;
 import net.caiban.utils.MD5;
+import net.caiban.utils.http.CookiesUtil;
 import net.caiban.utils.lang.StringUtils;
 
 import org.springframework.stereotype.Component;
@@ -38,9 +45,11 @@ public class SysUserServiceImpl implements SysUserService {
 	private SysUserMapper sysUserMapper;
 	@Resource
 	private SysCompanyMapper sysCompanyMapper;
+	@Resource
+	private SysLoginRememberMapper sysLoginRememberMapper;
 
 	@Override
-	public SessionUser login(SysUser user) throws ServiceException {
+	public SessionUser doLogin(SysUser user) throws ServiceException {
 
 		if (user == null) {
 			throw new ServiceException("e.login");
@@ -191,9 +200,29 @@ public class SysUserServiceImpl implements SysUserService {
 		return null;
 	}
 
+//	final static int DEFAULT_REMEMBER_DAY=7; 
+	
 	@Override
 	public void rememberMe(HttpServletResponse response, SessionUser user,
 			Integer rememberFlag) {
+		
+		if(rememberFlag==null || rememberFlag.intValue()!=1){
+			return ;
+		}
+		
+		String token = UUID.randomUUID().toString();
+		Date now = new Date();
+		Integer rememberDay = Integer.valueOf(AppConst.CONFIG_PROPERTIES.get("remember.day"));
+		
+		SysLoginRemember remember = new SysLoginRemember();
+		remember.setUid(user.getUid());
+		remember.setRememberToken(token);
+		remember.setGmtExpired(DateUtil.getDateAfterDays(now, rememberDay));
+		remember.setGmtRefresh(now);
+		
+		sysLoginRememberMapper.insert(remember);
+		
+		CookiesUtil.setCookie(response, AppConst.LOGIN_REMEMBER_TOKEN, token, null, rememberDay*86400);
 	}
 
 	@Override

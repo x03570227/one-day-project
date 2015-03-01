@@ -45,9 +45,12 @@ public class RootController extends BaseController{
 			Locale locale){
 		
 		SessionUser user = getSessionUser(request);
+		
 		if(user==null){
-			return new ModelAndView("redirect:p/puser/login.do");
+			return new ModelAndView("redirect:/index.do");
 		}
+		
+
 		
 		out.put("sessionUser", user);
 		

@@ -32,8 +32,8 @@
 		<init-param>
 			<param-name>noLoginPage</param-name>
 			<param-value>
-				/|/index.do
-				|/p/*
+				/p/*
+				|/api/*
 			</param-value>
 		</init-param>
 		

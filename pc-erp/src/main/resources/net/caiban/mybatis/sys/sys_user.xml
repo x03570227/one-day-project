@@ -20,6 +20,24 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		where account=#{account} and password=#{password}
 	</select>
 	
+	
+	<sql id="default_column">
+		`sys_user`.`id`,
+		`sys_user`.`uid`,
+		`sys_user`.`classify`,
+		`sys_user`.`account`,
+		`sys_user`.`cid`,
+		`sys_user`.`gmt_created` as gmtCreated,
+		`sys_user`.`gmt_modified` as gmtModified
+	</sql>
+	
+	<select id="queryById" resultType="net.caiban.pc.erp.domain.sys.SysUser" >
+		select 
+			<include refid="default_column"/>
+		from sys_user
+		where id=#{id}
+	</select>
+	
 	<insert id="insert" parameterType="net.caiban.pc.erp.domain.sys.SysUser" keyProperty="id">
 		insert into sys_user (`uid`,`classify`,`account`,`password`,
 			`gmt_created`,`gmt_modified`,`salt`, `cid`)

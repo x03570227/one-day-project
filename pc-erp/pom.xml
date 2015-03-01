@@ -146,10 +146,11 @@
 		</dependency>
 		
 		<!-- dependence of koudaitong.com -->
-		<dependency>
+ 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>

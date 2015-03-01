@@ -21,8 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.utils.http.CookiesUtil;
+import net.caiban.utils.http.HttpRequestUtil;
 import net.caiban.utils.lang.StringUtils;
 import net.sf.json.JSONObject;
+
+import com.google.common.base.Strings;
 
 
 /**
@@ -58,28 +62,26 @@ public class AuthorizeFilter implements Filter {
 		
 		do {
 
-			SessionUser sessionUser = (SessionUser) request.getSession().getAttribute(AppConst.SESSION_KEY);
-			request.setAttribute("sessionUser", sessionUser);
-			request.setAttribute("juser", JSONObject.fromObject(sessionUser));
 
-//			RequestContext requestContext = new RequestContext(request);
-//			Locale locale = requestContext.getLocale();
-//			request.setAttribute("locale", locale);
-			
 			if(filterByConfig(noLoginPage, path, uri)){
 				chain.doFilter(request, response);
 				return ;
 			}
 			
+			SessionUser sessionUser = (SessionUser) request.getSession().getAttribute(AppConst.SESSION_KEY);
+			
 			if(sessionUser==null){
-				break;
+				
+				sessionUser = validateToken(request);
+				
+				if(sessionUser == null){
+					break;
+				}
+				request.getSession().setAttribute(AppConst.SESSION_KEY, sessionUser);
 			}
 			
-//			if(filterByConfig(noAuthPage, path, uri)){
-//				chain.doFilter(request, response);
-//				return ;
-//			}
-			
+			request.setAttribute("sessionUser", sessionUser);
+			request.setAttribute("juser", JSONObject.fromObject(sessionUser));
 			
 			chain.doFilter(request, response);
 			return ;
@@ -101,9 +103,6 @@ public class AuthorizeFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 //		deniedURL = config.getInitParameter("deniedURL");
 		loginURL = config.getInitParameter("loginURL");
-		
-//		projectCode = config.getInitParameter("projectCode");
-//		projectPassword = config.getInitParameter("projectPassword");
 		
 		String tmp[]= null;
 		noLoginPage = new HashSet<String>();
@@ -144,28 +143,34 @@ public class AuthorizeFilter implements Filter {
 		}
 		return false;
 	}
-//	
-//	public boolean filterByAuth(String[] rightArr, HttpServletRequest request){
-//		if(rightArr==null || rightArr.length<=0){
-//			return false;
-//		}
-//		
-//		String query = request.getQueryString();
-//		String contextPath = request.getContextPath();
-//		String uri = request.getRequestURI();
-//		if(uri.startsWith(contextPath)){
-//			uri=uri.substring(contextPath.length(),uri.length());
-//		}
-//		String url = uri+(query == null ? "" : "?"+query);
-//
-//		boolean ispass=false;
-//		for(String s:rightArr){
-//			if(url.matches(s.trim())){
-//				ispass=true;
-//				break;
-//			}
-//		}
-//		return ispass;
-//	}
+
+	private SessionUser validateToken(HttpServletRequest request){
+		String token = CookiesUtil.getCookie(request, AppConst.LOGIN_REMEMBER_TOKEN, null);
+		
+		if(Strings.isNullOrEmpty(token)){
+			return null;
+		}
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(AppConst.CONFIG_PROPERTIES.get("api.server"))
+			.append("/validateToken.do?token=").append(token);
+		
+		String resp = HttpRequestUtil.httpGet(sb.toString());
+		if(Strings.isNullOrEmpty(resp)){  //TODO json identify
+			return null;
+		}
+		
+		JSONObject jobj = JSONObject.fromObject(resp);
+		
+		boolean result = jobj.optBoolean("result", false);
+		
+		if(!result){
+			return null;
+		}
+		
+		SessionUser user = (SessionUser) JSONObject.toBean(jobj.getJSONObject("data"), SessionUser.class);
+
+		return user;
+	}
 
 }

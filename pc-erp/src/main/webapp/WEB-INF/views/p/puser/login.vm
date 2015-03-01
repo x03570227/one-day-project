@@ -35,16 +35,16 @@
                 </div>
               </div>
 			  
-##              <div class="form-group">
-##                <div class="col-sm-offset-4 col-sm-8 ">
-##                  <div class="checkbox">
-##                    <label>
-##                      <input type="checkbox" name="rememberMe" value="1" checked />#springMessage('addon.login.remember')
-##                    </label>
-##    				##<a href="#springUrl('/p/puser/forget.do')" >#springMessage("addon.login.forget")</a>
-##                  </div>
-##                </div>
-##              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8 ">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="rememberMe" value="1" checked />#springMessage('addon.login.remember')
+                    </label>
+    				##<a href="#springUrl('/p/puser/forget.do')" >#springMessage("addon.login.forget")</a>
+                  </div>
+                </div>
+              </div>
 			  
 			  <div class="form-group" >
 				<div class="col-sm-offset-4 col-sm-8">

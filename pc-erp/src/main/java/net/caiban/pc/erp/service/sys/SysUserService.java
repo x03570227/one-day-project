@@ -31,7 +31,7 @@ public interface SysUserService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public SessionUser login(SysUser user) throws ServiceException;
+	public SessionUser doLogin(SysUser user) throws ServiceException;
 	
 	/**
 	 * 注册新用户（第一次注册）
