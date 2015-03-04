@@ -76,9 +76,12 @@ public class UserController extends BaseController {
 		SessionUser user = getSessionUser(request);
 		
 		cond.setCid(user.getCid());
-		cond.setUidNot(user.getUid());
+//		cond.setUidNot(user.getUid());
 		
 		pager = sysUserService.pager(cond, pager);
+		
+		pager.setRecords(sysUserService.excludeMainAccount(pager.getRecords()));
+		
 		return pager;
 	}
 	

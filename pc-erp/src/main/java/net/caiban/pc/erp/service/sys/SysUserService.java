@@ -3,6 +3,8 @@
  */
 package net.caiban.pc.erp.service.sys;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import net.caiban.pc.erp.domain.Pager;
@@ -95,6 +97,8 @@ public interface SysUserService {
 			String confirm) throws ServiceException;
 	
 	public Pager<SysUser> pager(SysUserCond cond, Pager<SysUser> pager);
+	
+	public List<SysUser> excludeMainAccount(List<SysUser> userList);
 	
 	public SysUser doRegistByCompany(String mainAccount, Integer cid, String account,
 			String password, String confirm) throws ServiceException;

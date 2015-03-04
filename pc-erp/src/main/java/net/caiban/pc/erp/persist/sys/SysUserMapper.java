@@ -37,7 +37,11 @@ public interface SysUserMapper {
 	 * @param password
 	 * @return
 	 */
+	@Deprecated
 	public SysUser queryUidByLogin(@Param("account") String account, 
+			@Param("password") String password);
+	
+	public SysUser queryUserByPassword(@Param("uid") Integer uid,
 			@Param("password") String password);
 	
 	/**

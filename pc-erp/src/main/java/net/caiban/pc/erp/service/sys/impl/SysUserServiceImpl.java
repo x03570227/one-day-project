@@ -5,7 +5,9 @@ package net.caiban.pc.erp.service.sys.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -62,19 +64,29 @@ public class SysUserServiceImpl implements SysUserService {
 		
 		user.setAccount(user.getAccount().replace("：", ":"));
 		
-		//XXX 变更为通过查找UID对应的密码登录
 		String classify = classifyOfAccount(user.getAccount());
-		String salt = sysUserMapper.querySalt(rebuildAccount(classify,
-				user.getAccount()));
+		
+		Integer uid = sysUserMapper.queryUidByAccount(rebuildAccount(classify, user.getAccount()));
+		if(uid==null || uid.intValue()<=0){
+			throw new ServiceException("e.login.account.not.exist");
+		}
+		
+		String salt = sysUserMapper.querySaltByUid(uid);
+		
+//		String salt = sysUserMapper.querySalt(rebuildAccount(classify,
+//				user.getAccount()));
 		if (StringUtils.isEmpty(salt)) {
 			throw new ServiceException("e.login");
 		}
 
-		SysUser confirmedUser = sysUserMapper.queryUidByLogin(
-				rebuildAccount(classify, user.getAccount()),
+		SysUser confirmedUser = sysUserMapper.queryUserByPassword(uid,
 				encodePassword(user.getPassword(), salt));
+		
+//		SysUser confirmedUser = sysUserMapper.queryUidByLogin(
+//				rebuildAccount(classify, user.getAccount()),
+//				encodePassword(user.getPassword(), salt));
 		if (confirmedUser == null) {
-			throw new ServiceException("e.login.failure");
+			throw new ServiceException("e.login.password.not.confirmed");
 		}
 
 		return new SessionUser(confirmedUser.getUid(), user.getAccount(), confirmedUser.getCid());
@@ -312,5 +324,22 @@ public class SysUserServiceImpl implements SysUserService {
 		
 		withMainUser = withMainUser==null?false:withMainUser;
 		return withMainUser?count:count-1;
+	}
+
+	@Override
+	public List<SysUser> excludeMainAccount(List<SysUser> userList) {
+		
+		if(userList==null){
+			return null;
+		}
+		
+		List<SysUser> excludedList = new ArrayList<SysUser>();  
+		for(SysUser user: userList){
+			if(user.getAccount().contains(":")){
+				excludedList.add(user);
+			}
+		}
+		
+		return excludedList;
 	}
 }

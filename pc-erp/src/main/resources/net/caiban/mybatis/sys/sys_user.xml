@@ -20,6 +20,10 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		where account=#{account} and password=#{password}
 	</select>
 	
+	<select id="queryUserByPassword" resultType="net.caiban.pc.erp.domain.sys.SysUser" >
+		select uid,cid from sys_user
+		where id=#{uid} and password=#{password}
+	</select>
 	
 	<sql id="default_column">
 		`sys_user`.`id`,
