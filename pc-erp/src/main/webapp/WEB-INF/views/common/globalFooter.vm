@@ -3,3 +3,12 @@
     <p class="text-muted">Fork me from <a href="https://github.com/x03570227/one-day-project" target="_blank">https://github.com/x03570227/one-day-project</a> 浙ICP备 14041582-1</p>
   </div>
 </div>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?566171367e5a6fc0aa3adf49933011f5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
