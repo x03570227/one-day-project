@@ -108,7 +108,7 @@ public class SysUserServiceImpl implements SysUserService {
 		
 		SysUser registUser = saveAccount(user, company.getId(), rebuildedAccount);
 		
-		return new SessionUser(registUser.getId(), user.getAccount(), user.getCid());
+		return new SessionUser(registUser.getId(), user.getAccount(), company.getId());
 	}
 	
 	private SysUser saveAccount(SysUser user, Integer cid, String rebuildedAccount) throws ServiceException{
