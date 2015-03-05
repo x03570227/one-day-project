@@ -25,6 +25,7 @@ import net.caiban.utils.http.CookiesUtil;
 import net.caiban.utils.http.HttpRequestUtil;
 import net.caiban.utils.lang.StringUtils;
 import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 
 import com.google.common.base.Strings;
 
@@ -156,7 +157,7 @@ public class AuthorizeFilter implements Filter {
 			.append("/validateToken.do?token=").append(token);
 		
 		String resp = HttpRequestUtil.httpGet(sb.toString());
-		if(Strings.isNullOrEmpty(resp)){  //TODO json identify
+		if(Strings.isNullOrEmpty(resp)||!JSONUtils.mayBeJSON(resp)){ 
 			return null;
 		}
 		
