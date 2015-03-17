@@ -28,6 +28,27 @@ define(		["jquery","util/table","messenger"],
 			}, "json");
 		};
 		
+		def["resetPwd"]=function(uid, url, cb){
+			jQuery.post(url, {"uid":uid}, function(resp){
+				if(resp.result){
+					var msg = users.message.post({
+        				message:resp.data,
+        				showCloseButton:true,
+        				type:"success",
+        				hideAfter:60,
+        				actions:{
+        					copy:{
+        						label:"Copy",
+        						action:function(){
+        							//TODO copy to browser
+									msg.cancel();
+        						}
+        					}
+        				}
+        			});
+				}
+			}, "json");
+		};
 		
 		return def;
 	}

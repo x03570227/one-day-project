@@ -93,8 +93,9 @@ require([    "jquery","Bootstrap", "messenger"],
 	function(jQuery,  bootstrap,   messenger){
 		
 		Messenger.options = {
-			extraClasses : 'messenger-fixed messenger-on-top',
-			theme : 'block'
+			extraClasses : 'messenger-fixed messenger-on-top messenger-on-right'
+				,
+			theme : 'flat'
 		};
 		
 	}	

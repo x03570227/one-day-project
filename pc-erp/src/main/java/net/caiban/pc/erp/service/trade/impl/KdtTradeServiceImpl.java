@@ -185,16 +185,16 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		return JSONObject.fromObject(define.getDetails());
 	}
 	
-//	public static void main(String[] args) throws Exception {
-//		KdtApiClient client = new KdtApiClient("f92d3321b5af77d7e2", "f74f1a49faaae58c24388af9c9697153");
-//		HashMap<String, String> params = new HashMap<String, String>(); 
-//		params.put("tid", "E20150103152946547091");
-//		HttpResponse response = client.get("kdt.trade.get", params);
-//		String respStr = EntityUtils.toString(response.getEntity());
-//		JSONObject jobj = JSONObject.fromObject(respStr);
-//		JSONObject trade= jobj.getJSONObject("response").getJSONObject("trade");
-//		
-//		System.out.println("num_iid: "+trade.getString("num_iid")+" title:"+ trade.getString("title"));
-//		System.out.println(trade.getString("status"));
-//	}
+	public static void main(String[] args) throws Exception {
+		KdtApiClient client = new KdtApiClient("f92d3321b5af77d7e2", "f74f1a49faaae58c24388af9c9697153");
+		HashMap<String, String> params = new HashMap<String, String>(); 
+		params.put("tid", "E20150314150055756820");
+		HttpResponse response = client.get("kdt.trade.get", params);
+		String respStr = EntityUtils.toString(response.getEntity());
+		JSONObject jobj = JSONObject.fromObject(respStr);
+		JSONObject trade= jobj.getJSONObject("response").getJSONObject("trade");
+		
+		System.out.println("num_iid: "+trade.getString("num_iid")+" title:"+ trade.getString("title"));
+		System.out.println(trade.getString("status"));
+	}
 }

@@ -58,7 +58,7 @@ public class UserController extends BaseController {
 		
 		String error=null;
 		try {
-			sysUserService.resetPassword(uid, origin, password, confirm);
+			sysUserService.doResetPassword(uid, origin, password, confirm);
 			error="e.sys.user.reset.password.success";
 		} catch (ServiceException e) {
 			error = e.getMessage();
@@ -102,5 +102,19 @@ public class UserController extends BaseController {
 			error = messageSource.getMessage(e.getMessage(), null, locale);
 		}
 		return ajaxResult(false, error);
+	}
+	
+	@RequestMapping
+	@ResponseBody
+	public Map<String, Object> doResetByAdmin(HttpServletRequest request,
+			Integer uid, String password, String confirm, Locale locale) {
+		
+		Integer myid=getSessionUser(request).getUid();
+		try {
+			sysUserService.doResetPasswordByAdmin(myid, uid, password, confirm);
+			return ajaxResult(true,messageSource.getMessage("e.sys.user.reset.password.success", null, locale));
+		} catch (ServiceException e) {
+			return ajaxResult(false, messageSource.getMessage(e.getMessage(),null, locale));
+		}
 	}
 }

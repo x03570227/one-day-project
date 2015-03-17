@@ -93,7 +93,7 @@ public interface SysUserService {
 	 * @param confirm
 	 * @throws ServiceException
 	 */
-	public void resetPassword(Integer uid, String origin, String password,
+	public void doResetPassword(Integer uid, String origin, String password,
 			String confirm) throws ServiceException;
 	
 	public Pager<SysUser> pager(SysUserCond cond, Pager<SysUser> pager);
@@ -104,4 +104,7 @@ public interface SysUserService {
 			String password, String confirm) throws ServiceException;
 	
 	public Integer doCountUserOfCompany(Integer cid, Boolean withMainUser);
+	
+	public void doResetPasswordByAdmin(Integer adminUid, Integer uid, String password,
+			String confirm) throws ServiceException;
 }

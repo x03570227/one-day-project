@@ -16,7 +16,7 @@
 	
 	#loadCss([
 		"/plugin/messenger/build/css/messenger.css",
-		"/plugin/messenger/build/css/messenger-theme-block.css"
+		"/plugin/messenger/build/css/messenger-theme-flat.css"
 	])
 	
     <script type="text/javascript" >

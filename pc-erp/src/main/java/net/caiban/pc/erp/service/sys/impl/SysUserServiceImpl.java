@@ -258,7 +258,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public void resetPassword(Integer uid, String origin, String password, String confirm)
+	public void doResetPassword(Integer uid, String origin, String password, String confirm)
 			throws ServiceException {
 		if(Strings.isNullOrEmpty(password)){
 			throw new ServiceException("e.sys.user.reset.password.invalid");
@@ -341,5 +341,34 @@ public class SysUserServiceImpl implements SysUserService {
 		}
 		
 		return excludedList;
+	}
+
+	@Override
+	public void doResetPasswordByAdmin(Integer adminUid, Integer uid, String password,
+			String confirm) throws ServiceException {
+		
+		SysUser adminUser = sysUserMapper.queryById(adminUid);
+		if(adminUser.getAccount().contains(":")){
+			throw new ServiceException("e.sys.user.admin.forbid");
+		}
+		
+		if(Strings.isNullOrEmpty(password)){
+			throw new ServiceException("e.sys.user.reset.password.invalid");
+		}
+		
+		if(!password.equals(confirm)){
+			throw new ServiceException("e.sys.user.reset.password.confirm.invalid");
+		}
+		
+		String salt=sysUserMapper.querySaltByUid(uid);
+		if(Strings.isNullOrEmpty(salt)){
+			LogHelper.debug(SysUserServiceImpl.class, "Error get salt from uid:"+uid);
+			throw new ServiceException("e.sys.user.reset.password.failure");
+		}
+		
+		Integer impact = sysUserMapper.updatePassword(uid, encodePassword(password, salt));
+		if(impact==null || impact.intValue()<=0){
+			throw new ServiceException("e.sys.user.reset.password.failure");
+		}		
 	}
 }

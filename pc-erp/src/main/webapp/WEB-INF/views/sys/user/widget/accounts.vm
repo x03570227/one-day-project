@@ -43,6 +43,36 @@
     </div>
 </div>
 
+<!-- Reset user password modal start -->
+<div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalTitle">#springMessage("m.user.password")</h4>
+      </div>
+        <form id="resetForm" onsubmit="return false;">
+      <div class="modal-body">
+			<input type="hidden" id="resetUid" name="uid" value="" />
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">#springMessage("lb.sys.user.password.new"):</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="#springMessage('ph.sys.user.password.new')" required>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">#springMessage("lb.sys.user.password.repeat"):</label>
+            <input type="password" class="form-control" name="confirm" placeholder="#springMessage('ph.sys.user.password.repeat')" required>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">#springMessage('btn.close')</button>
+        <button type="submit" class="btn btn-primary" id="reset_password_btn">#springMessage("btn.save")</button>
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
+<!-- Reset user password modal end -->
+
 <script type="text/javascript">
 	require([	"jquery","template","product/prop", "sysUser","messenger","validator"],
 		function(jQuery,  template,  prop,           users,    messenger,  validator){
@@ -93,6 +123,46 @@
 				
 				return null;
 			});
+			
+			jQuery("#resetForm").validator();
+				
+			jQuery("#sys_user_list").on("click", "td button[data-act=reset-pwd]", function(){
+				var uid=jQuery(this).attr('model-uid');
+				jQuery("#resetUid").val(uid);
+				jQuery("#resetForm input[type=password]").val("");
+			});
+			
+			jQuery("#resetModal").on("shown.bs.modal", function(e){
+				jQuery("#password").focus();
+			});
+			
+			jQuery("#resetForm").submit(function(e){
+			
+				if(jQuery("#reset_password_btn").hasClass("disabled")){
+					product.message.post({
+						message:"#springMessage('msg.form.invalid')",
+						hideAfter:3
+					});
+					return false;
+				}
+				
+				jQuery.post("#springUrl('/sys/user/doResetByAdmin.do')", jQuery(this).serialize(), function(resp){
+					if(resp.result){
+						users.message.post({
+							message:resp.data,
+							hideAfter:3
+						});
+						jQuery("#resetModal").modal('hide');
+					}else{
+						users.message.post({
+							message:resp.data,
+							hideAfter:3,
+							type:"error"
+						});
+					}
+				});
+			});
+			
 			#end
 		}
 	);
@@ -104,6 +174,9 @@
 		<tr class="active">
 			<th class="text-center" width="10">#</th>
 			<th class="text-center" >#springMessage('lb.sys.user.account')</th>
+			#if($!{editAble}=="1")
+			<th width="15"></th>
+			#end
 ##            <th class="text-center" width="10"></th>
 		</tr>
 		</thead>
@@ -112,11 +185,20 @@
 		<tr >
 			<td >{{i + 1}}</td>
 			<td >{{user.accountWithoutClassify}}</td>
-##			<td >
-##			<button type="button" class="btn btn-danger btn-xs act-delete" model-product-id="{{product.id}}">
+			#if($!{editAble}=="1")
+			<td >
+##			<button type="button" class="btn btn-danger" model-product-id="{{product.id}}">
 ##				<span class="glyphicon glyphicon-remove"></span>
 ##			</button>
-##			</td>
+			<button type="button" class="btn btn-warning btn-xs" 
+				data-act="reset-pwd" model-uid="{{user.uid}}" 
+				title="#springMessage('lb.sys.user.password.reset')"
+				data-toggle="modal" data-target="#resetModal"
+				>
+				<span class="glyphicon glyphicon-refresh"></span>
+			</button>
+			</td>
+			#end
 		</tr>
 		{{/each}}
 		</tbody>
