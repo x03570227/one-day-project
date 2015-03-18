@@ -10,31 +10,32 @@ console.log('Global Config: Locale-> ',LOCALE)
 //	}
 //});
 var STATIC_UPLOAD="http://su.caiban.net";
-var STATIC="http://s.caiban.net";
+var STATIC="//s0.caiban.net/";
+//var STATIC="";
 
 require.config({
-	urlArgs:"v=20150105.7",
+	urlArgs:"v=20150318.8",
 	baseUrl:CONTEXT_PATH,
 	paths:{
 		//基础JS库
 //		jquery:"//cdn.bootcss.com/jquery/2.1.1/jquery.min",
-		jquery:"js/jquery.min",
+		jquery:STATIC+"plugin/jquery/dist/jquery.min",
 //		Bootstrap:"//cdn.bootcss.com/bootstrap/3.1.1/js/bootstrap.min",
-		Bootstrap:"plugin/bootstrap/js/bootstrap.min",
+		Bootstrap:STATIC+"plugin/bootstrap/js/bootstrap.min",
 		
-		template:"plugin/template",
+		template:STATIC+"plugin/template",
 		
 		//各种插件
-		"datetimepicker":"plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker",
-		"dplocale":"plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker."+LOCALE,
+		"datetimepicker":STATIC+"plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker",
+		"dplocale":STATIC+"plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker."+LOCALE,
 		
-		"tagsinput":"plugin/bootstrap-tagsinput/bootstrap-tagsinput.min",
-		"switch":"plugin/bootstrap-switch/js/bootstrap-switch.min",
-		"jqValidation":"plugin/jquery.extention/jqBootstrapValidation",
-		"typeahead":"plugin/typeahead/typeahead.jquery.min",
-		"hogan":"plugin/hogan/hogan-2.0.0.min",
-		"messenger":"plugin/messenger/build/js/messenger.min",
-		"validator":"plugin/bootstrap-validator/dist/validator.min",
+		"tagsinput":STATIC+"plugin/bootstrap-tagsinput/bootstrap-tagsinput.min",
+		"switch":STATIC+"plugin/bootstrap-switch/js/bootstrap-switch.min",
+		"jqValidation":STATIC+"plugin/jquery.extention/jqBootstrapValidation",
+		"typeahead":STATIC+"plugin/typeahead/typeahead.jquery.min",
+		"hogan":STATIC+"plugin/hogan/hogan-2.0.0.min",
+		"messenger":STATIC+"plugin/messenger/build/js/messenger.min",
+		"validator":STATIC+"plugin/bootstrap-validator/dist/validator.min",
 		
 		//项目模块
 		"util/dt":"js/utils/util.dt",
@@ -46,7 +47,6 @@ require.config({
 		"product/prop":"js/erp/config/product.prop",
 		"product/define":"js/erp/config/product.define",
 		"trade/prop":"js/erp/config/trade.prop",
-		
 		
 		"trade":"js/erp/trade",
 		

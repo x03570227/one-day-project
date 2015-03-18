@@ -38,18 +38,26 @@
 #parse("/common/globalHeader.vm")
 #end
 
-#macro(loadScript $jsArr)
+#macro(loadScript $jsArr $domain)
 	#foreach($js in $!{jsArr})
 		#if($js != "")
-		<script src="#springUrl('')$js"></script>
+			#if($domain != "")
+				<script src="${domain}${js}"></script>
+			#else
+				<script src="#springUrl('')$js"></script>
+			#end
 		#end
 	#end
 #end
 
-#macro(loadCss $cssArr)
+#macro(loadCss $cssArr $domain)
 	#foreach($css in $!{cssArr})
 		#if($css != "")
-		<link href="#springUrl('')$css" rel="stylesheet" />
+			#if($domain != "")
+				<link href="${domain}${css}" rel="stylesheet" />
+			#else
+				<link href="#springUrl('')$css" rel="stylesheet" />
+			#end
 		#end
 	#end
 #end

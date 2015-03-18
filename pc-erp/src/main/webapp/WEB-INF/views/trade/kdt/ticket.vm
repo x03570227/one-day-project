@@ -42,7 +42,9 @@
 	</div>
 </div>
 	
-<script type="text/javascript" src="http://s0.caiban.net/downloads/lodop/LodopFuncs.js"></script>
+#loadScript(["/downloads/lodop/LodopFuncs.js"], "http://s0.caiban.net")
+##<script type="text/javascript" src="http://s0.caiban.net/downloads/lodop/LodopFuncs.js"></script>
+
 
 <script type="text/javascript">
 	require([	"jquery","util/kdtprint","Bootstrap","validator","messenger"],
