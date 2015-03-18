@@ -7,14 +7,16 @@
 	<link rel="shortcut icon" href="http://img.caiban.net/caiban/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
-	##<link href="#springUrl('/css/global.css')" rel="stylesheet" />
+	<link href="#springUrl('/css/global.css')" rel="stylesheet" />
+	<!--
+	<link href="http://cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" rel="stylesheet" />
+	-->
 	
-	##"/plugin/font-awesome/css/font-awesome.min.css",
+	##parse("/common/import/bootstrap.vm")
+	##<link href="http://s.caiban.net/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	
 	#loadCss([
-		"/plugin/bootstrap/dist/css/bootstrap.min.css",
-		"/plugin/metisMenu/dist/metisMenu.min.css",
-		"/plugin/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css",
-		"/plugin/font-awesome/css/font-awesome.min.css",
+		"/plugin/bootstrap/css/bootstrap.min.css",
 		"/plugin/messenger/build/css/messenger.css",
 		"/plugin/messenger/build/css/messenger-theme-flat.css"
 	], "http://s0.caiban.net")
@@ -25,20 +27,13 @@
 		//var JU=eval('$!{juser}');
 	</script>
 	
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-	
 	<script src="#springUrl('/js/require.js')" ></script>
 	<script src="#springUrl('/js/main.js')?v=20150318.3" ></script>
 	
   </head>
   <body>
 	$screen_content
-	##parse("/common/globalFooter.vm")
+	#parse("/common/globalFooter.vm")
   </body>
 </html>
 

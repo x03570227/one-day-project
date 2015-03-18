@@ -21,14 +21,13 @@ require.config({
 //		jquery:"//cdn.bootcss.com/jquery/2.1.1/jquery.min",
 		jquery:STATIC+"plugin/jquery/dist/jquery.min",
 //		Bootstrap:"//cdn.bootcss.com/bootstrap/3.1.1/js/bootstrap.min",
-		Bootstrap:STATIC+"plugin/bootstrap/js/bootstrap.min",
-		
+		Bootstrap:STATIC+"plugin/bootstrap/dist/js/bootstrap.min",
 		template:STATIC+"plugin/template",
-		
+		menu:STATIC+"plugin/metisMenu/dist/metisMenu.min",
+		sbadmin:STATIC+"plugin/startbootstrap-sb-admin-2/dist/js/sb-admin-2",
 		//各种插件
 		"datetimepicker":STATIC+"plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker",
 		"dplocale":STATIC+"plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker."+LOCALE,
-		
 		"tagsinput":STATIC+"plugin/bootstrap-tagsinput/bootstrap-tagsinput.min",
 		"switch":STATIC+"plugin/bootstrap-switch/js/bootstrap-switch.min",
 		"jqValidation":STATIC+"plugin/jquery.extention/jqBootstrapValidation",
@@ -58,6 +57,8 @@ require.config({
 	},
 	shim:{
 		"Bootstrap":{deps:["jquery"]},
+		"menu":{deps:["jquery","Bootstrap"]},
+		"sbadmin":{deps:["jquery"]},
 		"jqValidation":{
 //			exports:"jqValidation",
 			deps:["jquery"]
@@ -89,7 +90,7 @@ require.config({
 	}
 });
 
-require([    "jquery","Bootstrap", "messenger"],
+require([    "jquery","Bootstrap", "messenger", "menu", "sbadmin"],
 	function(jQuery,  bootstrap,   messenger){
 		
 		Messenger.options = {
