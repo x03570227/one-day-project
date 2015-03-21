@@ -1,9 +1,11 @@
-#globalHeader("index")
+#set($layout="/layout/simple_page.vm")
 
-<div class="container">
-    <div class="panel panel-warning">
+<div class="container mt120">
+    <div class="panel panel-danger">
         <div class="panel-heading">
-    		#springMessage("addon.regist.term.service")
+    		<a href="#springUrl('')">
+				<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
+			</a>
         </div>
     	<div class="panel-body">
     		<div class="text-center">
@@ -12,7 +14,7 @@
             <div>
 				<h4 >暂时还没想好，但是：</h4>
 				<div class="well">
-					我们会竭尽全力保护你的数据，数据属于你的，没有你的同意，我们不会随意使用您的数据，除非得到您的委托。
+					我们会竭尽全力保护您的数据，数据属于您的，没有您的同意，我们不会随意使用您的数据，除非得到您的委托。
 				</div>
 			</div>
         </div>

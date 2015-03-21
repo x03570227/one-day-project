@@ -1,87 +1,150 @@
-<div id="wrapper">
-#globalHeader("index")
-
-	<div id="page-wrapper">
 		<div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">#springMessage("m.dashboard")</h1>
+                <h1 class="page-header"><i class="fa fa-dashboard fa-fw"></i>#springMessage("m.dashboard")</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
 		
 		<div class="row">
-    		<div class="col-md-4">
-    			
-    		#parse("/sys/widget/sliderLogin.vm")
-    		##parse("/sys/widget/sliderRegist.vm")
-    		#parse("/sys/widget/sliderJoined.vm")
-    
-    		</div>
-    		<div class="col-md-4">
-    			<div class="panel panel-primary">
-                	<div class="panel-heading">
-    					#springMessage("tip.index.product.count")
-                	</div>
-    				<div class="panel-body text-center">
-                        <h3>
-    						<a href="#springUrl('/product/index.do')" >
-    						$!{productCount}
-    						</a>
-    					</h3>
-                	</div>
-    			</div>
-    		</div>
+##    		<div class="col-md-4">
+##    			
+##    		#parse("/sys/widget/sliderLogin.vm")
+##    		##parse("/sys/widget/sliderRegist.vm")
+##    		#parse("/sys/widget/sliderJoined.vm")
+##    
+##    		</div>
+	<div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-list-alt fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">$!{productCount}</div>
+                        <div>#springMessage("tip.index.product.count")</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#springUrl('/product/index.do')">
+                <div class="panel-footer">
+                    <span class="pull-left">#springMessage("tip.index.view.details")</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+				
+	<div class="col-lg-3 col-md-6">
+		<div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-usd fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">$!{tradeTodayCount}</div>
+                            <div>#springMessage("m.trade.kdt.scan")</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#springUrl('/trade/kdt/ticket.do')">
+                    <div class="panel-footer">
+                        <span class="pull-left">#springMessage("tip.index.view.details")</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+		
+			<div class="col-lg-3 col-md-6">
+		<div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-users fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">$!{accountCount}</div>
+                            <div>#springMessage("tip.index.account.count")</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#springUrl('/sys/user/index.do')" >
+                    <div class="panel-footer">
+                        <span class="pull-left">#springMessage("tip.index.view.details")</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+##    		<div class="col-md-4">
+##    			<div class="panel panel-primary">
+##                	<div class="panel-heading">
+##    					#springMessage("tip.index.product.count")
+##                	</div>
+##    				<div class="panel-body text-center">
+##                        <h3>
+##    						<a href="#springUrl('/product/index.do')" >
+##    						$!{productCount}
+##    						</a>
+##    					</h3>
+##                	</div>
+##    			</div>
+##    		</div>
     		
-    		<div class="col-md-4">
-    			<div class="panel panel-success">
-                	<div class="panel-heading">
-    					#springMessage("tip.index.account.count")
-                	</div>
-    				<div class="panel-body text-center">
-                        <h3>
-    						<a href="#springUrl('/sys/user/index.do')" >
-    						$!{accountCount}
-    						</a>
-    					</h3>
-                	</div>
-    			</div>
-    		</div>
-    		
-    	</div>
+##    		<div class="col-md-4">
+##    			<div class="panel panel-success">
+##                	<div class="panel-heading">
+##    					#springMessage("tip.index.account.count")
+##                	</div>
+##    				<div class="panel-body text-center">
+##                        <h3>
+##    						<a href="#springUrl('/sys/user/index.do')" >
+##    						$!{accountCount}
+##    						</a>
+##    					</h3>
+##                	</div>
+##    			</div>
+##    		</div>
+##    		
+##    	</div>
     	
-        <div class="row">
+##        <div class="row">
+##    		
+##    		<div class="col-md-4">
+##        		
+##    			<div class="panel panel-success">
+##                	<div class="panel-heading">
+##        				#springMessage("m.trade.kdt.scan")
+##                	</div>
+##        			<div class="panel-body text-center">
+##    					<h3>
+##                        <a href="#springUrl('/trade/kdt/ticket.do')" >#springMessage("m.trade.kdt.scan")</a>
+##    					</h3>
+##                	</div>
+##        		</div>
+##    			
+##    		</div>
     		
-    		<div class="col-md-4">
-        		
-    			<div class="panel panel-success">
-                	<div class="panel-heading">
-        				#springMessage("m.trade.kdt.scan")
-                	</div>
-        			<div class="panel-body text-center">
-    					<h3>
-                        <a href="#springUrl('/trade/kdt/ticket.do')" >#springMessage("m.trade.kdt.scan")</a>
-    					</h3>
-                	</div>
-        		</div>
-    			
-    		</div>
+##    		<div class="col-md-4">
+##    			<div class="panel panel-warning">
+##                	<div class="panel-heading">
+##        				#springMessage("m.trade.statistics.today")
+##                	</div>
+##        			<div class="panel-body text-center">
+##    					<h3>
+##    						<a href="#springUrl('/trade/index.do')" >$!{tradeTodayCount}</a>
+##    					</h3>
+##                	</div>
+##        		</div>
+##    		</div>
     		
-    		<div class="col-md-4">
-    			<div class="panel panel-warning">
-                	<div class="panel-heading">
-        				#springMessage("m.trade.statistics.today")
-                	</div>
-        			<div class="panel-body text-center">
-    					<h3>
-    						<a href="#springUrl('/trade/index.do')" >$!{tradeTodayCount}</a>
-    					</h3>
-                	</div>
-        		</div>
-    		</div>
-    		
-    	</div>
-	</div>
-</div>
+##    	</div>
 
 ###loadScript([
 ##	"/js/jquery.extention/jqBootstrapValidation.js"

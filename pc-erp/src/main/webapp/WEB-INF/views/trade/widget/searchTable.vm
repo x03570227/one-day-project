@@ -1,10 +1,8 @@
-<div class="container mt8">
-	<div class="row">
+	<div class="row mt8">
 		<div class="table-responsive" id="trade_list">
 			#springMessage("tip.loading")
 		</div>
 	</div>
-</div>
 
 #loadScript(["/downloads/lodop/LodopFuncs.js"], "http://s0.caiban.net")
 ##<script type="text/javascript" src="http://s0.caiban.net/downloads/lodop/LodopFuncs.js"></script>

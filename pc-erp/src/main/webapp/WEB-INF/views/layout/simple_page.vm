@@ -37,17 +37,7 @@
 	
   </head>
   <body>
-	
-	<div id="wrapper">
-		#parse("/common/globalHeader.vm")
-		<div id="page-wrapper">
-			$screen_content
-		</div>
-	<!-- /. page-wrapper -->
-	</div>
-	<!-- /. wrapper -->
-	##parse("/common/globalFooter.vm")
-	
+		$screen_content
   </body>
 </html>
 

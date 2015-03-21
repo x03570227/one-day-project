@@ -1,3 +1,10 @@
-#globalHeader("trade")
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header"><i class="fa fa-usd fa-fw"></i>#springMessage("m.trade")</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
 #parse("/trade/widget/searchBar.vm")
 #parse("/trade/widget/searchTable.vm")

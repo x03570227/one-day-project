@@ -1,67 +1,130 @@
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 	<div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="sr-only"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
 		<a class="navbar-brand" href="#springUrl('')">
 		<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
 		</a>
-    </div>
+	</div>
 	<!-- /.navbar-header -->
-	
+	#if($sessionUser)
 	<ul class="nav navbar-top-links navbar-right">
 		<li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-user">
-                <li><a href="#springUrl('/sys/user/reset.do')"><i class="fa fa-key fa-fw"></i>#springMessage("m.user.password")</a></li>
-				<li><a href="#springUrl('/sys/user/index.do')">#springMessage("m.user.accounts")</a></li>
-				<li><a href="#springUrl('/sys/app/index.do')">#springMessage("m.app")</a></li>
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="fa fa-user fa-fw"></i>
+				$!{sessionUser.account}
+				<i class="fa fa-caret-down"></i>
+			</a>
+			<ul class="dropdown-menu dropdown-user">
+				<li><a href="#springUrl('/sys/user/reset.do')"><i class="fa fa-key fa-fw"></i>#springMessage("m.user.password")</a></li>
+				<li><a href="#springUrl('/sys/user/index.do')"><i class="fa fa-users fa-fw"></i>#springMessage("m.user.accounts")</a></li>
+				<li><a href="#springUrl('/sys/app/index.do')"><i class="fa fa-wrench fa-fw"></i>#springMessage("m.app")</a></li>
 				<li class="divider"></li>
-				<li><a href="#springUrl('/p/puser/doLogout.do')">#springMessage("m.user.logout")</a></li>
-            </ul>
-            <!-- /.dropdown-user -->
-        </li>
-        <!-- /.dropdown -->
+				<li><a href="#springUrl('/p/puser/doLogout.do')"><i class="glyphicon glyphicon-log-out"></i>#springMessage("m.user.logout")</a></li>
+			</ul>
+			<!-- /.dropdown-user -->
+		</li>
+		<!-- /.dropdown -->
 	</ul>
 	<!-- /.navbar-top-links -->
+	#end
 	
 	<div class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
+		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
 				
 ##				<li class="sidebar-search">
-##                    <div class="input-group custom-search-form">
-##                        <input type="text" class="form-control" placeholder="Search...">
-##                        <span class="input-group-btn">
-##                        <button class="btn btn-default" type="button">
-##                            <i class="fa fa-search"></i>
-##                        </button>
-##                    </span>
-##                    </div>
-##                    <!-- /input-group -->
-##                </li>
+##					<div class="input-group custom-search-form">
+##						<input type="text" class="form-control" placeholder="Search...">
+##						<span class="input-group-btn">
+##							<button class="btn btn-default" type="button">
+##								<i class="fa fa-search"></i>
+##							</button>
+##						</span>
+##					</div>
+##					<!-- /input-group -->
+##				</li>
 				
-				<li #if(${menuIdx} == 'product') class="active" #end>
-                    <a href="#springUrl('')"><i class="fa fa-dashboard fa-fw"></i> #springMessage("m.dashboard")</a>
-                </li>
+				<li>
+					<a href="#springUrl('/index.do')">
+						<i class="fa fa-dashboard fa-fw"></i>#springMessage("m.dashboard")
+					</a>
+				</li>
 				
-				<li #if(${menuIdx} == 'product') class="active" #end>
-                    <a href="#springUrl('/product/index.do')"><i class="fa fa-list-ul fa-fw"></i> #springMessage("m.product")</a>
+				<li >
+						<a href="#1">
+							<i class="fa fa-list-alt fa-fw"></i>#springMessage("m.product")
+							<span class="fa arrow"></span>
+						</a>
+						<ul class="nav nav-second-level">
+						<li>
+							<a href="#springUrl('/product/index.do')">
+								<i class="fa fa-list fa-fw"></i>
+								#springMessage("m.product.list")
+							</a>
+						</li>
+						<li>
+							<a href="#springUrl('/product/edit.do')">
+								<i class="fa fa-edit fa-fw"></i>
+								#springMessage("m.product.create")
+								</a>
+						</li>
+					</ul>
+				</li>
+				
+				<li>
+					<a href="#1">
+						<i class="fa fa-money fa-fw"></i>
+						#springMessage("m.trade")
+						<span class="fa arrow"></span>
+					</a>
 					<ul class="nav nav-second-level">
-                        <li #if(${subMenuIdx} == 'index') class="active" #end>
-                            <a href="#springUrl('/product/index.do')">#springMessage("m.product.list")</a>
-                        </li>
-                        <li #if(${subMenuIdx} == 'edit') class="active" #end>
-                            <a href="#springUrl('/product/edit.do')">#springMessage("m.product.create")</a>
-                        </li>
-                    </ul>
-                </li>
+    						<li>
+    							<a href="#springUrl('/trade/index.do')">
+    								<i class="fa fa-usd fa-fw"></i>
+    								#springMessage("m.trade")
+    							</a>
+    						</li>
+    						<li>
+    							<a href="#springUrl('/trade/kdt/ticket.do')">
+    								<i class="fa fa-barcode fa-fw"></i> 
+    								#springMessage("m.trade.kdt.scan")
+    							</a>
+    						</li>
+    					</ul>
+				</li>
 				
+				<li >
+						<a href="#1">
+							<i class="fa fa-gear fa-fw"></i> #springMessage("m.settings")
+							<span class="fa arrow"></span>
+						</a>
+						<ul class="nav nav-second-level">
+						<li>
+							<a href="#springUrl('/sys/user/reset.do')">
+								<i class="fa fa-key fa-fw"></i>
+								#springMessage("m.user.password")
+							</a>
+						</li>
+						<li>
+							<a href="#springUrl('/sys/user/index.do')">
+								<i class="fa fa-users fa-fw"></i> 
+								#springMessage("m.user.accounts")
+							</a>
+						</li>
+						<li>
+							<a href="#springUrl('/sys/app/index.do')">
+								<i class="fa fa-wrench fa-fw"></i> 
+								#springMessage("m.app")
+							</a>
+						</li>
+					</ul>
+				</li>
+
 			</ul>
 		</div>
 		<!-- /.sidebar-collapse -->
@@ -70,70 +133,70 @@
 </nav>
 
 ##<!-- Static navbar -->
-##    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-##      <div class="container">
-##        <div class="navbar-header">
-##          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-##            <span class="sr-only">Toggle navigation</span>
-##            <span class="icon-bar"></span>
-##            <span class="icon-bar"></span>
-##            <span class="icon-bar"></span>
-##          </button>
+##	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+##	  <div class="container">
+##		<div class="navbar-header">
+##		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+##			<span class="sr-only">Toggle navigation</span>
+##			<span class="icon-bar"></span>
+##			<span class="icon-bar"></span>
+##			<span class="icon-bar"></span>
+##		  </button>
 ##		  <a class="navbar-brand" href="#springUrl('')">
 ##			<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
 ##		  </a>
-##        </div>
-##        <div class="navbar-collapse collapse">
-##          #if($sessionUser)
+##		</div>
+##		<div class="navbar-collapse collapse">
+##		  #if($sessionUser)
 ##			<ul class="nav navbar-nav">
-##            <li #if(${menuIdx} == "index")class="active"#end>
+##			<li #if(${menuIdx} == "index")class="active"#end>
 ##				<a href="#springUrl('/')">#springMessage("m.index")</a>
 ##			</li>
 ##			
-##            <li class="dropdown #if(${menuIdx} == 'product') active #end" >
-##              <a href="#springUrl('/product/index.do')" class="dropdown-toggle" data-toggle="dropdown">#springMessage("m.product")<b class="caret"></b></a>
-##              <ul class="dropdown-menu">
+##			<li class="dropdown #if(${menuIdx} == 'product') active #end" >
+##			  <a href="#springUrl('/product/index.do')" class="dropdown-toggle" data-toggle="dropdown">#springMessage("m.product")<b class="caret"></b></a>
+##			  <ul class="dropdown-menu">
 ##				<li #if(${subMenuIdx} == 'index') class="active" #end>
 ##						<a href="#springUrl('/product/index.do')">#springMessage("m.product")</a>
 ##				</li>
 ##				<li #if(${subMenuIdx} == 'edit') class="active" #end>
 ##						<a href="#springUrl('/product/edit.do')">#springMessage("m.product.create")</a>
 ##				</li>
-##              </ul>
-##            </li>
+##			  </ul>
+##			</li>
 ##			<li #if(${menuIdx} == "trade")class="active"#end>
 ##				<a href="#springUrl('/trade/index.do')">#springMessage("m.trade")</a>
 ##			</li>
-##          </ul>
+##		  </ul>
 ##		  #end
-##          <ul class="nav navbar-nav navbar-right">
+##		  <ul class="nav navbar-nav navbar-right">
 ##				#if($sessionUser)
 ##					<li class="dropdown">
 ##					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-##    					<span class="glyphicon glyphicon-user">
+##						<span class="glyphicon glyphicon-user">
 ##							$!{sessionUser.account}
-##    					</span>
-##    					<b class="caret"></b>
-##    				</a>
+##						</span>
+##						<b class="caret"></b>
+##					</a>
 ##					<ul class="dropdown-menu">
-##    					<li><a href="#springUrl('/sys/user/reset.do')">#springMessage("m.user.password")</a></li>
-##    					<li><a href="#springUrl('/sys/user/index.do')">#springMessage("m.user.accounts")</a></li>
-##    					<li><a href="#springUrl('/sys/app/index.do')">#springMessage("m.app")</a></li>
+##						<li><a href="#springUrl('/sys/user/reset.do')">#springMessage("m.user.password")</a></li>
+##						<li><a href="#springUrl('/sys/user/index.do')">#springMessage("m.user.accounts")</a></li>
+##						<li><a href="#springUrl('/sys/app/index.do')">#springMessage("m.app")</a></li>
 ##						<li class="divider"></li>
 ##						<li><a href="#springUrl('/p/puser/doLogout.do')">#springMessage("m.user.logout")</a></li>
-##                    </ul>
+##					</ul>
 ##				</li>
 ##				#else
 ##					<li >
-##    					<a href="#springUrl('/p/puser/login.do')">
-##    						#springMessage("tip.header.login")
-##        				</a>
-##                    </li>
+##						<a href="#springUrl('/p/puser/login.do')">
+##							#springMessage("tip.header.login")
+##						</a>
+##					</li>
 ##				#end
 ##				
 ##				
-##          </ul>
+##		  </ul>
 ##		  
-##        </div><!--/.nav-collapse -->
-##      </div>
-##    </div>
+##		</div><!--/.nav-collapse -->
+##	  </div>
+##	</div>

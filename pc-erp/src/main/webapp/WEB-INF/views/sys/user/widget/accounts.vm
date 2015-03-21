@@ -1,4 +1,4 @@
-<div class="col-md-8 table-responsive" >
+<div class="table-responsive" >
 	#if($!{editAble}=="1")
     <div>
 		<form id="sys_user_form" class="form-inline" action="#springUrl('/sys/user/create.do')" method="post" role="form" onsubmit="return false;">
@@ -38,6 +38,7 @@
 	</div>
 	#set($mtcls="class='mt8'")
 	#end
+	
 	<div id="sys_user_list" $!{mtcls}>
 	#springMessage("tip.loading")
     </div>

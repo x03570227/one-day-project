@@ -23,7 +23,7 @@ require.config({
 //		Bootstrap:"//cdn.bootcss.com/bootstrap/3.1.1/js/bootstrap.min",
 		Bootstrap:STATIC+"plugin/bootstrap/dist/js/bootstrap.min",
 		template:STATIC+"plugin/template",
-		menu:STATIC+"plugin/metisMenu/dist/metisMenu.min",
+		menu:STATIC+"plugin/metisMenu/dist/metisMenu",
 		sbadmin:STATIC+"plugin/startbootstrap-sb-admin-2/dist/js/sb-admin-2",
 		//各种插件
 		"datetimepicker":STATIC+"plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker",
@@ -90,7 +90,7 @@ require.config({
 	}
 });
 
-require([    "jquery","Bootstrap", "messenger", "menu","sbadmin"],
+require([    "jquery","Bootstrap", "messenger"],
 	function(jQuery,  bootstrap,   messenger){
 		
 		Messenger.options = {
