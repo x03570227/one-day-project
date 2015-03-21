@@ -10,8 +10,8 @@ console.log('Global Config: Locale-> ',LOCALE)
 //	}
 //});
 var STATIC_UPLOAD="http://su.caiban.net";
-var STATIC="//s0.caiban.net/";
-//var STATIC="";
+//var STATIC="//s0.caiban.net/";
+var STATIC="";
 
 require.config({
 	urlArgs:"v=20150318.8",

@@ -1,11 +1,18 @@
-#globalHeader("product", "index")
-#parse("/product/widget/searchBar.vm")
-#parse("/product/widget/searchTable.vm")
+<div id="wrapper">
+	#globalHeader("product", "index")
 
-<div class="container mt8">
-	<div class="row">
-		<div class="col-md-12">
-			
-		</div>
+	<div id="page-wrapper">
+	
+		<div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">#springMessage("m.product")</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+		
+    #parse("/product/widget/searchBar.vm")
+    #parse("/product/widget/searchTable.vm")
 	</div>
+	<!-- /. page-wrapper -->
 </div>
+<!-- /. wrapper -->

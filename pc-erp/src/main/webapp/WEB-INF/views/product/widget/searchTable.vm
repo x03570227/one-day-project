@@ -1,8 +1,6 @@
-<div class="container mt8">
-	<div class="row">
-		<div class="table-responsive" id="product_list">
-			#springMessage("tip.loading")
-		</div>
+<div class="row mt8">
+	<div class="table-responsive" id="product_list">
+		#springMessage("tip.loading")
 	</div>
 </div>
 

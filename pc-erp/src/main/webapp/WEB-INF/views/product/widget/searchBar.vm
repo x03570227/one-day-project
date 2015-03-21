@@ -1,21 +1,20 @@
-<div class="container">
-	<div class="row">
-		<nav class=" navbar navbar-default" >
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#product_search_form" >
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">#springMessage("tip.product.search.brand")</a>
-				</div>
-				<div class="collapse navbar-collapse" id="product_search_form">
-				</div>
+
+<div class="row">
+	<nav class=" navbar navbar-default" >
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#product_search_form" >
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">#springMessage("tip.product.search.brand")</a>
 			</div>
-		</nav>
-	</div>
+			<div class="collapse navbar-collapse" id="product_search_form">
+			</div>
+		</div>
+	</nav>
 </div>
 
 <script type="text/javascript">
@@ -46,7 +45,7 @@
 
 <script id="tpl_product_search_form" type="text/html">
 <form class="navbar-form navbar-left" role="search" action="#springUrl('/product/index.do')" id="search_form">
-
+<div class="row">
 	<div class="form-group">
 		<label class="sr-only" for="exampleInputEmail2">#springMessage('ph.product.search.code')</label>
 		<input type="text" class="form-control" name="codeMatchBefore" placeholder="#springMessage('ph.product.search.code')" />
@@ -74,7 +73,9 @@
 			{{/each}}
 		</select>
 	</div>
+</div>
 	
+<div class="row">
 	<div  class="form-group">
 	<button type="submit" class="btn btn-primary">
 		<span class="glyphicon glyphicon-search"></span> #springMessage('btn.search')
@@ -86,7 +87,6 @@
 		<span class="glyphicon glyphicon-filter"></span>
 	</button>
     </div>
+</div>
 </form>
 </script>
-
-	
