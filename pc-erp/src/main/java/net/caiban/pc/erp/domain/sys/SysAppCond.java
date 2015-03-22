@@ -17,6 +17,7 @@ public class SysAppCond extends BaseCond{
 	private static final long serialVersionUID = 1L;
 	
 	public final static String DEFAULT_DOMAIN="koudaitong.com";
+	public final static String DEFAULT_TYPE="API";
 	
 	private String domain;
 

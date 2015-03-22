@@ -3,7 +3,11 @@
  */
 package net.caiban.pc.erp.service.trade;
 
+import java.util.List;
+
+import net.caiban.pc.erp.domain.trade.TradeCond;
 import net.caiban.pc.erp.domain.trade.TradeDefine;
+import net.caiban.pc.erp.domain.trade.TradeSummary;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.sf.json.JSONObject;
 
@@ -20,4 +24,7 @@ public interface KdtTradeService {
 	public TradeDefine queryDefineBytradeNum(Integer cid, String tradeNum);
 	
 	public JSONObject getDetails(TradeDefine define);
+	
+	public List<TradeSummary> summary(TradeCond cond);
+	
 }

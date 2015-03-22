@@ -1,0 +1,97 @@
+
+##<div class="row">
+##    <div class="col-lg-12">
+##        <h1 class="page-header"><i class="fa fa-usd fa-fw"></i>#springMessage("m.trade")</h1>
+##    </div>
+##    <!-- /.col-lg-12 -->
+##</div>
+
+#loadCss(["/plugin/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"], "http://s0.caiban.net")
+
+<div class="row">
+	<ul class="nav nav-tabs mt8">
+		#foreach( $d in ${domains})
+		<li role="presentation" #if("${cond.sourceDomain}" == ${d}) class="active" #end>
+			<a href="#springUrl('/trade/summary.do')?sourceDomain=${d}">${d}</a>
+		</li>
+		#end
+	</ul>
+</div>
+
+<div class="row">
+	<!-- search -->
+	<form class="navbar-form navbar-left" role="search" method="get" action="#springUrl('/trade/summary.do')" id="search_form">
+		<input type="hidden" name="sourceDomain" value="$!{cond.sourceDomain}" />
+		<div class="form-group">
+    		<div class="input-group form_datetime" >
+                <input type="text" class="form-control" 
+					name="gmtCreatedMin" id="gmtCreatedMin" readonly 
+					placeholder="#springMessage('tip.gmt.from')"
+					value="$!date.format('yyyy-MM-dd', $!{cond.gmtCreatedMin})" />
+    			<span class="input-group-addon glyphicon glyphicon-calendar"></span>
+			</div>
+    	</div>
+    	
+    	<div class="form-group">
+    		<div class="input-group form_datetime" >
+                <input type="text" class="form-control" 
+					name="gmtCreatedMax" id="gmtCreatedMax" readonly 
+					placeholder="#springMessage('tip.gmt.to')"
+					value="$!date.format('yyyy-MM-dd', $!{cond.gmtCreatedMax})" />
+    			<span class="input-group-addon glyphicon glyphicon-calendar"></span>
+			</div>
+    	</div>
+    	
+    	<div  class="form-group">
+    	<button type="submit" class="btn btn-primary">
+    		<span class="glyphicon glyphicon-stats"></span> #springMessage('btn.view')
+    	</button>
+        </div>
+		
+		<a href="#springUrl('/trade/summary.do')?sourceDomain=$!{cond.sourceDomain}">#springMessage('tip.trade.summary.today')</a>
+		<a href="#springUrl('/trade/summary.do')?sourceDomain=$!{cond.sourceDomain}&gmtCreatedMin=$!date.format('yyyy-MM-dd',$!{yestoday})&gmtCreatedMax=$!date.format('yyyy-MM-dd', ${today})">#springMessage('tip.trade.summary.yestoday')</a>
+		<a href="#springUrl('/trade/summary.do')?sourceDomain=$!{cond.sourceDomain}&gmtCreatedMin=$!date.format('yyyy-MM-dd',$!{last7days})&gmtCreatedMax=$!date.format('yyyy-MM-dd', ${today})">#springMessage('tip.trade.summary.last7days')</a>
+		<a href="#springUrl('/trade/summary.do')?sourceDomain=$!{cond.sourceDomain}&gmtCreatedMin=$!date.format('yyyy-MM-dd',$!{last30days})&gmtCreatedMax=$!date.format('yyyy-MM-dd', ${today})">#springMessage('tip.trade.summary.last30days')</a>
+		
+    </form>
+	
+	<!-- /. search -->
+</div>
+
+<div class="row">
+	<div class="table-responsive" id="trade_summary_list">
+		<table class="table table-hover table-bordered">
+    		<thead>
+    		<tr class="active">
+    			<th class="text-center"></th>
+    			<th class="text-center">#springMessage('lb.trade.summary.totale.fee')</th>
+    			<th class="text-center">#springMessage('lb.trade.summary.num')</th>
+    		</tr>
+    		</thead>
+    		<tbody>
+    		#foreach($summary in ${summaryList})
+    		<tr >
+    			<td >$!date.format("yyyy-MM-dd", ${summary.gmtCreated})</td>
+    			<td >$!{summary.totalFee}</td>
+    			<td >$!{summary.num}</td>
+    		</tr>
+    		#end
+    		</tbody>
+    	</table>
+	</div>
+</div>
+
+<script type="text/javascript" >
+require([	 "Global","jquery","Bootstrap","datetimepicker", "dplocale"],
+	function (Global,  jQuery,  Bootstrap,  datetimepicker){
+			//init datetime input
+    	jQuery(".form_datetime input").datetimepicker({
+    		format:"yyyy-mm-dd",
+    		minView:3,
+    		autoclose:true,
+    		todayBtn:true,
+    		language:LOCALE,
+    		pickerPosition: "bottom-left"
+    	});
+	});
+</script>

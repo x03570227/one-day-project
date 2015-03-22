@@ -11,13 +11,14 @@
             	<div class="panel-heading">
             		#springMessage("tip.settings")
             	</div>
+				#foreach($d in ${domains})
             	<div class="list-group">
-            		<a href="#springUrl('/sys/app/index.do')?domain=$!{domain}" class="list-group-item">
+            		<a href="#springUrl('/sys/app/index.do')?domain=$!{d}" class="list-group-item">
             			<span class="glyphicon glyphicon-lock"></span> 
-            			$!{domain}
+            			$!{d}
             		</a>
             	</div>
-				
+				#end
             </div>
 
 		</div>

@@ -3,20 +3,30 @@
  */
 package net.caiban.pc.erp.service.trade.impl;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.product.Product;
 import net.caiban.pc.erp.domain.sys.SysApp;
 import net.caiban.pc.erp.domain.trade.Trade;
+import net.caiban.pc.erp.domain.trade.TradeCond;
 import net.caiban.pc.erp.domain.trade.TradeDefine;
+import net.caiban.pc.erp.domain.trade.TradeSummary;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.product.ProductMapper;
 import net.caiban.pc.erp.persist.sys.SysAppMapper;
 import net.caiban.pc.erp.persist.trade.TradeDefineMapper;
 import net.caiban.pc.erp.persist.trade.TradeMapper;
 import net.caiban.pc.erp.service.trade.KdtTradeService;
+import net.caiban.utils.DateUtil;
 import net.sf.json.JSONObject;
 
 import org.apache.http.HttpResponse;
@@ -24,7 +34,9 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
 import com.kdt.api.KdtApiClient;
 
 /**
@@ -185,16 +197,65 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		return JSONObject.fromObject(define.getDetails());
 	}
 	
-	public static void main(String[] args) throws Exception {
-		KdtApiClient client = new KdtApiClient("f92d3321b5af77d7e2", "f74f1a49faaae58c24388af9c9697153");
-		HashMap<String, String> params = new HashMap<String, String>(); 
-		params.put("tid", "E20150314150055756820");
-		HttpResponse response = client.get("kdt.trade.get", params);
-		String respStr = EntityUtils.toString(response.getEntity());
-		JSONObject jobj = JSONObject.fromObject(respStr);
-		JSONObject trade= jobj.getJSONObject("response").getJSONObject("trade");
+//	public static void main(String[] args) throws Exception {
+//		KdtApiClient client = new KdtApiClient("f92d3321b5af77d7e2", "f74f1a49faaae58c24388af9c9697153");
+//		HashMap<String, String> params = new HashMap<String, String>(); 
+//		params.put("tid", "E20150314150055756820");
+//		HttpResponse response = client.get("kdt.trade.get", params);
+//		String respStr = EntityUtils.toString(response.getEntity());
+//		JSONObject jobj = JSONObject.fromObject(respStr);
+//		JSONObject trade= jobj.getJSONObject("response").getJSONObject("trade");
+//		
+//		System.out.println("num_iid: "+trade.getString("num_iid")+" title:"+ trade.getString("title"));
+//		System.out.println(trade.getString("status"));
+//	}
+
+	@Override
+	public List<TradeSummary> summary(TradeCond cond) {
 		
-		System.out.println("num_iid: "+trade.getString("num_iid")+" title:"+ trade.getString("title"));
-		System.out.println(trade.getString("status"));
+		cond.setIdMax(0);
+		
+		Map<Long, TradeSummary> summaryMap = new HashMap<Long, TradeSummary>();
+		
+		List<TradeDefine> defineList = null;
+		do {
+			
+			defineList = tradeMapper.queryDefine(cond);
+			for(TradeDefine define: defineList){
+				
+				Date day=null;
+				try {
+					day = DateUtil.getDate(define.getGmtCreated(), AppConst.DATE_FORMAT_DATE);
+				} catch (ParseException e) {
+				}
+				if(day==null){
+					continue;
+				}
+				
+				TradeSummary summary = summaryMap.get(day.getTime());
+				if(summary==null){
+					summary = new TradeSummary();
+					summary.setGmtCreated(day);
+					summary.setGmtScan(day);
+					summary.setNum(0);
+					summary.setTotalFee(new BigDecimal("0"));
+					summaryMap.put(day.getTime(), summary);
+				}
+				JSONObject kdtObj = JSONObject.fromObject(define.getDetails());
+				
+				summary.setNum(summary.getNum()+kdtObj.optInt("num", 0));
+				summary.setTotalFee(summary.getTotalFee().add(new BigDecimal(kdtObj.optString("total_fee", "0"))));
+				
+				cond.setIdMax(define.getTradeId());
+			}
+			
+		} while (defineList!=null && defineList.size()>0);
+		
+		List<TradeSummary> resultList = Lists.newArrayList();
+		for(Long key: summaryMap.keySet()){
+			resultList.add(summaryMap.get(key));
+		}
+		
+		return resultList;
 	}
 }

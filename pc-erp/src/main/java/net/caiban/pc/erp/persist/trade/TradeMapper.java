@@ -8,6 +8,7 @@ import java.util.List;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.trade.Trade;
 import net.caiban.pc.erp.domain.trade.TradeCond;
+import net.caiban.pc.erp.domain.trade.TradeDefine;
 import net.caiban.pc.erp.domain.trade.TradeFull;
 
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,6 @@ public interface TradeMapper {
 	
 	public Integer updateStatus(@Param("cid") Integer cid,
 			@Param("tradeNum") String tradeNum, @Param("status") Integer status);
+	
+	public List<TradeDefine> queryDefine(@Param("cond") TradeCond cond);
 }

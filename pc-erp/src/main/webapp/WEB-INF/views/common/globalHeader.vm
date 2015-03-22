@@ -20,11 +20,31 @@
 				<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
-				<li><a href="#springUrl('/sys/user/reset.do')"><i class="fa fa-key fa-fw"></i>#springMessage("m.user.password")</a></li>
-				<li><a href="#springUrl('/sys/user/index.do')"><i class="fa fa-users fa-fw"></i>#springMessage("m.user.accounts")</a></li>
-				<li><a href="#springUrl('/sys/app/index.do')"><i class="fa fa-wrench fa-fw"></i>#springMessage("m.app")</a></li>
+				<li>
+					<a href="#springUrl('/sys/user/reset.do')">
+						<i class="fa fa-key fa-fw"></i>
+						#springMessage("m.user.password")
+					</a>
+				</li>
+				<li>
+					<a href="#springUrl('/sys/user/index.do')">
+						<i class="fa fa-users fa-fw"></i>
+						#springMessage("m.user.accounts")
+					</a>
+				</li>
+				<li>
+					<a href="#springUrl('/sys/app/index.do')">
+						<i class="fa fa-wrench fa-fw"></i>
+						#springMessage("m.app")
+					</a>
+				</li>
 				<li class="divider"></li>
-				<li><a href="#springUrl('/p/puser/doLogout.do')"><i class="glyphicon glyphicon-log-out"></i>#springMessage("m.user.logout")</a></li>
+				<li>
+					<a href="#springUrl('/p/puser/doLogout.do')">
+						<i class="glyphicon glyphicon-log-out"></i>
+						#springMessage("m.user.logout")
+					</a>
+				</li>
 			</ul>
 			<!-- /.dropdown-user -->
 		</li>
@@ -89,9 +109,15 @@
     								#springMessage("m.trade")
     							</a>
     						</li>
+							<li>
+    							<a href="#springUrl('/trade/summary.do')">
+    								<i class="glyphicon glyphicon-stats"></i> 
+    								#springMessage("m.trade.summary")
+    							</a>
+    						</li>
     						<li>
     							<a href="#springUrl('/trade/kdt/ticket.do')">
-    								<i class="fa fa-barcode fa-fw"></i> 
+    								<i class="glyphicon glyphicon-barcode"></i> 
     								#springMessage("m.trade.kdt.scan")
     							</a>
     						</li>

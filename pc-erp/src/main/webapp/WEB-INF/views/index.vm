@@ -81,7 +81,13 @@
                 </a>
             </div>
         </div>
-
+##<script type="text/javascript">
+##	require([  "noty"],
+##    	function(){
+##    		var n=noty({text:"this is a noty."});
+##    	}	
+##    );
+##</script>
 ##    		<div class="col-md-4">
 ##    			<div class="panel panel-primary">
 ##                	<div class="panel-heading">

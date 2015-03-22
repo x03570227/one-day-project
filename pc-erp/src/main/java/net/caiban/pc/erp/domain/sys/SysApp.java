@@ -15,10 +15,25 @@ public class SysApp extends BaseDomain {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public enum DOMAIN{
+		
+		KDT("koudaitong.com"), A1688("1688.com");
+		
+		private String domain;
+		
+		private DOMAIN(String domain){
+			this.domain = domain;
+		}
+		
+		@Override
+		public String toString(){
+			return this.domain; 
+		}
+	}
 
 	private Integer cid;
 	private String domain;
-	private String domain1;
 	private String appKey;
 	private String appSecret;
 	private String refreshToken;
@@ -59,12 +74,6 @@ public class SysApp extends BaseDomain {
 	}
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
-	}
-	public String getDomain1() {
-		return domain1;
-	}
-	public void setDomain1(String domain1) {
-		this.domain1 = domain1;
 	}
 
 	

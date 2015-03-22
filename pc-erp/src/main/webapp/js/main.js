@@ -10,8 +10,8 @@ console.log('Global Config: Locale-> ',LOCALE)
 //	}
 //});
 var STATIC_UPLOAD="http://su.caiban.net";
-//var STATIC="//s0.caiban.net/";
-var STATIC="";
+var STATIC="//s0.caiban.net/";
+//var STATIC="";
 
 require.config({
 	urlArgs:"v=20150321.9",
@@ -35,6 +35,7 @@ require.config({
 		"hogan":STATIC+"plugin/hogan/hogan-2.0.0.min",
 		"messenger":STATIC+"plugin/messenger/build/js/messenger.min",
 		"validator":STATIC+"plugin/bootstrap-validator/dist/validator.min",
+		"noty":STATIC+"plugin/noty/js/noty/packaged/jquery.noty.packaged.min",
 		
 		//项目模块
 		"util/dt":"js/utils/util.dt",
@@ -85,6 +86,9 @@ require.config({
 			deps:["jquery"]
 		},
 		"validator":{
+			deps:["jquery"]
+		},
+		"noty":{
 			deps:["jquery"]
 		}
 	}

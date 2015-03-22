@@ -3,6 +3,8 @@
  */
 package net.caiban.pc.erp.controller.sys;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,6 +43,9 @@ public class AppController extends BaseController{
 		model.put("domain", Strings.isNullOrEmpty(domain)?SysAppCond.DEFAULT_DOMAIN: domain);
 		
 		model.put("success", success);
+		
+		model.put("domains", sysAppService.getDomains());
+		
 		return null;
 	}
 	

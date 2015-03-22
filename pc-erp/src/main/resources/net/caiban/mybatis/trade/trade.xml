@@ -93,5 +93,23 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			gmt_modified=now()
 		where cid=#{cid} and trade_num=#{tradeNum}
 	</update>
+	
+	<select id="queryDefine" resultType="net.caiban.pc.erp.domain.trade.TradeDefine">
+		select 
+			trade_define.trade_id, trade_define.details,
+			trade.gmt_created as gmtCreated, trade_define.gmt_modified as gmtModified
+		from trade, trade_define
+		where 
+			trade.id=trade_define.trade_id
+			
+			and trade.id>#{cond.idMax}
+			and trade.status=#{cond.status}
+			and trade.source_domain=#{cond.sourceDomain}
+			and trade.gmt_created > #{cond.gmtCreatedMin}
+			and #{cond.gmtCreatedMax} > trade.gmt_created
+			
+		order by trade.id asc
+		limit 200
+	</select>
 </mapper>
 
