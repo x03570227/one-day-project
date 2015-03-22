@@ -50,6 +50,18 @@ public class KdtController extends BaseController {
 	}
 	
 	@RequestMapping
+	public ModelAndView ticket2(HttpServletRequest request, ModelMap model,
+			String error, String success) {
+		
+		model.put("error", error);
+		
+		model.put("success", success);
+//		model.put("tradeNum", tradeNum);
+		
+		return null;
+	}
+	
+	@RequestMapping
 	@ResponseBody
 	public Map<String, Object> doMarkAndPrint(HttpServletRequest request,
 			String tradeNum, Locale locale){

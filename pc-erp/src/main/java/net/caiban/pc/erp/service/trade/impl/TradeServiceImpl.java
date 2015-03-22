@@ -16,7 +16,6 @@ import javax.annotation.Resource;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.sys.SysApp;
-import net.caiban.pc.erp.domain.sys.SysAppCond;
 import net.caiban.pc.erp.domain.trade.Trade;
 import net.caiban.pc.erp.domain.trade.TradeCond;
 import net.caiban.pc.erp.domain.trade.TradeFull;
@@ -112,12 +111,14 @@ public class TradeServiceImpl implements TradeService {
 	@SuppressWarnings("rawtypes")
 	private Ordering<TradeSummary> getOrdering(){
 		
-		return Ordering.natural().onResultOf(new Function<TradeSummary, Comparable>() {
+		return Ordering.natural().nullsLast().onResultOf(new Function<TradeSummary, Comparable>() {
 
 			@Override
 			@Nullable
 			public	Comparable apply(TradeSummary input) {
-				
+				if(input.getGmtCreated()==null){
+					return null;
+				}
 				return input.getGmtCreated().getTime();
 			}
 			

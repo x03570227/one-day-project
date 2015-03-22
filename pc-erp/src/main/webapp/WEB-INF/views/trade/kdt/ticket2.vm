@@ -1,0 +1,130 @@
+	#set($layout="/layout/simple_page.vm")
+<div class="container">
+	
+<div class=" panel panel-default mt120" >
+	<div class="panel-heading">
+		<a href="#springUrl('/index.do')">
+		<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
+		</a>
+    </div>
+	<!-- /. panel-heading -->
+	
+    <div class="panel-body">
+		
+			#if("$!{error}"!="")
+				<div class=" col-sm-12 text-center">
+					<div class="alert alert-warning alert-dismissable">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      <strong>#springMessage("tip.warn")</strong> #springMessage($error) 
+                    </div>
+                </div>
+			#end
+			
+			#if("$!{success}"!="")
+				<div class=" col-sm-12 text-center">
+					<div class="alert alert-success alert-dismissable">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      #springMessage($success) 
+                    </div>
+                </div>
+			#end
+			
+			<form id="formKdt" name="formKdt" class="form-horizontal" role="form" 
+				method="post"
+				onsubmit="return false;"
+				>
+				<div class="form-group ">
+					<div class="col-sm-offset-3 col-sm-6">
+					<label>#springMessage("tip.trade.scan")</label>
+					<input type="text" class="form-control" id="tradeNum" name="tradeNum" value="" 
+						placeholder="#springMessage('ph.trade.num')" 
+						required
+						/>
+					</div>
+				</div>
+            </form>
+	</div>
+	<!-- /. panel-body -->
+	
+	<div class="panel-footer">
+		<div class="row text-center">
+			#springMessage("tip.trade.scan.more")
+            <a href="#springUrl('/index.do')" >#springMessage("m.dashboard")</a>
+		</div>
+	</div>
+	<!-- /. panel-footer -->
+</div>
+<!-- /. panel -->
+</div>	
+#loadScript(["/downloads/lodop/LodopFuncs.js"], "http://s0.caiban.net")
+##<script type="text/javascript" src="http://s0.caiban.net/downloads/lodop/LodopFuncs.js"></script>
+
+
+<script type="text/javascript">
+	require([	"jquery","util/kdtprint","Bootstrap","validator","messenger"],
+    	function(jQuery, kdtprint){
+		
+    		jQuery("#formKdt").validator();
+			
+			jQuery("#tradeNum").focus();
+			
+			jQuery("#tradeNum").change(function(){
+				/*
+				var _val=jQuery(this).val();
+				
+				//console.log(_val.length);
+				
+				if(_val.length == 21){
+					//jQuery("#formKdt").submit();
+				}
+				*/
+				
+				//markAndPrint();
+				
+			});
+			
+			var message=Messenger();
+			
+			jQuery("#formKdt").submit(function(e){
+				
+				var tradeNum = jQuery("#tradeNum").val();
+		
+        		tradeNum=tradeNum||"";
+        		if(tradeNum==""){
+        			
+        			return false;
+        		}
+        		
+        		var data = {"tradeNum":tradeNum};
+        		
+        		jQuery.post("#springUrl('/trade/kdt/doMarkAndPrint.do')", data, function(resp){
+        		
+        			jQuery("#tradeNum").val("");
+        			jQuery("#tradeNum").focus();
+					
+        			if(!resp.result){
+        				message.post({
+        					message: resp.data,
+        					type: 'error'
+        				});
+						
+        				return false;
+        			}
+        			
+        			var details = JSON.parse(resp.data.details);
+        			kdtprint.print(details);
+        			
+        			message.post({
+        				message: resp.data.message,
+        				type: 'info'
+        			});
+        			
+        		}, "json");
+				
+			});
+			
+			
+    	}
+    );
+	
+</script>

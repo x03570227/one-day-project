@@ -24,21 +24,21 @@
 		<input type="hidden" name="sourceDomain" value="$!{cond.sourceDomain}" />
 		<div class="form-group">
     		<div class="input-group form_datetime" >
+    			<span class="input-group-addon glyphicon glyphicon-calendar"></span>
                 <input type="text" class="form-control" 
 					name="gmtCreatedMin" id="gmtCreatedMin" readonly 
 					placeholder="#springMessage('tip.gmt.from')"
 					value="$!date.format('yyyy-MM-dd', $!{cond.gmtCreatedMin})" />
-    			<span class="input-group-addon glyphicon glyphicon-calendar"></span>
 			</div>
     	</div>
-    	
+    	-
     	<div class="form-group">
     		<div class="input-group form_datetime" >
+    			<span class="input-group-addon glyphicon glyphicon-calendar"></span>
                 <input type="text" class="form-control" 
 					name="gmtCreatedMax" id="gmtCreatedMax" readonly 
 					placeholder="#springMessage('tip.gmt.to')"
 					value="$!date.format('yyyy-MM-dd', $!{cond.gmtCreatedMax})" />
-    			<span class="input-group-addon glyphicon glyphicon-calendar"></span>
 			</div>
     	</div>
     	
@@ -63,18 +63,26 @@
 		<table class="table table-hover table-bordered">
     		<thead>
     		<tr class="active">
-    			<th class="text-center"></th>
+    			<th class="text-center" width="120">#springMessage('lb.trade.summary.gmt.created')</th>
     			<th class="text-center">#springMessage('lb.trade.summary.totale.fee')</th>
     			<th class="text-center">#springMessage('lb.trade.summary.num')</th>
     		</tr>
     		</thead>
     		<tbody>
     		#foreach($summary in ${summaryList})
-    		<tr >
-    			<td >$!date.format("yyyy-MM-dd", ${summary.gmtCreated})</td>
-    			<td >$!{summary.totalFee}</td>
-    			<td >$!{summary.num}</td>
-    		</tr>
+    			#if(${summary.gmtCreated})
+        		<tr >
+        			<td class="text-center">$!date.format("yyyy-MM-dd", ${summary.gmtCreated})</td>
+                    <td ><i class="fa fa-rmb" ></i> $!{summary.totalFee}</td>
+        			<td >$!{summary.num}</td>
+        		</tr>
+    			#else
+    				<tr class="text-danger">
+        			<td class="text-right"><strong>合计</strong></td>
+        			<td ><strong><i class="fa fa-rmb" ></i> $!{summary.totalFee}</strong></td>
+        			<td ><strong>$!{summary.num}</strong></td>
+        		</tr>
+    			#end
     		#end
     		</tbody>
     	</table>

@@ -3,7 +3,7 @@
 <div class="container">
 <div class="panel panel-default mt120">
 	<div class="panel-heading">
-		<a href="#springUrl('')">
+		<a href="#springUrl('/index.do')">
 		<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
 		</a>
     </div>

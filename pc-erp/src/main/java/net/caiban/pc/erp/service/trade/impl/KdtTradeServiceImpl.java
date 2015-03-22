@@ -5,7 +5,6 @@ package net.caiban.pc.erp.service.trade.impl;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +35,6 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import com.kdt.api.KdtApiClient;
 
 /**
@@ -218,6 +216,9 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		Map<Long, TradeSummary> summaryMap = new HashMap<Long, TradeSummary>();
 		
 		List<TradeDefine> defineList = null;
+		TradeSummary summaryAll = new TradeSummary();
+		summaryAll.setNum(0);
+		summaryAll.setTotalFee(new BigDecimal("0"));
 		do {
 			
 			defineList = tradeMapper.queryDefine(cond);
@@ -246,6 +247,9 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 				summary.setNum(summary.getNum()+kdtObj.optInt("num", 0));
 				summary.setTotalFee(summary.getTotalFee().add(new BigDecimal(kdtObj.optString("total_fee", "0"))));
 				
+				summaryAll.setNum(summaryAll.getNum()+kdtObj.optInt("num", 0));
+				summaryAll.setTotalFee(summaryAll.getTotalFee().add(new BigDecimal(kdtObj.optString("total_fee", "0"))));
+				
 				cond.setIdMax(define.getTradeId());
 			}
 			
@@ -255,6 +259,8 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		for(Long key: summaryMap.keySet()){
 			resultList.add(summaryMap.get(key));
 		}
+		
+		resultList.add(summaryAll);
 		
 		return resultList;
 	}

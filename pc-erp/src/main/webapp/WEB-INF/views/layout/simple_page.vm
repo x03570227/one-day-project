@@ -38,6 +38,8 @@
   </head>
   <body>
 		$screen_content
+		
+		#parse("/common/globalFooter.vm")
   </body>
 </html>
 

@@ -48,6 +48,7 @@
 	<!-- /. wrapper -->
 	##parse("/common/globalFooter.vm")
 	
+	#parse("/common/globalFooter.vm")
   </body>
 </html>
 
