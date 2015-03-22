@@ -63,6 +63,9 @@ public class TradeController extends BaseController {
 	public ModelAndView summary(HttpServletRequest request, ModelMap model,
 			TradeCond cond) throws ParseException{
 		
+		SessionUser user = getSessionUser(request);
+		cond.setCid(user.getCid());
+		
 		cond.setSourceDomain(Strings.isNullOrEmpty(cond.getSourceDomain())?SysAppCond.DEFAULT_DOMAIN: cond.getSourceDomain());
 		cond.setSourceType(Strings.isNullOrEmpty(cond.getSourceType())?SysAppCond.DEFAULT_TYPE:cond.getSourceType());
 		model.put("cond", cond);

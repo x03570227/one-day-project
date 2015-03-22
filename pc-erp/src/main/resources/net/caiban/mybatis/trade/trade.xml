@@ -101,7 +101,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		from trade, trade_define
 		where 
 			trade.id=trade_define.trade_id
-			
+			and trade.cid=#{cond.cid}
 			and trade.id>#{cond.idMax}
 			and trade.status=#{cond.status}
 			and trade.source_domain=#{cond.sourceDomain}
