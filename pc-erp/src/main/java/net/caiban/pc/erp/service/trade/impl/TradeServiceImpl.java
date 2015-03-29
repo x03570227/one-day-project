@@ -20,6 +20,7 @@ import net.caiban.pc.erp.domain.trade.Trade;
 import net.caiban.pc.erp.domain.trade.TradeCond;
 import net.caiban.pc.erp.domain.trade.TradeFull;
 import net.caiban.pc.erp.domain.trade.TradeSummary;
+import net.caiban.pc.erp.persist.trade.TradeDefineMapper;
 import net.caiban.pc.erp.persist.trade.TradeMapper;
 import net.caiban.pc.erp.service.trade.KdtTradeService;
 import net.caiban.pc.erp.service.trade.TradeService;
@@ -45,6 +46,8 @@ public class TradeServiceImpl implements TradeService {
 	private TradeMapper tradeMapper;
 	@Resource
 	private KdtTradeService kdtTradeService;
+	@Resource
+	private TradeDefineMapper tradeDefineMapper;
 	
 	@Override
 	public Pager<TradeFull> pager(TradeCond cond, Pager<TradeFull> page) {
@@ -57,6 +60,7 @@ public class TradeServiceImpl implements TradeService {
 		for(Trade trade: list){
 			TradeFull full = new TradeFull();
 			full.setTrade(trade);
+			full.setDefine(tradeDefineMapper.queryByTradeId(trade.getId()));
 			result.add(full);
 		}
 		
@@ -123,6 +127,12 @@ public class TradeServiceImpl implements TradeService {
 			}
 			
 		});
+	}
+
+	@Override
+	public void doDelete(Integer id, Integer cid) {
+		tradeMapper.delete(id, cid);
+		tradeDefineMapper.deleteByTradeId(id);
 	}
 	
 }

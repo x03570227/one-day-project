@@ -111,5 +111,10 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		order by trade.id asc
 		limit 200
 	</select>
+	
+	<delete id="delete" >
+		delete from trade
+		where id=#{id} and cid=#{cid}
+	</delete>
 </mapper>
 

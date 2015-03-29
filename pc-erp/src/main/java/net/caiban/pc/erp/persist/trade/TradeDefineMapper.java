@@ -17,4 +17,6 @@ public interface TradeDefineMapper {
 	
 	public TradeDefine queryByTradeId(Integer tradeId);
 	
+	public Integer deleteByTradeId(Integer tradeId);
+	
 }

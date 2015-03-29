@@ -31,4 +31,6 @@ public interface TradeMapper {
 			@Param("tradeNum") String tradeNum, @Param("status") Integer status);
 	
 	public List<TradeDefine> queryDefine(@Param("cond") TradeCond cond);
+	
+	public Integer delete(@Param("id") Integer id, @Param("cid") Integer cid);
 }

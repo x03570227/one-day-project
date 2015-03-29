@@ -61,7 +61,7 @@
 			<td >{{product.remark}}</td>
 			<td >
 			<button type="button" class="btn btn-danger btn-xs act-delete" model-product-id="{{product.id}}">
-				<span class="glyphicon glyphicon-remove"></span>
+				<span class="glyphicon glyphicon-trash"></span>
 			</button>
 			</td>
 		</tr>

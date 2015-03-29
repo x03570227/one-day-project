@@ -30,7 +30,6 @@
 				
 				var tradeNum = jQuery(this).attr("model-trade-num");
 				
-				
 				jQuery.post("#springUrl('/trade/kdt/doPrint.do')",{"tradeNum":tradeNum}, function(resp){
 					
 					var details = JSON.parse(resp.details);
@@ -46,6 +45,9 @@
     			}, "json");
 			});
 			
+			trade.bindRemove("#trade_list");
+			trade.bindToggle("#trade_list");
+			
 		}
 	);
 </script>
@@ -59,13 +61,15 @@
 			<th class="text-center">#springMessage('lb.trade.source.domain')</th>
 			<th class="text-center">#springMessage('lb.trade.status')</th>
             <th class="text-center">#springMessage('lb.trade.gmt.modified')</th>
-            <th class="text-center" width="40"></th>
+            <th class="text-center" width="80"></th>
 		</tr>
 		</thead>
 		<tbody>
 		{{each records as dto i}}
 		<tr >
-			<td >{{i + 1}}</td>
+			<td data-act="toggle-details" model-trade-id="{{dto.trade.id}}">
+				<span class="caret"></span>
+			</td>
 			<td >{{dto.trade.tradeNum}}</td>
 			<td >{{dto.trade.sourceDomain}}</td>
 			<td >{{dto.statusName}}</td>
@@ -75,7 +79,10 @@
 ##					<a href="#springUrl('/trade/kdt/doCheckTicket.do')" >确认使用</a>
 ##				{{/if}}
 			</td>
-			<td>
+			<td class="text-center">
+				<button class="btn btn-danger btn-xs" data-act="remove" model-trade-id="{{dto.trade.id}}">
+					<span class="glyphicon glyphicon-trash"></span>
+				</button>
 				<!-- koudaitong.com -->
 				{{if dto.trade.sourceDomain == 'koudaitong.com'}}
 				<button class="btn btn-info btn-xs" data-act="print" model-trade-num="{{dto.trade.tradeNum}}">
@@ -84,9 +91,45 @@
 				{{/if}}
 			</td>
 		</tr>
+		<tr id="tr-details-{{dto.trade.id}}" class="info hide">
+			<td colspan="6">
+				{{if dto.trade.sourceDomain == 'koudaitong.com'}}
+					{{include "tpl_trade_list_kdt" dto}}
+				{{/if}}
+			</td>
+        </tr>
 		{{/each}}
 		</tbody>
 	</table>
+</script>
+
+<script id="tpl_trade_list_kdt" type="text/html" >
+	<div class="table-responsive">
+    	{{detailsJson.title}} * {{detailsJson.num}}
+    	<br />
+    	#springMessage("tip.trade.customer.nick")：{{detailsJson.buyer_nick}}
+		<br />
+        #springMessage("tb.trade.kdt.order.table.title")<small>(￥{{detailsJson.total_fee}})</small>：
+		<table class="table">
+            <tr>
+				<th>#springMessage("tb.trade.kdt.order.num.iid")</th>
+				<th>#springMessage("tb.trade.kdt.order.title")</th>
+				<th>#springMessage("tb.trade.kdt.order.num")</th>
+				<th>#springMessage("tb.trade.kdt.order.price")</th>
+				<th>#springMessage("tb.trade.kdt.order.seller.nick")</th>
+			</tr>
+			
+			{{each detailsJson.orders as order}}
+			<tr>
+				<td>{{order.num_iid}}</td>
+				<td>{{order.title}}</td>
+				<td><span class="badge">{{order.num}}</span></td>
+				<td>￥{{order.price}}</td>
+				<td>{{order.seller_nick}}</td>
+			</tr>
+			{{/each}}
+        </table>
+	</div>
 </script>
 
 #parse("/tpl/util/table.pager.bar.vm")

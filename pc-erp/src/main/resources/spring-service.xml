@@ -90,7 +90,7 @@
 	</tx:advice>
 	
     <aop:config>  
-        <aop:pointcut id="myPointCut" expression="execution(* net.caiban.pc.erp.service.*.*(..))"/>  
+        <aop:pointcut id="myPointCut" expression="execution(* net.caiban.pc.erp.service.*.*.*(..))"/>  
         <aop:advisor advice-ref="txAdvice" pointcut-ref="myPointCut"/>  
     </aop:config>  
     

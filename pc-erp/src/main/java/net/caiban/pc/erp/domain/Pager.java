@@ -7,6 +7,8 @@ package net.caiban.pc.erp.domain;
 
 import java.util.List;
 
+import com.google.common.base.Strings;
+
 /**
  * @author Mays (x03570227@gmail.com)
  * 
@@ -18,8 +20,8 @@ public class Pager<E> implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public static final String DIR_DESC="desc";
-	public static final String DIR_ASC="asc";
+//	public static final String DIR_DESC="desc";
+//	public static final String DIR_ASC="asc";
 	
 	public final static int DEFAULT_START = 0;//默认起始记录位置
 	public final static int DEFAULT_LIMIT = 20;//默认页面大小
@@ -30,6 +32,9 @@ public class Pager<E> implements java.io.Serializable {
 	private String sort;//排序字段名称
 	private String dir;//排序规则［asc/desc］
 	private List<E> records;
+	
+	private String sortColumn;
+	
 	public Integer getTotals() {
 		return totals;
 	}
@@ -61,10 +66,18 @@ public class Pager<E> implements java.io.Serializable {
 		this.sort = sort;
 	}
 	public String getDir() {
-		if(dir==null){
-			dir=DIR_DESC;
+		
+		if (Strings.isNullOrEmpty(dir)) {
+			return DirEnum.DESC.name();
 		}
-		return dir;
+
+		for (DirEnum d : DirEnum.values()) {
+			if (dir.equalsIgnoreCase(d.name())) {
+				return dir;
+			}
+		}
+
+		return DirEnum.DESC.name();
 	}
 	public void setDir(String dir) {
 		this.dir = dir;
@@ -75,4 +88,12 @@ public class Pager<E> implements java.io.Serializable {
 	public void setRecords(List<E> records) {
 		this.records = records;
 	}
+	public String getSortColumn() {
+		return sortColumn;
+	}
+	public void setSortColumn(String sortColumn) {
+		this.sortColumn = sortColumn;
+	}
+	
+
 }

@@ -90,14 +90,15 @@ public class TradeController extends BaseController {
 		return null;
 	}
 	
-//	@RequestMapping
-//	@ResponseBody
-//	public List<TradeSummary> doSummary(HttpServletRequest request, TradeCond cond){
-//
-//		cond.setSourceDomain(Strings.isNullOrEmpty(cond.getSourceDomain())?SysAppCond.DEFAULT_DOMAIN: cond.getSourceDomain());
-//		cond.setSourceType(Strings.isNullOrEmpty(cond.getSourceType())?SysAppCond.DEFAULT_TYPE:cond.getSourceType());
-//		
-//		return tradeService.summary(cond);
-//	}
-
+	@RequestMapping
+	@ResponseBody
+	public Map<String, Object> doDelete(HttpServletRequest request, Integer id){
+		
+		SessionUser user = getSessionUser(request);
+		
+		tradeService.doDelete(id, user.getCid());
+		
+		return ajaxResult(true, null);
+	}
+	
 }

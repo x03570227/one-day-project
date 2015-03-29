@@ -22,4 +22,6 @@ public interface TradeService {
 	public Integer doCountToday(Integer cid, Integer status);
 	
 	public List<TradeSummary> summary(TradeCond cond);
+	
+	public void doDelete(Integer id, Integer cid);
 }

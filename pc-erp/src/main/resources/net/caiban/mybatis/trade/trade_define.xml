@@ -41,6 +41,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		from trade_define
 		where trade_id=#{tradeId}
 	</select>
+	
+	<delete id="deleteByTradeId" >
+		delete from trade_define
+		where trade_id=#{tradeId}
+	</delete>
 		
 </mapper>
 
