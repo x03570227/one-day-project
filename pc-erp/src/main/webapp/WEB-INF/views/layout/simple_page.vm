@@ -33,7 +33,7 @@
     <![endif]-->
 	
 	<script src="#springUrl('/js/require.js')" ></script>
-	<script src="#springUrl('/js/main.js')?v=20150321.6" ></script>
+	<script src="#springUrl('/js/main.js')?v=20150329.8" ></script>
 	
   </head>
   <body>

@@ -101,6 +101,7 @@
 				if(jQuery("#sys_user_submit_btn").hasClass("disabled")){
 					noty({
 						text:"#springMessage('msg.form.invalid')",
+						type:"warning",
 						timeout:2500
 					});
 					return false;
@@ -110,6 +111,7 @@
 					if(resp.data>0){
 						noty({
 							text:"#springMessage('msg.form.save.success')",
+							type:"success",
 							timeout:2500
 						});
 						jQuery("#sys_user_form")[0].reset();
@@ -141,9 +143,10 @@
 			jQuery("#resetForm").submit(function(e){
 			
 				if(jQuery("#reset_password_btn").hasClass("disabled")){
-					product.message.post({
-						message:"#springMessage('msg.form.invalid')",
-						hideAfter:3
+					noty({
+						text:"#springMessage('msg.form.invalid')",
+						type:"error",
+						timeout:1500
 					});
 					return false;
 				}
@@ -152,6 +155,7 @@
 					if(resp.result){
 						noty({
 							text:resp.data,
+							type:"success",
 							timeout:2500
 						});
 						jQuery("#resetModal").modal('hide');

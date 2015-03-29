@@ -45,7 +45,7 @@ define(["jquery"],
 			marginTop = marginTop + 16;
 	
 			//时间
-			var now=new Date();
+			var now=new Date().format('yyyy-MM-dd hh:mm:ss');
 			LODOP.ADD_PRINT_TEXT(marginTop,marginLeft,width,16,"时	间："+now);
 			marginTop = marginTop + 16;
 	

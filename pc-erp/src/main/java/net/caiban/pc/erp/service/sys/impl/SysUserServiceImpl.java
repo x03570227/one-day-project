@@ -96,7 +96,7 @@ public class SysUserServiceImpl implements SysUserService {
 	public SessionUser doRegist(SysUser user, SysCompany company,
 			String passwordRepeat, Integer accept) throws ServiceException {
 		
-		if(accept == null || accept.intValue()!=SysUserService.ACCEPT_TRUE){
+		if(accept == null || accept.intValue()!=SysUser.ACCEPT_TRUE){
 			throw new ServiceException("e.regist");
 		}
 		
@@ -129,7 +129,7 @@ public class SysUserServiceImpl implements SysUserService {
 		registUser.setClassify(classifyOfAccount(user.getAccount()));
 		registUser.setAccount(rebuildedAccount);
 		registUser.setPassword(encodePassword(user.getPassword(), registUser.getSalt()));
-		registUser.setUid(DEFAULT_UID);
+		registUser.setUid(SysUser.DEFAULT_UID);
 		registUser.setCid(cid);
 		
 		try {
@@ -150,14 +150,14 @@ public class SysUserServiceImpl implements SysUserService {
 	public String classifyOfAccount(String account){
 		
 		if(StringUtils.isEmail(account)){
-			return SysUserService.CLASSIFY_E;
+			return SysUser.CLASSIFY_E;
 		}
 		
 		if(ValidateUtil.isMobile(account)){
-			return SysUserService.CLASSIFY_M;
+			return SysUser.CLASSIFY_M;
 		}
 		
-		return SysUserService.CLASSIFY_A;
+		return SysUser.CLASSIFY_A;
 	}
 	
 	/**

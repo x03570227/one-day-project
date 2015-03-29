@@ -14,9 +14,7 @@
 		"/plugin/bootstrap/dist/css/bootstrap.min.css",
 		"/plugin/metisMenu/dist/metisMenu.min.css",
 		"/plugin/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css",
-		"/plugin/font-awesome/css/font-awesome.min.css",
-		"/plugin/messenger/build/css/messenger.css",
-		"/plugin/messenger/build/css/messenger-theme-flat.css"
+		"/plugin/font-awesome/css/font-awesome.min.css"
 	], "")
 	
     <script type="text/javascript" >
@@ -33,7 +31,7 @@
     <![endif]-->
 	
 	<script src="#springUrl('/js/require.js')" ></script>
-	<script src="#springUrl('/js/main.js')?v=20150321.6" ></script>
+	<script src="#springUrl('/js/main.js')?v=20150329.8" ></script>
 	
   </head>
   <body>
