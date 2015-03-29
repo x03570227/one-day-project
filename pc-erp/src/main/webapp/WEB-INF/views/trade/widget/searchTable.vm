@@ -8,9 +8,14 @@
 ##<script type="text/javascript" src="http://s0.caiban.net/downloads/lodop/LodopFuncs.js"></script>
 
 <script type="text/javascript">
-	require([	"jquery","template","trade/prop", "trade","messenger", "util/kdtprint"],
+	require([	"jquery","template","trade/prop", "trade","messenger", "util/kdtprint","noty"],
 		function(jQuery,template,   prop,          trade,  messenger,   kdtprint){
-		
+			
+			noty({text:"这是一个消息",type:"error",timeout:2000});
+			noty({text:"这是一个消息",type:"info"});
+			noty({text:"这是一个消息",type:"success"});
+			noty({text:"这是一个消息",type:"warning"});
+			
 			var message = new Messenger();
 			trade.table.init({
 				tpl:{
