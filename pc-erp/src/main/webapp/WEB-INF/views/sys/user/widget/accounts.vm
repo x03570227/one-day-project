@@ -75,8 +75,8 @@
 <!-- Reset user password modal end -->
 
 <script type="text/javascript">
-	require([	"jquery","template","product/prop", "sysUser","messenger","validator"],
-		function(jQuery,  template,  prop,           users,    messenger,  validator){
+	require([	"jquery","template","product/prop", "sysUser","validator","noty"],
+		function(jQuery,  template,  prop,           users,    validator){
 		
 			users.table.init({
 				tpl:{
@@ -99,25 +99,26 @@
 			jQuery("#sys_user_form").submit(function(){
 			
 				if(jQuery("#sys_user_submit_btn").hasClass("disabled")){
-					users.message.post({
-						message:"#springMessage('msg.form.invalid')",
-						hideAfter:3
+					noty({
+						text:"#springMessage('msg.form.invalid')",
+						timeout:2500
 					});
 					return false;
 				}
 			
 				users.form.save("#springUrl('/sys/user/create.do')", jQuery(this), function(resp){
 					if(resp.data>0){
-						users.message.post({
-							message:"#springMessage('msg.form.save.success')",
-							hideAfter:3
+						noty({
+							text:"#springMessage('msg.form.save.success')",
+							timeout:2500
 						});
 						jQuery("#sys_user_form")[0].reset();
 						users.table.search();
 					}else{
-						users.message.post({
-							message:resp.data,
-							type:"error"
+						noty({
+							text:resp.data,
+							type:"error",
+							timeout:2500
 						});
 					}
 				});
@@ -149,15 +150,15 @@
 				
 				jQuery.post("#springUrl('/sys/user/doResetByAdmin.do')", jQuery(this).serialize(), function(resp){
 					if(resp.result){
-						users.message.post({
-							message:resp.data,
-							hideAfter:3
+						noty({
+							text:resp.data,
+							timeout:2500
 						});
 						jQuery("#resetModal").modal('hide');
 					}else{
-						users.message.post({
-							message:resp.data,
-							hideAfter:3,
+						noty({
+							text:resp.data,
+							timeout:2500,
 							type:"error"
 						});
 					}

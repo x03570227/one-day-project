@@ -1,9 +1,9 @@
-define(		["jquery","util/table","messenger"],
-	function(jQuery,  table,       messenger){
+define(		["jquery","util/table","noty"],
+	function(jQuery,  table){
 		
-		var message=Messenger();
+//		var message=Messenger();
 	
-		var def={table:table, message:message, form:{}};
+		var def={table:table, form:{}};
 		
 		
 		table["preBuildTable"] = function(p){
@@ -31,20 +31,19 @@ define(		["jquery","util/table","messenger"],
 		def["resetPwd"]=function(uid, url, cb){
 			jQuery.post(url, {"uid":uid}, function(resp){
 				if(resp.result){
-					var msg = users.message.post({
-        				message:resp.data,
-        				showCloseButton:true,
-        				type:"success",
-        				hideAfter:60,
-        				actions:{
-        					copy:{
-        						label:"Copy",
-        						action:function(){
-        							//TODO copy to browser
-									msg.cancel();
-        						}
-        					}
-        				}
+					noty({
+        				text:resp.data,
+        				type:"success"
+        				//timeout:60,
+//        				actions:{
+//        					copy:{
+//        						label:"Copy",
+//        						action:function(){
+//        							//TODO copy to browser
+//									msg.cancel();
+//        						}
+//        					}
+//        				}
         			});
 				}
 			}, "json");

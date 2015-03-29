@@ -5,8 +5,8 @@
 </div>
 
 <script type="text/javascript">
-	require([	"jquery","template","product/prop", "product","messenger"],
-		function(jQuery,  template,  prop,           product,  messenger){
+	require([	"jquery","template","product/prop", "product","noty"],
+		function(jQuery,  template,  prop,           product){
 		
 			product.table.init({
 				tpl:{

@@ -89,8 +89,8 @@
 	</div>
 
 <script type="text/javascript">
-	require([	"jquery","template","product/prop", "product","messenger", "util/cache", "validator"],
-		function(jQuery,  template,  prop,           product,  messenger,   cache,        validator){
+	require([	"jquery","template","product/prop", "product","util/cache", "validator","noty"],
+		function(jQuery,  template,  prop,           product,  cache,        validator){
 			
 			//init base form
 			jQuery("#categoryCode").append(product.compileOption("category"));
@@ -130,9 +130,10 @@
 			jQuery("#product_form").submit(function(e){
 			
 				if(jQuery("#product_submit_btn").hasClass("disabled")){
-					product.message.post({
-						message:"#springMessage('msg.form.invalid')",
-						hideAfter:3
+					noty({
+						text:"#springMessage('msg.form.invalid')",
+						type:"warning",
+						timeout:2500
 					});
 					return false;
 				}
@@ -149,9 +150,10 @@
 				product.save("#springUrl('/product/doUpdate.do')",jQuery(this), function(resp){
 				
 					if(resp.product.id>0){
-						product.message.post({
-							message:"#springMessage('msg.form.save.success')",
-							hideAfter:3
+						noty({
+							text:"#springMessage('msg.form.save.success')",
+							type:"success",
+							timeout:2500
 						})
 					#if("$!{id}"=="")
 						jQuery("#product_form input[name=code]").val("");
