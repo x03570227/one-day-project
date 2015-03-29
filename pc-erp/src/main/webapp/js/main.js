@@ -14,7 +14,7 @@ var STATIC="//s0.caiban.net/";
 //var STATIC="";
 
 require.config({
-	urlArgs:"v=20150321.9",
+	urlArgs:"v=20150329.10",
 	baseUrl:CONTEXT_PATH,
 	paths:{
 		//基础JS库

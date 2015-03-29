@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 import javax.annotation.Resource;
 
 import net.caiban.pc.erp.config.AppConst;
+import net.caiban.pc.erp.domain.DirEnum;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.sys.SysApp;
 import net.caiban.pc.erp.domain.trade.Trade;
@@ -51,6 +52,9 @@ public class TradeServiceImpl implements TradeService {
 	
 	@Override
 	public Pager<TradeFull> pager(TradeCond cond, Pager<TradeFull> page) {
+		
+		page.setDir(DirEnum.DESC.name());
+		page.setSort("id");
 		
 		page.setTotals(tradeMapper.pageDefaultCount(cond));
 		
