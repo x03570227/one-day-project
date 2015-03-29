@@ -27,6 +27,7 @@ import net.caiban.pc.erp.persist.trade.TradeMapper;
 import net.caiban.pc.erp.service.trade.KdtTradeService;
 import net.caiban.utils.DateUtil;
 import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -224,6 +225,8 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 			defineList = tradeMapper.queryDefine(cond);
 			for(TradeDefine define: defineList){
 				
+				cond.setIdMax(define.getTradeId());
+				
 				Date day=null;
 				try {
 					day = DateUtil.getDate(define.getGmtCreated(), AppConst.DATE_FORMAT_DATE);
@@ -242,6 +245,9 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 					summary.setTotalFee(new BigDecimal("0"));
 					summaryMap.put(day.getTime(), summary);
 				}
+				if(!JSONUtils.mayBeJSON(define.getDetails())){
+					continue ;
+				}
 				JSONObject kdtObj = JSONObject.fromObject(define.getDetails());
 				
 				summary.setNum(summary.getNum()+kdtObj.optInt("num", 0));
@@ -250,7 +256,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 				summaryAll.setNum(summaryAll.getNum()+kdtObj.optInt("num", 0));
 				summaryAll.setTotalFee(summaryAll.getTotalFee().add(new BigDecimal(kdtObj.optString("total_fee", "0"))));
 				
-				cond.setIdMax(define.getTradeId());
+				
 			}
 			
 		} while (defineList!=null && defineList.size()>0);

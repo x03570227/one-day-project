@@ -1,12 +1,12 @@
 /**
  * Product 模块相关的操作
  * */
-define(		["jquery","template","product/prop","util/table","messenger","product/define"],
-	function(jQuery,  template,  prop,          table,      messenger,   df){
+define(		["jquery","template","product/prop","util/table","product/define","noty"],
+	function(jQuery,  template,  prop,          table,       df){
 		
-		var message=Messenger();
+		//var message=Messenger();
 	
-		var product={table:table, message:message};
+		var product={table:table};
 		
 		
 		table["preBuildTable"] = function(p){
@@ -144,9 +144,10 @@ define(		["jquery","template","product/prop","util/table","messenger","product/d
 				if(resp.result){
 					btn.parent().parent().hide();
 				}else{
-					Message().post({
-						msg:"Error: information not removed!",
-						type: 'error'
+					noty({
+						text:"Error: information not removed!",
+						type: 'error',
+						timeout:2500
 					});
 				}
 			}, "json");

@@ -1,12 +1,12 @@
 /**
  * Product 模块相关的操作
  * */
-define(		["jquery","template","trade/prop","util/table","messenger"],
-	function(jQuery,  template,  prop,        table,      messenger){
+define(		["jquery","template","trade/prop","util/table"],
+	function(jQuery,  template,  prop,        table){
 		
-		var message=Messenger();
+//		var message=Messenger();
 	
-		var def={table:table, message:message};
+		var def={table:table};
 		
 		
 		table["preBuildTable"] = function(p){

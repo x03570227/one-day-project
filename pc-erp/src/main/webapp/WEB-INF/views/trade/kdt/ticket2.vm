@@ -61,7 +61,7 @@
 
 
 <script type="text/javascript">
-	require([	"jquery","util/kdtprint","Bootstrap","validator","messenger"],
+	require([	"jquery","util/kdtprint","Bootstrap","validator","noty"],
     	function(jQuery, kdtprint){
 		
     		jQuery("#formKdt").validator();
@@ -83,7 +83,7 @@
 				
 			});
 			
-			var message=Messenger();
+			//var message=Messenger();
 			
 			jQuery("#formKdt").submit(function(e){
 				
@@ -103,10 +103,11 @@
         			jQuery("#tradeNum").focus();
 					
         			if(!resp.result){
-        				message.post({
-        					message: resp.data,
-        					type: 'error'
-        				});
+						noty({
+							text:resp.data,
+							type:"error",
+							timeout:1500
+						});
 						
         				return false;
         			}
@@ -114,10 +115,11 @@
         			var details = JSON.parse(resp.data.details);
         			kdtprint.print(details);
         			
-        			message.post({
-        				message: resp.data.message,
-        				type: 'info'
-        			});
+        			noty({
+						text:resp.data.message,
+						type:"info",
+						timeout:1500
+					});
         			
         		}, "json");
 				
