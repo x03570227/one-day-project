@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.caiban.pc.erp.domain.trade.TradeCond;
 import net.caiban.pc.erp.domain.trade.TradeDefine;
+import net.caiban.pc.erp.domain.trade.TradeFull;
 import net.caiban.pc.erp.domain.trade.TradeSummary;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.sf.json.JSONObject;
@@ -26,5 +27,7 @@ public interface KdtTradeService {
 	public JSONObject getDetails(TradeDefine define);
 	
 	public List<TradeSummary> summary(TradeCond cond);
+	
+	public List<TradeFull> queryBeMarkedTrade(Integer cid, Integer pid, String mobile);
 	
 }

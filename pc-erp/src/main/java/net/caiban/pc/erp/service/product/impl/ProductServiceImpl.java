@@ -200,4 +200,9 @@ public class ProductServiceImpl implements ProductService {
 //		cond.setStatusLife(Product.LIFE_SALING);
 		return productMapper.pagerDefaultCount(cond);
 	}
+
+	@Override
+	public Product queryOneByCode(Integer cid, String code) {
+		return productMapper.queryOneByCode(cid, code);
+	}
 }

@@ -32,6 +32,8 @@ public class TradeCond extends BaseCond{
 	
 	private String sourceDomain;
 	private String sourceType;
+	
+	private Integer pidFirst;
 
 	public Integer getCid() {
 		return cid;
@@ -103,6 +105,14 @@ public class TradeCond extends BaseCond{
 
 	public void setIdMax(Integer idMax) {
 		this.idMax = idMax;
+	}
+
+	public Integer getPidFirst() {
+		return pidFirst;
+	}
+
+	public void setPidFirst(Integer pidFirst) {
+		this.pidFirst = pidFirst;
 	}
 	
 }

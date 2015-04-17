@@ -18,6 +18,7 @@ import net.caiban.pc.erp.domain.sys.SysApp;
 import net.caiban.pc.erp.domain.trade.Trade;
 import net.caiban.pc.erp.domain.trade.TradeCond;
 import net.caiban.pc.erp.domain.trade.TradeDefine;
+import net.caiban.pc.erp.domain.trade.TradeFull;
 import net.caiban.pc.erp.domain.trade.TradeSummary;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.product.ProductMapper;
@@ -256,7 +257,6 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 				summaryAll.setNum(summaryAll.getNum()+kdtObj.optInt("num", 0));
 				summaryAll.setTotalFee(summaryAll.getTotalFee().add(new BigDecimal(kdtObj.optString("total_fee", "0"))));
 				
-				
 			}
 			
 		} while (defineList!=null && defineList.size()>0);
@@ -270,4 +270,39 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		
 		return resultList;
 	}
+
+	@Override
+	public List<TradeFull> queryBeMarkedTrade(Integer cid, Integer pid,
+			String mobile) {
+		//获取 cid, pid 对应的 trade，status 是 default，今天以前的
+		//从API获取当天的新订单，status 是 等待买家确认的
+		//筛选要处理的订单
+		
+		List<TradeFull> localTrade = localTradeFilter(cid, pid, mobile);
+		List<TradeFull> remoteTrade = remoteTradeFilter(pid,mobile);
+		
+		localTrade.addAll(remoteTrade);
+		
+		return remoteTrade;
+	}
+	
+	private List<TradeFull> localTradeFilter(Integer cid, Integer pid, String mobile){
+		
+		TradeCond cond = new TradeCond();
+		cond.setCid(cid);
+		cond.setPidFirst(pid);
+		tradeMapper.queryDefine(cond);
+		return null;
+	}
+	
+	private List<TradeFull> remoteTradeFilter(Integer pid, String mobile){
+		
+		return null;
+	}
+	
+	private boolean filterByMobile(String details, String mobile){
+		
+		return false;
+	}
+	
 }

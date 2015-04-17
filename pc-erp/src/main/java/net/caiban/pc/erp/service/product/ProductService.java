@@ -34,4 +34,6 @@ public interface ProductService {
 	
 	public Integer countProduct(Integer cid);
 	
+	public Product queryOneByCode(Integer cid, String code);
+	
 }

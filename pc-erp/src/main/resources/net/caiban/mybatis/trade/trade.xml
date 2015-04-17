@@ -56,6 +56,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<if test="cond.gmtCreatedMax != null" >
 			and #{cond.gmtCreatedMax} > trade.gmt_created
 		</if>
+		
+		<if test="cond.pidFirst != null" >
+			and trade.pid_first = #{cond.pidFirst}
+		</if>
+		
 	</sql>
 	
 	<select id="pageDefault" resultType="net.caiban.pc.erp.domain.trade.Trade">
