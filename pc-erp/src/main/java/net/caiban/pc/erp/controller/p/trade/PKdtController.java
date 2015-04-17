@@ -47,12 +47,15 @@ public class PKdtController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView mytrade(HttpServletRequest request, ModelMap model, 
-			String mobile, Integer pid, Integer cid){
+			String mobile, Integer pid, Integer cid, Locale locale){
 		
-		List<TradeFull> tradeList = kdtTradeService.queryBeMarkedTrade(cid, pid, mobile);
-		
-		model.put("tradeList", tradeList);
-		
+		List<String> tradeList;
+		try {
+			tradeList = kdtTradeService.queryBeMarkedTrade(cid, pid, mobile);
+			model.put("tradeList", tradeList);
+		} catch (ServiceException e) {
+			model.put("error", messageSource.getMessage(e.getMessage(), null, locale));
+		}
 		return null;
 	}
 	

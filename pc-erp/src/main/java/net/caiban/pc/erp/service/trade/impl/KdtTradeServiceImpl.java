@@ -18,7 +18,6 @@ import net.caiban.pc.erp.domain.sys.SysApp;
 import net.caiban.pc.erp.domain.trade.Trade;
 import net.caiban.pc.erp.domain.trade.TradeCond;
 import net.caiban.pc.erp.domain.trade.TradeDefine;
-import net.caiban.pc.erp.domain.trade.TradeFull;
 import net.caiban.pc.erp.domain.trade.TradeSummary;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.product.ProductMapper;
@@ -27,6 +26,7 @@ import net.caiban.pc.erp.persist.trade.TradeDefineMapper;
 import net.caiban.pc.erp.persist.trade.TradeMapper;
 import net.caiban.pc.erp.service.trade.KdtTradeService;
 import net.caiban.utils.DateUtil;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONUtils;
 
@@ -272,35 +272,152 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 	}
 
 	@Override
-	public List<TradeFull> queryBeMarkedTrade(Integer cid, Integer pid,
-			String mobile) {
-		//获取 cid, pid 对应的 trade，status 是 default，今天以前的
-		//从API获取当天的新订单，status 是 等待买家确认的
-		//筛选要处理的订单
+	public List<String> queryBeMarkedTrade(Integer cid, Integer pid,
+			String mobile) throws ServiceException {
 		
-		List<TradeFull> localTrade = localTradeFilter(cid, pid, mobile);
-		List<TradeFull> remoteTrade = remoteTradeFilter(pid,mobile);
+		List<String> localTrade = localTradeFilter(cid, pid, mobile);
+		List<String> remoteTrade = remoteTradeFilter(cid, pid,mobile);
 		
 		localTrade.addAll(remoteTrade);
 		
 		return remoteTrade;
 	}
 	
-	private List<TradeFull> localTradeFilter(Integer cid, Integer pid, String mobile){
+	private List<String> localTradeFilter(Integer cid, Integer pid, String mobile){
 		
 		TradeCond cond = new TradeCond();
 		cond.setCid(cid);
 		cond.setPidFirst(pid);
-		tradeMapper.queryDefine(cond);
-		return null;
-	}
-	
-	private List<TradeFull> remoteTradeFilter(Integer pid, String mobile){
+		cond.setIdMax(0);
+		cond.setLimit(100);
 		
-		return null;
+		cond.setGmtCreatedMax(new Date(DateUtil.getTheDayZero(0)*1000l));
+		
+		List<Trade> localTrades = null;
+		
+		List<String> result=Lists.newArrayList();
+		do {
+			
+			localTrades = tradeMapper.pageByCond(cond);
+			
+			for(Trade trade: localTrades){
+				cond.setIdMax(trade.getId());
+				
+				TradeDefine define = tradeDefineMapper.queryByTradeId(trade.getId());
+				
+				if(!JSONUtils.mayBeJSON(define.getDetails())){
+					continue;
+				}
+				
+				if(filterByMobile(JSONObject.fromObject(define.getDetails()), mobile, pid)){
+					result.add(define.getDetails());
+				}
+			}
+			
+		} while (localTrades!=null && localTrades.size()>0);
+		
+		return result;
 	}
 	
-	private boolean filterByMobile(String details, String mobile){
+	private List<String> remoteTradeFilter(Integer cid, Integer pid, String mobile) throws ServiceException{
+		
+		SysApp app = sysAppMapper.queryByDomain(cid, SOURCE_DOMAIN);
+		
+		if (app == null || Strings.isNullOrEmpty(app.getAppKey())
+				|| Strings.isNullOrEmpty(app.getAppSecret())) {
+			throw new ServiceException("e.sys.app.unfound");
+		}
+		
+		KdtApiClient client = null;
+		try {
+			client =  new KdtApiClient(app.getAppKey(), app.getAppSecret());
+		} catch (Exception e) {
+			throw new ServiceException("e.sys.app.client.exception");
+		}
+		
+		HashMap<String, String> params = Maps.newHashMap();
+		params.put("status", "WAIT_BUYER_CONFIRM_GOODS");
+		params.put("start_created", DateUtil.toString(new Date(DateUtil.getTheDayZero(0)*1000l), AppConst.DATE_FORMAT_DEFAULT));
+		params.put("use_has_next", "true");
+		
+		boolean hasNext = false;
+		int pageNo = 1;
+		
+		List<String> result = Lists.newArrayList();
+		do{
+			JSONObject jobj = remoteTrades(client, params, pageNo);
+			
+			if(jobj==null){
+				break;
+			}
+			
+			hasNext = jobj.optBoolean("has_next", false);
+			pageNo++;
+			
+			JSONArray jarry = jobj.getJSONArray("trades");
+			
+			for(int i=0;i<jarry.size();i++){
+				if(filterByMobile(jarry.optJSONObject(i), mobile, pid)){
+					result.add(jarry.optString(i));
+				}
+			}
+			
+		}while(hasNext);
+		
+		return result;
+	}
+	
+	private JSONObject remoteTrades(KdtApiClient client, HashMap<String, String> params, Integer pageNo){
+		
+		try {
+			params.put("page_no", String.valueOf(pageNo));
+			HttpResponse response = client.get("kdt.trades.sold.get", params);
+			String respString = EntityUtils.toString(response.getEntity());
+			JSONObject jobj = JSONObject.fromObject(respString);
+			
+			return jobj.getJSONObject("response");
+			
+		} catch (Exception e) {
+			return null;
+		}
+		
+	}
+	
+	private boolean filterByMobile(JSONObject trade, String mobile, Integer pid){
+		if(trade.optInt("num_iid", 0)!=pid.intValue()){
+			return false;
+		}
+		
+		JSONArray orders = trade.optJSONArray("orders");
+		
+		if(orders==null){
+			return false;
+		}
+		
+		for(int i=0;i<orders.size();i++){
+			JSONObject order = orders.optJSONObject(i);
+			if(order==null){
+				continue ;
+			}
+			
+			JSONArray buyerMessages = order.optJSONArray("buyer_messages");
+			if(buyerMessages==null){
+				continue ;
+			}
+			
+			for(int j=0;j<buyerMessages.size();j++){
+				JSONObject buyerMessage = buyerMessages.optJSONObject(j);
+				if(buyerMessage == null){
+					continue ;
+				}
+				if(!buyerMessage.optString("title", "").equals("电话号码")){
+					continue ;
+				}
+				if(buyerMessage.optString("content", "").equals(mobile)){
+					return true;
+				}
+			}
+		}
 		
 		return false;
 	}

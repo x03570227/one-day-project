@@ -44,8 +44,11 @@ public class KdtTest {
 //		params.put("weixin_user_id", "13819789000");
 //		params.put("buyer_nick", "董希斌");
 		params.put("status", "WAIT_BUYER_CONFIRM_GOODS");
-		params.put("start_created", "2015-4-10 00:00:00");
-		params.put("end_created", "2015-4-16 00:00:00");
+//		params.put("page_size", "10");
+		params.put("use_has_next", "true");
+		params.put("page_no", "2");
+//		params.put("start_created", "2015-4-10 00:00:00");
+//		params.put("end_created", "2015-4-16 00:00:00");
 		
 		HttpResponse response = client.get("kdt.trades.sold.get", params);
 		

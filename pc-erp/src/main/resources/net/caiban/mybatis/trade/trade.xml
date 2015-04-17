@@ -61,6 +61,10 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			and trade.pid_first = #{cond.pidFirst}
 		</if>
 		
+		<if test="cond.idMax  !=null " >
+			and trade.id>#{cond.idMax}
+		</if> 
+		
 	</sql>
 	
 	<select id="pageDefault" resultType="net.caiban.pc.erp.domain.trade.Trade">
@@ -121,5 +125,14 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		delete from trade
 		where id=#{id} and cid=#{cid}
 	</delete>
+	
+	<select id="pageByCond" resultType="net.caiban.pc.erp.domain.trade.Trade">
+		select 
+			<include refid="default_column"/>
+		from trade
+		<include refid="where_cond"/>
+		order by trade.id asc
+		limit #{cond.limit}
+	</select>
 </mapper>
 

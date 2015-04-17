@@ -33,4 +33,6 @@ public interface TradeMapper {
 	public List<TradeDefine> queryDefine(@Param("cond") TradeCond cond);
 	
 	public Integer delete(@Param("id") Integer id, @Param("cid") Integer cid);
+	
+	public List<Trade> pageByCond(@Param("cond") TradeCond cond);
 }

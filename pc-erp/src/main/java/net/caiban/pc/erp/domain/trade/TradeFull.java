@@ -16,6 +16,15 @@ public class TradeFull implements Serializable{
 	private Trade trade;
 	private TradeDefine define;
 	
+	public TradeFull(){
+		
+	}
+	
+	public TradeFull(Trade trade, TradeDefine define){
+		this.trade = trade;
+		this.define = define;
+	}
+	
 	public Trade getTrade() {
 		return trade;
 	}

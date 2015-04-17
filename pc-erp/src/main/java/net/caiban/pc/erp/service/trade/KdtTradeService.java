@@ -28,6 +28,6 @@ public interface KdtTradeService {
 	
 	public List<TradeSummary> summary(TradeCond cond);
 	
-	public List<TradeFull> queryBeMarkedTrade(Integer cid, Integer pid, String mobile);
+	public List<String> queryBeMarkedTrade(Integer cid, Integer pid, String mobile) throws ServiceException;
 	
 }
