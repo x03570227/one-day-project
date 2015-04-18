@@ -1,0 +1,39 @@
+	#set($layout="/layout/simple_page.vm")
+<div class="container">
+	<div class="row mt8">
+	#if("$!{failure}"!="")
+		<div class=" col-sm-12 text-center">
+			<div class="alert alert-danger alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <strong>#springMessage("tip.warn")</strong> #springMessage($failure)
+			  <a href="#springUrl('/p/pkdt/index.do')?cid=$!{cid}&pid=$!{pid}" >#springMessage("tip.return")</a>
+            </div>
+        </div>
+	#end
+	
+	#if("$!{success}"!="")
+		<div class=" col-sm-12 text-center">
+			<div class="alert alert-success alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              #springMessage($success)
+			  <a href="#springUrl('/p/pkdt/index.do')?cid=$!{cid}&pid=$!{pid}" >#springMessage("tip.return")</a>
+            </div>
+        </div>
+	#end
+	</div>
+	<!-- /.row -->
+
+	<div class="row">
+		<div class="col-sm-12 text-center">
+			<a href="#springUrl('/')" target="_blank">
+				<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
+			</a>
+		</div>
+		<div class="col-sm-12 text-center mt8">
+			<a href="http://wap.koudaitong.com/v2/showcase/feature?alias=7qzi1mg2" target="_blank">狼豺驴猫生活馆</a> ##公司对应的网店地址
+			<i class="fa fa-shopping-cart"></i>
+		</div>
+	</div>
+	<!-- /.row -->
+	
+</div>

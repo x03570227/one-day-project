@@ -1,0 +1,72 @@
+	#set($layout="/layout/simple_page.vm")
+<div class="container">
+	<div class="row mt8">
+	#if("$!{error}"!="")
+		<div class=" col-sm-12 text-center">
+			<div class="alert alert-warning alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <strong>#springMessage("tip.warn")</strong> #springMessage($error)
+			  <a href="#springUrl('/p/pkdt/index.do')?cid=${cid}&pid=${pid}" >#springMessage("tip.return")</a>
+            </div>
+        </div>
+	#end
+	</div>
+	
+	<div class="row">
+		#if($!{tradeList.size()}==0)
+			<div class=" col-sm-12 text-center">
+    			<div class="alert alert-warning alert-dismissable">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <strong>#springMessage("tip.warn")</strong> #springMessage("e.trade.empty")
+				  <a href="#springUrl('/p/pkdt/index.do')?cid=${cid}&pid=${pid}" >#springMessage("tip.return")</a>
+                </div>
+            </div>
+		#end
+		
+		#foreach($trade in $!{tradeList})
+		<div class="col-lg-3 col-md-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <strong>$!{trade.title}</strong>
+                        </div>
+						<div class="col-xs-8">
+							#springMessage('tip.trade.kdt.buytime')：$!{trade.created}
+							<br />
+							#springMessage('tip.trade.kdt.mobile')：$!{mobile}
+						</div>
+                        <div class="col-xs-4 text-right">
+                            <div class="huge">*$!{trade.num}</div>
+                            <div>$!{trade.buyer_nick}</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#springUrl('/p/pkdt/doMark.do')?cid=$!{cid}&pid=$!{pid}&tid=$!{trade.tid}" onclick="return confirm('#springMessage('tip.trade.kdt.confirm')');">
+                    <div class="panel-footer">
+                        <span class="pull-left"><strong>#springMessage('tip.trade.kdt.mark')</strong></span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+		#end
+		
+	</div>
+	<!-- /.row -->
+	
+	<div class="row">
+		<div class="col-sm-12 text-center">
+			<a href="#springUrl('/')" target="_blank">
+				<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
+			</a>
+		</div>
+		<div class="col-sm-12 text-center mt8">
+			<a href="http://wap.koudaitong.com/v2/showcase/feature?alias=7qzi1mg2" target="_blank">狼豺驴猫生活馆</a> ##公司对应的网店地址
+			<i class="fa fa-shopping-cart"></i>
+		</div>
+	</div>
+	<!-- /.row -->
+	
+</div>

@@ -1,0 +1,95 @@
+#set($layout="/layout/simple_page.vm")
+<div class="container">
+	<div class="row mt8">
+	#if("$!{error}"!="")
+		<div class=" col-sm-12 text-center">
+			<div class="alert alert-warning alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <strong>#springMessage("tip.warn")</strong> #springMessage($error) 
+            </div>
+        </div>
+	#end
+	</div>
+<div class="panel panel-default" >
+	<div class="panel-heading">
+		<a href="#springUrl('/index.do')">
+		<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
+		</a>
+    </div>
+	<!-- /. panel-heading -->
+	
+    <div class="panel-body">
+		
+			#if("$!{success}"!="")
+				<div class=" col-sm-12 text-center">
+					<div class="alert alert-success alert-dismissable">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      #springMessage($success) 
+                    </div>
+                </div>
+			#end
+			
+			<form id="formKdt" name="formKdt" class="form-horizontal" role="form" 
+				method="post"
+				action="#springUrl('/p/pkdt/mytrade.do')"
+				>
+				<input name="cid" value="$!{cid}" type="hidden"/>
+				<input name="pid" value="$!{pid}" type="hidden"/>
+				
+				<div class="form-group ">
+					<div class="col-sm-offset-3 col-sm-6">
+					<label>#springMessage("tip.trade.buyer.message")</label>
+					<input type="text" class="form-control" id="mobile" name="mobile" value="$!{mobile}" 
+						placeholder="#springMessage('ph.trade.buyer.mobile')" 
+						required
+						/>
+					</div>
+				</div>
+				
+				<div class="form-group" >
+    				<div class="col-sm-offset-3 col-sm-6">
+                      <button type="submit" class="btn btn-lg btn-success btn-block">#springMessage('btn.submit')</button>
+                    </div>
+    			  </div>
+            </form>
+	</div>
+	<!-- /. panel-body -->
+	
+	<div class="panel-footer">
+		<div class="row text-center">
+			<a href="http://wap.koudaitong.com/v2/showcase/feature?alias=7qzi1mg2" target="_blank">狼豺驴猫生活馆</a> ##公司对应的网店地址
+			<i class="fa fa-shopping-cart"></i>
+		</div>
+	</div>
+	<!-- /. panel-footer -->
+</div>
+<!-- /. panel -->
+
+</div>	
+
+
+<script type="text/javascript">
+//,"noty"
+	require([	"jquery","Bootstrap","validator"],  
+    	function(jQuery){
+		
+    		jQuery("#formKdt").validator();
+			
+			jQuery("#mobile").focus();
+			
+			jQuery("#formKdt").submit(function(e){
+				
+				var mobile = jQuery("#mobile").val();
+		
+        		mobile=mobile||"";
+        		if(mobile==""){
+        			return false;
+        		}
+				
+			});
+			
+			
+    	}
+    );
+	
+</script>

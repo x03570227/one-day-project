@@ -272,18 +272,28 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 	}
 
 	@Override
-	public List<String> queryBeMarkedTrade(Integer cid, Integer pid,
+	public List<JSONObject> queryBeMarkedTrade(Integer cid, Integer pid,
 			String mobile) throws ServiceException {
 		
-		List<String> localTrade = localTradeFilter(cid, pid, mobile);
-		List<String> remoteTrade = remoteTradeFilter(cid, pid,mobile);
+		if(pid==null||cid==null){
+			throw new ServiceException("e.trade.buyer.scan.invalid");
+		}
+		
+		String code = productMapper.queryCode(pid);
+		
+		if(Strings.isNullOrEmpty(code)){
+			throw new ServiceException("e.trade.buyer.scan.invalid");
+		}
+		
+		List<JSONObject> localTrade = localTradeFilter(cid, pid, mobile, code);
+		List<JSONObject> remoteTrade = remoteTradeFilter(cid, pid,mobile, code);
 		
 		localTrade.addAll(remoteTrade);
 		
 		return remoteTrade;
 	}
 	
-	private List<String> localTradeFilter(Integer cid, Integer pid, String mobile){
+	private List<JSONObject> localTradeFilter(Integer cid, Integer pid, String mobile, String productCode){
 		
 		TradeCond cond = new TradeCond();
 		cond.setCid(cid);
@@ -295,7 +305,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		
 		List<Trade> localTrades = null;
 		
-		List<String> result=Lists.newArrayList();
+		List<JSONObject> result=Lists.newArrayList();
 		do {
 			
 			localTrades = tradeMapper.pageByCond(cond);
@@ -309,8 +319,8 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 					continue;
 				}
 				
-				if(filterByMobile(JSONObject.fromObject(define.getDetails()), mobile, pid)){
-					result.add(define.getDetails());
+				if(filterByMobile(JSONObject.fromObject(define.getDetails()), mobile, productCode)){
+					result.add(JSONObject.fromObject(define.getDetails()));
 				}
 			}
 			
@@ -319,7 +329,8 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		return result;
 	}
 	
-	private List<String> remoteTradeFilter(Integer cid, Integer pid, String mobile) throws ServiceException{
+	private List<JSONObject> remoteTradeFilter(Integer cid, Integer pid,
+			String mobile, String productCode) throws ServiceException {
 		
 		SysApp app = sysAppMapper.queryByDomain(cid, SOURCE_DOMAIN);
 		
@@ -343,7 +354,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		boolean hasNext = false;
 		int pageNo = 1;
 		
-		List<String> result = Lists.newArrayList();
+		List<JSONObject> result = Lists.newArrayList();
 		do{
 			JSONObject jobj = remoteTrades(client, params, pageNo);
 			
@@ -357,8 +368,8 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 			JSONArray jarry = jobj.getJSONArray("trades");
 			
 			for(int i=0;i<jarry.size();i++){
-				if(filterByMobile(jarry.optJSONObject(i), mobile, pid)){
-					result.add(jarry.optString(i));
+				if(filterByMobile(jarry.optJSONObject(i), mobile, productCode)){
+					result.add(jarry.optJSONObject(i));
 				}
 			}
 			
@@ -383,8 +394,8 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		
 	}
 	
-	private boolean filterByMobile(JSONObject trade, String mobile, Integer pid){
-		if(trade.optInt("num_iid", 0)!=pid.intValue()){
+	private boolean filterByMobile(JSONObject trade, String mobile, String productCode){
+		if(!productCode.equals(trade.optString("num_iid", ""))){
 			return false;
 		}
 		

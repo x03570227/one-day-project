@@ -149,5 +149,10 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		from `product`
 		where cid=#{cid} and code=#{code}
 	</select>
+	
+	<select id="queryCode" resultType="java.lang.String" >
+		select code from product
+		where id=#{id}
+	</select>
 </mapper>
 

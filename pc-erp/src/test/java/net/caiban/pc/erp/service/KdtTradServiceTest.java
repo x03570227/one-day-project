@@ -16,6 +16,7 @@ import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.sys.SysAppMapper;
 import net.caiban.pc.erp.persist.trade.TradeMapper;
 import net.caiban.pc.erp.service.trade.KdtTradeService;
+import net.sf.json.JSONObject;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -55,7 +56,7 @@ public class KdtTradServiceTest extends BaseServiceTestCase {
 		Mockito.when(sysAppMapper.queryByDomain(Mockito.anyInt(), Mockito.anyString())).thenReturn(sysApp);
 		
 		try {
-			List<String> result = kdtTradeService.queryBeMarkedTrade(1, 4826744, "13958918221");
+			List<JSONObject> result = kdtTradeService.queryBeMarkedTrade(1, 47, "13958918221");
 			Assert.assertTrue(result.size()>0);
 		} catch (ServiceException e) {
 			Assert.fail();

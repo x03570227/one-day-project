@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.caiban.pc.erp.controller.p.trade;
+package net.caiban.pc.erp.controller.p;
 
 import java.util.List;
 import java.util.Locale;
@@ -9,17 +9,17 @@ import java.util.Locale;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import net.caiban.pc.erp.controller.BaseController;
+import net.caiban.pc.erp.exception.ServiceException;
+import net.caiban.pc.erp.service.product.ProductService;
+import net.caiban.pc.erp.service.trade.KdtTradeService;
+import net.sf.json.JSONObject;
+
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import net.caiban.pc.erp.controller.BaseController;
-import net.caiban.pc.erp.domain.trade.TradeFull;
-import net.caiban.pc.erp.exception.ServiceException;
-import net.caiban.pc.erp.service.product.ProductService;
-import net.caiban.pc.erp.service.trade.KdtTradeService;
 
 /**
  * @author parox
@@ -37,11 +37,12 @@ public class PKdtController extends BaseController {
 
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, ModelMap model,
-			Integer pid, Integer cid){
+			Integer pid, Integer cid, String error){
 		
 		model.put("pid", pid);
 		model.put("cid", cid);
 		
+		model.put("error", error);
 		return null;
 	}
 	
@@ -49,30 +50,37 @@ public class PKdtController extends BaseController {
 	public ModelAndView mytrade(HttpServletRequest request, ModelMap model, 
 			String mobile, Integer pid, Integer cid, Locale locale){
 		
-		List<String> tradeList;
+		model.put("cid", cid);
+		model.put("pid", pid);
+		model.put("mobile", mobile);
+		
+		List<JSONObject> tradeList;
 		try {
 			tradeList = kdtTradeService.queryBeMarkedTrade(cid, pid, mobile);
 			model.put("tradeList", tradeList);
+			return null;
 		} catch (ServiceException e) {
-			model.put("error", messageSource.getMessage(e.getMessage(), null, locale));
+			model.put("error", e.getMessage());
 		}
-		return null;
+
+		return new ModelAndView("/p/pkdt/index");
 	}
 	
 	@RequestMapping
 	public ModelAndView doMark(HttpServletRequest request, ModelMap model,
-			String mobile, Integer cid, String tradeNum, Locale locale){
+			Integer cid, Integer pid, String tradeNum, Locale locale){
 		
-		//TODO 处理订单，使状态为 DONE
+		model.put("cid", cid);
+		model.put("pid", pid);
 		
 		try {
 			kdtTradeService.checkTicket(cid, tradeNum);
 			kdtTradeService.marksign(cid, tradeNum);
 			
-			model.put("success", messageSource.getMessage("e.trade.marksign.success", null, locale));
+			model.put("success", "e.trade.marksign.success");
 			
 		} catch (ServiceException e) {
-			model.put("failure", messageSource.getMessage(e.getMessage(), null, locale));
+			model.put("failure", e.getMessage());
 		}
 		
 		return null;
