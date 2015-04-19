@@ -3,6 +3,8 @@
  */
 package net.caiban.pc.erp.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,6 +20,7 @@ import net.caiban.pc.erp.service.product.ProductService;
 import net.caiban.utils.AssertHelper;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,11 +42,14 @@ public class ProductController extends BaseController {
 	 * @param out
 	 * @param pager
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request,
-			Map<String, Object> out) {
-		// TODO 产品首页，显示所有产品信息，带分页
+			ModelMap model) throws UnsupportedEncodingException {
+		
+		
+		model.put("qrcodeUrl", URLEncoder.encode("http://www.caiban.net"+request.getContextPath()+"/p/pkdt/index.do?", "utf-8"));
 
 		return null;
 	}
@@ -110,4 +116,7 @@ public class ProductController extends BaseController {
 //		return null;
 //	}
 //	
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		System.out.println(URLEncoder.encode("http://www.caiban.net/erp/p/pkdt/index.do?cid=1&pid=2", "utf-8"));
+	}
 }
