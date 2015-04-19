@@ -92,7 +92,7 @@
 			#springMessage('tip.trade.kdt.confirm')
 			<input type="hidden" value="" name="cid" id="mark-cid" />
     		<input type="hidden" value="" name="pid" id="mark-pid"/>
-    		<input type="hidden" value="" name="tid" id="mark-tid"/>
+    		<input type="hidden" value="" name="tradeNum" id="mark-tid"/>
         </div>
     	<div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">#springMessage('btn.cancel')</button>
