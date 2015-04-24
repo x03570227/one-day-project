@@ -25,9 +25,9 @@
 		
 		#foreach($trade in $!{tradeList})
 		<div class="col-lg-3 col-md-6">
-            <div class="panel panel-success">
+            <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-xs-12">
                             <strong>$!{trade.title}</strong>
                         </div>
@@ -41,23 +41,22 @@
                             <div>$!{trade.buyer_nick}</div>
                         </div>
                     </div>
+					
                 </div>
-                ##<a href="#springUrl('/p/pkdt/doMark.do')?cid=$!{cid}&pid=$!{pid}&tid=$!{trade.tid}" onclick="return confirm('#springMessage('tip.trade.kdt.confirm')');">
-                <a href="#"
+
+				<button class="btn btn-danger btn-block"
 					model-pid="$!{pid}" 
 					model-cid="$!{cid}" 
 					model-tid="$!{trade.tid}"
 					data-act="marksign"
 					>
-                    <div class="panel-footer" 
-						>
-                        <span class="pull-left"><strong>#springMessage('tip.trade.kdt.mark')</strong></span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
+					<i class="fa fa-ticket"></i>
+					<strong>#springMessage('tip.trade.kdt.mark')</strong>
+				</button>
+
             </div>
         </div>
+		
 		#end
 		
 	</div>
@@ -108,7 +107,7 @@
 	require([	"jquery","Bootstrap"],  
     	function(jQuery){
 		
-			jQuery("#ticket-content a[data-act=marksign]").on("click", function(){
+			jQuery("#ticket-content button[data-act=marksign]").on("click", function(){
 				var cid= jQuery(this).attr("model-cid");
 				var pid= jQuery(this).attr("model-pid");
 				var tid= jQuery(this).attr("model-tid");
