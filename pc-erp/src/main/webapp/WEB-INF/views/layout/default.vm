@@ -15,7 +15,7 @@
 		"/plugin/metisMenu/dist/metisMenu.min.css",
 		"/plugin/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css",
 		"/plugin/font-awesome/css/font-awesome.min.css"
-	], "")
+	], "http://s0.caiban.net")
 	
     <script type="text/javascript" >
 		var CONTEXT_PATH="#springUrl('')";
@@ -31,7 +31,7 @@
     <![endif]-->
 	
 	<script src="#springUrl('/js/require.js')" ></script>
-	<script src="#springUrl('/js/main.js')?v=20150329.8" ></script>
+	<script src="#springUrl('/js/main.js')?v=20150426.9" ></script>
 	
   </head>
   <body>
