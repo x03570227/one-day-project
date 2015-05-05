@@ -17,11 +17,12 @@
 		"/plugin/font-awesome/css/font-awesome.min.css",
 		"/plugin/messenger/build/css/messenger.css",
 		"/plugin/messenger/build/css/messenger-theme-flat.css"
-	], "")
+	], "http://s0.caiban.net", "")
 	
     <script type="text/javascript" >
 		var CONTEXT_PATH="#springUrl('')";
 		var LOCALE="$!{locale}";
+		var SCRIPT_VERSION="$!{scriptVersion}";
 		//var JU=eval('$!{juser}');
 	</script>
 	
@@ -32,13 +33,21 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
+	#loadScript([
+		"/plugin/requirejs/require.js"
+	],"http://s0.caiban.net")
+
+	#loadScript([
+		"/js/main.js"
+	],"","$!{scriptVersion}")
+  <!--
 	<script src="#springUrl('/js/require.js')" ></script>
 	<script src="#springUrl('/js/main.js')?v=20150329.8" ></script>
+	-->
 	
   </head>
   <body>
 		$screen_content
-		
 		#parse("/common/globalFooter.vm")
   </body>
 </html>

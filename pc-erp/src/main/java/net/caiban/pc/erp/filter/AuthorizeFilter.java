@@ -36,10 +36,10 @@ import com.google.common.base.Strings;
  * created on 2011-5-5
  */
 public class AuthorizeFilter implements Filter {
-	
+
 //	private String deniedURL = "";
 	private String loginURL = "";
-	
+
 	private Set<String> noLoginPage;
 //	private Set<String> noAuthPage;
 
@@ -58,8 +58,10 @@ public class AuthorizeFilter implements Filter {
 		path= path==null?"":path;
 
 		StringBuffer refURL=request.getRequestURL();
-		
+
 		String url=loginURL+"?refurl="+URLEncoder.encode(refURL.toString(), "utf-8")+"&refparam="+URLEncoder.encode(JSONObject.fromObject(request.getParameterMap()).toString(), "utf-8");
+
+		request.setAttribute("scriptVersion", AppConst.CONFIG_PROPERTIES.get("script.version"));
 		
 		do {
 
@@ -68,26 +70,26 @@ public class AuthorizeFilter implements Filter {
 				chain.doFilter(request, response);
 				return ;
 			}
-			
+
 			SessionUser sessionUser = (SessionUser) request.getSession().getAttribute(AppConst.SESSION_KEY);
-			
+
 			if(sessionUser==null){
-				
+
 				sessionUser = validateToken(request);
-				
+
 				if(sessionUser == null){
 					break;
 				}
 				request.getSession().setAttribute(AppConst.SESSION_KEY, sessionUser);
 			}
-			
+
 			request.setAttribute("sessionUser", sessionUser);
 			request.setAttribute("juser", JSONObject.fromObject(sessionUser));
-			
+
 			chain.doFilter(request, response);
 			return ;
 		} while (false);
-//		
+//
 //		//AJAX请求权限过滤
 		if(request.getHeader("x-requested-with")!=null
 				&& request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")){
@@ -104,7 +106,7 @@ public class AuthorizeFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 //		deniedURL = config.getInitParameter("deniedURL");
 		loginURL = config.getInitParameter("loginURL");
-		
+
 		String tmp[]= null;
 		noLoginPage = new HashSet<String>();
 		String e1=config.getInitParameter("noLoginPage");
@@ -147,28 +149,28 @@ public class AuthorizeFilter implements Filter {
 
 	private SessionUser validateToken(HttpServletRequest request){
 		String token = CookiesUtil.getCookie(request, AppConst.LOGIN_REMEMBER_TOKEN, null);
-		
+
 		if(Strings.isNullOrEmpty(token)){
 			return null;
 		}
-		
+
 		StringBuffer sb = new StringBuffer();
 		sb.append(AppConst.CONFIG_PROPERTIES.get("api.server"))
 			.append("/validateToken.do?token=").append(token);
-		
+
 		String resp = HttpRequestUtil.httpGet(sb.toString());
-		if(Strings.isNullOrEmpty(resp)||!JSONUtils.mayBeJSON(resp)){ 
+		if(Strings.isNullOrEmpty(resp)||!JSONUtils.mayBeJSON(resp)){
 			return null;
 		}
-		
+
 		JSONObject jobj = JSONObject.fromObject(resp);
-		
+
 		boolean result = jobj.optBoolean("result", false);
-		
+
 		if(!result){
 			return null;
 		}
-		
+
 		SessionUser user = (SessionUser) JSONObject.toBean(jobj.getJSONObject("data"), SessionUser.class);
 
 		return user;

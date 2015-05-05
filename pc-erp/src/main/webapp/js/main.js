@@ -94,13 +94,13 @@ require.config({
 	}
 });
 
-require([    "jquery","Bootstrap", "messenger", "menu","sbadmin"],
+require([    "jquery","Bootstrap", "menu","sbadmin"],
 	function(jQuery,  bootstrap,   messenger){
 		
-		Messenger.options = {
-				extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-			    theme: 'flat'
-		};
+//		Messenger.options = {
+//				extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+//			    theme: 'flat'
+//		};
 		
 	}	
 );

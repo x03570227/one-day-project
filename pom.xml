@@ -40,7 +40,7 @@
 				<artifactId>pc-utils</artifactId>
 				<version>1.0-SNAPSHOT</version>
 			</dependency>
-            
+
 			<dependency>
 				<groupId>net.caiban</groupId>
 				<artifactId>yy-utils</artifactId>
@@ -293,7 +293,7 @@
 				<artifactId>aspectjweaver</artifactId>
 				<version>1.8.2</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.darwinsys</groupId>
 				<artifactId>hirondelle-date4j</artifactId>
@@ -303,14 +303,32 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<!-- <repositories> <repository> <id>zz91_repository</id> <name>zz91 local 
-		artifactory</name> <url>http://192.168.2.178:8080/artifactory/repo</url> 
-		</repository> </repositories> <pluginRepositories> <pluginRepository> <id>zz91_pluginRepository</id> 
-		<name>zz91 local artifactory</name> <url>http://192.168.2.178:8080/artifactory/plugins-releases</url> 
+	<!-- <repositories> <repository> <id>zz91_repository</id> <name>zz91 local
+		artifactory</name> <url>http://192.168.2.178:8080/artifactory/repo</url>
+		</repository> </repositories> <pluginRepositories> <pluginRepository> <id>zz91_pluginRepository</id>
+		<name>zz91 local artifactory</name> <url>http://192.168.2.178:8080/artifactory/plugins-releases</url>
 		<snapshots> <enabled>false</enabled> </snapshots> </pluginRepository> </pluginRepositories> -->
 
 	<build>
 		<plugins>
+
+			<plugin>
+				<groupId>com.keyboardsamurais.maven</groupId>
+				<artifactId>maven-timestamp-plugin</artifactId>
+				<version>1.0</version>
+				<configuration>
+					<propertyName>timestamp</propertyName>
+					<timestampPattern>yyyyMMddHH</timestampPattern>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -375,7 +393,7 @@
 					</webResources>
 				</configuration>
 			</plugin>
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-resources-plugin</artifactId> 
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-resources-plugin</artifactId>
 				<configuration> <encoding>UTF-8</encoding> </configuration> </plugin> -->
 		</plugins>
 
