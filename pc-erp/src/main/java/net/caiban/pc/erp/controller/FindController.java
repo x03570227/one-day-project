@@ -3,7 +3,6 @@
  */
 package net.caiban.pc.erp.controller;
 
-<<<<<<< HEAD
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -30,28 +29,8 @@ public class FindController {
 		q = URLDecoder.decode(q, "utf-8");
 		
 		model.put("q", q);
-=======
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.ModelAndView;
-
-/**
- * @author mays
- *
- */
-@Controller
-public class FindController extends BaseController {
-
-	public ModelAndView index(HttpServletRequest request){
-		
->>>>>>> Backup feature-www
 		
 		return null;
 	}
 	
-<<<<<<< HEAD
-	
-=======
->>>>>>> Backup feature-www
 }
