@@ -1,7 +1,7 @@
 #set($layout="/layout/simple_page.vm")
 
 <div class="container">
-<div class="panel panel-default mt120">
+<div class="panel panel-default mt8">
 	<div class="panel-heading">
 		<a href="#springUrl('/index.do')">
 		<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
@@ -92,6 +92,9 @@
 			<div class="panel-footer">
         		<div class="row">
         			<div class="col-sm-offset-4 col-sm-8">
+						<a href="https://github.com/x03570227/one-day-project" target="_blank">
+        					<i class="fa fa-github fa-lg text-muted" ></i>
+        				</a>
         				#springMessage("tip.login.3")
                         <a href="#springUrl('/p/puser/login.do')" >#springMessage("tip.header.login")</a>
         			</div>

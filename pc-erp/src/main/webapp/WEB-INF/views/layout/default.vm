@@ -16,7 +16,7 @@
 		"/plugin/metisMenu/dist/metisMenu.min.css",
 		"/plugin/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css",
 		"/plugin/font-awesome/css/font-awesome.min.css"
-	], "http://s0.caiban.net", "$!{scriptVersion}")
+	], "http://s0.caiban.net")
 
   <script type="text/javascript" >
 		var CONTEXT_PATH="#springUrl('')";

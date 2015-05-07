@@ -38,6 +38,12 @@
 						#springMessage("m.app")
 					</a>
 				</li>
+				<li>
+					<a href="https://github.com/x03570227/one-day-project" target="_blank">
+						<i class="fa fa-github fa-fw"></i>
+						Fork me
+					</a>
+				</li>
 				<li class="divider"></li>
 				<li>
 					<a href="#springUrl('/p/puser/doLogout.do')">

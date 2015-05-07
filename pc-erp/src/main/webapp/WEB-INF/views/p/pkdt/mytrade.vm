@@ -35,6 +35,12 @@
 							#springMessage('tip.trade.kdt.buytime')：$!{trade.created}
 							<br />
 							#springMessage('tip.trade.kdt.mobile')：$!{mobile}
+							#foreach($order in ${trade.orders})
+								#if(${order.sku_properties_name} !="" )
+								<br />
+								${order.sku_properties_name}
+								#end
+							#end
 						</div>
                         <div class="col-xs-4 text-right">
                             <div class="huge">*$!{trade.num}</div>

@@ -290,7 +290,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		
 		localTrade.addAll(remoteTrade);
 		
-		return remoteTrade;
+		return localTrade;
 	}
 	
 	private List<JSONObject> localTradeFilter(Integer cid, Integer pid, String mobile, String productCode){
