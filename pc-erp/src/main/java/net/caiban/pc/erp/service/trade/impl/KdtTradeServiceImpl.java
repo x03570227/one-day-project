@@ -300,6 +300,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		cond.setPidFirst(pid);
 		cond.setIdMax(0);
 		cond.setLimit(100);
+		cond.setStatus(Trade.STATUS.DEFAULT.getKey());
 		
 		cond.setGmtCreatedMax(new Date(DateUtil.getTheDayZero(0)*1000l));
 		
