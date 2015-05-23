@@ -3,9 +3,12 @@
  */
 package net.caiban.pc.erp.controller;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.collect.Maps;
 
@@ -19,24 +22,6 @@ import net.caiban.pc.erp.domain.SessionUser;
  */
 public class BaseController {
 
-//	public ModelAndView printJson(Object obj, Map<String, Object> out) {
-//		String jsonString = "";
-//		if (obj instanceof List) {
-//			jsonString = (JSONArray.fromObject(obj).toString());
-//		} else {
-//			jsonString = (JSONObject.fromObject(obj).toString());
-//		}
-//		out.put("json", jsonString);
-//		return new ModelAndView("json");
-//	}
-	
-//	public ModelAndView ajaxResult(Boolean success, Object arg, Map<String, Object> out){
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("success", success==null?false:success);
-//		map.put("result", arg);
-//		return printJson(map, out);
-//	}
-	
 	public Map<String, Object> ajaxResult(Boolean success, Object arg){
 		Map<String, Object> map = Maps.newHashMap();
 		map.put("result", success);
@@ -54,5 +39,14 @@ public class BaseController {
 	
 	public void removeSession(HttpServletRequest request, String sessionKey) {
 		request.getSession().removeAttribute(sessionKey);
+	}
+	
+	public void serverError(HttpServletRequest request, HttpServletResponse response, String errorCode){
+		try {
+			response.addHeader("CB_ERROR", URLEncoder.encode(errorCode, "utf-8"));
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "SERVER ERROR OCCURRED.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
