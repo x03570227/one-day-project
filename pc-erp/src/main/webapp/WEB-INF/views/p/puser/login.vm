@@ -8,7 +8,7 @@
 		</a>
     </div>
     <div class="panel-body">
-        <form id="formLogin" name="formLogin" class="form-horizontal" role="form">
+        <form id="formLogin" name="formLogin" class="form-horizontal" role="form" onsubmit="return false;" >
 			<input type="hidden" name="refurl" value="$!{refurl}" />
 			<input type="hidden" name="refparam" value="$!{refparam}" />
 			<div class="form-group">
@@ -54,7 +54,7 @@
 			  
 			  <div class="form-group" >
 				<div class="col-sm-offset-4 col-sm-4">
-                  <button type="button" onclick="doLoginAjax()" class="btn btn-lg btn-success btn-block">#springMessage('btn.login')</button>
+                  <button type="submit" onclick="doLoginAjax()" class="btn btn-lg btn-success btn-block">#springMessage('btn.login')</button>
                 </div>
 			  </div>
               </a>
