@@ -8,7 +8,7 @@
 		</a>
     </div>
     <div class="panel-body">
-        <form id="formLogin" name="formLogin" class="form-horizontal" role="form" method="post" action="#springUrl('/p/puser/doLogin.do')">
+        <form id="formLogin" name="formLogin" class="form-horizontal" role="form">
 			<input type="hidden" name="refurl" value="$!{refurl}" />
 			<input type="hidden" name="refparam" value="$!{refparam}" />
 			<div class="form-group">
@@ -16,16 +16,16 @@
 					<h1 >#springMessage("addon.login.title")</h1>
                 </div>
 			</div>
-			#if("$!{error}" !="" )
-			<div class="form-group">
+			
+			<div class="form-group" id="warningDiv" style="display:none">
 				<div class="col-sm-offset-4 col-sm-4">
 					<div class="alert alert-warning alert-dismissable">
                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <strong>#springMessage("tip.warn")</strong> #springMessage($error) 
+                      <strong>#springMessage("tip.warn")</strong> <span id="warningText">#springMessage("e.login")<span>
                     </div>
                 </div>
 			</div>
-			#end
+
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
 					<label for="account">#springMessage("sys.user.account")</label>
@@ -54,7 +54,7 @@
 			  
 			  <div class="form-group" >
 				<div class="col-sm-offset-4 col-sm-4">
-                  <button type="submit" class="btn btn-lg btn-success btn-block">#springMessage('btn.login')</button>
+                  <button type="button" onclick="doLoginAjax()" class="btn btn-lg btn-success btn-block">#springMessage('btn.login')</button>
                 </div>
 			  </div>
               </a>
@@ -83,5 +83,24 @@ require([	"jquery","Bootstrap","validator"],
 		jQuery("#formLogin").validator();
 	}
 );
+
+function doLoginAjax(){
+	jQuery.ajax({    
+        type:'post',        
+        url:"#springUrl('/p/puser/doLoginByAjax.do')",    
+        data:jQuery('#formLogin').serialize(),       
+        dataType:'JSON',    
+        success:function(data){
+            if(data.result==true){
+            	window.location.href=CONTEXT_PATH+"/index.do";
+            }else{
+	            require(["js/app/i18n_zh_CN"],function(i18n){
+					jQuery("#warningDiv").show();
+					jQuery("#warningText").text(i18n.get(data.data));
+				});
+            }
+        }
+    });    
+}
 
 </script>
