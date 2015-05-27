@@ -24,6 +24,7 @@ import net.caiban.utils.lang.StringUtils;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -75,15 +76,29 @@ public class PUserController extends BaseController {
 		out.put("refurl", refurl);
 		out.put("refparam", refparam);
 		out.put("user", user);
-		
 		return new ModelAndView("/p/puser/login"); //Login page
 	}
 	
-	@Deprecated
 	@RequestMapping
-	public ModelAndView doLoginByAjax(HttpServletRequest request, Map<String, Object> out){
-		
-		return null;
+	@ResponseBody
+	public Map<String, Object> doLoginByAjax(HttpServletRequest request, Map<String, Object> out,
+			HttpServletResponse response,
+			String refurl, String refparam, Integer rememberMe, SysUser user){
+		boolean bool=false;
+		String error=null;
+		try {
+			SessionUser sessionUser = sysUserService.doLogin(user);
+			if(sessionUser!=null){
+				setSessionUser(request, sessionUser);
+				sysUserService.rememberMe(response, sessionUser, rememberMe);
+				bool=true;
+			}else {
+				error="e.login";
+			}
+		} catch (ServiceException e) {
+			error=e.getMessage();
+		}
+		return ajaxResult(bool,error);
 	}
 	
 	@RequestMapping
