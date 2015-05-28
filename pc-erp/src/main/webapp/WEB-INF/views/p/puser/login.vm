@@ -17,14 +17,14 @@
                 </div>
 			</div>
 			
-			<div class="form-group" id="warningDiv" style="display:none">
-				<div class="col-sm-offset-4 col-sm-4">
-					<div class="alert alert-warning alert-dismissable">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <strong>#springMessage("tip.warn")</strong> <span id="warningText">#springMessage("e.login")<span>
-                    </div>
-                </div>
-			</div>
+##			<div class="form-group" id="warningDiv" style="display:none">
+##				<div class="col-sm-offset-4 col-sm-4">
+##					<div class="alert alert-warning alert-dismissable">
+##                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+##                      <strong>#springMessage("tip.warn")</strong> <span id="warningText">#springMessage("e.login")<span>
+##                    </div>
+##                </div>
+##			</div>
 
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
@@ -54,7 +54,7 @@
 			  
 			  <div class="form-group" >
 				<div class="col-sm-offset-4 col-sm-4">
-                  <button type="submit" onclick="doLoginAjax()" class="btn btn-lg btn-success btn-block">#springMessage('btn.login')</button>
+                  <button type="submit" id="login_btn" class="btn btn-lg btn-success btn-block">#springMessage('btn.login')</button>
                 </div>
 			  </div>
               </a>
@@ -78,29 +78,46 @@
 
 <script type="text/javascript">
 
-require([	"jquery","Bootstrap","validator"],
-	function(jQuery){
+require([   "jquery","js/erp/sysUser","js/app/i18n_zh_CN"
+	,"Bootstrap","validator","noty"],
+	function(jQuery,  sysUser,               i18n){
 		jQuery("#formLogin").validator();
+		
+		jQuery("#formLogin").submit(function(e){
+		
+			if(jQuery("#login_btn").hasClass("disabled")){
+				noty({
+					text:i18n.get('FORM_INVALID'),
+					type:"warning",
+					timeout:2500
+				});
+				return false;
+			}
+			
+			sysUser.doLogin(jQuery(this));
+			
+			return false;
+		});
 	}
 );
 
-function doLoginAjax(){
-	jQuery.ajax({    
-        type:'post',        
-        url:"#springUrl('/p/puser/doLoginByAjax.do')",    
-        data:jQuery('#formLogin').serialize(),       
-        dataType:'JSON',    
-        success:function(data){
-            if(data.result==true){
-            	window.location.href=CONTEXT_PATH+"/index.do";
-            }else{
-	            require(["js/app/i18n_zh_CN"],function(i18n){
-					jQuery("#warningDiv").show();
-					jQuery("#warningText").text(i18n.get(data.data));
-				});
-            }
-        }
-    });    
-}
+##function doLoginAjax(){
+##	jQuery.ajax({    
+##        type:'post',        
+##        url:"#springUrl('/p/puser/doLoginByAjax.do')",    
+##        data:jQuery('#formLogin').serialize(),       
+##        dataType:'JSON',    
+##        success:function(data){
+##            if(data.result==true){
+##            	window.location.href=CONTEXT_PATH+"/index.do";
+##            }else{
+##	            require(["js/app/i18n_zh_CN"],function(i18n){
+##					jQuery("#warningDiv").show();
+##					jQuery("#warningText").text(i18n.get(data.data));
+##				});
+##            }
+##        }
+##    });    
+##}
 
 </script>

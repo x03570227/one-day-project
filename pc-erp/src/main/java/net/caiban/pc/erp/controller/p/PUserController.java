@@ -3,6 +3,7 @@
  */
 package net.caiban.pc.erp.controller.p;
 
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -26,6 +27,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.common.collect.Maps;
 
 /**
  * 与用户注册，登录，验证有关的页面
@@ -82,23 +85,27 @@ public class PUserController extends BaseController {
 	@RequestMapping
 	@ResponseBody
 	public Map<String, Object> doLoginByAjax(HttpServletRequest request, Map<String, Object> out,
-			HttpServletResponse response,
+			HttpServletResponse response, Locale locale,
 			String refurl, String refparam, Integer rememberMe, SysUser user){
-		boolean bool=false;
-		String error=null;
+		
 		try {
 			SessionUser sessionUser = sysUserService.doLogin(user);
 			if(sessionUser!=null){
 				setSessionUser(request, sessionUser);
 				sysUserService.rememberMe(response, sessionUser, rememberMe);
-				bool=true;
-			}else {
-				error="e.login";
+				
+				Map<String, Object> message = Maps.newHashMap();
+				message.put("refurl", refurl);
+				message.put("refparam", refparam);
+				
+				return ajaxResult(true, message);
 			}
+			
+			serverError(request, response, messageSource.getMessage("e.login", null, locale));
 		} catch (ServiceException e) {
-			error=e.getMessage();
+			serverError(request, response, messageSource.getMessage(e.getMessage(), null, locale));
 		}
-		return ajaxResult(bool,error);
+		return null;
 	}
 	
 	@RequestMapping

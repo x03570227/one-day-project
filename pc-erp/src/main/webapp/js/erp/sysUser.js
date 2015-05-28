@@ -34,21 +34,16 @@ define(		["jquery","util/table","noty"],
 					noty({
         				text:resp.data,
         				type:"success"
-        				//timeout:60,
-//        				actions:{
-//        					copy:{
-//        						label:"Copy",
-//        						action:function(){
-//        							//TODO copy to browser
-//									msg.cancel();
-//        						}
-//        					}
-//        				}
         			});
 				}
 			}, "json");
 		};
 		
+		def["doLogin"]=function(form){
+			jQuery.post(CONTEXT_PATH+"/p/puser/doLoginByAjax.do", form.serialize(), function(resp){
+				window.location.href=CONTEXT_PATH+"/index.do";
+			}, "json");
+		}
 		return def;
 	}
 );

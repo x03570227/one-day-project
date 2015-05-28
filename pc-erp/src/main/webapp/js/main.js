@@ -95,15 +95,16 @@ require.config({
 });
 
 require([    "jquery","Bootstrap","js/app/i18n_zh_CN",
-             "menu","sbadmin"],
+             "menu","sbadmin","noty"],
 	function(jQuery,  bootstrap,   i18n){
 		
 		$(document).ajaxError(function(event, request, settings) {
 			if(request.status == 500){
-				var errorCode = request.getResponseHeader("CB_ERROR");
+//				var errorCode = request.getResponseHeader("CB_ERROR");
+				var errorText = request.getResponseHeader("CB_ERROR");
 				noty({
 					type:"error",
-					text: i18n.get(errorCode),
+					text: i18n.get("SERVER_ERROR")+":"+decodeURIComponent(errorText),
 					timeout:2500
 				});
 			}else if(request.status > 500){

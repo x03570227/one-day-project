@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.context.MessageSource;
 
 import com.google.common.collect.Maps;
 
@@ -21,6 +24,9 @@ import net.caiban.pc.erp.domain.SessionUser;
  *
  */
 public class BaseController {
+	
+	@Resource
+	protected MessageSource messageSource;
 
 	public Map<String, Object> ajaxResult(Boolean success, Object arg){
 		Map<String, Object> map = Maps.newHashMap();
