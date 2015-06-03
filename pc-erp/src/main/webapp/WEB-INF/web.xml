@@ -36,6 +36,7 @@
 				|/api/*
 				|/find/*
 				|/f/*
+				|/checkcode/*
 			</param-value>
 		</init-param>
 		

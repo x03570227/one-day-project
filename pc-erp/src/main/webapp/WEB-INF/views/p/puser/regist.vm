@@ -68,6 +68,34 @@
 					##<p class="help-block with-errors"></p>
                 </div>
               </div>
+              
+               <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+					<label for="inputPassword3">#springMessage("lb.sys.user.phone.number")</label>
+					<input type="text" class="form-control" 
+						name="mobileNum" value="" 
+						pattern="^[1][358][0-9]{9}$" 
+						required
+						placeholder="#springMessage("ph.sys.user.phone.number")" "
+						 />
+					##<p class="help-block with-errors"></p>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+					<label for="inputPassword3">#springMessage("lb.sys.user.phone.verifycode")</label>
+					<button type="button" id="mobileBtn"  class="btn btn-lg btn-success btn-block" style="float:right;width:180px;margin-top:13px;">#springMessage("btn.verifycode")</button>
+					<input type="text" class="form-control" style="width:150px;"
+						name="moblieVerifyCode" value="" 
+						pattern="^\w{4}$" 
+						required
+						placeholder="#springMessage("ph.sys.user.phone.verifycode")" "
+						 />
+					
+					##<p class="help-block with-errors"></p>
+                </div>
+              </div>
 			  
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-8 ">
@@ -82,7 +110,7 @@
 			  
 			  <div class="form-group" >
 				<div class="col-sm-offset-4 col-sm-4">
-                  <button type="submit" class="btn btn-lg btn-primary btn-block">#springMessage('btn.regist')</button>
+                  <button id="registn_btn"  type="submit" class="btn btn-lg btn-primary btn-block">#springMessage('btn.regist')</button>
                 </div>
 			  </div>
               </a>
@@ -104,10 +132,98 @@
     </div>
 </div>
 <script type="text/javascript">
-	require([	"jquery","Bootstrap","validator"],
-    	function(jQuery){
+	require([	"jquery","js/app/i18n_zh_CN","Bootstrap","validator"],
+    	function(jQuery,i18n){
     		jQuery("#formRegist").validator();
+    		
+    		//提交表单事件
+    		jQuery("#formRegist").submit(function(e){
+    			
+    			if(jQuery("#registn_btn").hasClass("disabled")){
+					noty({
+						text:i18n.get('FORM_INVALID'),
+						type:"warning",
+						timeout:2500
+					});
+					return false;
+				}
+    		
+	  			var mobile=jQuery("input[name='mobileNum']").val();
+    			var moblieVerifyCode=jQuery("input[name='moblieVerifyCode']").val();
+    			var statusNum=0;
+    			jQuery.ajax({    
+			        type:'post',        
+			        url:"#springUrl('/checkcode/checkMobileCode.do')",    
+			        data:{
+			       		 mobileNum:mobile,
+			       		 verifyCode:moblieVerifyCode
+			       		 
+			        },      
+			        dataType:'JSON',    
+			        async: false, 
+			        success:function(data){
+			        	statusNum=1;
+			        }
+			    });
+			    if(parseInt(statusNum)==0){
+    				return false;
+    			}
+    		});
+    		
+    		
+    		jQuery("#mobileBtn").click(function(){
+    			var mobile=jQuery("input[name='mobileNum']").val();
+		    	var reMobile=/^[1][358][0-9]{9}$/;
+		    	var btn = document.getElementById("mobileBtn");
+		    	if(!reMobile.test(mobile)){
+		    	 	noty({
+					text:i18n.get('MOBILE_NUM_ERROR'),
+					type:"warning",
+					timeout:2500
+					});
+					return false;
+		    	}
+		    	sendBtn.init(btn);
+				jQuery.ajax({    
+			        type:'post',        
+			        url:"#springUrl('/checkcode/mobileCode.do')",    
+			        data:{
+			       		 mobileNum:mobile
+			        },      
+			        dataType:'JSON',    
+			        success:function(data){
+			        	jQuery("input[name='mobileNum']").attr("disabled",true);
+						alert("验证码是:"+data.data.mobileCode);
+			        }
+			    });  
+    		});
     	}
     );
+    
+    
+    var sendBtn = {
+       node:null,
+       count:60,
+       start:function(){
+          //console.log(this.count);
+          if(this.count > 0){
+             this.node.innerHTML = this.count--+"秒后可再次发送";
+             var _this = this;
+             setTimeout(function(){
+                 _this.start();
+             },1000);
+          }else{
+             this.node.removeAttribute("disabled");
+             this.node.innerHTML = "再次发送";
+             this.count = 60;
+          }
+       },
+       //初始化
+       init:function(node){
+          this.node = node;
+          this.node.setAttribute("disabled",true);
+          this.start();
+       }
+    };
 </script>
 </div>

@@ -7,6 +7,7 @@ define({
 		"FORM_INVALID":"请按照要求填写！",
 		
 		"SERVER_ERROR":"<i class='fa fa-exclamation-triangle'>  错误：",
+		"MOBILE_NUM_ERROR":"请输入正确的手机号码",
 		
 		"remote.unavailable":"服务器发生错误"
 	},
