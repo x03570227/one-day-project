@@ -17,15 +17,6 @@
                 </div>
 			</div>
 			
-##			<div class="form-group" id="warningDiv" style="display:none">
-##				<div class="col-sm-offset-4 col-sm-4">
-##					<div class="alert alert-warning alert-dismissable">
-##                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-##                      <strong>#springMessage("tip.warn")</strong> <span id="warningText">#springMessage("e.login")<span>
-##                    </div>
-##                </div>
-##			</div>
-
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
 					<label for="account">#springMessage("sys.user.account")</label>
@@ -83,7 +74,7 @@ require([   "jquery","js/erp/sysUser","js/app/i18n_zh_CN"
 	function(jQuery,  sysUser,               i18n){
 		jQuery("#formLogin").validator();
 		
-		jQuery("#formLogin").submit(function(e){
+		jQuery("#login_btn").click(function(e){
 		
 			if(jQuery("#login_btn").hasClass("disabled")){
 				noty({
@@ -94,30 +85,12 @@ require([   "jquery","js/erp/sysUser","js/app/i18n_zh_CN"
 				return false;
 			}
 			
-			sysUser.doLogin(jQuery(this));
+			sysUser.doLogin(jQuery("#formLogin"), "$!{refurl}");
 			
 			return false;
 		});
+		
 	}
 );
-
-##function doLoginAjax(){
-##	jQuery.ajax({    
-##        type:'post',        
-##        url:"#springUrl('/p/puser/doLoginByAjax.do')",    
-##        data:jQuery('#formLogin').serialize(),       
-##        dataType:'JSON',    
-##        success:function(data){
-##            if(data.result==true){
-##            	window.location.href=CONTEXT_PATH+"/index.do";
-##            }else{
-##	            require(["js/app/i18n_zh_CN"],function(i18n){
-##					jQuery("#warningDiv").show();
-##					jQuery("#warningText").text(i18n.get(data.data));
-##				});
-##            }
-##        }
-##    });    
-##}
 
 </script>

@@ -12,6 +12,7 @@ import net.caiban.utils.file.PropertiesUtil;
 
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
 /**
@@ -47,5 +48,21 @@ public class AppConst {
 		} catch (IOException e) {
 			CONFIG_PROPERTIES=Maps.newHashMap();
 		}
+	}
+	
+	public static String getConfig(String key, String def){
+		if(CONFIG_PROPERTIES==null){
+			return def;
+		}
+		
+		String v =CONFIG_PROPERTIES.get(key);
+		if(Strings.isNullOrEmpty(v)){
+			return def;
+		}
+		return v;
+	}
+	
+	public static String getConfig(String key){
+		return getConfig(key, null);
 	}
 }

@@ -6,7 +6,6 @@ package net.caiban.pc.erp.config;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import net.caiban.utils.cache.JedisUtil;
 import net.caiban.utils.http.HttpRequestUtil;
 
 import org.springframework.stereotype.Component;
@@ -17,10 +16,11 @@ import org.springframework.stereotype.Component;
  */
 @Component("systemInit")
 public class SystemInit {
-
+	
 	@PostConstruct
 	public void init(){
-		JedisUtil.initPool(null);
+		//暂时将验证码保存在session里
+//		JedisUtil.initPool(null);
 		HttpRequestUtil.monitor();
 	}
 	

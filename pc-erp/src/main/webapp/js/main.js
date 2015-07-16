@@ -101,7 +101,7 @@ require([    "jquery","Bootstrap","js/app/i18n_zh_CN",
 		$(document).ajaxError(function(event, request, settings) {
 			if(request.status == 500){
 //				var errorCode = request.getResponseHeader("CB_ERROR");
-				var errorText = request.getResponseHeader("CB_ERROR");
+				var errorText = request.getResponseHeader("CB_ERROR")||i18n.get("remote.unavailable");
 				noty({
 					type:"error",
 					text: i18n.get("SERVER_ERROR")+":"+decodeURIComponent(errorText),

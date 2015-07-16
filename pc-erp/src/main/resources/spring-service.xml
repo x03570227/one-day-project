@@ -49,7 +49,7 @@
 		<property name="driverClassName" value="${jdbc.driver}" />
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${username}"></property>
-		<property name="password" value="${password}"></property>
+		<property name="password" value="${password}"></property> 
 	</bean>
 
 	<!-- MyBatis sqlSessionFactory -->

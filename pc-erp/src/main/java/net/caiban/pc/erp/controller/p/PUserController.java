@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.caiban.pc.erp.config.AppConst;
-import net.caiban.pc.erp.config.ExceptionHelper;
 import net.caiban.pc.erp.controller.BaseController;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.SysCompany;
@@ -21,14 +20,11 @@ import net.caiban.pc.erp.service.sys.SysCompanyService;
 import net.caiban.pc.erp.service.sys.SysLoginRememberService;
 import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.utils.http.CookiesUtil;
-import net.caiban.utils.lang.StringUtils;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.google.common.collect.Maps;
 
 /**
  * 与用户注册，登录，验证有关的页面
@@ -59,54 +55,54 @@ public class PUserController extends BaseController {
 	}
 	
 	@RequestMapping
-	public ModelAndView doLogin(HttpServletRequest request, Map<String, Object> out,
-			HttpServletResponse response,
-			String refurl, String refparam, Integer rememberMe, SysUser user){
-		
-		try {
-			SessionUser sessionUser = sysUserService.doLogin(user);
-			if(sessionUser!=null){
-				setSessionUser(request, sessionUser);
-				sysUserService.rememberMe(response, sessionUser, rememberMe);
-				return redirect(refurl, refparam); //login success
-			}else {
-				out.put(ExceptionHelper.PAGE_ERROR_FLAG, "e.login");
-			}
-		} catch (ServiceException e) {
-			out.put(ExceptionHelper.PAGE_ERROR_FLAG, e.getMessage());
-		}
-		
-		out.put("refurl", refurl);
-		out.put("refparam", refparam);
-		out.put("user", user);
-		return new ModelAndView("/p/puser/login"); //Login page
-	}
-	
-	@RequestMapping
 	@ResponseBody
-	public Map<String, Object> doLoginByAjax(HttpServletRequest request, Map<String, Object> out,
-			HttpServletResponse response, Locale locale,
-			String refurl, String refparam, Integer rememberMe, SysUser user){
+	public Map<String, Object> doLogin(HttpServletRequest request, Map<String, Object> out,
+			HttpServletResponse response,
+			String refurl, String refparam, Integer rememberMe, SysUser user, Locale locale){
 		
 		try {
 			SessionUser sessionUser = sysUserService.doLogin(user);
 			if(sessionUser!=null){
 				setSessionUser(request, sessionUser);
 				sysUserService.rememberMe(response, sessionUser, rememberMe);
-				
-				Map<String, Object> message = Maps.newHashMap();
-				message.put("refurl", refurl);
-				message.put("refparam", refparam);
-				
-				return ajaxResult(true, message);
+				return ajaxResult(true, null);
 			}
-			
 			serverError(request, response, messageSource.getMessage("e.login", null, locale));
 		} catch (ServiceException e) {
 			serverError(request, response, messageSource.getMessage(e.getMessage(), null, locale));
 		}
-		return null;
+		
+//		out.put("refurl", refurl);
+//		out.put("refparam", refparam);
+//		out.put("user", user);
+		return null;//Login page
 	}
+	
+//	@RequestMapping
+//	@ResponseBody
+//	public Map<String, Object> doLoginByAjax(HttpServletRequest request, Map<String, Object> out,
+//			HttpServletResponse response, Locale locale,
+//			String refurl, String refparam, Integer rememberMe, SysUser user){
+//		
+//		try {
+//			SessionUser sessionUser = sysUserService.doLogin(user);
+//			if(sessionUser!=null){
+//				setSessionUser(request, sessionUser);
+//				sysUserService.rememberMe(response, sessionUser, rememberMe);
+//				
+//				Map<String, Object> message = Maps.newHashMap();
+//				message.put("refurl", refurl);
+//				message.put("refparam", refparam);
+//				
+//				return ajaxResult(true, message);
+//			}
+//			
+//			serverError(request, response, messageSource.getMessage("e.login", null, locale));
+//		} catch (ServiceException e) {
+//			serverError(request, response, messageSource.getMessage(e.getMessage(), null, locale));
+//		}
+//		return null;
+//	}
 	
 	@RequestMapping
 	public ModelAndView regist(HttpServletRequest request, Map<String, Object> out,
@@ -122,27 +118,28 @@ public class PUserController extends BaseController {
 	}
 	
 	@RequestMapping
-	public ModelAndView doRegist(HttpServletRequest request, Map<String, Object> out,
+	@ResponseBody
+	public Map<String, Object> doRegist(HttpServletRequest request, HttpServletResponse response,
 			String refurl, String refparam, SysUser user, SysCompany company,
-			String passwordRepeat, Integer accept){
+			String passwordRepeat, Integer accept, Locale locale){
 		
 		try {
 			SessionUser sessionUser = sysUserService.doRegist(user, company, passwordRepeat, accept);
 			if(sessionUser!=null){
 				setSessionUser(request, sessionUser);
-				return redirect(refurl, refparam);
+				return ajaxResult(true, null);
 			}
-			out.put(ExceptionHelper.PAGE_ERROR_FLAG, "e.regist");
+			serverError(request, response, messageSource.getMessage("e.regist", null, locale));
 		} catch (ServiceException e) {
-			out.put(ExceptionHelper.PAGE_ERROR_FLAG, e.getMessage());
+			serverError(request, response, messageSource.getMessage(e.getMessage(), null, locale));
 		}
 		
-		out.put("company", company);
-		out.put("user", user);
-		out.put("refurl", refurl);
-		out.put("refparam", refparam);
-		
-		return new ModelAndView("/p/puser/regist");
+//		out.put("company", company);
+//		out.put("user", user);
+//		out.put("refurl", refurl);
+//		out.put("refparam", refparam);
+		return null;
+//		return new ModelAndView("/p/puser/regist");
 	}
 	
 	/**决定跳转地址
@@ -150,13 +147,13 @@ public class PUserController extends BaseController {
 	 * @param refparam
 	 * @return
 	 */
-	private ModelAndView redirect(String refurl, String refparam){
-		if(StringUtils.isNotEmpty(refurl)){
-			//TODO 参数后面处理
-			return new ModelAndView("redirect:"+refurl);
-		}
-		return new ModelAndView("redirect:/");
-	}
+//	private ModelAndView redirect(String refurl, String refparam){
+//		if(StringUtils.isNotEmpty(refurl)){
+//			//TODO 参数后面处理
+//			return new ModelAndView("redirect:"+refurl);
+//		}
+//		return new ModelAndView("redirect:/");
+//	}
 	
 	@RequestMapping
 	public ModelAndView doLogout(HttpServletRequest request, Map<String, Object> out){

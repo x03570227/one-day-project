@@ -39,9 +39,23 @@ define(		["jquery","util/table","noty"],
 			}, "json");
 		};
 		
-		def["doLogin"]=function(form){
-			jQuery.post(CONTEXT_PATH+"/p/puser/doLoginByAjax.do", form.serialize(), function(resp){
-				window.location.href=CONTEXT_PATH+"/index.do";
+		def["doLogin"]=function(form, redirect){
+			jQuery.post(CONTEXT_PATH+"/p/puser/doLogin.do", form.serialize(), function(resp){
+				if(redirect!=""){
+					window.location.href=redirect;
+				}else{
+					window.location.href=CONTEXT_PATH+"/index.do";
+				}
+			}, "json");
+		}
+		
+		def["doRegist"]=function(form, redirect){
+			jQuery.post(CONTEXT_PATH+"/p/puser/doRegist.do", form.serialize(), function(resp){
+				if(redirect!=""){
+					window.location.href=redirect;
+				}else{
+					window.location.href=CONTEXT_PATH+"/index.do";
+				}
 			}, "json");
 		}
 		return def;
