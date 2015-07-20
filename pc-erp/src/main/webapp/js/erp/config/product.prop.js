@@ -11,8 +11,10 @@
 define(function(){
 	var prop={};
 	
-	var df={"gyp":"gyp",
-			"ly":"ly"};
+	var df={
+			"gyp":"gyp",
+			"ly":"ly"
+	};
 //	//类别
 //	prop["category"]=[{
 //		code:"GYP",
@@ -39,20 +41,59 @@ define(function(){
 //	}];
 	
 	prop["category"]=[{
-		code:"GYP-HQ-QT",
-		name:"工艺品、礼品-婚庆用品-请帖",
+		code:"GYP-HQ-QT-HL",
+		name:"婚礼请贴",
+		fullName:"工艺品、礼品-婚庆用品-请帖-婚礼请帖",
+		define:df.gyp
+	},{
+		code:"GYP-HQ-QT-YQH",
+		name:"商务邀请函",
+		fullName:"工艺品、礼品-婚庆用品-请帖-商务邀请函",
+		define:df.gyp
+	},{
+		code:"GYP-HQ-QT-ST",
+		name:"寿贴",
+		fullName:"工艺品、礼品-婚庆用品-请贴-寿贴",
+		define:df.gyp
+	},{
+		code:"GYP-HQ-QT-QQ",
+		name:"乔迁新居",
+		fullName:"工艺品、礼品-婚庆用品-请贴-乔迁贴",
+		define:df.gyp
+	},{
+		code:"GYP-HQ-QT-HS",
+		name:"婚书",
+		fullName:"工艺品、礼品-婚庆用品-请贴-婚书",
+		define:df.gyp
+	},{
+		code:"GYP-HQ-QT-SR",
+		name:"生日卡",
+		fullName:"工艺品、礼品-婚庆用品-请贴-生日卡",
 		define:df.gyp
 	},{
 		code:"GYP-HQ-HB",
-		name:"工艺品、礼品-婚庆用品-红包",
+		name:"红包",
+		fullName:"工艺品、礼品-婚庆用品-红包",
+		define:df.gyp
+	},{
+		code:"GYP-HQ-FJ-XF",
+		name:"信封",
+		fullName:"工艺品、礼品-婚庆用品-附加产品-信封",
+		define:df.gyp
+	},{
+		code:"GYP-HQ-FJ-XW",
+		name:"席位卡",
+		fullName:"工艺品、礼品-婚庆用品-附加产品-席位卡",
 		define:df.gyp
 	},{
 		code:"GYP-HQ-XT",
-		name:"工艺品、礼品-婚庆用品-喜糖盒",
+		name:"喜糖盒",
+		fullName:"工艺品、礼品-婚庆用品-喜糖盒",
 		define:df.gyp
 	},{
 		code:"XN-LY-MP",
-		name:"虚拟-旅游-门票",
+		name:"门票",
+		fullName:"虚拟-旅游-门票",
 		define:df.ly
 	}];
 	
