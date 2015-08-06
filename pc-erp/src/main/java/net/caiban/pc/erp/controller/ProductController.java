@@ -46,10 +46,10 @@ public class ProductController extends BaseController {
 	 */
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request,
-			ModelMap model) throws UnsupportedEncodingException {
-		
+			ModelMap model, ProductCond cond) throws UnsupportedEncodingException {
 		
 		model.put("qrcodeUrl", URLEncoder.encode("http://www.caiban.net"+request.getContextPath()+"/p/pkdt/index.do?", "utf-8"));
+		model.put("cond", cond);
 
 		return null;
 	}

@@ -47,7 +47,7 @@
 <form class="navbar-form navbar-left" role="search" action="#springUrl('/product/index.do')" id="search_form">
 	<div class="form-group">
 		<label class="sr-only" for="exampleInputEmail2">#springMessage('ph.product.search.code')</label>
-		<input type="text" class="form-control" name="codeMatchBefore" placeholder="#springMessage('ph.product.search.code')" />
+		<input type="text" class="form-control" name="codeMatchBefore" value="$!{cond.codeMatchBefore}" placeholder="#springMessage('ph.product.search.code')" />
 	</div>
 	
 	<div class="form-group">
@@ -81,7 +81,7 @@
 	
 	<div  class="form-group">
 	<button id="btn-clear-filter" type="button" class="btn btn-default" title="#springMessage('btn.search.clear')">
-		<span class="glyphicon glyphicon-filter"></span>
+		<i class="fa fa-close" ></i>
 	</button>
 </div>
 </form>
