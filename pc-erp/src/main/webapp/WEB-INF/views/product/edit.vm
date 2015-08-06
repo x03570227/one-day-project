@@ -1,11 +1,14 @@
-	<div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header"><i class="fa fa-edit fa-fw"></i>#springMessage("m.product")</h1>
-        </div>
-		<!-- /.col-lg-12 -->
-	</div>
+	#set($tab_idx="0")
+	#parse("/product/widget/nav_tab.vm")
+	
+##	<div class="row mt8">
+##        <div class="col-lg-12">
+##            <h1 class="page-header"><i class="fa fa-edit fa-fw"></i>#springMessage("m.product")</h1>
+##        </div>
+##		<!-- /.col-lg-12 -->
+##	</div>
 		
-	<div class="row">
+	<div class="row mt8">
 		<form id="product_form" class="form-horizontal" action="#springUrl('/product/')" method="post" role="form" onsubmit="return false;">
 ##		<div class="col-md-2" >
 ##			<nav class="affix" data-spy="affix" role="navigation" id="product_define_nav">

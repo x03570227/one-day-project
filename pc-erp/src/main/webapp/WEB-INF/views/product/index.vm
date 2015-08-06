@@ -4,6 +4,6 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
-		
+
     #parse("/product/widget/searchBar.vm")
     #parse("/product/widget/searchTable.vm")

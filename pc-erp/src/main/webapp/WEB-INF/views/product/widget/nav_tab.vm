@@ -1,0 +1,28 @@
+<div class="row">
+	<ul class="nav nav-tabs mt8">
+		<li #if("${tab_idx}" == "0") class="active" #end>
+			<a href="#springUrl('/product/edit.do')?id=$!{id}">
+			<i class="fa fa-list-ul fa-fw"></i>
+			#if("$!{id}" != "")
+				#springMessage("m.product.edit")
+			#else
+				#springMessage("m.product.create")
+			#end
+			</a>
+		</li>
+		#if("$!{id}" != "")
+		<li #if("${tab_idx}" == "1") class="active" #end>
+			<a href="#springUrl('/product/price.do')?id=$!{id}">
+			<i class="fa fa-list-ul fa-fw"></i>
+			#springMessage("m.product.price")
+			</a>
+		</li>
+		<li #if("${tab_idx}" == "2") class="active" #end>
+			<a href="#springUrl('/product/picture.do')?id=$!{id}">
+			<i class="fa fa-list-ul fa-fw"></i>
+			#springMessage("m.product.pictures")
+			</a>
+		</li>
+		#end
+	</ul>
+</div>
