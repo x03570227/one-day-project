@@ -15,6 +15,9 @@ import net.caiban.pc.erp.domain.product.ProductCond;
 import net.caiban.pc.erp.domain.product.ProductDefine;
 import net.caiban.pc.erp.domain.product.ProductFull;
 import net.caiban.pc.erp.domain.product.ProductPrice;
+import net.caiban.pc.erp.event.EventUtil;
+import net.caiban.pc.erp.event.CreateProductIndexEvent;
+import net.caiban.pc.erp.event.UpdateProductIndexEvent;
 import net.caiban.pc.erp.persist.product.ProductDefineMapper;
 import net.caiban.pc.erp.persist.product.ProductMapper;
 import net.caiban.pc.erp.persist.product.ProductPriceMapper;
@@ -109,6 +112,9 @@ public class ProductServiceImpl implements ProductService {
 		
 		batchSavePrice(productFull.getPrice(), product.getId());
 		
+		CreateProductIndexEvent event = new CreateProductIndexEvent(product.getId(), this);
+		EventUtil.getEventBus().post(event);
+		
 		return productFull;
 	}
 	
@@ -174,6 +180,9 @@ public class ProductServiceImpl implements ProductService {
 		
 		productFull.getDefine().setProductId(product.getId());
 		productDefineMapper.updateByPid(productFull.getDefine());
+		
+		UpdateProductIndexEvent event = new UpdateProductIndexEvent(product.getId(), this);
+		EventUtil.getEventBus().post(event);
 		
 		return productFull;
 	}
