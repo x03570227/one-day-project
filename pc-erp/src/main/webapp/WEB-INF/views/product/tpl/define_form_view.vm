@@ -1,0 +1,72 @@
+
+<script id="tpl_product_form_text" type="text/html">
+<div class="row">
+	<div class="col-sm-2 text-right text-success">{{label}}：</div>
+	<div class="col-sm-10">
+		{{initValue}}
+	</div>
+</div>
+</script>
+
+<script id="tpl_product_form_radio" type="text/html">
+<div class="row">
+	<div class="col-sm-2 text-right text-success">{{label}}：</div>
+	<div class="col-sm-10">
+		{{initValue.dv}}
+	</div>
+</div>
+</script>
+
+<script id="tpl_product_form_checkbox" type="text/html">
+<div class="row">
+	<div class="col-sm-2 text-right text-success">{{label}}：</div>
+	<div class="col-sm-10">
+		{{each dataList as item idx}}
+		{{each initValue as dv }} {{if dv == item.key}} {{item.value}}, {{/if}} {{/each}}
+		{{/each}}
+	</div>
+</div>
+</script>
+
+<script id="tpl_product_form_text_area" type="text/html">
+<div class="row">
+	<div class="col-sm-2 text-right text-success">{{label}}：</div>
+	<div class="col-sm-10">
+		{{initValue}}
+	</div>
+</div>
+</script>
+
+<script id="tpl_product_form_select" type="text/html">
+<div class="row">
+	<div class="col-sm-2 text-right text-success">{{label}}：</div>
+	<div class="col-sm-10">
+		<select id="{{id}}" name="{{id}}" class="form-control" required >
+			<option value="">{{placeholder}}</option>
+			{{each dataList as item idx}}
+				{{if initValue == item.key}} {{item.value}} {{/if}}
+			{{/each}}
+		</select>
+	</div>
+</div>
+</script>
+
+<script id="tpl_product_form_image" type="text/html">
+<div class="row">
+	<div class="col-sm-2 text-right text-success">{{label}}：</div>
+	<div class="col-sm-10">
+		{{if initValue != "" }}
+		<a href="{{initValue}}" target="_blank" >
+			<i class="fa fa-link" ></i>
+		</a>
+		{{/if}}
+		{{initValue}}
+##		<div class="input-group">
+##			<input type="text" class="form-control" id="{{id}}" name="{{id}}" placeholder="{{placeholder}}" />
+##			<div class="input-group-addon">
+##				<span class="glyphicon glyphicon-picture"></span>
+##			</div>
+##		</div>
+	</div>
+</div>
+</script>

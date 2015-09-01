@@ -79,13 +79,15 @@
 				
 				<li>
 					<a href="#springUrl('/index.do')">
-						<i class="fa fa-dashboard fa-fw"></i>#springMessage("m.dashboard")
+						<i class="fa fa-dashboard fa-fw"></i>
+						#springMessage("m.dashboard")
 					</a>
 				</li>
 				
 				<li >
 						<a href="#1">
-							<i class="fa fa-list-alt fa-fw"></i>#springMessage("m.product")
+							<i class="fa fa-list-alt fa-fw"></i>
+							#springMessage("m.product")
 							<span class="fa arrow"></span>
 						</a>
 						<ul class="nav nav-second-level">

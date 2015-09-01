@@ -28,6 +28,28 @@
 				alert(jQuery(this).attr("model-product-id"));
 			});
 			**/
+			
+			//处理展开效果
+			jQuery("#product_list").on("click", "td[data-act=toggle-details]", function(){
+			
+				var id=jQuery(this).attr("model-id");
+				
+				if(jQuery("#tr-details-"+id).hasClass("hide")){
+					jQuery("#tr-details-"+id).removeClass("hide");
+				}
+				
+				if(jQuery(this).hasClass("dropup")){
+					jQuery("#tr-details-"+id).hide();
+					jQuery(this).removeClass("dropup");
+					jQuery(this).parent().removeClass("info");
+				}else{
+					jQuery("#tr-details-"+id).show();
+					jQuery(this).addClass("dropup");
+					jQuery(this).parent().addClass("info");
+					product.buildDetails("#tr-details-"+id+" td", id);
+				}
+				
+			});
 		}
 	);
 </script>
@@ -36,6 +58,7 @@
 	<table class="table table-hover table-bordered">
 		<thead>
 		<tr class="active">
+			<th class="text-center" width="10"></th>
 			<th class="text-center" width="10">#</th>
 			<th class="text-center" >#springMessage('tb.product.code')</th>
 			<th class="text-center" >#springMessage('tb.product.category.name')</th>
@@ -48,6 +71,9 @@
 		<tbody>
 		{{each records as product i}}
 		<tr >
+			<td data-act="toggle-details" model-id="{{product.id}}">
+				<span class="caret"></span>
+			</td>
 			<td >{{i + 1}}</td>
 			<td >
 ##				<a href="{{product.picturePath}}" target="_blank">
@@ -61,16 +87,22 @@
 			<td >{{product.remark}}</td>
 			<td >
 			
+			{{if product.categoryCode=="XN-LY-MP"}}
 			<a href="http://qr.liantu.com/api.php?text=$!{qrcodeUrl}cid%3D{{product.cid}}%26pid%3D{{product.id}}" 
 				class="btn btn-success btn-xs"
 				target="_blank"
 				>
 				<span class="glyphicon glyphicon-qrcode"></span>
 			</a>
+			{{/if}}
+			
 			<button type="button" class="btn btn-danger btn-xs act-delete" model-product-id="{{product.id}}">
 				<span class="glyphicon glyphicon-trash"></span>
 			</button>
 			</td>
+		</tr>
+		<tr id="tr-details-{{product.id}}" class="info hide">
+			<td colspan="8"></td>
 		</tr>
 		{{/each}}
 		</tbody>

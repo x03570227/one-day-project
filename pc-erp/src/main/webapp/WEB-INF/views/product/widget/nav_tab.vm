@@ -13,13 +13,13 @@
 		#if("$!{id}" != "")
 		<li #if("${tab_idx}" == "1") class="active" #end>
 			<a href="#springUrl('/product/price.do')?id=$!{id}">
-			<i class="fa fa-list-ul fa-fw"></i>
+			<i class="fa fa-dollar fa-fw"></i>
 			#springMessage("m.product.price")
 			</a>
 		</li>
 		<li #if("${tab_idx}" == "2") class="active" #end>
 			<a href="#springUrl('/product/picture.do')?id=$!{id}">
-			<i class="fa fa-list-ul fa-fw"></i>
+			<i class="fa fa-file-picture-o fa-fw"></i>
 			#springMessage("m.product.pictures")
 			</a>
 		</li>

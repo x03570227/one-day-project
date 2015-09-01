@@ -97,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
 		//初始化
 		Product product = productFull.getProduct();
 		
-		product.setStatusLife(Product.LIFE_SALING);
+		product.setStatusLife(Strings.isNullOrEmpty(product.getStatusLife())?Product.STATUS_LIFE.SAILING.name():product.getStatusLife());
 		
 		Integer impact = productMapper.insert(product);
 		if(!AssertHelper.positiveInt(impact) || !AssertHelper.positiveInt(product.getId())){

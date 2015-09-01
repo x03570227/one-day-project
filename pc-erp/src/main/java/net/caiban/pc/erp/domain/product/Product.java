@@ -13,9 +13,14 @@ public class Product extends BaseDomain {
 
 	private static final long serialVersionUID = 1L;
 	
-	public final static String LIFE_DRAFT="DRAFT";
-	public final static String LIFE_SALING="SALING";
-	public final static String LIFE_SHELVES="SHELVES";
+//	public final static String LIFE_DRAFT="DRAFT";
+//	public final static String LIFE_SALING="SALING";
+//	public final static String LIFE_SHELVES="SHELVES";
+	
+	public enum STATUS_LIFE{
+		DRAFT, SAILING, SHELVES
+		;
+	}
 	
 	public final static String SORT_COLUMN_ID="product.id";
 	

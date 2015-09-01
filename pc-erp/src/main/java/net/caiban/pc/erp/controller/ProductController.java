@@ -119,4 +119,19 @@ public class ProductController extends BaseController {
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		System.out.println(URLEncoder.encode("http://www.caiban.net/erp/p/pkdt/index.do?cid=1&pid=2", "utf-8"));
 	}
+	
+	@RequestMapping
+	public ModelAndView picture(HttpServletRequest request, ModelMap model, 
+			Integer id){
+		
+		model.put("id", id);
+		return null;
+	}
+	
+	@RequestMapping
+	public ModelAndView price(HttpServletRequest request, ModelMap model,
+			Integer id){
+		model.put("id", id);
+		return null;
+	}
 }

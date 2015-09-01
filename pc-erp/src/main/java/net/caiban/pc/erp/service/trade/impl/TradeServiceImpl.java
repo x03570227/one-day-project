@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import javax.annotation.Nullable;
 import javax.annotation.Resource;
 
 import net.caiban.pc.erp.config.AppConst;
@@ -122,7 +121,6 @@ public class TradeServiceImpl implements TradeService {
 		return Ordering.natural().nullsLast().onResultOf(new Function<TradeSummary, Comparable>() {
 
 			@Override
-			@Nullable
 			public	Comparable apply(TradeSummary input) {
 				if(input.getGmtCreated()==null){
 					return null;

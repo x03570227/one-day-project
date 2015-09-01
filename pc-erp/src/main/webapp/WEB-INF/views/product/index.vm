@@ -7,3 +7,4 @@
 
     #parse("/product/widget/searchBar.vm")
     #parse("/product/widget/searchTable.vm")
+	#parse("/product/tpl/define_form_view.vm")

@@ -2,7 +2,7 @@
  * Product 模块相关的操作
  * */
 define(		["jquery","template","product/prop","util/table","product/define","noty"],
-	function(jQuery,  template,  prop,          table,       df){
+	function(jQuery,  template,  prop,                 table,          df){
 		
 		//var message=Messenger();
 	
@@ -107,6 +107,7 @@ define(		["jquery","template","product/prop","util/table","product/define","noty
 			}
 			jQuery("#"+formId+" select[name=categoryCode]").val(p["categoryCode"]);
 			jQuery("#"+formId+" textarea[name=remark]").val(p["remark"]);
+			jQuery("#"+formId+" select[name=statusLife]").val(p["statusLife"]);
 		};
 		
 		product["fillDefine"] = function(categoryCode, define){
@@ -151,6 +152,37 @@ define(		["jquery","template","product/prop","util/table","product/define","noty
 					});
 				}
 			}, "json");
+			
+		}
+		
+		product["buildDetails"]=function(randTo, pid){
+			jQuery(randTo).html("Loading...");
+			
+//			defineContainer.html(product.initDefineForm(prod.categoryCode));
+			
+			
+			var data = {id:pid};
+			jQuery.post(CONTEXT_PATH+"/product/queryFull.do", data, function(resp){
+				
+				var prod = resp.product;
+				var define = resp.define;
+				
+				var html = "";
+				jQuery(randTo).html(html);
+				
+				var details = define.details||"{}";
+				details = JSON.parse(details);
+				var categoryCode = prod.categoryCode||"";
+				
+				jQuery.each(df[categoryCode], function(i, o){
+					o["initValue"]=details[o.id];
+					html += template(o.formItem.tpl, o);
+				});
+				
+				jQuery(randTo).html(html);
+
+			}, "json");
+			
 			
 		}
 		return product;
