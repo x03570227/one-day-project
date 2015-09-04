@@ -4,6 +4,15 @@ define([     "util/form","util/dt"],
 	var pdefine={};
 	
 	pdefine["common"]=[{
+		"id":"comm_url_1688",
+		"label":"1688地址",
+		"placeholder":"1688对应产品地址（完整地址）",
+		"dataType":dt.string,
+		"searchAble":false,
+		"formItem":form.text,
+		"multiValue":false,
+		"defaultValue":""
+	},{
 		"id":"comm_package",
 		"label":"包装",
 		"placeholder":"包装",

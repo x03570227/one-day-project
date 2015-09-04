@@ -1,5 +1,8 @@
 <script id="tpl_pager" type="text/html">
 <ul class="pagination">
+	<li class="disabled"><a href="#" >{{currentPage}}/{{totalPage}},{{totals}}</a></li>
+</ul>
+<ul class="pagination">
 	<li><a href="#" page-start="{{pre}}" >&laquo;</a></li>
 	{{each nav as n }}
 	<li {{if n.page == currentPage}} class="active" {{/if}}><a href="#" page-start="{{n.start}}">{{n.page}}</a></li>
