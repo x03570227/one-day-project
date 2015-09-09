@@ -124,16 +124,6 @@ public class ProductController extends BaseController {
 	}
 	
 	@RequestMapping
-	public ModelAndView price(HttpServletRequest request, ModelMap model,
-			Integer id){
-		if(id==null||id.intValue()<=0){
-			return new ModelAndView("redirect:index.do");
-		}
-		model.put("id", id);
-		return null;
-	}
-	
-	@RequestMapping
 	public ModelAndView group(HttpServletRequest request, ModelMap model,
 			Integer id){
 		if(id==null||id.intValue()<=0){
