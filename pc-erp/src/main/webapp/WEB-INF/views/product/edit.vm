@@ -168,8 +168,9 @@
 							timeout:2500
 						})
 					#if("$!{id}"=="")
-						jQuery("#product_form input[name=code]").val("");
-						jQuery("#product_form input[name=code]").focus();
+						window.location.href="#springUrl('/product/price/index.do')?id="+resp.product.id;
+##						jQuery("#product_form input[name=code]").val("");
+##						jQuery("#product_form input[name=code]").focus();
 					#end
 					}
 				

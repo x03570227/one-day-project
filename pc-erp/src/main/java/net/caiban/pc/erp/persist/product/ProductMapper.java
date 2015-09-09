@@ -32,4 +32,6 @@ public interface ProductMapper {
 	public Product queryOneByCode(@Param("cid")Integer cid, @Param("code") String code);
 	
 	public String queryCode(Integer id);
+	
+	public Integer countByCid(Integer id, Integer cid);
 }

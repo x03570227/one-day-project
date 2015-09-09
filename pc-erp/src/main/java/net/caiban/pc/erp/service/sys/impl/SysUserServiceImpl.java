@@ -7,7 +7,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -108,6 +110,10 @@ public class SysUserServiceImpl implements SysUserService {
 			throw new ServiceException("e.regist");
 		}
 		
+		if(!reservedAccount(user.getAccount())){
+			throw new ServiceException("e.regist.exist.account");
+		}
+		
 		String rebuildedAccount = rebuildAccount(classifyOfAccount(user.getAccount()), user.getAccount());
 		if(existAccount(rebuildedAccount)){
 			throw new ServiceException("e.regist.exist.account");
@@ -121,6 +127,26 @@ public class SysUserServiceImpl implements SysUserService {
 		SysUser registUser = saveAccount(user, company.getId(), rebuildedAccount);
 		
 		return new SessionUser(registUser.getId(), user.getAccount(), company.getId());
+	}
+	
+	final static Set<String> RESERVED_AC=new HashSet<String>();
+	static{
+		RESERVED_AC.add("mays");
+		RESERVED_AC.add("mar");
+		RESERVED_AC.add("account");
+		RESERVED_AC.add("admin");
+		RESERVED_AC.add("administrator");
+		RESERVED_AC.add("caiban");
+		RESERVED_AC.add("caiban.net");
+		RESERVED_AC.add("google");
+		RESERVED_AC.add("example");
+		RESERVED_AC.add("example.com");
+		RESERVED_AC.add("管理员");
+	}
+	
+	private boolean reservedAccount(String account){
+		account = account.toLowerCase();
+		return RESERVED_AC.contains(account);
 	}
 	
 	private SysUser saveAccount(SysUser user, Integer cid, String rebuildedAccount) throws ServiceException{
@@ -179,10 +205,7 @@ public class SysUserServiceImpl implements SysUserService {
 		}
 		return null;
 	}
-	public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		System.out.println(MD5.encode("135246e25iirlljqq73hqp7023d2i701n503mq", MD5.LENGTH_32));
-	}
-	
+
 	/**
 	 * 生成随机盐值，用于新保存密码时
 	 * @return

@@ -64,7 +64,10 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Integer remove(Integer id) {
+	public Integer remove(SessionUser user, Integer id) {
+		if(!available(id, user)){
+			return null;
+		}
 		
 		Integer impact = productMapper.delete(id);
 		if(impact==null||impact.intValue()<=0){
@@ -107,23 +110,23 @@ public class ProductServiceImpl implements ProductService {
 		productFull.getDefine().setProductId(product.getId());
 		productDefineMapper.insert(productFull.getDefine());
 		
-		batchSavePrice(productFull.getPrice(), product.getId());
+//		batchSavePrice(productFull.getPrice(), product.getId());
 		
 		return productFull;
 	}
 	
-	private void batchSavePrice(List<ProductPrice> list, Integer pid) {
-		
-		if(list == null){
-			return ;
-		}
-		
-		for(ProductPrice price: list){
-			price.setProductId(pid);
-			productPriceMapper.insert(price);
-		}
-		
-	}
+//	private void batchSavePrice(List<ProductPrice> list, Integer pid) {
+//		
+//		if(list == null){
+//			return ;
+//		}
+//		
+//		for(ProductPrice price: list){
+//			price.setProductId(pid);
+//			productPriceMapper.insert(price);
+//		}
+//		
+//	}
 	
 	@Override
 	public ProductFull queryOneFull(Integer id, Boolean readDefine, SessionUser user) {
@@ -153,8 +156,8 @@ public class ProductServiceImpl implements ProductService {
 			return false;
 		}
 		
-		//FIXME v1 验证用户对产品信息的访问权限
-		return true;
+		Integer c = productMapper.countByCid(id, user.getCid());
+		return AssertHelper.positiveInt(c);
 	}
 
 	@Override

@@ -21,7 +21,7 @@
 				}
 			});
 			
-			product.table.search();
+			product.table.search({"codeMatchBefore":"$!{cond.codeMatchBefore}"});
 			
 			/**
 			jQuery("#product_list .act-delete").bind("click", function(o){

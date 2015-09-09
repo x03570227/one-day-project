@@ -102,20 +102,13 @@ public class ProductController extends BaseController {
 	@RequestMapping
 	@ResponseBody
 	public Map<String, Object> doDelete(HttpServletRequest request, Integer id){
-		Integer impact = productService.remove(id);
+		SessionUser user = getSessionUser(request);
+		Integer impact = productService.remove(user, id);
 		
 		boolean result = AssertHelper.positiveInt(impact);
 		return ajaxResult(result, null);
 	}
 	
-//	@RequestMapping
-//	public ModelAndView view(HttpServletRequest request, ModelMap out, 
-//			Integer id){
-//		//TODO 验证可否访问
-//		
-//		return null;
-//	}
-//	
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		System.out.println(URLEncoder.encode("http://www.caiban.net/erp/p/pkdt/index.do?cid=1&pid=2", "utf-8"));
 	}
