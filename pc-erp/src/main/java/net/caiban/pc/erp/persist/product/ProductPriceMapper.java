@@ -28,4 +28,6 @@ public interface ProductPriceMapper {
 	
 	public Integer update(ProductPrice price);
 	
+	public Integer updateArchive(@Param("id") Integer id, @Param("archive") String archive);
+	
 }

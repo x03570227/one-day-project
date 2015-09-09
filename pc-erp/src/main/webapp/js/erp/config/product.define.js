@@ -22,11 +22,11 @@ define([     "util/form","util/dt"],
 		"defaultValue":"0"
 	},{
 		"id":"comm_size",
-		"label":"长度",
-		"placeholder":"请填写长度",
+		"label":"尺寸",
+		"placeholder":"请填写尺寸",
 		"dataType":dt.string,
 		"searchAble":false,
-		"formItem":form.textArea,
+		"formItem":form.text,
 		"multiValue":false
 	},{
 		"id":"comm_image",

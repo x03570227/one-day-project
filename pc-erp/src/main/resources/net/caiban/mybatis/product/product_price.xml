@@ -88,5 +88,13 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			`gmt_modified`=now()
 		where id=#{id}
 	</update>
+	
+	<update id="updateArchive" >
+		update `product_price` set
+			archive=#{archive},
+			gmt_modified=now()
+		where id=#{id}
+	</update>
+	
 </mapper>
 

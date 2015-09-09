@@ -22,7 +22,7 @@ public interface ProductService {
 	
 	public Product update(Product product);
 	
-	public Integer remove(Integer id);
+	public Integer remove(SessionUser user, Integer id);
 	
 	public Product queryOne(Integer id, SessionUser user);
 	
