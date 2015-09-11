@@ -4,9 +4,12 @@
 package cnblogs.jcli.calendar;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import net.caiban.utils.DateUtil;
+import net.sf.json.JSONArray;
 
 /**
  * @author parox
@@ -15,11 +18,22 @@ import net.caiban.utils.DateUtil;
 public class CalendarTest {
 
 	public static void main(String[] args) throws ParseException, InterruptedException {
+		
+		String[] timezones = TimeZone.getAvailableIDs();
+		System.out.println(JSONArray.fromObject(timezones));
+		String[] ids = TimeZone.getAvailableIDs();
+		System.out.println(JSONArray.fromObject(ids));
+		SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		dateformatter.setTimeZone(TimeZone.getTimeZone("Canada/Mountain"));
+		System.out.println(dateformatter.format(new Date()));
+		System.exit(1);
+		
 		Event e = new Event();
-		e.setCalendarType(0);
-		e.setRule("DAILY;UNTIL=20170102T170000Z;INTERVAL=1");
-		e.setStartDate(DateUtil.getDate("2015-09-01 12:00:00", "yyyy-MM-dd HH:mm:ss"));
-		e.setEndDate(DateUtil.getDate("2015-10-01 13:00:00", "yyyy-MM-dd HH:mm:ss"));
+		e.setCalendarType(1);
+		String until = DateUtil.toString(DateUtil.getDate("2015-10-02 17:00:00", "yyyy-MM-dd HH:mm:ss"), "yyyyMMdd'T'HHmmss'Z'");
+		e.setRule("DAILY;UNTIL="+until+";INTERVAL=1");
+		e.setStartDate(DateUtil.getDate("2015-09-30 12:00:00", "yyyy-MM-dd HH:mm:ss"));
+		e.setEndDate(DateUtil.getDate("2015-09-30 13:00:00", "yyyy-MM-dd HH:mm:ss"));
 		e.setIntervelSec((int)(e.getEndDate().getTime()-e.getEndDate().getTime())/1000);
 		
 		Rule rule = RuleFactory.createRule(e);
@@ -27,7 +41,7 @@ public class CalendarTest {
 //		Date date = rule.nextOccurDate(new Date());
 		
 		int i=0;
-		Date current = new Date();
+		Date current = DateUtil.getDate("2015-10-01", "yyyy-MM-dd");
 		long start=System.currentTimeMillis();
 		do{
 			
