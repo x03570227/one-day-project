@@ -14,7 +14,8 @@ import net.caiban.pc.erp.domain.product.Product;
 import net.caiban.pc.erp.domain.product.ProductCond;
 import net.caiban.pc.erp.domain.product.ProductDefine;
 import net.caiban.pc.erp.domain.product.ProductFull;
-import net.caiban.pc.erp.domain.product.ProductPrice;
+import net.caiban.pc.erp.domain.product.ProductPriceModel;
+import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.product.ProductDefineMapper;
 import net.caiban.pc.erp.persist.product.ProductMapper;
 import net.caiban.pc.erp.persist.product.ProductPriceMapper;
@@ -23,6 +24,7 @@ import net.caiban.utils.AssertHelper;
 
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 /**
@@ -145,7 +147,7 @@ public class ProductServiceImpl implements ProductService {
 		ProductFull full = new ProductFull();
 		full.setProduct(product);
 		full.setDefine(productDefineMapper.queryOneByPid(id));
-		List<ProductPrice> priceList = productPriceMapper.queryByPid(id, null, new Date());
+		List<ProductPriceModel> priceList = productPriceMapper.queryByPid(id, null, new Date());
 		full.setPrice(priceList);
 		
 		return full;
@@ -207,5 +209,56 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product queryOneByCode(Integer cid, String code) {
 		return productMapper.queryOneByCode(cid, code);
+	}
+
+	@Override
+	public List<ProductPriceModel> queryPriceModels(ProductCond cond) {
+		Preconditions.checkNotNull(cond);
+		Preconditions.checkNotNull(cond.getProductId());
+		
+		List<ProductPriceModel> list = productPriceMapper.queryByPid(cond.getProductId(), null, null);
+		
+		Date now = new Date();
+		for(ProductPriceModel model: list){
+			if(model.getGmtExpired()==null){
+				continue ;
+			}
+			if(model.getGmtExpired().getTime()<now.getTime()){
+				model.setExpired(true);
+			}
+		}
+		
+		return list;
+	}
+
+	@Override
+	public ProductPriceModel doAddPrice(ProductPriceModel price)
+			throws ServiceException {
+		Preconditions.checkNotNull(price);
+		Preconditions.checkNotNull(price.getProductId());
+		Preconditions.checkNotNull(price.getPriceValue());
+		
+		productPriceMapper.insert(price);
+		
+		if(price.getId()==null||price.getId()==0){
+			throw new ServiceException("FORM_SAVE_FAILURE");
+		}
+		
+		return price;
+	}
+
+	@Override
+	public void doRemovePrice(Integer id, Integer productId)
+			throws ServiceException {
+		Preconditions.checkNotNull(productId);
+		Preconditions.checkNotNull(id);
+	
+//		available(id, user)
+		
+		Integer impact = productPriceMapper.delete(id);
+		if(impact==null||impact.intValue()==0){
+			throw new ServiceException("ACT_REMOVE_FAILURE");
+		}
+		
 	}
 }

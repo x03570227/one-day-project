@@ -7,12 +7,17 @@ import java.util.Date;
 
 import net.caiban.pc.erp.domain.BaseCond;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author mays
  *
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonSerialize(include=Inclusion.NON_NULL)
 public class TradeCond extends BaseCond{
 
 	private static final long serialVersionUID = 1L;

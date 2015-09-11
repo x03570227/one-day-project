@@ -121,6 +121,18 @@ define(function(){
 		name:"下架"
 	}];
 	
+	prop["priceCode"]=[{
+		code:"COST",
+		name:"成本价"
+	},{
+		isDefault:true,
+		code:"SHOP",
+		name:"批发价"
+	},{
+		code:"RETAIL",
+		name:"建议零售价"
+	}]
+	
 	prop["cacheMap"] = {};
 	
 	prop["getName"]=function (cat, code, dv){

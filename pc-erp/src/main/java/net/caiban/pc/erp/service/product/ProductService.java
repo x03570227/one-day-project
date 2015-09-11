@@ -3,12 +3,16 @@
  */
 package net.caiban.pc.erp.service.product;
 
+import java.util.List;
+
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.product.Product;
 import net.caiban.pc.erp.domain.product.ProductCond;
 import net.caiban.pc.erp.domain.product.ProductDefine;
 import net.caiban.pc.erp.domain.product.ProductFull;
+import net.caiban.pc.erp.domain.product.ProductPriceModel;
+import net.caiban.pc.erp.exception.ServiceException;
 
 /**
  * @author mays
@@ -36,4 +40,9 @@ public interface ProductService {
 	
 	public Product queryOneByCode(Integer cid, String code);
 	
+	public List<ProductPriceModel> queryPriceModels(ProductCond cond);
+	
+	public ProductPriceModel doAddPrice(ProductPriceModel price) throws ServiceException;
+	
+	public void doRemovePrice(Integer id, Integer productId) throws ServiceException;
 }

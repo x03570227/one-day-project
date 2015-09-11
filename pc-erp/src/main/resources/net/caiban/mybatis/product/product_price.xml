@@ -50,7 +50,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		delete from `product_price` where product_id=#{pid}
 	</delete>
 	
-	<select id="queryByPid" resultType="net.caiban.pc.erp.domain.product.ProductPrice">
+	<select id="queryByPid" resultType="net.caiban.pc.erp.domain.product.ProductPriceModel">
 		select 
 			<include refid="default_column"/>
 		from `product_price`
@@ -61,6 +61,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<if test="maxExpired !=null">
 			and #{maxExpired} > gmt_expired
 		</if>
+		order by gmt_expired
 		limit 100
 	</select>
 	

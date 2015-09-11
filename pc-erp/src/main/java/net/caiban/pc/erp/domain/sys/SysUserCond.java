@@ -3,12 +3,18 @@
  */
 package net.caiban.pc.erp.domain.sys;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
 import net.caiban.pc.erp.domain.BaseCond;
 
 /**
  * @author mays
  *
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonSerialize(include=Inclusion.NON_NULL)
 public class SysUserCond extends BaseCond{
 
 	/**

@@ -3,12 +3,18 @@
  */
 package net.caiban.pc.erp.domain.product;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
 import net.caiban.pc.erp.domain.BaseCond;
 
 /**
  * @author mays
  *
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonSerialize(include=Inclusion.NON_NULL)
 public class ProductCond extends BaseCond{
 
 	/**
@@ -26,6 +32,9 @@ public class ProductCond extends BaseCond{
 	private String nameMatchBefore; //前匹配
 	private String nameFuzzy; //按名称模糊查询
 	private String codeMatchBefore;
+	
+	private Integer productId;
+	private String archived;
 	
 	public String getCode() {
 		return code;
@@ -80,6 +89,18 @@ public class ProductCond extends BaseCond{
 	}
 	public void setCodeMatchBefore(String codeMatchBefore) {
 		this.codeMatchBefore = codeMatchBefore;
+	}
+	public Integer getProductId() {
+		return productId;
+	}
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
+	public String getArchived() {
+		return archived;
+	}
+	public void setArchived(String archived) {
+		this.archived = archived;
 	}
 	
 

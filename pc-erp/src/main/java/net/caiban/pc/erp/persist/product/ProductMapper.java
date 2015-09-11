@@ -33,5 +33,5 @@ public interface ProductMapper {
 	
 	public String queryCode(Integer id);
 	
-	public Integer countByCid(Integer id, Integer cid);
+	public Integer countByCid(@Param("id") Integer id, @Param("cid") Integer cid);
 }

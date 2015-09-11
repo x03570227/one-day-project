@@ -14,7 +14,7 @@ var STATIC="//s0.caiban.net/";
 //var STATIC="";
 
 require.config({
-	urlArgs:"v=20150522.12",
+	urlArgs:"v=20150911.13",
 	baseUrl:CONTEXT_PATH,
 	paths:{
 		//基础JS库
@@ -42,6 +42,7 @@ require.config({
 		"util/form":"js/utils/util.form",
 		"util/table/pager":"js/utils/util.table.pager",
 		"util/table":"js/utils/util.table",
+		"util/table/np":"js/utils/util.table.nopage",
 		"util/cache":"js/utils/util.cache",
 		"util/kdtprint":"js/utils/util.kdt.print",
 		"product/prop":"js/erp/config/product.prop",
@@ -94,17 +95,27 @@ require.config({
 	}
 });
 
-require([    "jquery","Bootstrap","js/app/i18n_zh_CN",
+function getI18nLib(){
+	var i18n="js/app/i18n";
+	
+	var l = LOCALE;
+	l=LOCALE=="zh"?"zh_CN":LOCALE;
+//	"js/app/i18n_zh_CN"
+	return i18n+"_"+l;
+}
+
+require([    "jquery","Bootstrap",getI18nLib(),
              "menu","sbadmin","noty"],
-	function(jQuery,  bootstrap,   i18n){
+	function(jQuery,  bootstrap,  i18n){
 		
 		$(document).ajaxError(function(event, request, settings) {
 			if(request.status == 500){
-//				var errorCode = request.getResponseHeader("CB_ERROR");
-				var errorText = request.getResponseHeader("CB_ERROR")||i18n.get("remote.unavailable");
+				var errorCode = request.getResponseHeader("CB_ERROR");
+//				var errorText = request.getResponseHeader("CB_ERROR")||i18n.get("remote.unavailable");
 				noty({
 					type:"error",
-					text: i18n.get("SERVER_ERROR")+":"+decodeURIComponent(errorText),
+//					text: i18n.get("SERVER_ERROR")+":"+decodeURIComponent(errorText),
+					text: i18n.get("SERVER_ERROR")+i18n.get(errorCode),
 					timeout:2500
 				});
 			}else if(request.status > 500){

@@ -1,27 +1,36 @@
+	#loadCss(["/plugin/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"], "http://s0.caiban.net")
+	
 	#set($tab_idx="1")
 	#parse("/product/widget/nav_tab.vm")
 	
 	<div class="table-responsive" >
 		
-    <div>
-		<form id="price_form" class="form-inline" action="#springUrl('/product/price/doCreate.do')" method="post" role="form" onsubmit="return false;">
+    <div class="mt8">
+		<form id="price_form" class="form-inline" 
+			action="#springUrl('/product/price/doCreate.do')" 
+			method="post" role="form" 
+			onsubmit="return false;">
+			
 			<input type="hidden" name="productId" value="$!{id}" />
-			<div class="form-group">
+			<input type="hidden" name="priceUnitCode" value="RMB_YUAN" />
+			
+			<div class="form-group" data-widget="priceCode">
         		<label class="sr-only" >#springMessage('lb.product.price.code')</label>
-				
 ##        		<input type="text" class="form-control" name="account"
 ##					value=""
 ##					placeholder="#springMessage('ph.product.price.code')"
 ##    				pattern="^(${sessionUser.account}:[a-zA-Z0-9\u4E00-\u9FA5]{2,16})$" 
 ##    				required
 ##				/>
+
         	</div>
         	
         	<div class="form-group">
         		<label class="sr-only" >#springMessage('lb.product.price.value')</label>
-        		<input type="number" class="form-control" name="priceValue" 
+        		<input type="text" class="form-control" name="priceValue" 
 					placeholder="#springMessage('ph.product.price.value')" 
 					required
+					pattern="^(([1-9]\d*)(\.\d{1,2})?)$|(0\.0?([1-9]\d?))$"
 				/>
         	</div>
 			
@@ -33,21 +42,25 @@
         	</div>
 			
 			<div class="form-group">
-        		<label class="sr-only" >#springMessage('lb.product.price.gmt.expired')</label>
-        		<input type="text" class="form-control" name="remark" 
-					placeholder="#springMessage('ph.product.price.gmt.expired')"
-				/>
+        		<div class="input-group" data-widget="date">
+        			<span class="input-group-addon glyphicon glyphicon-calendar"></span>
+                    <input type="text" class="form-control" 
+    					name="gmtExpired" id="gmtExpired" readonly 
+    					placeholder="#springMessage('ph.product.price.gmt.expired')"
+    					value="$!date.format('yyyy-MM-dd', $!{cond.gmtCreatedMax})" />
+    			</div>
         	</div>
-			
+		
 			<div  class="form-group">
-            	<button id="sys_user_submit_btn" type="submit" class="btn btn-success" title="#springMessage('btn.save')">
+            	<button id="price_submit_btn" type="submit" class="btn btn-success" title="#springMessage('btn.save')">
             		<span class="glyphicon glyphicon-plus"></span>
             	</button>
             </div>
+			
 		</form>
 	</div>
 	
-	<div id="sys_user_list" class="mt8">
+	<div id="product_price_list" class="mt8">
 	#springMessage("tip.loading")
     </div>
 </div>
@@ -83,30 +96,27 @@
 <!-- Reset user password modal end -->
 
 <script type="text/javascript">
-	require([	"jquery","template","product/prop", "sysUser","validator","noty"],
-		function(jQuery,  template,  prop,           users,    validator){
+	require([	"jquery","template","product/prop","js/erp/product.price"
+				,"validator","datetimepicker","noty","dplocale"],
+		function(jQuery,  template,  prop,          price){
 		
-			users.table.init({
-				tpl:{
-					"table":"tpl_sys_user_list"
-				},
-				renderTo:"sys_user_list",
-				url:"#springUrl('/sys/user/list.do')",
-				//"url-d":"#springUrl('/product/doDelete.do')",
-				pager:{
-					start:0,
-					limit:20
-				}
-			});
+			jQuery("div[data-widget=date] input").datetimepicker({
+        		format:"yyyy-mm-dd",
+        		minView:3,
+        		autoclose:true,
+        		todayBtn:true,
+        		language:LOCALE,
+        		pickerPosition: "bottom-left"
+        	});
 			
-			users.table.search();
+			var priceCodeHtml=template("tpl_price_code_select", prop);
+			jQuery("div[data-widget=priceCode]").append(priceCodeHtml);
 			
-			#if($!{editAble}=="1")
-			jQuery("#sys_user_form").validator();
+			jQuery("#price_form").validator();
 			
-			jQuery("#sys_user_form").submit(function(){
+			jQuery("#price_form").submit(function(){
 			
-				if(jQuery("#sys_user_submit_btn").hasClass("disabled")){
+				if(jQuery("#price_submit_btn").hasClass("disabled")){
 					noty({
 						text:"#springMessage('msg.form.invalid')",
 						type:"warning",
@@ -115,104 +125,75 @@
 					return false;
 				}
 			
-				users.form.save("#springUrl('/sys/user/create.do')", jQuery(this), function(resp){
-					if(resp.data>0){
-						noty({
-							text:"#springMessage('msg.form.save.success')",
-							type:"success",
-							timeout:2500
-						});
-						jQuery("#sys_user_form")[0].reset();
-						users.table.search();
-					}else{
-						noty({
-							text:resp.data,
-							type:"error",
-							timeout:2500
-						});
-					}
+				price.form.save("#springUrl('/product/price/doCreate.do')", jQuery(this), function(resp){
+						jQuery("#price_form")[0].reset();
+						price.table.refresh();
 				});
 				
-				return null;
+				return false;
 			});
 			
-			jQuery("#resetForm").validator();
-				
-			jQuery("#sys_user_list").on("click", "td button[data-act=reset-pwd]", function(){
-				var uid=jQuery(this).attr('model-uid');
-				jQuery("#resetUid").val(uid);
-				jQuery("#resetForm input[type=password]").val("");
+			price.table.init({
+				tpl:{
+					"table":"tpl_product_price_list"
+				},
+				renderTo:"product_price_list",
+				url:"#springUrl('/product/price/list.do')"
 			});
 			
-			jQuery("#resetModal").on("shown.bs.modal", function(e){
-				jQuery("#password").focus();
+			price.table.search({productId:"$!{id}"});
+			
+			jQuery("#product_price_list").on("click", "button[data-act=remove]", function(){
+				var id= jQuery(this).attr("model-id");
+				var pid=jQuery(this).attr("model-product-id");
+				price.remove({id:id,productId:pid}, jQuery(this));
 			});
-			
-			jQuery("#resetForm").submit(function(e){
-			
-				if(jQuery("#reset_password_btn").hasClass("disabled")){
-					noty({
-						text:"#springMessage('msg.form.invalid')",
-						type:"error",
-						timeout:1500
-					});
-					return false;
-				}
-				
-				jQuery.post("#springUrl('/sys/user/doResetByAdmin.do')", jQuery(this).serialize(), function(resp){
-					if(resp.result){
-						noty({
-							text:resp.data,
-							type:"success",
-							timeout:2500
-						});
-						jQuery("#resetModal").modal('hide');
-					}else{
-						noty({
-							text:resp.data,
-							timeout:2500,
-							type:"error"
-						});
-					}
-				});
-			});
-			
-			#end
 		}
 	);
 </script>
 
-<script id="tpl_sys_user_list" type="text/html">
+<script id="tpl_price_code_select" type="text/html" >
+	<select name="priceCode" class="form-control" required >
+		<option value="">--#springMessage("ph.product.price.code")--</option>
+		{{each priceCode as pc idx}}
+		<option value="{{pc.code}}">{{pc.name}}</option>
+		{{/each}}
+	</select>
+</script>
+
+<script id="tpl_product_price_list" type="text/html">
 	<table class="table table-hover table-bordered">
 		<thead>
 		<tr class="active">
 			<th class="text-center" width="10">#</th>
-			<th class="text-center" >#springMessage('lb.sys.user.account')</th>
-			#if($!{editAble}=="1")
+			<th class="text-center" >#springMessage('lb.product.price.code')</th>
+			<th class="text-center" >#springMessage('lb.product.price.remark')</th>
+			<th class="text-center" >#springMessage('lb.product.price.value')</th>
+			<th class="text-center" >#springMessage('lb.product.price.gmt.expired')</th>
 			<th width="15"></th>
-			#end
-##            <th class="text-center" width="10"></th>
 		</tr>
 		</thead>
 		<tbody>
-		{{each records as user i}}
-		<tr >
+		{{each records as record i}}
+		<tr {{if record.expired }} class="text-muted" {{/if}}>
 			<td >{{i + 1}}</td>
-			<td >{{user.accountWithoutClassify}}</td>
-			#if($!{editAble}=="1")
 			<td >
-##			<button type="button" class="btn btn-danger" model-product-id="{{product.id}}">
-##				<span class="glyphicon glyphicon-remove"></span>
-##			</button>
-			<button type="button" class="btn btn-warning btn-xs" 
-				data-act="reset-pwd" model-uid="{{user.uid}}" 
-				title="#springMessage('lb.sys.user.password.reset')"
-				data-toggle="modal" data-target="#resetModal"
-				>
-				<span class="glyphicon glyphicon-refresh"></span>
-			</button>
+				{{each priceCode as pc idx}}
+				{{if record.priceCode == pc.code}} {{pc.name}} {{/if}}
+        		{{/each}}
 			</td>
-			#end
+			<td>{{record.remark}}</td>
+			<td class="text-right">{{record.priceValue}}</td>
+			<td>{{record.gmtExpired}}</td>
+			<td >
+    			<button type="button" class="btn btn-danger btn-xs" 
+					data-act="remove" 
+					model-id="{{record.id}}"
+					model-product-id="{{record.productId}}"
+					>
+    				<span class="glyphicon glyphicon-remove"></span>
+    			</button>
+			</td>
 		</tr>
 		{{/each}}
 		</tbody>

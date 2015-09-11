@@ -65,7 +65,7 @@
 			<th class="text-center" width="80">#springMessage('tb.product.status.life')</th>
 			<th class="text-center" >#springMessage('tb.product.name')</th>
 			<th class="text-center" >#springMessage('tb.product.remark')</th>
-            <th class="text-center" width="70"></th>
+            <th class="text-center" width="100"></th>
 		</tr>
 		</thead>
 		<tbody>
@@ -85,7 +85,7 @@
 			<td >{{product.statusLife}}</td>
 			<td ><a href="#springUrl('/product/edit.do?id='){{product.id}}" >{{product.name}}</a></td>
 			<td >{{product.remark}}</td>
-			<td >
+			<td class="text-right">
 			
 			{{if product.categoryCode=="XN-LY-MP"}}
 			<a href="http://qr.liantu.com/api.php?text=$!{qrcodeUrl}cid%3D{{product.cid}}%26pid%3D{{product.id}}" 
@@ -95,6 +95,10 @@
 				<span class="glyphicon glyphicon-qrcode"></span>
 			</a>
 			{{/if}}
+			
+            <a class="btn btn-xs btn-default" href="#springUrl('/product/edit.do')?id={{product.id}}" >
+				<i class="fa fa-pencil" ></i>
+			</a>
 			
 			<button type="button" class="btn btn-danger btn-xs act-delete" model-product-id="{{product.id}}">
 				<span class="glyphicon glyphicon-trash"></span>

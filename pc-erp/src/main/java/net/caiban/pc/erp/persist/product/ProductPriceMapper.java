@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import net.caiban.pc.erp.domain.product.ProductPrice;
+import net.caiban.pc.erp.domain.product.ProductPriceModel;
 
 /**
  * @author mays
@@ -18,7 +19,7 @@ public interface ProductPriceMapper {
 
 	public Integer insert(ProductPrice price);
 	
-	public List<ProductPrice> queryByPid(@Param("pid") Integer pid,
+	public List<ProductPriceModel> queryByPid(@Param("pid") Integer pid,
 			@Param("minExpired") Date minExpired,
 			@Param("maxExpired") Date maxExpired);
 	
