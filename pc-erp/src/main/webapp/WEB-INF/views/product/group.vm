@@ -1,6 +1,0 @@
-	#set($tab_idx="3")
-	#parse("/product/widget/nav_tab.vm")
-		
-	<div class="row mt8">
-		group
-	</div>

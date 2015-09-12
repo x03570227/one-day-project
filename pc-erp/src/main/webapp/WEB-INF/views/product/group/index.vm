@@ -1,0 +1,43 @@
+	#set($tab_idx="3")
+	#parse("/product/widget/nav_tab.vm")
+	
+	
+	##https://github.com/lzwme/bootstrap-suggest-plugin
+	
+	<div class="row mt8">
+		group
+	</div>
+
+	<div class="row">
+		<div class="col-lg-2">
+			<div class="input-group">
+				<input type="text" class="form-control" id="test">
+				<div class="input-group-btn">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right" role="menu">
+					</ul>
+				</div>
+				<!-- /btn-group -->
+			</div>
+		</div>
+	</div>
+
+	<h3>测试(URL 获取)</h3>
+	<p>不展示下拉菜单按钮。</p>
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="input-group">
+				<input type="text" class="form-control" id="testNoBtn">
+				<div class="input-group-btn">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right" role="menu">
+					</ul>
+				</div>
+				<!-- /btn-group -->
+			</div>
+		</div>
+	</div>
