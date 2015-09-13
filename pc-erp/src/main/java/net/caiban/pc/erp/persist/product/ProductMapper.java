@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.product.Product;
 import net.caiban.pc.erp.domain.product.ProductCond;
+import net.caiban.pc.erp.domain.product.ProductModel;
 
 /**
  * @author mays
@@ -34,4 +35,7 @@ public interface ProductMapper {
 	public String queryCode(Integer id);
 	
 	public Integer countByCid(@Param("id") Integer id, @Param("cid") Integer cid);
+	
+	public List<ProductModel> queryProductOfGroup(@Param("cond") ProductCond cond);
+	
 }

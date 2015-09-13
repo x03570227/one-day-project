@@ -158,5 +158,17 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<select id="countByCid" resultType="java.lang.Integer">
 		select count(id) as c from product where id=#{id} and cid=#{cid}
 	</select>
+	
+	<select id="queryProductOfGroup" resultType="net.caiban.pc.erp.domain.product.ProductModel">
+		select
+			<include refid="default_column" />
+		from product
+		where exist (
+			select product_group_id from product_group_item 
+			where `product`.id=`product_gorup_item`.product_id
+			and `product_gorup_item`.group_id = #{cond.groupId}
+		)
+	</select>
+	
 </mapper>
 

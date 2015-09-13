@@ -30,6 +30,7 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
         <mapper resource="net/caiban/mybatis/product/product.xml" />
         <mapper resource="net/caiban/mybatis/product/product_define.xml" />
         <mapper resource="net/caiban/mybatis/product/product_price.xml" />
+        <mapper resource="net/caiban/mybatis/product/product_group.xml" />
         
         <mapper resource="net/caiban/mybatis/trade/trade.xml" />
         <mapper resource="net/caiban/mybatis/trade/trade_define.xml" />

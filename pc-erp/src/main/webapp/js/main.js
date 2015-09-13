@@ -110,12 +110,12 @@ require([    "jquery","Bootstrap",getI18nLib(),
 		
 		$(document).ajaxError(function(event, request, settings) {
 			if(request.status == 500){
-				var errorCode = request.getResponseHeader("CB_ERROR");
-//				var errorText = request.getResponseHeader("CB_ERROR")||i18n.get("remote.unavailable");
+//				var errorCode = request.getResponseHeader("CB_ERROR");
+				var errorText = request.getResponseHeader("CB_ERROR")||i18n.get("remote.unavailable");
 				noty({
 					type:"error",
-//					text: i18n.get("SERVER_ERROR")+":"+decodeURIComponent(errorText),
-					text: i18n.get("SERVER_ERROR")+i18n.get(errorCode),
+					text: i18n.get("SERVER_ERROR")+":"+decodeURIComponent(errorText),
+//					text: i18n.get("SERVER_ERROR")+i18n.get(errorCode),
 					timeout:2500
 				});
 			}else if(request.status > 500){

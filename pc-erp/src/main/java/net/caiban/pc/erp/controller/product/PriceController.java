@@ -4,6 +4,7 @@
 package net.caiban.pc.erp.controller.product;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -52,11 +53,11 @@ public class PriceController extends BaseController{
 	@RequestMapping
 	@ResponseBody
 	public ProductPriceModel doCreate(HttpServletRequest request, HttpServletResponse response,
-			ProductPriceModel price){
+			ProductPriceModel price, Locale locale){
 		try {
 			return productService.doAddPrice(price);
 		} catch (ServiceException e) {
-			serverError(request, response, e.getMessage());
+			serverError(request, response, messageSource.getMessage(e.getMessage(), null, locale));
 		}
 		return null;
 	}
@@ -64,12 +65,12 @@ public class PriceController extends BaseController{
 	@RequestMapping
 	@ResponseBody
 	public Map<String, Object> doDelete(HttpServletRequest request, HttpServletResponse response,
-			Integer productId, Integer id){
+			Integer productId, Integer id, Locale locale){
 		try {
-			productService.doRemovePrice(id, productId);
+			productService.removePrice(id, productId);
 			return ajaxResult(true, null);
 		} catch (ServiceException e) {
-			serverError(request, response, e.getMessage());
+			serverError(request, response, messageSource.getMessage(e.getMessage(), null, locale));
 		}
 		return null;
 	}
