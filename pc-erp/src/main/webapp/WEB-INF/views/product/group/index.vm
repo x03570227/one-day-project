@@ -1,43 +1,122 @@
 	#set($tab_idx="3")
 	#parse("/product/widget/nav_tab.vm")
 	
-	
 	##https://github.com/lzwme/bootstrap-suggest-plugin
 	
 	<div class="row mt8">
-		group
-	</div>
-
-	<div class="row">
-		<div class="col-lg-2">
-			<div class="input-group">
-				<input type="text" class="form-control" id="test">
+		
+		<div class="col-sm-8 col-md-6 col-lg-4">
+			<div class="input-group has-success">
+				<input type="text" class="form-control">
 				<div class="input-group-btn">
-					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						<span class="caret"></span>
+					<button type="button" class="btn btn-success">
+						<i class="fa fa-plus"></i>
 					</button>
-					<ul class="dropdown-menu dropdown-menu-right" role="menu">
-					</ul>
 				</div>
 				<!-- /btn-group -->
 			</div>
 		</div>
 	</div>
-
-	<h3>测试(URL 获取)</h3>
-	<p>不展示下拉菜单按钮。</p>
-	<div class="row">
-		<div class="col-lg-6">
-			<div class="input-group">
-				<input type="text" class="form-control" id="testNoBtn">
-				<div class="input-group-btn">
-					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu dropdown-menu-right" role="menu">
-					</ul>
-				</div>
-				<!-- /btn-group -->
-			</div>
+	
+	<div class="row mt8">
+		<div class="col-lg-12">
+			#springMessage("tip.loading")
 		</div>
 	</div>
+	
+	<script type="text/javascript" >
+	require([	"jquery","template"],
+		function(jQuery,  template){
+		//TODO 相关功能与操作
+	});
+	</script>
+	
+
+
+<script id="tpl_group_list" type="text/html">
+	<table class="table table-hover table-bordered">
+		<thead>
+		<tr class="active">
+			<th class="text-center" >#springMessage('lb.product.group.name')</th>
+			<th class="text-center" >#springMessage('lb.product.group.item')</th>
+            <th class="text-center" width="100"></th>
+		</tr>
+		</thead>
+		<tbody>
+		{{each records as record i}}
+		<tr >
+			<td >
+				{{record.name}}
+			</td>
+			<td >
+				{{includ 'tpl_group_item_list' record.products}}
+			</td>
+			<td class="text-right">
+				<button type="button" class="btn btn-danger btn-xs act-delete" 
+					model-id="{{record.id}}">
+					<span class="glyphicon glyphicon-trash"></span>
+				</button>
+			</td>
+		</tr>
+		{{/each}}
+		</tbody>
+	</table>
+</script>
+
+<script id="tpl_group_item_list" type="text/html">
+	<table class="table table-hover table-bordered">
+		<thead>
+		<tr class="active">
+			<th class="text-center" width="10">#</th>
+			<th class="text-center" >#springMessage('tb.product.code')</th>
+			<th class="text-center" >#springMessage('tb.product.category.name')</th>
+			<th class="text-center" width="80">#springMessage('tb.product.status.life')</th>
+			<th class="text-center" >#springMessage('tb.product.name')</th>
+			<th class="text-center" >#springMessage('tb.product.remark')</th>
+            <th class="text-center" width="100"></th>
+		</tr>
+		</thead>
+		<tbody>
+		{{each records as product i}}
+		<tr >
+			<td data-act="toggle-details" model-id="{{product.id}}">
+				<span class="caret"></span>
+			</td>
+			<td >{{i + 1}}</td>
+			<td >
+##				<a href="{{product.picturePath}}" target="_blank">
+##					<span class="glyphicon glyphicon-picture"></span>
+##				</a>
+				{{product.code}}
+			</td>
+			<td >{{product.categoryName}}</td>
+			<td >{{product.statusLife}}</td>
+			<td ><a href="#springUrl('/product/edit.do?id='){{product.id}}" >{{product.name}}</a></td>
+			<td >{{product.remark}}</td>
+			<td class="text-right">
+			
+			{{if product.categoryCode=="XN-LY-MP"}}
+			<a href="http://qr.liantu.com/api.php?text=$!{qrcodeUrl}cid%3D{{product.cid}}%26pid%3D{{product.id}}" 
+				class="btn btn-success btn-xs"
+				target="_blank"
+				>
+				<span class="glyphicon glyphicon-qrcode"></span>
+			</a>
+			{{/if}}
+			
+            <a class="btn btn-xs btn-default" href="#springUrl('/product/edit.do')?id={{product.id}}" >
+				<i class="fa fa-pencil" ></i>
+			</a>
+			
+			<button type="button" class="btn btn-danger btn-xs act-delete" model-product-id="{{product.id}}">
+				<span class="glyphicon glyphicon-trash"></span>
+			</button>
+			</td>
+		</tr>
+		<tr id="tr-details-{{product.id}}" class="info hide">
+			<td colspan="8"></td>
+		</tr>
+		{{/each}}
+		</tbody>
+	</table>
+</script>
