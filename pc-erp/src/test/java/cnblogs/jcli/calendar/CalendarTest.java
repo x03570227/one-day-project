@@ -16,8 +16,11 @@ import net.sf.json.JSONArray;
  *
  */
 public class CalendarTest {
-
+	
 	public static void main(String[] args) throws ParseException, InterruptedException {
+		
+		System.out.println(DateUtil.toString(new Date(DateUtil.getTheDayZero(new Date(), 0)*1000l+86399000l), "HH:mm:ss"));
+		System.exit(1);
 		
 		String[] timezones = TimeZone.getAvailableIDs();
 		System.out.println(JSONArray.fromObject(timezones));
