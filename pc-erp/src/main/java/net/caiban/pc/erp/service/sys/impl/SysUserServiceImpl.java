@@ -110,7 +110,7 @@ public class SysUserServiceImpl implements SysUserService {
 			throw new ServiceException("e.regist");
 		}
 		
-		if(!reservedAccount(user.getAccount())){
+		if(reservedAccount(user.getAccount())){
 			throw new ServiceException("e.regist.exist.account");
 		}
 		
