@@ -19,48 +19,41 @@
 	</div>
 	
 	<div class="row mt8">
-		<div class="col-lg-12">
+		<div class="col-lg-12" id="group_list">
 			#springMessage("tip.loading")
 		</div>
 	</div>
 	
+	<div class="row mt8">
+		<div class="col-lg-12" id="group_item_list">
+		</div>
+	</div>
+	
 	<script type="text/javascript" >
-	require([	"jquery","template"],
-		function(jQuery,  template){
-		//TODO 相关功能与操作
+	require([	"jquery","template", "js/erp/product.group"],
+		function(jQuery,  template,   group){
+		
+		group.render("$!{groupId}","#tpl_group_list");
+		
+		group.bindGoupAct();
+		
+		group.bindItemAct();
 	});
 	</script>
 	
 
 
 <script id="tpl_group_list" type="text/html">
-	<table class="table table-hover table-bordered">
-		<thead>
-		<tr class="active">
-			<th class="text-center" >#springMessage('lb.product.group.name')</th>
-			<th class="text-center" >#springMessage('lb.product.group.item')</th>
-            <th class="text-center" width="100"></th>
-		</tr>
-		</thead>
-		<tbody>
-		{{each records as record i}}
-		<tr >
-			<td >
-				{{record.name}}
-			</td>
-			<td >
-				{{includ 'tpl_group_item_list' record.products}}
-			</td>
-			<td class="text-right">
-				<button type="button" class="btn btn-danger btn-xs act-delete" 
-					model-id="{{record.id}}">
-					<span class="glyphicon glyphicon-trash"></span>
-				</button>
-			</td>
-		</tr>
-		{{/each}}
-		</tbody>
-	</table>
+	<div class="btn-group btn-group-lg" role="group">
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default">6012</button>
+		</div>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default">
+                <i class="fa fa-close" ></i>
+			</button>
+		</div>
+	</div>
 </script>
 
 <script id="tpl_group_item_list" type="text/html">
@@ -73,7 +66,7 @@
 			<th class="text-center" width="80">#springMessage('tb.product.status.life')</th>
 			<th class="text-center" >#springMessage('tb.product.name')</th>
 			<th class="text-center" >#springMessage('tb.product.remark')</th>
-            <th class="text-center" width="100"></th>
+			<th class="text-center" width="100"></th>
 		</tr>
 		</thead>
 		<tbody>
