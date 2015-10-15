@@ -8,18 +8,27 @@ define(		["jquery","template","js/app/i18n_zh_CN","noty"],
 	
 		var def={};
 		
-		def["join"]=function(){
+		def["join"]=function(pid, data, renderTo){
 			
+			jQuery.post(CONTEXT_PATH+"/product/group/doJoin.do", data, 
+				function(resp){
+				
+				def.render(pid, renderTo);
+				
+			}, "json");
 		}
 		
-		def["leave"]=function(data, btn){
+		def["leave"]=function(pid, groupId, cb){
 			
 			if(!confirm(i18n.get("ACT_REMOVE_CONFIRM"))){
 				return false;
 			}
 			
-			jQuery.post(CONTEXT_PATH+"/product/group/doLeave.do", data, function(resp){
-				btn.parent().parent().hide();
+			jQuery.post(CONTEXT_PATH+"/product/group/doLeave.do", 
+					{"productId":pid, "groupId":groupId}, 
+					function(resp){
+//				btn.parent().parent().hide();
+				cb();
 			}, "json");
 			
 		}
@@ -34,22 +43,52 @@ define(		["jquery","template","js/app/i18n_zh_CN","noty"],
 			}, "json");
 		}
 		
-		def["renderItem"]=function(groupId, renderTo){
+		def["renderItems"]=function(id, renderTo){
 			
 			jQuery.post(CONTEXT_PATH+"/product/group/queryItems.do", 
-				{"groupId":groupId}, 
+				{"id":id},
 				function(resp){
-				var html=template("tpl_group_item_list", resp);
+				var html=template("tpl_group_item_list", {records:resp, groupId:id});
 				jQuery(renderTo).html(html);
 			}, "json");
+			
 		}
 		
-		def["bindGoupAct"]=function(){
-			//TODO 绑定群组操作
+		def["bindGroupAct"]=function(container, renderTo){
+			
+			jQuery(container).on("click", "button[data-act=render_items]", function(){
+				var id=jQuery(this).attr("model-id");
+				def.renderItems(id, renderTo);
+			});
+			
+			jQuery(container).on("click", "button[data-act=leave_group]", function(){
+				var productId=jQuery(this).attr("model-product-id");
+				var groupId=jQuery(this).attr("model-id");
+				
+				var btn=jQuery(this);
+				
+				def.leave(productId, groupId, function(){
+					btn.parent().parent().hide();
+				});
+				
+			});
+			
 		}
 		
-		def["bindItemAct"]=function(){
-			//TODO 绑定产品操作
+		def["bindItemAct"]=function(container){
+			
+			jQuery(container).on("click", "button[data-act=leave_group]", function(){
+				
+				var productId=jQuery(this).attr("model-product-id");
+				var groupId=jQuery(this).attr("model-id");
+				
+				var btn=jQuery(this);
+				
+				def.leave(productId, groupId, function(){
+					btn.parent().parent().hide();
+				});
+			});
+			
 		}
 		
 		return def;
