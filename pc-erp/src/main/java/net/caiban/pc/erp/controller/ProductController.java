@@ -113,24 +113,24 @@ public class ProductController extends BaseController {
 		System.out.println(URLEncoder.encode("http://www.caiban.net/erp/p/pkdt/index.do?cid=1&pid=2", "utf-8"));
 	}
 	
-	@RequestMapping
-	public ModelAndView picture(HttpServletRequest request, ModelMap model, 
-			Integer id){
-		if(id==null||id.intValue()<=0){
-			return new ModelAndView("redirect:index.do");
-		}
-		model.put("id", id);
-		return null;
-	}
+//	@RequestMapping
+//	public ModelAndView picture(HttpServletRequest request, ModelMap model, 
+//			Integer id){
+//		if(id==null||id.intValue()<=0){
+//			return new ModelAndView("redirect:index.do");
+//		}
+//		model.put("id", id);
+//		return null;
+//	}
 	
-	@RequestMapping
-	public ModelAndView group(HttpServletRequest request, ModelMap model,
-			Integer id){
-		if(id==null||id.intValue()<=0){
-			return new ModelAndView("redirect:index.do");
-		}
-		model.put("id", id);
-		return null;
-	}
+//	@RequestMapping
+//	public ModelAndView group(HttpServletRequest request, ModelMap model,
+//			Integer id){
+//		if(id==null||id.intValue()<=0){
+//			return new ModelAndView("redirect:index.do");
+//		}
+//		model.put("id", id);
+//		return null;
+//	}
 	
 }

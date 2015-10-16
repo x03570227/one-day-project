@@ -21,11 +21,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			#{name},
 			#{remark},
 			NOW(),
-			NOW(),
+			NOW()
 		)
 	</insert>
 	
-	<insert id="insertItem" parameterType="net.caiban.pc.erp.domain.product.ProductGroupItem">
+	<insert id="insertItem" parameterType="net.caiban.pc.erp.domain.product.ProductGroupItem" keyProperty="id">
 		INSERT INTO `product_group_item` 
 		(
 			`product_group_id`, 
@@ -36,7 +36,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		) VALUES (
 			#{productGroupId},
 			#{productId},
-			now(),now()
+			now(),now(),
 			#{isPrimary}
 		)
 	</insert>
@@ -63,7 +63,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 				and `product_group`.cid=#{cond.cid}
 			</if>
 			<if test="cond.productId!=null" >
-				and exist (
+				and exists (
 					select product_group_id from `product_group_item`
 					where `product_group`.id=`product_group_item`.product_group_id
 					and `product_group_item`.product_id=#{cond.productId}

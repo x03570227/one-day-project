@@ -291,6 +291,10 @@ public class ProductServiceImpl implements ProductService {
 			groupId = group.getId();
 		}
 		
+		if(existItem(groupId, model.getProductId())){
+			return model;
+		}
+		
 		ProductGroupItem item = new ProductGroupItem();
 		item.setIsPrimary(StatusEnum.Y.name());
 		item.setProductGroupId(groupId);
@@ -302,6 +306,16 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		return model;
+	}
+	
+	private boolean existItem(Integer groupId, Integer productId){
+		
+		Integer countItem = productGroupMapper.countItem(groupId, productId);
+		
+		if(countItem==null || countItem.intValue()==0){
+			return false;
+		}
+		return true;
 	}
 
 	@Override

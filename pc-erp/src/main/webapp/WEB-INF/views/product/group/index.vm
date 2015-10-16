@@ -7,11 +7,12 @@
 		<form id="group_form" class="form-horizontal" 
 			action="#" method="post" role="form"
 			onsubmit="return false;">
+			<input type="hidden" value="$!{id}" name="productId" />
 		<div class="col-sm-8 col-md-6 col-lg-4">
 			<div class="input-group has-success">
-				<input type="text" class="form-control">
+				<input type="text" name="name" class="form-control" >
 				<div class="input-group-btn">
-					<button type="button" class="btn btn-success">
+					<button type="submit" class="btn btn-success">
 						<i class="fa fa-plus"></i>
 					</button>
 				</div>
@@ -37,7 +38,7 @@
 	require([	"jquery","template", "js/erp/product.group"],
 		function(jQuery,  template,   group){
 		
-		group.render("$!{groupId}","#tpl_group_list");
+		group.render("$!{id}","#group_list");
 		
 		group.bindGroupAct("#group_list", "#group_item_list");
 		
@@ -45,7 +46,11 @@
 		
 		jQuery("#group_form").submit(function(){
 			group.join($!{id}, jQuery(this).serialize(), "#group_list");
+			jQuery("#group_form input[name=name]").val("");
 		});
+		
+		jQuery("#group_form input[name=name]").focus();
+		
 	});
 	</script>
 	

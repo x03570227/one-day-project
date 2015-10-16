@@ -163,10 +163,10 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		select
 			<include refid="default_column" />
 		from product
-		where exist (
-			select product_group_id from product_group_item 
-			where `product`.id=`product_gorup_item`.product_id
-			and `product_gorup_item`.group_id = #{cond.groupId}
+		where exists (
+			select id from product_group_item 
+			where `product`.id=`product_group_item`.product_id
+			and `product_group_item`.product_group_id = #{cond.groupId}
 		)
 	</select>
 	

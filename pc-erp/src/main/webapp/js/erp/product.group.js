@@ -1,8 +1,8 @@
 /**
  * Product 模块相关的操作
  * */
-define(		["jquery","template","js/app/i18n_zh_CN","noty"],
-	function(jQuery,  template,  i18n){
+define(		["jquery","template","js/app/i18n_zh_CN","product/prop","noty"],
+	function(jQuery,  template,  i18n,               prop){
 		
 		//var message=Messenger();
 	
@@ -36,19 +36,29 @@ define(		["jquery","template","js/app/i18n_zh_CN","noty"],
 		def["render"]=function(pid, renderTo){
 			
 			jQuery.post(CONTEXT_PATH+"/product/group/queryByPid.do", 
-				{"productId":pid}, 
-				function(resp){
-				var html=template("tpl_group_list", resp);
+				{"productId":pid}, function(resp){
+					
+				var tplData = {"groups":resp};
+				var html=template("tpl_group_list", tplData);
+				
 				jQuery(renderTo).html(html);
+				
 			}, "json");
+			
 		}
 		
-		def["renderItems"]=function(id, renderTo){
+		def["renderItems"]=function(groupId, renderTo){
 			
 			jQuery.post(CONTEXT_PATH+"/product/group/queryItems.do", 
-				{"id":id},
+				{"groupId":groupId},
 				function(resp){
-				var html=template("tpl_group_item_list", {records:resp, groupId:id});
+					
+				jQuery.each(resp, function (idx, obj){
+					obj.categoryName=prop.getName("category", obj.categoryCode, "Error Category");
+//					obj.picturePath=STATIC_UPLOAD+"/erp/product/"+obj.code;
+				});
+				
+				var html=template("tpl_group_item_list", {records:resp, groupId:groupId});
 				jQuery(renderTo).html(html);
 			}, "json");
 			
@@ -80,7 +90,7 @@ define(		["jquery","template","js/app/i18n_zh_CN","noty"],
 			jQuery(container).on("click", "button[data-act=leave_group]", function(){
 				
 				var productId=jQuery(this).attr("model-product-id");
-				var groupId=jQuery(this).attr("model-id");
+				var groupId=jQuery(this).attr("model-group-id");
 				
 				var btn=jQuery(this);
 				
