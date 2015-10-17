@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.caiban.pc.erp.persist.product.ProductGroupMapper">
+	
+	<insert id="insert" parameterType="net.caiban.pc.erp.domain.product.ProductGroup" keyProperty="id">
+		INSERT INTO `product_group`
+		(
+			`cid`, 
+			`uid_created`, 
+			`name`, 
+			`remark`, 
+			`gmt_created`, 
+			`gmt_modified`
+		)
+		VALUES(
+			#{cid},
+			#{uidCreated},
+			#{name},
+			#{remark},
+			NOW(),
+			NOW()
+		)
+	</insert>
+	
+	<insert id="insertItem" parameterType="net.caiban.pc.erp.domain.product.ProductGroupItem" keyProperty="id">
+		INSERT INTO `product_group_item` 
+		(
+			`product_group_id`, 
+			`product_id`, 
+			`gmt_created`, 
+			`gmt_modified`, 
+			`is_primary`
+		) VALUES (
+			#{productGroupId},
+			#{productId},
+			now(),now(),
+			#{isPrimary}
+		)
+	</insert>
+	
+	<sql id="default_group_column" >
+		`product_group`.id,
+		`product_group`.name,
+		`product_group`.remark,
+		`product_group`.cid,
+		`product_group`.uid_created as uidCreated
+	</sql>
+	
+	<select id="queryIdByName" resultType="java.lang.Integer" >
+		select id from product_group
+		where name=#{name}
+	</select>
+	
+	<select id="queryGroups" resultType="net.caiban.pc.erp.domain.product.ProductGroupModel">
+		select 
+			<include refid="default_group_column"></include>
+		from `product_group`
+		<where>
+			<if test="cond.cid!=null" >
+				and `product_group`.cid=#{cond.cid}
+			</if>
+			<if test="cond.productId!=null" >
+				and exists (
+					select product_group_id from `product_group_item`
+					where `product_group`.id=`product_group_item`.product_group_id
+					and `product_group_item`.product_id=#{cond.productId}
+				)
+			</if>
+		</where>
+		
+	</select>
+	
+	<delete id="delete" >
+		delete from `product_group` 
+		where id=#{id}
+	</delete>
+	
+	<sql id="where_group_product">
+		<where>
+			<if test="groupId==null and productId==null" >
+				and id=-1
+			</if>
+			<if test="groupId!=null">
+				and product_group_id=#{groupId}
+			</if>
+			<if test="productId != null">
+				and product_id=#{productId}
+			</if>
+		</where>
+	</sql>
+	<delete id="deleteItem" >
+		delete from `product_group_item` 
+		<include refid="where_group_product"></include>
+	</delete>
+	
+	<select id="countItem" resultType="java.lang.Integer" >
+		select count(id) as c from `product_group_item`
+		<include refid="where_group_product"></include>
+	</select>
+	
+</mapper>
+

@@ -36,6 +36,8 @@ public class ProductCond extends BaseCond{
 	private Integer productId;
 	private String archived;
 	
+	private Integer groupId;
+	
 	public String getCode() {
 		return code;
 	}
@@ -101,6 +103,12 @@ public class ProductCond extends BaseCond{
 	}
 	public void setArchived(String archived) {
 		this.archived = archived;
+	}
+	public Integer getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(Integer groupId) {
+		this.groupId = groupId;
 	}
 	
 

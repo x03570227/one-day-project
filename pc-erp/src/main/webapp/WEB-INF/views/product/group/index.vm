@@ -1,0 +1,135 @@
+	#set($tab_idx="3")
+	#parse("/product/widget/nav_tab.vm")
+	
+	##https://github.com/lzwme/bootstrap-suggest-plugin
+	
+	<div class="row mt8">
+		<form id="group_form" class="form-horizontal" 
+			action="#" method="post" role="form"
+			onsubmit="return false;">
+			<input type="hidden" value="$!{id}" name="productId" />
+		<div class="col-sm-8 col-md-6 col-lg-4">
+			<div class="input-group has-success">
+				<input type="text" name="name" class="form-control" >
+				<div class="input-group-btn">
+					<button type="submit" class="btn btn-success">
+						<i class="fa fa-plus"></i>
+					</button>
+				</div>
+				<!-- /btn-group -->
+			</div>
+		</div>
+		</form>
+	</div>
+	
+	<div class="row mt8">
+		<div class="col-lg-12" id="group_list">
+			#springMessage("tip.loading")
+			
+		</div>
+	</div>
+	
+	<div class="row mt8">
+		<div class="col-lg-12" id="group_item_list">
+		</div>
+	</div>
+	
+	<script type="text/javascript" >
+	require([	"jquery","template", "js/erp/product.group"],
+		function(jQuery,  template,   group){
+		
+		group.render("$!{id}","#group_list");
+		
+		group.bindGroupAct("#group_list", "#group_item_list");
+		
+		group.bindItemAct("#group_item_list");
+		
+		jQuery("#group_form").submit(function(){
+			group.join($!{id}, jQuery(this).serialize(), "#group_list");
+			jQuery("#group_form input[name=name]").val("");
+		});
+		
+		jQuery("#group_form input[name=name]").focus();
+		
+	});
+	</script>
+	
+
+
+<script id="tpl_group_list" type="text/html">
+
+{{each groups as group idx}}
+	<div class="btn-group btn-group-lg" role="group">
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default" 
+				data-act="render_items" 
+				model-id="{{group.id}}">{{group.name}}</button>
+		</div>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-danger" 
+				data-act="leave_group" 
+				model-id="{{group.id}}"
+				model-product-id="$!{id}">
+				<i class="fa fa-close" ></i>
+			</button>
+		</div>
+	</div>
+{{/each}}
+
+</script>
+
+<script id="tpl_group_item_list" type="text/html">
+	<table class="table table-hover table-bordered">
+		<thead>
+		<tr class="active">
+			<th class="text-center" width="10">#</th>
+			<th class="text-center" >#springMessage('tb.product.code')</th>
+			<th class="text-center" >#springMessage('tb.product.category.name')</th>
+			<th class="text-center" width="80">#springMessage('tb.product.status.life')</th>
+			<th class="text-center" >#springMessage('tb.product.name')</th>
+			<th class="text-center" >#springMessage('tb.product.remark')</th>
+			<th class="text-center" width="100"></th>
+		</tr>
+		</thead>
+		<tbody>
+		{{each records as product i}}
+		<tr >
+			<td >{{i + 1}}</td>
+			<td >
+				{{product.code}}
+			</td>
+			<td >{{product.categoryName}}</td>
+			<td >{{product.statusLife}}</td>
+			<td ><a href="#springUrl('/product/edit.do?id='){{product.id}}" >{{product.name}}</a></td>
+			<td >{{product.remark}}</td>
+			<td class="text-right">
+			
+			{{if product.categoryCode=="XN-LY-MP"}}
+			<a href="http://qr.liantu.com/api.php?text=$!{qrcodeUrl}cid%3D{{product.cid}}%26pid%3D{{product.id}}" 
+				class="btn btn-success btn-xs"
+				target="_blank"
+				>
+				<span class="glyphicon glyphicon-qrcode"></span>
+			</a>
+			{{/if}}
+			
+			<a class="btn btn-xs btn-default" href="#springUrl('/product/edit.do')?id={{product.id}}" >
+				<i class="fa fa-pencil" ></i>
+			</a>
+			
+			<button type="button" class="btn btn-danger btn-xs"
+				data-act="leave_group"
+				model-product-id="{{product.id}}"
+				model-group-id="{{groupId}}"
+				>
+				<span class="fa fa-minus"></span>
+			</button>
+			</td>
+		</tr>
+		<tr id="tr-details-{{product.id}}" class="info hide">
+			<td colspan="8"></td>
+		</tr>
+		{{/each}}
+		</tbody>
+	</table>
+</script>

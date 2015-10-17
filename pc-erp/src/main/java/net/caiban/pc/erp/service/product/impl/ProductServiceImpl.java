@@ -10,13 +10,19 @@ import javax.annotation.Resource;
 
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.domain.StatusEnum;
 import net.caiban.pc.erp.domain.product.Product;
 import net.caiban.pc.erp.domain.product.ProductCond;
 import net.caiban.pc.erp.domain.product.ProductDefine;
 import net.caiban.pc.erp.domain.product.ProductFull;
+import net.caiban.pc.erp.domain.product.ProductGroup;
+import net.caiban.pc.erp.domain.product.ProductGroupItem;
+import net.caiban.pc.erp.domain.product.ProductGroupModel;
+import net.caiban.pc.erp.domain.product.ProductModel;
 import net.caiban.pc.erp.domain.product.ProductPriceModel;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.product.ProductDefineMapper;
+import net.caiban.pc.erp.persist.product.ProductGroupMapper;
 import net.caiban.pc.erp.persist.product.ProductMapper;
 import net.caiban.pc.erp.persist.product.ProductPriceMapper;
 import net.caiban.pc.erp.service.product.ProductService;
@@ -40,6 +46,8 @@ public class ProductServiceImpl implements ProductService {
 	private ProductPriceMapper productPriceMapper;
 	@Resource
 	private ProductDefineMapper productDefineMapper;
+	@Resource
+	private ProductGroupMapper productGroupMapper;
 
 	@Override
 	public Pager<Product> pager(Pager<Product> pager, ProductCond cond) {
@@ -241,14 +249,14 @@ public class ProductServiceImpl implements ProductService {
 		productPriceMapper.insert(price);
 		
 		if(price.getId()==null||price.getId()==0){
-			throw new ServiceException("FORM_SAVE_FAILURE");
+			throw new ServiceException("e.global.form.save.failure");
 		}
 		
 		return price;
 	}
 
 	@Override
-	public void doRemovePrice(Integer id, Integer productId)
+	public void removePrice(Integer id, Integer productId)
 			throws ServiceException {
 		Preconditions.checkNotNull(productId);
 		Preconditions.checkNotNull(id);
@@ -257,8 +265,114 @@ public class ProductServiceImpl implements ProductService {
 		
 		Integer impact = productPriceMapper.delete(id);
 		if(impact==null||impact.intValue()==0){
-			throw new ServiceException("ACT_REMOVE_FAILURE");
+			throw new ServiceException("e.global.remove.failure");
 		}
 		
+	}
+
+	@Override
+	public ProductGroupModel doGroup(SessionUser user, ProductGroupModel model)
+			throws ServiceException {
+		Preconditions.checkNotNull(model);
+		Preconditions.checkNotNull(model.getName());
+		Preconditions.checkNotNull(model.getProductId());
+		
+		Integer groupId = productGroupMapper.queryIdByName(model.getName());
+		
+		if(!AssertHelper.positiveInt(groupId)){
+			ProductGroupModel group = new ProductGroupModel();
+			group.setCid(user.getCid());
+			group.setUidCreated(user.getUid());
+			group.setName(model.getName());
+			productGroupMapper.insert(group);
+			if(!AssertHelper.positiveInt(group.getId())){
+				throw new ServiceException("e.product.group.save.failure");
+			}
+			groupId = group.getId();
+		}
+		
+		if(existItem(groupId, model.getProductId())){
+			return model;
+		}
+		
+		ProductGroupItem item = new ProductGroupItem();
+		item.setIsPrimary(StatusEnum.Y.name());
+		item.setProductGroupId(groupId);
+		item.setProductId(model.getProductId());
+		productGroupMapper.insertItem(item);
+		
+		if (!AssertHelper.positiveInt(item.getId())) {
+			throw new ServiceException("e.product.group.save.failure");
+		}
+		
+		return model;
+	}
+	
+	private boolean existItem(Integer groupId, Integer productId){
+		
+		Integer countItem = productGroupMapper.countItem(groupId, productId);
+		
+		if(countItem==null || countItem.intValue()==0){
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public List<ProductGroupModel> queryGroups(SessionUser user,
+			ProductCond cond) {
+		Preconditions.checkNotNull(user);
+		Preconditions.checkNotNull(user.getCid());
+		Preconditions.checkNotNull(cond);
+		cond.setCid(user.getCid());
+		
+		cond.setLimit(200);
+		
+		List<ProductGroupModel> models = productGroupMapper.queryGroups(cond);
+		
+//		for(ProductGroupModel model:models){
+//			//model.setItemCount(productGroupMapper.countItem(model.getId(), null));
+//		}
+		
+		return models;
+	}
+
+	@Override
+	public void removeGroup(SessionUser user, Integer groupId)
+			throws ServiceException {
+		Preconditions.checkNotNull(user);
+		Preconditions.checkNotNull(user.getCid());
+		Preconditions.checkNotNull(groupId);
+		
+		productGroupMapper.delete(groupId);
+		productGroupMapper.deleteItem(groupId, null);
+		
+	}
+
+	@Override
+	public void removeProductFromGroup(SessionUser user, Integer groupId,
+			Integer productId) throws ServiceException {
+		Preconditions.checkNotNull(user);
+		Preconditions.checkNotNull(user.getCid());
+		Preconditions.checkNotNull(groupId);
+		Preconditions.checkNotNull(productId);
+		
+		productGroupMapper.deleteItem(groupId, productId);
+		
+		Integer count = productGroupMapper.countItem(groupId, null);
+		if(count==null || count.intValue()==0){
+			productGroupMapper.delete(groupId);
+		}
+		
+	}
+
+	@Override
+	public List<ProductModel> queryProductOfGroup(ProductCond cond) {
+		Preconditions.checkNotNull(cond);
+		Preconditions.checkNotNull(cond.getGroupId());
+		
+		List<ProductModel> models = productMapper.queryProductOfGroup(cond);
+		
+		return models;
 	}
 }

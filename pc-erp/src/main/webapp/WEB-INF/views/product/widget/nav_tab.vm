@@ -23,12 +23,12 @@
 ##			#springMessage("m.product.pictures")
 ##			</a>
 ##		</li>
-##		<li #if("${tab_idx}" == "3") class="active" #end>
-##			<a href="#springUrl('/product/group.do')?id=$!{id}">
-##			<i class="fa fa-paperclip fa-fw"></i>
-##			#springMessage("m.product.group")
-##			</a>
-##		</li>
+		<li #if("${tab_idx}" == "3") class="active" #end>
+			<a href="#springUrl('/product/group/index.do')?id=$!{id}">
+			<i class="fa fa-paperclip fa-fw"></i>
+			#springMessage("m.product.group")
+			</a>
+		</li>
 		#end
 	</ul>
 </div>

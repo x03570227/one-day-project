@@ -21,7 +21,7 @@
 	
     <script type="text/javascript" >
 		var CONTEXT_PATH="#springUrl('')";
-		var LOCALE="$!{locale}";
+		var LOCALE="$!{locale}"==""?"zh":"$!{locale}";
 		var SCRIPT_VERSION="$!{scriptVersion}";
 		//var JU=eval('$!{juser}');
 	</script>
