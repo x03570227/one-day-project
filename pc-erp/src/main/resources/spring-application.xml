@@ -67,9 +67,11 @@
 
 	<!-- 定义国际化消息 说明:dispatcherServlet.xml 只会在servlet做出响应,所以加载信息应该放置在servlet中. -->
 	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<!-- class="org.springframework.context.support.ResourceBundleMessageSource"> -->
 		<!-- 其中basename用来指定properties文件的通用名 如实例中的messages_en.properties,messages_ja.properties通用名都是messages -->
-		<property name="basename" value="messages" />
+		<property name="basename" value="classpath:messages" />
+		<!-- <property name="basename" value="messages" /> -->
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="useCodeAsDefaultMessage" value="true" />
 	</bean>
