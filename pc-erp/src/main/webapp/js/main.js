@@ -19,7 +19,8 @@ require.config({
 	paths:{
 		//基础JS库
 //		jquery:"//cdn.bootcss.com/jquery/2.1.1/jquery.min",
-		jquery:STATIC+"plugin/jquery/dist/jquery.min",
+		//jquery:STATIC+"plugin/jquery/dist/jquery.min",
+		jquery:STATIC+"plugin/jquery.min",
 //		Bootstrap:"//cdn.bootcss.com/bootstrap/3.1.1/js/bootstrap.min",
 		Bootstrap:STATIC+"plugin/bootstrap/dist/js/bootstrap.min",
 		template:STATIC+"plugin/template",
