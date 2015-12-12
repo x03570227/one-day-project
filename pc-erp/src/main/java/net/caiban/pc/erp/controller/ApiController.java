@@ -80,6 +80,10 @@ public class ApiController extends BaseController {
 			model.put("echost", echostr);
 		}
 		
+		Map paramsMap = request.getParameterMap();
+		
+		LOG.info("REQUEST PARAMS:"+new Gson().toJson(paramsMap));
+		
 		return null;
 	}
 	
