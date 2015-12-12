@@ -23,6 +23,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 
+import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.sys.SysLoginRememberService;
@@ -54,14 +55,14 @@ public class ApiController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView validWeixin(HttpServletRequest request, ModelMap model,
-			String signature, String timestamp, String nonce, String echost
+			String signature, String timestamp, String nonce, String echostr
 			){
 		//TODO 接入微信
 		
 		List<String> params = Lists.newArrayList();
 		params.add(timestamp);
 		params.add(nonce);
-		params.add(echost);
+		params.add(AppConst.getConfig("weixin.token", ""));
 		
 		LOG.info("REQUEST FROM WEIXIN: "+new Gson().toJson(params)+" sign is:"+signature);
 		
@@ -76,7 +77,7 @@ public class ApiController extends BaseController {
 		LOG.info("GENERATE SIGN: "+genSign);
 		
 		if(genSign.equals(signature)){
-			model.put("echost", echost);
+			model.put("echost", echostr);
 		}
 		
 		return null;
