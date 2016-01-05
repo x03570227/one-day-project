@@ -180,9 +180,12 @@
 			<artifactId>gson</artifactId>
 			<version>2.2.2</version>
 		</dependency>
-
 		
-	
+		<dependency>
+			<groupId>weixin</groupId>
+			<artifactId>weixin-popular</artifactId>
+			<version>2.4.6-RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>
