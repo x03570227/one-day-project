@@ -103,8 +103,8 @@ public class WeixinServiceImpl implements WeixinService {
 		
 		EventMessage eventMessage = XMLConverUtil.convertToObject(EventMessage.class, is);
 		
-		String expireKey = eventMessage.getFromUserName() + "__" + eventMessage.getToUserName() + "__"
-				+ eventMessage.getMsgId() + "__" + eventMessage.getCreateTime();
+//		String expireKey = eventMessage.getFromUserName() + "__" + eventMessage.getToUserName() + "__"
+//				+ eventMessage.getMsgId() + "__" + eventMessage.getCreateTime();
 
 		//TODO 重复通知处理
 		LOG.info("REQUEST MESSAGE:"+new Gson().toJson(eventMessage));
@@ -135,8 +135,7 @@ public class WeixinServiceImpl implements WeixinService {
 		
 		//TODO 为用户保存信息，需要分享标签等信息
 		
-		
-		return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "");
+		return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "信息已保存，<a href='http://caiban.net'>caiban.net</a>");
 	}
 	
 	private String buildXmlTextMessage(String fromUserName, String toUserName, String content){
