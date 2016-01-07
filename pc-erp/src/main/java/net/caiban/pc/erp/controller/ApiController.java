@@ -66,11 +66,13 @@ public class ApiController extends BaseController {
 			String encrypt_type, String msg_signature
 			){
 		
+		LOG.error("signature:"+signature+" noce:"+nonce+" echostr:"+echostr+" encrypt_type:"+encrypt_type+" msg_signature:"+msg_signature);
+		
 		// VALID 
-		if(Strings.isNullOrEmpty(echostr)){
-			model.put("echost", echostr);
-			return null;
-		}
+//		if(Strings.isNullOrEmpty(echostr)){
+//			model.put("echost", echostr);
+//			return null;
+//		}
 		
 		if(!weixinService.validSign(msg_signature, timestamp, nonce)){
 			LOG.warn("WEIXIN VALID FAILURE.");
