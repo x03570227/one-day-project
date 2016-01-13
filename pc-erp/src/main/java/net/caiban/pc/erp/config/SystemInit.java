@@ -21,7 +21,7 @@ public class SystemInit {
 	@PostConstruct
 	public void init(){
 		//暂时将验证码保存在session里
-//		JedisUtil.initPool(null);
+		JedisUtil.initPool(null);
 		HttpRequestUtil.monitor();
 	}
 	

@@ -21,8 +21,13 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 
 import net.caiban.pc.erp.config.AppConst;
+import net.caiban.pc.erp.domain.RedisKeyEnum;
+import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.EverydayService;
 import net.caiban.pc.erp.service.WeixinService;
+import net.caiban.utils.cache.JedisUtil;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Transaction;
 import weixin.popular.bean.EventMessage;
 import weixin.popular.bean.xmlmessage.XMLTextMessage;
 import weixin.popular.util.XMLConverUtil;
@@ -68,6 +73,24 @@ public class WeixinServiceImpl implements WeixinService {
 			return false;
 		}
 	}
+	
+	static enum MESSAGE_TYPE{
+		event,
+		text,
+		image,
+		voice,
+		video,
+		shortvideo,
+		location,
+		link;
+	}
+	
+	static enum EVENT_TYPE{
+		subscribe, unsubscribe,
+		LOCATION,
+		CLICK,
+		VIEW;
+	}
 
 	@Override
 	public boolean validSign(String signature, String timestamp, String nonce) {
@@ -102,6 +125,27 @@ public class WeixinServiceImpl implements WeixinService {
 		Preconditions.checkNotNull(is);
 		
 		EventMessage eventMessage = XMLConverUtil.convertToObject(EventMessage.class, is);
+		
+		if(duplicateMsgid(eventMessage.getMsgId())){
+			LOG.debug("DUPLICATE MESSAGE ID:"+eventMessage.getMsgId());
+			return null;
+		}
+		
+		if(MESSAGE_TYPE.event.name().equalsIgnoreCase(eventMessage.getMsgType())){
+			if(EVENT_TYPE.subscribe.name().equalsIgnoreCase(eventMessage.getEvent())){
+				//订阅后的回复
+				return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "发 1 试试看 \n<a href='http://caiban.net'>caiban.net</a>");
+			}
+		}
+		
+		if(MESSAGE_TYPE.text.name().equalsIgnoreCase(eventMessage.getMsgType())){
+			return saveTextMsg(eventMessage);
+		}
+		
+		
+//		if (eventMessage.getMsgType()) {
+//			
+//		}
 		
 //		String expireKey = eventMessage.getFromUserName() + "__" + eventMessage.getToUserName() + "__"
 //				+ eventMessage.getMsgId() + "__" + eventMessage.getCreateTime();
@@ -138,9 +182,56 @@ public class WeixinServiceImpl implements WeixinService {
 		return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "信息已保存，<a href='http://caiban.net'>caiban.net</a>");
 	}
 	
+	private String saveTextMsg(EventMessage eventMessage){
+		try {
+			XMLTextMessage resultmsg = everydayService.save(eventMessage);
+			return resultmsg.toXML();
+		} catch (ServiceException e) {
+			LOG.error("FAILURE SAVE TEXT MESSAGE:"+e.getMessage());
+		}
+		return "";
+	}
+	
+	private boolean duplicateMsgid(String msgid){
+		
+		if(Strings.isNullOrEmpty(msgid)){
+			return true;
+		}
+		
+		Jedis jedis = null;
+		
+		try {
+			jedis = JedisUtil.getPool().getResource();
+			
+			jedis.watch(RedisKeyEnum.WX_MSGID.getKey(msgid));
+			
+			Transaction tx = jedis.multi();
+			tx.exists(RedisKeyEnum.WX_MSGID.getKey(msgid));
+			tx.setex(RedisKeyEnum.WX_MSGID.getKey(msgid), 60, msgid);
+			List<Object> result = tx.exec();
+			
+			if(result==null){
+				return true;
+			}
+			
+			Boolean existed = (Boolean) result.get(0);
+			return existed;
+		} finally {
+			if(jedis!=null){
+				jedis.close();
+			}
+		}
+		
+	}
+	
 	private String buildXmlTextMessage(String fromUserName, String toUserName, String content){
 		XMLTextMessage xmlTextMessage = new XMLTextMessage(fromUserName, toUserName, content);
 		return xmlTextMessage.toXML();
 	}
+	
+//	public static void main(String[] args) {
+//		JedisUtil.initPool(null);
+//		System.out.println(duplicateMsgid("k2"));
+//	}
 
 }

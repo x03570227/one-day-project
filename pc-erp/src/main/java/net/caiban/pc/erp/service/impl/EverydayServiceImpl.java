@@ -27,6 +27,8 @@ public class EverydayServiceImpl implements EverydayService{
 		
 		Everyday everyday = new Everyday();
 		everyday.setContent(message.getContent());
+		everyday.setWxOpenid(message.getFromUserName());
+		everyday.setWxMsgid(message.getMsgId());
 		
 		List<String> tags = parseTags(everyday.getContent());
 		everyday.setTags(Joiner.on(",").join(tags));
@@ -55,28 +57,28 @@ public class EverydayServiceImpl implements EverydayService{
 		return tags;
 	}
 	
-	private List<String> parseUrl(String content){
-		
-		String regEx = "(http|https|ftp)\\://([a-zA-Z0-9\\.\\-]+(\\:[a-zA-"
-				+ "Z0-9\\.&%\\$\\-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{"
-				+ "2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}"
-				+ "[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|"
-				+ "[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-"
-				+ "4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0"
-				+ "-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,4})(\\:[0-9]+)?(/"
-				+ "[^/][a-zA-Z0-9\\.\\,\\?\\'\\\\/\\+&%\\$\\=~_\\-@]*)*";
-		
-		Pattern p=Pattern.compile(regEx);
-		
-		Matcher m=p.matcher(content);
-		
-		List<String> urls = Lists.newArrayList();
-		while(m.find()){
-			urls.add(m.group());
-		}
-		
-		return urls;
-	}
+//	private List<String> parseUrl(String content){
+//		
+//		String regEx = "(http|https|ftp)\\://([a-zA-Z0-9\\.\\-]+(\\:[a-zA-"
+//				+ "Z0-9\\.&%\\$\\-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{"
+//				+ "2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}"
+//				+ "[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|"
+//				+ "[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-"
+//				+ "4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0"
+//				+ "-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,4})(\\:[0-9]+)?(/"
+//				+ "[^/][a-zA-Z0-9\\.\\,\\?\\'\\\\/\\+&%\\$\\=~_\\-@]*)*";
+//		
+//		Pattern p=Pattern.compile(regEx);
+//		
+//		Matcher m=p.matcher(content);
+//		
+//		List<String> urls = Lists.newArrayList();
+//		while(m.find()){
+//			urls.add(m.group());
+//		}
+//		
+//		return urls;
+//	}
 	
 	public static void main(String[] args) {
 		Pattern p=Pattern.compile("#[A-Za-z\\u4e00-\\u9fa5][A-Za-z0-9\\u4e00-\\u9fa5]*"); 

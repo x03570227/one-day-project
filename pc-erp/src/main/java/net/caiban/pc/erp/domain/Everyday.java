@@ -26,6 +26,17 @@ public class Everyday extends BaseDomain {
 	private String tags;
 	private Integer dayIndex;
 	private Integer dayItemIndex;
+	private String wxMsgid;
+	private String wxMsgtype;
+	private String wxPicurl;
+	private String wxMediaid;
+	private String wxThumbMediaId;
+	private String wxLx;
+	private String wxLy;
+	private String wxScale;
+	private String wxLabel;
+	private String wxTitle;
+	private String wxDescription;
 	
 	public String getWxOpenid() {
 		return wxOpenid;
@@ -62,6 +73,12 @@ public class Everyday extends BaseDomain {
 	}
 	public void setDayItemIndex(Integer dayItemIndex) {
 		this.dayItemIndex = dayItemIndex;
+	}
+	public String getWxMsgid() {
+		return wxMsgid;
+	}
+	public void setWxMsgid(String wxMsgid) {
+		this.wxMsgid = wxMsgid;
 	}
 	
 	
