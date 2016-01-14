@@ -1,0 +1,63 @@
+#!/bin/sh
+
+case $1 in
+
+d)
+    git fetch origin release-product
+    git merge --ff-only origin/release-product
+    mvn clean package -Pproduction -Dmaven.test.skip
+    
+    tpid=`ps -ef | grep -w "tomcat" | grep -v "grep" | awk '{print $2}'`
+    
+    if [ "$tpid" == "" ]; then
+        echo "$1 process not exist or stop success."
+    else
+        echo "been kill $1, pid is $tpid"
+        kill -9 $tpid
+    fi
+    
+    webapp_path=/mnt/webapps
+    
+    if [ -d "$webapp_path/erp" ]; then
+        echo "Remove erp from tomcat."
+        rm -rf $webapp_path/erp
+        ls -lh  $webapp_path
+    fi
+    
+    if [ -f "$webapp_path/erp.war" ]; then
+        echo "Remove erp.war from tomcat."
+        rm -rf $webapp_path/erpwar
+        ls -lh  $webapp_path
+    fi
+    
+    cp target/pc-erp-1.0.0-SNAPSHOT.war $webapp_path/erp.war
+    
+    /mnt/program/apache-tomcat-7.0.57/bin/startup.sh
+    #/usr/local/tomcat/bin/startup.sh -config /home/wcc/config/tomcat/wcc.xml
+    #tailf /usr/local/tomcat/logs/catalina.out
+    tail -f /mnt/logs/odp/erp.log
+;;
+r)
+    tpid=`ps -ef | grep -w "tomcat" | grep -v "grep" | awk '{print $2}'`    
+    if [ "$tpid" == "" ]; then
+        echo "$1 process not exist or stop success."
+    else
+        echo "been kill $1, pid is $tpid"
+        kill -9 $tpid
+    fi
+    #/usr/local/tomcat/bin/startup.sh -config /home/wcc/config/tomcat/wcc.xml
+    #tail -f /home/wcc/config/logs/wcc.log
+    /mnt/program/apache-tomcat-7.0.57/bin/startup.sh
+    tail -f /mnt/logs/odp/erp.log
+;;
+b)
+    git fetch origin release-product
+    git merge --ff-only origin/release-product
+    mvn clean package -Pproduction -Dmaven.test.skip
+;;
+*)
+    echo "d: deploy, r:restart, b:build only"
+;;
+
+esac
+exit 0
