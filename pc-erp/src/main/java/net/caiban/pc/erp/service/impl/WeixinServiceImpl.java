@@ -3,12 +3,10 @@ package net.caiban.pc.erp.service.impl;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.aspectj.bridge.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -126,6 +124,9 @@ public class WeixinServiceImpl implements WeixinService {
 		
 		EventMessage eventMessage = XMLConverUtil.convertToObject(EventMessage.class, is);
 		
+		//TODO 重复通知处理
+		LOG.info("REQUEST MESSAGE:"+new Gson().toJson(eventMessage));
+		
 		if(duplicateMsgid(eventMessage.getMsgId())){
 			LOG.debug("DUPLICATE MESSAGE ID:"+eventMessage.getMsgId());
 			return null;
@@ -139,57 +140,46 @@ public class WeixinServiceImpl implements WeixinService {
 		}
 		
 		if(MESSAGE_TYPE.text.name().equalsIgnoreCase(eventMessage.getMsgType())){
-			return saveTextMsg(eventMessage);
-		}
-		
-		
-//		if (eventMessage.getMsgType()) {
-//			
-//		}
-		
-//		String expireKey = eventMessage.getFromUserName() + "__" + eventMessage.getToUserName() + "__"
-//				+ eventMessage.getMsgId() + "__" + eventMessage.getCreateTime();
-
-		//TODO 重复通知处理
-		LOG.info("REQUEST MESSAGE:"+new Gson().toJson(eventMessage));
-		
-		if(MESSAGE_CMD.HELP.isCmd(eventMessage.getContent())){
-			//TODO 返回命令说明
-			LOG.info("RESPONSE HELP CMD.");
-			return "";
-		}
-		
-		if(MESSAGE_CMD.REPLAY.isCmd(eventMessage.getContent())){
-			LOG.info("RESPONSE REPLAY CMD.");
-			//TODO 回复命令，需要获取回复对象 ID 等信息
-			return "";
-		}
-		
-		if(MESSAGE_CMD.SHOW.isCmd(eventMessage.getContent())){
-			LOG.info("RESPONSE SHOW CMD.");
-			//TODO 查看命令，可以跟标签参数
-			return "";
-		}
-		
-		if(MESSAGE_CMD.MY.isCmd(eventMessage.getContent())){
-			LOG.info("RESPONSE MY CMD.");
-			//拉取自己发布信息命令
-			return "";
+			
+			if(MESSAGE_CMD.HELP.isCmd(eventMessage.getContent())){
+				//TODO 返回命令说明
+				LOG.info("RESPONSE HELP CMD.");
+				return "";
+			}
+			
+			if(MESSAGE_CMD.REPLAY.isCmd(eventMessage.getContent())){
+				LOG.info("RESPONSE REPLAY CMD.");
+				//TODO 回复命令，需要获取回复对象 ID 等信息
+				return "";
+			}
+			
+			if(MESSAGE_CMD.SHOW.isCmd(eventMessage.getContent())){
+				LOG.info("RESPONSE SHOW CMD.");
+				//TODO 查看命令，可以跟标签参数
+				return "";
+			}
+			
+			if(MESSAGE_CMD.MY.isCmd(eventMessage.getContent())){
+				LOG.info("RESPONSE MY CMD.");
+				//拉取自己发布信息命令
+				return "";
+			}
+			
+			//保存信息
+			try {
+				XMLTextMessage resultmsg = everydayService.save(eventMessage);
+				return resultmsg.toXML();
+			} catch (ServiceException e) {
+				LOG.error("FAILURE SAVE TEXT MESSAGE:"+e.getMessage());
+			}
+			
+			return null;
 		}
 		
 		//TODO 为用户保存信息，需要分享标签等信息
 		
-		return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "信息已保存，<a href='http://caiban.net'>caiban.net</a>");
-	}
-	
-	private String saveTextMsg(EventMessage eventMessage){
-		try {
-			XMLTextMessage resultmsg = everydayService.save(eventMessage);
-			return resultmsg.toXML();
-		} catch (ServiceException e) {
-			LOG.error("FAILURE SAVE TEXT MESSAGE:"+e.getMessage());
-		}
-		return "";
+//		return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "暂无法处理这类信息");
+		return null;
 	}
 	
 	private boolean duplicateMsgid(String msgid){

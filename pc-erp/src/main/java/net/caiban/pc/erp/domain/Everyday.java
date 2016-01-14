@@ -27,12 +27,13 @@ public class Everyday extends BaseDomain {
 	private Integer dayIndex;
 	private Integer dayItemIndex;
 	private String wxMsgid;
+	
 	private String wxMsgtype;
 	private String wxPicurl;
 	private String wxMediaid;
 	private String wxThumbMediaId;
-	private String wxLx;
-	private String wxLy;
+	private Double wxLx;
+	private Double wxLy;
 	private String wxScale;
 	private String wxLabel;
 	private String wxTitle;
@@ -79,6 +80,66 @@ public class Everyday extends BaseDomain {
 	}
 	public void setWxMsgid(String wxMsgid) {
 		this.wxMsgid = wxMsgid;
+	}
+	public String getWxMsgtype() {
+		return wxMsgtype;
+	}
+	public void setWxMsgtype(String wxMsgtype) {
+		this.wxMsgtype = wxMsgtype;
+	}
+	public String getWxPicurl() {
+		return wxPicurl;
+	}
+	public void setWxPicurl(String wxPicurl) {
+		this.wxPicurl = wxPicurl;
+	}
+	public String getWxMediaid() {
+		return wxMediaid;
+	}
+	public void setWxMediaid(String wxMediaid) {
+		this.wxMediaid = wxMediaid;
+	}
+	public String getWxThumbMediaId() {
+		return wxThumbMediaId;
+	}
+	public void setWxThumbMediaId(String wxThumbMediaId) {
+		this.wxThumbMediaId = wxThumbMediaId;
+	}
+	public String getWxScale() {
+		return wxScale;
+	}
+	public void setWxScale(String wxScale) {
+		this.wxScale = wxScale;
+	}
+	public String getWxLabel() {
+		return wxLabel;
+	}
+	public void setWxLabel(String wxLabel) {
+		this.wxLabel = wxLabel;
+	}
+	public String getWxTitle() {
+		return wxTitle;
+	}
+	public void setWxTitle(String wxTitle) {
+		this.wxTitle = wxTitle;
+	}
+	public String getWxDescription() {
+		return wxDescription;
+	}
+	public void setWxDescription(String wxDescription) {
+		this.wxDescription = wxDescription;
+	}
+	public Double getWxLx() {
+		return wxLx;
+	}
+	public void setWxLx(Double wxLx) {
+		this.wxLx = wxLx;
+	}
+	public Double getWxLy() {
+		return wxLy;
+	}
+	public void setWxLy(Double wxLy) {
+		this.wxLy = wxLy;
 	}
 	
 	

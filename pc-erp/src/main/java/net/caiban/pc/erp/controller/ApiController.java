@@ -5,14 +5,11 @@ package net.caiban.pc.erp.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -21,17 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.gson.Gson;
 
-import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.WeixinService;
 import net.caiban.pc.erp.service.sys.SysLoginRememberService;
-import weixin.popular.bean.EventMessage;
 
 /**
  * @author mays

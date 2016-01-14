@@ -4,14 +4,20 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
-import net.caiban.pc.erp.domain.Everyday;
+import net.caiban.pc.erp.config.AppConst;
+import net.caiban.pc.erp.domain.EverydayCond;
+import net.caiban.pc.erp.domain.EverydayModel;
+import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.exception.ServiceException;
+import net.caiban.pc.erp.persist.EverydayMapper;
 import net.caiban.pc.erp.service.EverydayService;
 import weixin.popular.bean.EventMessage;
 import weixin.popular.bean.xmlmessage.XMLTextMessage;
@@ -19,22 +25,31 @@ import weixin.popular.bean.xmlmessage.XMLTextMessage;
 @Component("everydayService")
 public class EverydayServiceImpl implements EverydayService{
 
+	@Resource
+	private EverydayMapper everydayMapper;
+	
 	@Override
 	public XMLTextMessage save(EventMessage message) throws ServiceException {
 		
-		//解析 tags
-		//XXX 解析 url
-		
-		Everyday everyday = new Everyday();
+		EverydayModel everyday = new EverydayModel();
 		everyday.setContent(message.getContent());
 		everyday.setWxOpenid(message.getFromUserName());
 		everyday.setWxMsgid(message.getMsgId());
+		everyday.setWxDescription(message.getDescription());
+		everyday.setWxLabel(message.getLabel());
+		everyday.setWxLx(message.getLocation_X()==null?null:Double.valueOf(message.getLocation_X()));
+		everyday.setWxLy(message.getLocation_Y()==null?null:Double.valueOf(message.getLocation_Y()));
+		everyday.setWxMediaid(message.getMediaId());
+		everyday.setWxMsgtype(message.getMsgType());
+		everyday.setWxPicurl(message.getPicUrl());
+		everyday.setWxScale(message.getScale());
+		everyday.setWxThumbMediaId(message.getThumbMediaId());
+		everyday.setWxTitle(message.getTitle());
 		
 		List<String> tags = parseTags(everyday.getContent());
 		everyday.setTags(Joiner.on(",").join(tags));
 		
-//		everyday.setWxOpenid();
-		
+		everydayMapper.insertSelective(everyday);
 		
 		return null;
 	}
@@ -79,6 +94,53 @@ public class EverydayServiceImpl implements EverydayService{
 //		
 //		return urls;
 //	}
+
+	@Override
+	public XMLTextMessage queryRecent(EventMessage message) throws ServiceException {
+		
+		EverydayCond cond = new EverydayCond();
+		cond.setLimit(5);
+		
+		StringBuffer sb = buildRespByCond(cond);
+		
+		sb.append("<a href='").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do'>查看更多</a>");
+		
+		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
+	}
+
+	@Override
+	public XMLTextMessage queryMy(EventMessage message) throws ServiceException {
+		
+		EverydayCond cond = new EverydayCond();
+		cond.setWxOpenid(message.getFromUserName());
+		cond.setLimit(5);
+		
+		StringBuffer sb = buildRespByCond(cond);
+		
+		sb.append("<a href='").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?wxOpenid=").append(message.getFromUserName()).append("'>查看更多</a>");
+		
+		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
+	}
+	
+	private StringBuffer buildRespByCond(EverydayCond cond){
+		
+		List<EverydayModel> list = everydayMapper.queryByCond(cond);
+		
+		StringBuffer sb = new StringBuffer();
+		
+		int idx = 1;
+		for(EverydayModel everyday: list){
+			sb.append(idx).append(". <a href='")
+				.append(AppConst.getConfig("app.host"))
+				.append("/f/feveryday/detail.do?id=")
+				.append(everyday.getId())
+				.append("' >")
+				.append(everyday.getContent())
+				.append("</a>");
+			idx++;
+		}
+		return sb;
+	}
 	
 	public static void main(String[] args) {
 		Pattern p=Pattern.compile("#[A-Za-z\\u4e00-\\u9fa5][A-Za-z0-9\\u4e00-\\u9fa5]*"); 
@@ -89,4 +151,13 @@ public class EverydayServiceImpl implements EverydayService{
 		} 
 	}
 
+	@Override
+	public Pager<EverydayModel> pagerRecent(EverydayCond cond, Pager<EverydayModel> pager) throws ServiceException {
+		return null;
+	}
+
+	@Override
+	public EverydayModel queryById(Long id) throws ServiceException {
+		return null;
+	}
 }
