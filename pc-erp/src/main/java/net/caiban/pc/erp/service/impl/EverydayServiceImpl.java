@@ -29,7 +29,7 @@ public class EverydayServiceImpl implements EverydayService{
 	private EverydayMapper everydayMapper;
 	
 	@Override
-	public XMLTextMessage save(EventMessage message) throws ServiceException {
+	public XMLTextMessage save(EventMessage message) throws ServiceException{
 		
 		EverydayModel everyday = new EverydayModel();
 		everyday.setContent(message.getContent());
@@ -50,8 +50,22 @@ public class EverydayServiceImpl implements EverydayService{
 		everyday.setTags(Joiner.on(",").join(tags));
 		
 		everydayMapper.insertSelective(everyday);
+		if(everyday.getId()==null || everyday.getId()<=0){
+			throw new ServiceException("FAILURE_SAVE_EVERYDAY");
+		}
 		
-		return null;
+		StringBuffer sb =new StringBuffer();
+		sb.append("每1天\n <a href='")
+		.append(AppConst.getConfig("app.host"))
+		.append("/f/feveryday/detail.do?id=")
+		.append(everyday.getId())
+		.append("' >")
+		.append(everyday.getContent())
+		.append("</a> \n");
+		
+		sb.append("<a href='").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?wxOpenid=").append(message.getFromUserName()).append("'>查看更多</a>");
+		
+		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
 	}
 	
 	private List<String> parseTags(String content){
@@ -96,7 +110,7 @@ public class EverydayServiceImpl implements EverydayService{
 //	}
 
 	@Override
-	public XMLTextMessage queryRecent(EventMessage message) throws ServiceException {
+	public XMLTextMessage queryRecent(EventMessage message) {
 		
 		EverydayCond cond = new EverydayCond();
 		cond.setLimit(5);
@@ -109,7 +123,7 @@ public class EverydayServiceImpl implements EverydayService{
 	}
 
 	@Override
-	public XMLTextMessage queryMy(EventMessage message) throws ServiceException {
+	public XMLTextMessage queryMy(EventMessage message) {
 		
 		EverydayCond cond = new EverydayCond();
 		cond.setWxOpenid(message.getFromUserName());
@@ -134,11 +148,16 @@ public class EverydayServiceImpl implements EverydayService{
 				.append(AppConst.getConfig("app.host"))
 				.append("/f/feveryday/detail.do?id=")
 				.append(everyday.getId())
-				.append("' >")
-				.append(everyday.getContent())
-				.append("</a>");
+				.append("' >");
+			if(everyday.getContent().length()<=15){
+				sb.append(everyday.getContent());
+			}else{
+				sb.append(everyday.getContent().substring(0, 15));
+			}
+				sb.append("</a> \n");
 			idx++;
 		}
+		
 		return sb;
 	}
 	
@@ -147,7 +166,7 @@ public class EverydayServiceImpl implements EverydayService{
 		Matcher m=p.matcher("我的QQ是:456456 #我的电话是:05#32214 我的#邮箱#是:a#aa123@aaa.com");
 		
 		while(m.find()) { 
-		     System.out.println(m.group()); 
+			System.out.println(m.group()); 
 		} 
 	}
 

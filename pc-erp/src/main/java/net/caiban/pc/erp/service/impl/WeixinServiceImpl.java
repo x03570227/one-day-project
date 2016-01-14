@@ -44,9 +44,9 @@ public class WeixinServiceImpl implements WeixinService {
 //		回复命令（回复某 ID 的MSG）
 		REPLAY("评论,回复,replay,r"),
 //		查看命令（查看别人的需要，查看自己的帮助）
-		SHOW("查看,show,s,list,ls,l"),
+		SHOW("查看,show,s,list,ls,l,1"),
 //		我发布的信息
-		MY("我的,my,m")
+		MY("我的,my,m,11")
 		;
 		
 		private String cmds;
@@ -135,7 +135,7 @@ public class WeixinServiceImpl implements WeixinService {
 		if(MESSAGE_TYPE.event.name().equalsIgnoreCase(eventMessage.getMsgType())){
 			if(EVENT_TYPE.subscribe.name().equalsIgnoreCase(eventMessage.getEvent())){
 				//订阅后的回复
-				return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "发 1 试试看 \n<a href='http://caiban.net'>caiban.net</a>");
+				return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "发送 1 试试看");
 			}
 		}
 		
@@ -155,14 +155,13 @@ public class WeixinServiceImpl implements WeixinService {
 			
 			if(MESSAGE_CMD.SHOW.isCmd(eventMessage.getContent())){
 				LOG.info("RESPONSE SHOW CMD.");
-				//TODO 查看命令，可以跟标签参数
-				return "";
+				return everydayService.queryRecent(eventMessage).toXML();
 			}
 			
 			if(MESSAGE_CMD.MY.isCmd(eventMessage.getContent())){
 				LOG.info("RESPONSE MY CMD.");
 				//拉取自己发布信息命令
-				return "";
+				return everydayService.queryMy(eventMessage).toXML();
 			}
 			
 			//保存信息

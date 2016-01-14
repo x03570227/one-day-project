@@ -7,13 +7,13 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 	<sql id="Base_column">
 		id ,
-		gmt_create as gmtCreate ,
+		gmt_created as gmtCreated ,
 		gmt_modified as gmtModified,
 		wx_openid as wxOpenid,
 		wx_msgid as wxMsgid,
-		url
-		content
-		tags
+		url,
+		content,
+		tags,
 		day_index as dayIndex,
 		day_item_index as dayItemIndex,
 		wx_msgtype as wxMsgtype,
@@ -28,7 +28,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		wx_description as wxDescription
 	</sql>
 
-	<insert id="insertSelective" parameterType="net.caiban.pc.erp.domain.EverydayModel">
+	<insert id="insertSelective" parameterType="net.caiban.pc.erp.domain.EverydayModel" keyProperty="id">
 		INSERT INTO `everyday` 
 		<trim prefix="(" suffix=")" suffixOverrides=","> 
 			`gmt_created`, 
@@ -158,7 +158,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		from everyday
 		<include refid="where_cond" ></include>
 		order by gmt_created desc
-		limit #{limit}
+		limit #{cond.limit}
 	</select>
 	
 </mapper>

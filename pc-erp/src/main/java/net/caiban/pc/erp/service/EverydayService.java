@@ -11,9 +11,9 @@ public interface EverydayService {
 	
 	public XMLTextMessage save(EventMessage message) throws ServiceException;
 	
-	public XMLTextMessage queryRecent(EventMessage message) throws ServiceException;
+	public XMLTextMessage queryRecent(EventMessage message);
 	
-	public XMLTextMessage queryMy(EventMessage message) throws ServiceException;
+	public XMLTextMessage queryMy(EventMessage message) ;
 	
 	public Pager<EverydayModel> pagerRecent(EverydayCond cond, Pager<EverydayModel> pager) throws ServiceException;
 	
