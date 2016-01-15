@@ -55,7 +55,7 @@ public class EverydayServiceImpl implements EverydayService{
 		}
 		
 		StringBuffer sb =new StringBuffer();
-		sb.append("每1天\n <a href='")
+		sb.append("每1天 \n<a href='")
 		.append(AppConst.getConfig("app.host"))
 		.append("/f/feveryday/detail.do?id=")
 		.append(everyday.getId())
@@ -149,10 +149,10 @@ public class EverydayServiceImpl implements EverydayService{
 				.append("/f/feveryday/detail.do?id=")
 				.append(everyday.getId())
 				.append("' >");
-			if(everyday.getContent().length()<=15){
+			if(everyday.getContent().length()<=14){
 				sb.append(everyday.getContent());
 			}else{
-				sb.append(everyday.getContent().substring(0, 15));
+				sb.append(everyday.getContent().substring(0, 14));
 			}
 				sb.append("</a> \n");
 			idx++;

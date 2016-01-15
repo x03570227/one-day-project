@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,35 +53,53 @@ public class ApiController extends BaseController {
 		
 	}
 	
-	@RequestMapping
+	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView validWeixin(HttpServletRequest request, ModelMap model,
 			String signature, String timestamp, String nonce, String echostr,
-			String encrypt_type, String msg_signature
+			String encrypt_type, String msg_signature, String get
 			){
 		
 		LOG.info("signature:"+signature+" timestamp:"+timestamp+" noce:"+nonce+" echostr:"+echostr+" encrypt_type:"+encrypt_type+" msg_signature:"+msg_signature);
-		
-		// VALID 
-//		if(!Strings.isNullOrEmpty(echostr)){
-//			model.put("echost", echostr);
-//			return null;
-//		}
 		
 		if(!weixinService.validSign(signature, timestamp, nonce)){
 			LOG.warn("WEIXIN VALID FAILURE.");
 			return null;
 		}
 		
-		InputStream is=null;
-		try {
-			is = request.getInputStream();
-		} catch (IOException e) {
-			LOG.error("REQUEST INPUT STREAM FAILURE. "+e.getMessage());
+		// VALID 
+		if(!Strings.isNullOrEmpty(echostr)){
+			model.put("echost", echostr);
 			return null;
 		}
 		
+		return null;
+	}
+	
+	@RequestMapping(method=RequestMethod.POST)
+	public ModelAndView validWeixin(HttpServletRequest request, ModelMap model,
+			String signature, String timestamp, String nonce, String echostr,
+			String encrypt_type, String msg_signature
+			) throws IOException{
+		request.setCharacterEncoding("utf-8");
+		
+		LOG.info("接收参数： signature:"+signature+" timestamp:"+timestamp+" noce:"+nonce+" echostr:"+echostr+" encrypt_type:"+encrypt_type+" msg_signature:"+msg_signature);
+		
+		if(!weixinService.validSign(signature, timestamp, nonce)){
+			LOG.warn("WEIXIN VALID FAILURE.");
+			return null;
+		}
+		
+		InputStream is=request.getInputStream();
+		
+//		try {
+//		} catch (IOException e) {
+//			LOG.error("REQUEST INPUT STREAM FAILURE. "+e.getMessage());
+//			return null;
+//		}
+		
 		if(is!=null){
 			model.put("echost", weixinService.autoResp(is));
+			LOG.info("返回echost:"+model.get("echost"));
 			return null;
 		}
 		
