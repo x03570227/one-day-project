@@ -245,6 +245,8 @@ public class EverydayServiceImpl implements EverydayService{
 		Preconditions.checkNotNull(cond);
 		Preconditions.checkNotNull(pager);
 		
+		cond.setWxOpenid(Strings.emptyToNull(cond.getWxOpenid()));
+		
 		pager.setDir("desc");
 		pager.setSort("gmt_created");
 		

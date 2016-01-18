@@ -18,6 +18,7 @@ public class EverydayCond extends BaseCond {
 	private String wxMsgtype;
 
 	public String getWxOpenid() {
+		
 		return wxOpenid;
 	}
 
