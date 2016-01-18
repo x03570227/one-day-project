@@ -95,5 +95,22 @@ public class Pager<E> implements java.io.Serializable {
 		this.sortColumn = sortColumn;
 	}
 	
+	public Integer getPreStart(){
+		int prestart = getStart() - getLimit();
+		if(prestart<=0){
+			return 0;
+		}
+		return prestart;
+	}
+	
+	public Integer getNextStart(){
+		int nextstart = getStart()+getLimit();
+		if(nextstart>=getTotals()){
+			return getStart();
+		}
+		return nextstart;
+		
+	}
+
 
 }

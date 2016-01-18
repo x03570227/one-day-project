@@ -33,8 +33,9 @@ public class FeverydayController extends BaseController {
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response,
 			ModelMap model, EverydayCond cond, Pager<EverydayModel> pager){
 		try {
-			model.put("everydayList", everydayService.pagerRecent(cond, pager));
+			pager = everydayService.pagerRecent(cond, pager);
 			model.put("pager", pager);
+			model.put("cond", cond);
 		} catch (ServiceException e) {
 			serverError(request, response, e.getMessage());
 		}
@@ -44,7 +45,11 @@ public class FeverydayController extends BaseController {
 	@RequestMapping
 	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response,
 			ModelMap model, Long id){
-		//TODO
+		try {
+			model.put("everyday", everydayService.queryById(id));
+		} catch (ServiceException e) {
+			serverError(request, response, e.getMessage());
+		}
 		return new ModelAndView();
 	}
 

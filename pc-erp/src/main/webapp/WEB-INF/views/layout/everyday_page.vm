@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>#springMessage("ed.seo.title")</title>
+	<meta name="keywords" content="#springMessage('ed.seo.keywords')" />
+	<meta name="description" content="#springMessage('ed.seo.description')" />
+	<link rel="shortcut icon" href="http://img.caiban.net/caiban/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+	<link href="#springUrl('/css/global.css')" rel="stylesheet" />
+	
+	#loadCss([
+		"/plugin/bootstrap/dist/css/bootstrap.min.css",
+		"/plugin/metisMenu/dist/metisMenu.min.css",
+		"/plugin/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css",
+		"/plugin/font-awesome/css/font-awesome.min.css",
+		"/plugin/messenger/build/css/messenger.css",
+		"/plugin/messenger/build/css/messenger-theme-flat.css"
+	], "http://s0.caiban.net", "")
+	
+    <script type="text/javascript" >
+		var CONTEXT_PATH="#springUrl('')";
+		var LOCALE="$!{locale}"==""?"zh":"$!{locale}";
+		var SCRIPT_VERSION="$!{scriptVersion}";
+		//var JU=eval('$!{juser}');
+	</script>
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	#loadScript([
+		"/plugin/requirejs/require.js"
+	],"http://s0.caiban.net")
+
+	#loadScript([
+		"/js/main.js"
+	],"","$!{scriptVersion}")
+  <!--
+	<script src="#springUrl('/js/require.js')" ></script>
+	<script src="#springUrl('/js/main.js')?v=20150329.8" ></script>
+	-->
+	
+  </head>
+  <body>
+		$screen_content
+		#parse("/common/globalFooter.vm")
+  </body>
+</html>
+

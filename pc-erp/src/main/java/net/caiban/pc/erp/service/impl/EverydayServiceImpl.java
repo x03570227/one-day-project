@@ -1,5 +1,7 @@
 package net.caiban.pc.erp.service.impl;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
@@ -19,6 +22,7 @@ import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.EverydayMapper;
 import net.caiban.pc.erp.service.EverydayService;
+import net.caiban.utils.DateUtil;
 import weixin.popular.bean.EventMessage;
 import weixin.popular.bean.xmlmessage.XMLTextMessage;
 
@@ -49,23 +53,65 @@ public class EverydayServiceImpl implements EverydayService{
 		List<String> tags = parseTags(everyday.getContent());
 		everyday.setTags(Joiner.on(",").join(tags));
 		
+		everyday.setUrl(parseURL(everyday.getContent()));
+		
+		everyday.setDayIndex(parseDayIdx(everyday.getWxOpenid()));
+		everyday.setDayItemIndex(parseDayItemIdx(everyday.getWxOpenid()));
+		
 		everydayMapper.insertSelective(everyday);
 		if(everyday.getId()==null || everyday.getId()<=0){
 			throw new ServiceException("FAILURE_SAVE_EVERYDAY");
 		}
 		
 		StringBuffer sb =new StringBuffer();
-		sb.append("每1天 \n<a href='")
+		sb.append("每1天,1件事,记1笔 \n")
+		.append(everyday.getContent())
+		.append("(<a href='")
 		.append(AppConst.getConfig("app.host"))
 		.append("/f/feveryday/detail.do?id=")
 		.append(everyday.getId())
 		.append("' >")
-		.append(everyday.getContent())
-		.append("</a> \n");
+		.append("#D").append(everyday.getDayIndex())
+		.append("</a>) \n");
 		
 		sb.append("<a href='").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?wxOpenid=").append(message.getFromUserName()).append("'>查看更多</a>");
 		
 		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
+	}
+	
+	private Integer parseDayIdx(String openid){
+		Date today=null;
+		try {
+			today = DateUtil.getDate(new Date(), AppConst.DATE_FORMAT_DATE);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Date yestoday = DateUtil.getDateAfterDays(today, -1);
+		
+		Integer lastdayIdx=everydayMapper.queryMaxDayIndex(openid, yestoday, today);
+		
+		if (lastdayIdx==null) {
+			return 0;
+		}
+		return lastdayIdx+1;
+	}
+	private Integer parseDayItemIdx(String openid){
+		
+		Date today=null;
+		try {
+			today = DateUtil.getDate(new Date(), AppConst.DATE_FORMAT_DATE);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Integer maxidx = everydayMapper.queryMaxItemIdx(openid, today);
+		
+		if(maxidx==null){
+			return 0;
+		}
+		return maxidx+1;
+		
 	}
 	
 	private List<String> parseTags(String content){
@@ -84,6 +130,22 @@ public class EverydayServiceImpl implements EverydayService{
 		}
 		
 		return tags;
+	}
+	
+	private String parseURL(String content){
+		if(Strings.isNullOrEmpty(content)){
+			return null;
+		}
+		
+		Pattern p=Pattern.compile("(?i)http://[^\u4e00-\u9fa5]+");
+		
+		Matcher m=p.matcher(content);
+		
+		if(m.find()){
+			return m.group();
+		}
+		
+		return null;
 	}
 	
 //	private List<String> parseUrl(String content){
@@ -162,21 +224,37 @@ public class EverydayServiceImpl implements EverydayService{
 	}
 	
 	public static void main(String[] args) {
-		Pattern p=Pattern.compile("#[A-Za-z\\u4e00-\\u9fa5][A-Za-z0-9\\u4e00-\\u9fa5]*"); 
-		Matcher m=p.matcher("我的QQ是:456456 #我的电话是:05#32214 我的#邮箱#是:a#aa123@aaa.com");
+//		Pattern p=Pattern.compile("#[A-Za-z\\u4e00-\\u9fa5][A-Za-z0-9\\u4e00-\\u9fa5]*"); 
+//		Matcher m=p.matcher("我的QQ是:456456 #我的电话是:05#32214 我的#邮箱#是:a#aa123@aaa.com");
+//		
+//		while(m.find()) { 
+//			System.out.println(m.group()); 
+//		} 
 		
-		while(m.find()) { 
-			System.out.println(m.group()); 
-		} 
+//		String url = EverydayServiceImpl.parseURL("java获取一段文字中的url地址并且Http://forum.csdn.net/PointForum/Forum/PostTopic.aspx?forumID=467d91e3-dd10-480b-a322-71b65e66c736在网页中以链接http://forum.csdn.net/PointForum/Forum/PostTopic.a");
+//		System.out.println(url);
 	}
 
 	@Override
 	public Pager<EverydayModel> pagerRecent(EverydayCond cond, Pager<EverydayModel> pager) throws ServiceException {
-		return null;
+		
+		Preconditions.checkNotNull(cond);
+		Preconditions.checkNotNull(pager);
+		
+		pager.setDir("desc");
+		pager.setSort("gmt_created");
+		
+		List<EverydayModel> records = everydayMapper.pagerByCond(cond, pager);
+		pager.setRecords(records);
+		pager.setTotals(everydayMapper.countByCond(cond));
+		return pager;
 	}
 
 	@Override
 	public EverydayModel queryById(Long id) throws ServiceException {
-		return null;
+		Preconditions.checkNotNull(id);
+		
+		EverydayModel everyday = everydayMapper.queryById(id);
+		return everyday;
 	}
 }

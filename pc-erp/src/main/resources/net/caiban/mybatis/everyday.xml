@@ -1,9 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="net.caiban.pc.erp.persist.EverydayMapper">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.caiban.pc.erp.persist.EverydayMapper" >
 
 	<sql id="Base_column">
 		id ,
@@ -159,6 +156,51 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<include refid="where_cond" ></include>
 		order by gmt_created desc
 		limit #{cond.limit}
+	</select>
+	
+	<select id="pagerByCond" resultType="net.caiban.pc.erp.domain.EverydayModel">
+		select 
+			<include refid="Base_column"></include>
+		from everyday
+		<include refid="where_cond" ></include>
+		
+		<if test="pager.sort !=null ">
+			order by ${pager.sort}
+			<if test="pager.dir != null">
+				${pager.dir}
+			</if>
+		</if>
+		<if test="pager.start>=0 and pager.limit>0">
+			limit #{pager.start}, #{pager.limit}
+		</if>
+		
+	</select>
+	
+	<select id="countByCond" resultType="java.lang.Integer" >
+		select count(1) as c from everyday
+		<include refid="where_cond" ></include>
+	</select>
+	
+	<select id="queryById" resultType="net.caiban.pc.erp.domain.EverydayModel">
+		select 
+			<include refid="Base_column"></include>
+		from everyday
+		where id=#{id}
+	</select>
+	
+	<select id="queryMaxDayIndex" resultType="java.lang.Integer">
+		select max(day_index) from everyday
+		where
+			wx_openid=#{openid}
+			and #{to} > gmt_created
+			and gmt_created >= #{from} 
+	</select>
+	
+	<select id="queryMaxItemIdx" resultType="java.lang.Integer">
+		select max(day_index) from everyday
+		where
+			wx_openid=#{openid}
+			and gmt_created >= #{minGmtCreated} 
 	</select>
 	
 </mapper>

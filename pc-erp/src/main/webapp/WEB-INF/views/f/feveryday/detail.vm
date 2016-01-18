@@ -1,0 +1,47 @@
+#set($layout="/layout/everyday_page.vm")
+
+<div class="container">
+
+<div class=" panel panel-$!{everyday.panelClass} mt8" >
+
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-8 ">
+				每1天，1件事，记1笔
+			</div>
+		</div>
+	</div>
+	
+    <div class="panel-body" style="word-break:break-all">
+		<h4>
+			$!{everyday.content}
+		#if($!{everyday.url} != "")
+			<a href="$!{everyday.url}" target="_blank">
+                <i class="fa fa-link" ></i>
+			</a>
+		#end
+		</h4>
+		
+	</div>
+	<div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-8 ">
+				#D$!{everyday.dayIndex}
+				#foreach($tag in ${everyday.tagList})
+					#$!{tag}
+				#end
+			</div>
+		</div>
+	</div>
+</div>
+
+<nav>
+  <ul class="pager">
+    <li><a href="#springUrl('/f/feveryday/index.do')">更多每1天</a></li>
+  </ul>
+</nav>
+
+</div>
+
+#parse("/f/feveryday/pub_footer.vm")
+
