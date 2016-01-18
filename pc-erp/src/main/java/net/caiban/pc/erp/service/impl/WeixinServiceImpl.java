@@ -135,7 +135,7 @@ public class WeixinServiceImpl implements WeixinService {
 		if(MESSAGE_TYPE.event.name().equalsIgnoreCase(eventMessage.getMsgType())){
 			if(EVENT_TYPE.subscribe.name().equalsIgnoreCase(eventMessage.getEvent())){
 				//订阅后的回复
-				return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "发送 1 试试看");
+				return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "每1天，1件事，记1笔 \n发送 1 试试看");
 			}
 		}
 		

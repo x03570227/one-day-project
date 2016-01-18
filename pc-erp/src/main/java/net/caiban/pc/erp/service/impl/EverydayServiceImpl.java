@@ -68,7 +68,8 @@ public class EverydayServiceImpl implements EverydayService{
 		.append(everyday.getContent())
 		.append("(<a href='")
 		.append(AppConst.getConfig("app.host"))
-		.append("/f/feveryday/detail.do?id=")
+		.append("/f/feveryday/detail.do?viewWxOpenid=").append(message.getFromUserName())
+		.append("&id=")
 		.append(everyday.getId())
 		.append("' >")
 		.append("#D").append(everyday.getDayIndex())
@@ -179,7 +180,7 @@ public class EverydayServiceImpl implements EverydayService{
 		
 		StringBuffer sb = buildRespByCond(cond);
 		
-		sb.append("<a href='").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do'>查看更多</a>");
+		sb.append("<a href='").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?viewWxOpenid=").append(message.getFromUserName()).append("'>查看更多</a>");
 		
 		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
 	}
@@ -193,7 +194,10 @@ public class EverydayServiceImpl implements EverydayService{
 		
 		StringBuffer sb = buildRespByCond(cond);
 		
-		sb.append("<a href='").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?wxOpenid=").append(message.getFromUserName()).append("'>查看更多</a>");
+		sb.append("<a href='").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?wxOpenid=")
+				.append(message.getFromUserName())
+				.append("&viewWxOpenid=").append(message.getFromUserName())
+				.append("'>查看更多</a>");
 		
 		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
 	}
