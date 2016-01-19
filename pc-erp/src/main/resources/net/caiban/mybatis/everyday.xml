@@ -142,11 +142,21 @@
 	<sql id="where_cond" >
 		<where >
 			<if test="cond.wxOpenid!=null" >
-				wx_openid=#{cond.wxOpenid}
+				and wx_openid=#{cond.wxOpenid}
 			</if>
 			<if test="cond.wxMsgtype!=null" >
-				wx_msgtype=#{cond.wxMsgtype}
+				and wx_msgtype=#{cond.wxMsgtype}
 			</if>
+			<if test="cond.excludeId!=null">
+				and id != #{cond.excludeId}
+			</if>
+			<if test="cond.gmtCreatedMin!=null">
+				and gmt_created >= #{cond.gmtCreatedMin}
+			</if>
+			<if test="cond.gmtCreatedMax!=null">
+				and #{cond.gmtCreatedMax} > gmt_created 
+			</if>
+			
 		</where>
 	</sql>
 	<select id="queryByCond" resultType="net.caiban.pc.erp.domain.EverydayModel">
@@ -192,8 +202,12 @@
 		select max(day_index) from everyday
 		where
 			wx_openid=#{openid}
+			<if test="to != null">
 			and #{to} > gmt_created
+			</if>
+			<if test="from != null" >
 			and gmt_created >= #{from} 
+			</if>
 	</select>
 	
 	<select id="queryMaxItemIdx" resultType="java.lang.Integer">

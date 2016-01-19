@@ -3,6 +3,7 @@
  */
 package net.caiban.pc.erp.domain;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
@@ -26,7 +27,25 @@ public class EverydayModel extends Everyday{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private Integer maxDayIndex;
+	private BigDecimal nowDayPercent;
+	
+	public Integer getMaxDayIndex() {
+		return maxDayIndex;
+	}
 
+	public void setMaxDayIndex(Integer maxDayIndex) {
+		this.maxDayIndex = maxDayIndex;
+	}
+
+	public BigDecimal getNowDayPercent() {
+		return nowDayPercent;
+	}
+
+	public void setNowDayPercent(BigDecimal nowDayPercent) {
+		this.nowDayPercent = nowDayPercent;
+	}
 
 	public String getPanelClass() {
 		int i = new Random().nextInt(4);

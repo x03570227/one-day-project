@@ -1,8 +1,19 @@
 #set($layout="/layout/everyday_page.vm")
 
 <div class="container">
+	
+	#if(0 < $!{everyday.dayIndex} )
+	<div class="progress mt8">
+      <div class="progress-bar progress-bar-danger" style="width: ${everyday.nowDayPercent}%;min-width: 4em;">
+        <span class="sr-only"></span>
+		连续$!{everyday.dayIndex}天
+      </div>
+    </div>
+	#else
+		<div class="mt8"></div>
+	#end
 
-<div class=" panel panel-$!{everyday.panelClass} mt8" >
+<div class=" panel panel-$!{everyday.panelClass}" >
 
 	<div class="panel-heading">
 		<div class="row">
@@ -26,7 +37,7 @@
 	<div class="panel-footer">
 		<div class="row">
 			<div class="col-sm-offset-4 col-sm-8 ">
-				#D$!{everyday.dayIndex}
+				<span class="label label-danger">D$!{everyday.dayIndex}</span>
 				#foreach($tag in ${everyday.tagList})
 					#$!{tag}
 				#end
@@ -34,6 +45,33 @@
 		</div>
 	</div>
 </div>
+
+#foreach($everyday in ${todays})
+<div class=" panel panel-$!{everyday.panelClass} mt8" >
+
+    <div class="panel-body" style="word-break:break-all">
+		<h4>
+			$!{everyday.content}
+		#if($!{everyday.url} != "")
+			<a href="$!{everyday.url}" target="_blank">
+                <i class="fa fa-link" ></i>
+			</a>
+		#end
+		</h4>
+		
+	</div>
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-offset-4 col-sm-8 ">
+				<span class="label label-danger">D$!{everyday.dayIndex}</span>
+				#foreach($tag in ${everyday.tagList})
+					#$!{tag}
+				#end
+			</div>
+		</div>
+	</div>
+</div>
+#end
 
 <nav>
   <ul class="pager">

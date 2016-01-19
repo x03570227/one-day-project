@@ -47,7 +47,9 @@ public class FeverydayController extends BaseController {
 			ModelMap model, Long id, String viewWxOpenid){
 		try {
 			//XXX 利用 wxopenid 判断用户与 everyday 的关系，判断用户绑定状态
-			model.put("everyday", everydayService.queryById(id));
+			EverydayModel everydayModel = everydayService.queryById(id);
+			model.put("everyday", everydayModel);
+			model.put("todays", everydayService.queryTheDayByEveryday(everydayModel));
 		} catch (ServiceException e) {
 			serverError(request, response, e.getMessage());
 		}

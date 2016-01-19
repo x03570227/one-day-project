@@ -1,5 +1,7 @@
 package net.caiban.pc.erp.service.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import net.caiban.pc.erp.config.AppConst;
+import net.caiban.pc.erp.domain.Everyday;
 import net.caiban.pc.erp.domain.EverydayCond;
 import net.caiban.pc.erp.domain.EverydayModel;
 import net.caiban.pc.erp.domain.Pager;
@@ -261,6 +264,35 @@ public class EverydayServiceImpl implements EverydayService{
 		Preconditions.checkNotNull(id);
 		
 		EverydayModel everyday = everydayMapper.queryById(id);
+		
+		everyday.setMaxDayIndex(everydayMapper.queryMaxDayIndex(everyday.getWxOpenid(), null, null));
+		if (everyday.getMaxDayIndex() == null || everyday.getMaxDayIndex() <= 0
+				|| everyday.getDayIndex() > everyday.getMaxDayIndex()) {
+			everyday.setNowDayPercent(new BigDecimal("100"));
+		}else{
+			everyday.setNowDayPercent(new BigDecimal(String.valueOf(everyday.getDayIndex())).divide(new BigDecimal(String.valueOf(everyday.getMaxDayIndex())), 2, RoundingMode.HALF_UP).multiply(new BigDecimal("100")));
+		}
+		
 		return everyday;
+	}
+
+	@Override
+	public List<EverydayModel> queryTheDayByEveryday(Everyday everyday) {
+		Preconditions.checkNotNull(everyday);
+		
+		Date from=null;
+		try {
+			from = DateUtil.getDate(everyday.getGmtCreated(), AppConst.DATE_FORMAT_DATE);
+		} catch (ParseException e) {
+		}
+		Date to =DateUtil.getDateAfterDays(from, 1);
+		
+		EverydayCond cond = new EverydayCond();
+		cond.setGmtCreatedMin(from);
+		cond.setGmtCreatedMax(to);
+		cond.setExcludeId(Long.valueOf(everyday.getId()));
+		cond.setWxOpenid(everyday.getWxOpenid());
+		
+		return everydayMapper.queryByCond(cond);
 	}
 }

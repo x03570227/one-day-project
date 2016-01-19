@@ -1,6 +1,8 @@
 #set($layout="/layout/everyday_page.vm")
 
 <div class="container">
+	
+	<div class="alert alert-danger mt8" role="alert">每1天，1件事，记1笔，进步一点点！</div>
 
 #foreach($everyday in ${pager.records})
 <div class=" panel panel-$!{everyday.panelClass} mt8" >

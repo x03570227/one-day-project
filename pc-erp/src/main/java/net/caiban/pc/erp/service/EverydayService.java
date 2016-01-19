@@ -1,5 +1,8 @@
 package net.caiban.pc.erp.service;
 
+import java.util.List;
+
+import net.caiban.pc.erp.domain.Everyday;
 import net.caiban.pc.erp.domain.EverydayCond;
 import net.caiban.pc.erp.domain.EverydayModel;
 import net.caiban.pc.erp.domain.Pager;
@@ -18,4 +21,6 @@ public interface EverydayService {
 	public Pager<EverydayModel> pagerRecent(EverydayCond cond, Pager<EverydayModel> pager) throws ServiceException;
 	
 	public EverydayModel queryById(Long id) throws ServiceException;
+	
+	public List<EverydayModel> queryTheDayByEveryday(Everyday everyday);
 }
