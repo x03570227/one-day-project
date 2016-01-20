@@ -5,13 +5,13 @@ package net.caiban.pc.erp.persist.trade;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.trade.Trade;
 import net.caiban.pc.erp.domain.trade.TradeCond;
 import net.caiban.pc.erp.domain.trade.TradeDefine;
 import net.caiban.pc.erp.domain.trade.TradeFull;
-
-import org.apache.ibatis.annotations.Param;
 
 /**
  * @author mays

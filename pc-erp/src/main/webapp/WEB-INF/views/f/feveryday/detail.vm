@@ -32,12 +32,12 @@
 			</a>
 		#end
 		</h4>
-		
+		<div class="text-muted">$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}</div>
 	</div>
 	<div class="panel-footer">
 		<div class="row">
 			<div class="col-sm-offset-4 col-sm-8 ">
-				<span class="label label-danger">D$!{everyday.dayIndex}</span>
+				##<span class="label label-danger">D$!{everyday.dayIndex}</span>
 				#foreach($tag in ${everyday.tagList})
 					#$!{tag}
 				#end
@@ -58,12 +58,12 @@
 			</a>
 		#end
 		</h4>
-		
+		<div class="text-muted">$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}</div>
 	</div>
 	<div class="panel-heading">
 		<div class="row">
 			<div class="col-sm-offset-4 col-sm-8 ">
-				<span class="label label-danger">D$!{everyday.dayIndex}</span>
+				##<span class="label label-danger">D$!{everyday.dayIndex}</span>
 				#foreach($tag in ${everyday.tagList})
 					#$!{tag}
 				#end

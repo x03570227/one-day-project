@@ -2,6 +2,7 @@ package net.caiban.pc.erp.service.impl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Joiner;
@@ -34,6 +37,8 @@ public class EverydayServiceImpl implements EverydayService{
 
 	@Resource
 	private EverydayMapper everydayMapper;
+	
+	final static String TAG_HTML_TPL="<span class='text-tag' >#{0}</span>";
 	
 	@Override
 	public XMLTextMessage save(EventMessage message) throws ServiceException{
@@ -254,6 +259,9 @@ public class EverydayServiceImpl implements EverydayService{
 		pager.setSort("gmt_created");
 		
 		List<EverydayModel> records = everydayMapper.pagerByCond(cond, pager);
+		
+		records = rebuildEveryday(records);
+		
 		pager.setRecords(records);
 		pager.setTotals(everydayMapper.countByCond(cond));
 		return pager;
@@ -269,6 +277,8 @@ public class EverydayServiceImpl implements EverydayService{
 			throw new ServiceException("INVALID_ID");
 		}
 		
+		everyday.setPageTitle(Jsoup.clean(everyday.getContent(), Whitelist.none()));
+		
 		everyday.setMaxDayIndex(everydayMapper.queryMaxDayIndex(everyday.getWxOpenid(), null, null));
 		if (everyday.getMaxDayIndex() == null || everyday.getMaxDayIndex() <= 0
 				|| everyday.getDayIndex() > everyday.getMaxDayIndex()) {
@@ -277,7 +287,25 @@ public class EverydayServiceImpl implements EverydayService{
 			everyday.setNowDayPercent(new BigDecimal(String.valueOf(everyday.getDayIndex())).divide(new BigDecimal(String.valueOf(everyday.getMaxDayIndex())), 2, RoundingMode.HALF_UP).multiply(new BigDecimal("100")));
 		}
 		
+		everyday.setContent(buildContentHtml(everyday.getContent()));
 		return everyday;
+	}
+	
+	private String buildContentHtml(String content){
+		
+		if(Strings.isNullOrEmpty(content)){
+			return "";
+		}
+		
+		List<String> tags = parseTags(content);
+		
+		for(String tag: tags){
+			content = content.replace("#"+tag, MessageFormat.format(TAG_HTML_TPL, tag));
+		}
+		
+		content = content.replace("\n", "<br />");
+		
+		return content;
 	}
 
 	@Override
@@ -297,6 +325,17 @@ public class EverydayServiceImpl implements EverydayService{
 		cond.setExcludeId(Long.valueOf(everyday.getId()));
 		cond.setWxOpenid(everyday.getWxOpenid());
 		
-		return everydayMapper.queryByCond(cond);
+		List<EverydayModel> list = everydayMapper.queryByCond(cond);
+		return rebuildEveryday(list);
+	}
+	
+	private List<EverydayModel> rebuildEveryday(List<EverydayModel> list){
+		if(list==null){
+			return Lists.newArrayList();
+		}
+		for(EverydayModel everyday: list){
+			everyday.setContent(buildContentHtml(everyday.getContent()));
+		}
+		return list;
 	}
 }

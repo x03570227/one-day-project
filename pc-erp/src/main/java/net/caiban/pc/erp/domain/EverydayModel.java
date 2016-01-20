@@ -15,6 +15,9 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
+import net.caiban.pc.erp.config.AppConst;
+import net.caiban.utils.DateUtil;
+
 /**
  * @author mar
  *
@@ -30,6 +33,7 @@ public class EverydayModel extends Everyday{
 	
 	private Integer maxDayIndex;
 	private BigDecimal nowDayPercent;
+	private String pageTitle;
 	
 	public Integer getMaxDayIndex() {
 		return maxDayIndex;
@@ -45,6 +49,16 @@ public class EverydayModel extends Everyday{
 
 	public void setNowDayPercent(BigDecimal nowDayPercent) {
 		this.nowDayPercent = nowDayPercent;
+	}
+	
+	
+
+	public String getPageTitle() {
+		return pageTitle;
+	}
+
+	public void setPageTitle(String pageTitle) {
+		this.pageTitle = pageTitle;
 	}
 
 	public String getPanelClass() {
@@ -68,5 +82,12 @@ public class EverydayModel extends Everyday{
 			return Lists.newArrayList();
 		}
 		return Lists.newArrayList(Splitter.on(",").split(getTags()));
+	}
+	
+	public String getGmtCreatedStr(){
+		if(getGmtCreated()==null){
+			return null;
+		}
+		return DateUtil.toString(getGmtCreated(), AppConst.DATE_FORMAT_DATE);
 	}
 }

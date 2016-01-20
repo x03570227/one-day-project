@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>#springMessage("ed.seo.title")</title>
+    <title>#springMessage("ed.seo.title") - $!{everyday.pageTitle}</title>
 	<meta name="keywords" content="#springMessage('ed.seo.keywords')" />
 	<meta name="description" content="#springMessage('ed.seo.description')" />
 	<link rel="shortcut icon" href="http://img.caiban.net/caiban/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
-	<link href="#springUrl('/css/global.css')" rel="stylesheet" />
+	#loadCss(["/css/global.css"], "", "$!{scriptVersion}")
 	
 	#loadCss([
 		"/plugin/bootstrap/dist/css/bootstrap.min.css",

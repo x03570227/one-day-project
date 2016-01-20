@@ -16,12 +16,14 @@
 			</a>
 		#end
 		</h4>
+		<div class="text-muted">$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}</div>
 		
 	</div>
 	<div class="panel-heading">
 		<div class="row">
 			<div class="col-sm-offset-4 col-sm-8 ">
-				#D$!{everyday.dayIndex}
+				##<a href='#springUrl("/f/feveryday/detail.do")?id=$!{everyday.id}' ></a>
+				##<span class="label label-danger">$!{everyday.dayIndex}</span>
 				#foreach($tag in ${everyday.tagList})
 					#$!{tag}
 				#end

@@ -3,8 +3,6 @@
  */
 package net.caiban.pc.erp.domain.product;
 
-import net.caiban.pc.erp.utils.jackson.CustomDateSerializer;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
