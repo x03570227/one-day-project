@@ -24,9 +24,14 @@ import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.EverydayService;
 import net.caiban.pc.erp.service.WeixinService;
 import net.caiban.utils.cache.JedisUtil;
+import net.caiban.utils.http.HttpRequestUtil;
+import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
+import weixin.popular.api.TokenAPI;
 import weixin.popular.bean.EventMessage;
+import weixin.popular.bean.Token;
 import weixin.popular.bean.xmlmessage.XMLTextMessage;
 import weixin.popular.util.XMLConverUtil;
 
@@ -164,7 +169,7 @@ public class WeixinServiceImpl implements WeixinService {
 				return everydayService.queryMy(eventMessage).toXML();
 			}
 			
-			//保存信息
+			//保存文本信息
 			try {
 				XMLTextMessage resultmsg = everydayService.save(eventMessage);
 				return resultmsg.toXML();
@@ -178,6 +183,8 @@ public class WeixinServiceImpl implements WeixinService {
 		if(MESSAGE_TYPE.image.name().equalsIgnoreCase(eventMessage.getMsgType())){
 			try {
 				//保存图片
+				String imgPath = everydayService.saveImage(eventMessage);
+				eventMessage.setPicUrl(Strings.isNullOrEmpty(imgPath)?eventMessage.getPicUrl():imgPath);
 				XMLTextMessage resultmsg = everydayService.save(eventMessage);
 				return resultmsg.toXML();
 			} catch (ServiceException e) {
@@ -226,6 +233,57 @@ public class WeixinServiceImpl implements WeixinService {
 	private String buildXmlTextMessage(String fromUserName, String toUserName, String content){
 		XMLTextMessage xmlTextMessage = new XMLTextMessage(fromUserName, toUserName, content);
 		return xmlTextMessage.toXML();
+	}
+
+	@Override
+	public String genAccessToken() throws ServiceException {
+		
+		//XXX 并发特别大的情况下可能会出现actoken 失效与获取之间时间差导致多次获取 access token 问题
+		Jedis jedis = null;
+		
+		String actoken = null;
+		try {
+			jedis = JedisUtil.getPool().getResource();
+			actoken=jedis.get(RedisKeyEnum.ACCESSTOKEN.getKey("WEIXIN"));
+			
+			if(Strings.isNullOrEmpty(actoken)){
+				Token token = TokenAPI.token(AppConst.getConfig("weixin.gzh.app.id"), AppConst.getConfig("weixin.gzh.app.secret"));
+				
+				if(token==null){
+					LOG.error("FAILURED GET ACCESS TOKEN: token is null");
+					throw new ServiceException("FAILURED GET ACCESS TOKEN:"+new Gson().toJson(token));
+				}
+				
+				actoken = token.getAccess_token();
+				
+				if(Strings.isNullOrEmpty(actoken)){
+					LOG.error("FAILURED GET ACCESS TOKEN:"+new Gson().toJson(token));
+					throw new ServiceException("FAILURED GET ACCESS TOKEN:"+new Gson().toJson(token));
+				}
+				
+				jedis.setex(RedisKeyEnum.ACCESSTOKEN.getKey("WEIXIN"), token.getExpires_in()-60, actoken);
+			}
+		} finally {
+			if(jedis!=null){
+				jedis.close();
+			}
+		}
+		
+		return actoken;
+	}
+
+	@Override
+	public String remoteAccessToken() throws ServiceException {
+		String remoteResult = HttpRequestUtil.httpGet(AppConst.getConfig("app.host.inter")+"/api/genWxActoken.do");
+		if(!JSONUtils.mayBeJSON(remoteResult)){
+			throw new ServiceException("REMOTE_ACCESS_FAILURE");
+		}
+		JSONObject jobj = JSONObject.fromObject(remoteResult);
+		Boolean result = jobj.optBoolean("result");
+		if(!result){
+			throw new ServiceException(jobj.optString("data"));
+		}
+		return jobj.optString("data");
 	}
 	
 //	public static void main(String[] args) {

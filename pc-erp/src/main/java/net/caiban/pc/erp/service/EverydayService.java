@@ -23,4 +23,6 @@ public interface EverydayService {
 	public EverydayModel queryById(Long id) throws ServiceException;
 	
 	public List<EverydayModel> queryTheDayByEveryday(Everyday everyday);
+	
+	public String saveImage(EventMessage message) throws ServiceException;
 }

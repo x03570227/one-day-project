@@ -1,5 +1,12 @@
 package net.caiban.pc.erp.service.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.MessageFormat;
@@ -11,6 +18,17 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.routing.HttpRoute;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.protocol.HttpContext;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Component;
@@ -20,15 +38,21 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
+import main.java.com.UpYun;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.Everyday;
 import net.caiban.pc.erp.domain.EverydayCond;
 import net.caiban.pc.erp.domain.EverydayModel;
 import net.caiban.pc.erp.domain.Pager;
+import net.caiban.pc.erp.domain.UpyunNamespaceEnum;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.EverydayMapper;
 import net.caiban.pc.erp.service.EverydayService;
+import net.caiban.pc.erp.service.WeixinService;
+import net.caiban.pc.erp.utils.UpyunUtils;
 import net.caiban.utils.DateUtil;
+import net.caiban.utils.http.HttpRequestUtil;
+import weixin.popular.api.MediaAPI;
 import weixin.popular.bean.EventMessage;
 import weixin.popular.bean.xmlmessage.XMLTextMessage;
 
@@ -37,6 +61,8 @@ public class EverydayServiceImpl implements EverydayService{
 
 	@Resource
 	private EverydayMapper everydayMapper;
+	@Resource
+	private WeixinService weixinService;
 	
 	final static String TAG_HTML_TPL="<span class='text-tag' >#{0}</span>";
 	
@@ -73,7 +99,7 @@ public class EverydayServiceImpl implements EverydayService{
 		
 		StringBuffer sb =new StringBuffer();
 		sb.append("每1天,1件事,记1笔 \n")
-		.append(everyday.getContent())
+		.append(Strings.nullToEmpty(everyday.getContent()))
 		.append("(<a href='")
 		.append(AppConst.getConfig("app.host"))
 		.append("/f/feveryday/detail.do?viewWxOpenid=").append(message.getFromUserName())
@@ -245,6 +271,57 @@ public class EverydayServiceImpl implements EverydayService{
 		
 //		String url = EverydayServiceImpl.parseURL("java获取一段文字中的url地址并且Http://forum.csdn.net/PointForum/Forum/PostTopic.aspx?forumID=467d91e3-dd10-480b-a322-71b65e66c736在网页中以链接http://forum.csdn.net/PointForum/Forum/PostTopic.a");
 //		System.out.println(url);
+		
+try {
+	
+//	HttpRequestUtil.httpGetResponse("http://mmbiz.qpic.cn/mmbiz/bAvvgWOL0YicaIO7bmJnKsakXnOljav3tRPiaG2R4qpbzUstA8ZJPFYJn5ItzLRQrryToibEBNcRe79ZxOia2syjag/0");
+//	HttpGet httpGet = new HttpGet("http://mmbiz.qpic.cn/mmbiz/bAvvgWOL0YicaIO7bmJnKsakXnOljav3tRPiaG2R4qpbzUstA8ZJPFYJn5ItzLRQrryToibEBNcRe79ZxOia2syjag/0");
+////	HttpGet httpGet = new HttpGet("https://api.weixin.qq.com/cgi-bin/media/get?access_token=H74SoNhrHslx5qGML1lb5xYLkfH35bd-UO87KTLAT6OGf_owCl45pi7JXrIb9DCjsIXLRHOy6SGRNbucpbYqwkLUFsZSXOx3MjeMSizTAoUDZGbAHAZVC&media_id=u-Cti2LtFUP4wMdXmQDkfBHe9gILdGf-Aqm5E5_Y6i1D9sFcEEvsdPMbnUoI5qyN");
+//	HttpContext context = HttpClientContext.create();
+//	
+//	PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+//	cm.setMaxTotal(20);
+//	cm.setDefaultMaxPerRoute(20);
+//	
+//	HttpHost localhost = new HttpHost("localhost", 80);
+//	cm.setMaxPerRoute(new HttpRoute(localhost), 50);
+//	
+//	CloseableHttpClient client = HttpClients.custom().setConnectionManager(cm).build();
+//	
+//	CloseableHttpClient client = HttpClients.custom().setConnectionManager(cm).build().execute(httpGet, context);
+	
+			CloseableHttpResponse response = HttpRequestUtil.httpGetResponse("http://mmbiz.qpic.cn/mmbiz/bAvvgWOL0YicaIO7bmJnKsakXnOljav3tRPiaG2R4qpbzUstA8ZJPFYJn5ItzLRQrryToibEBNcRe79ZxOia2syjag/0");
+			
+			try {
+				
+				HttpEntity entity = response.getEntity();
+				entity.getContentType();
+				if(entity!=null){
+					InputStream is = entity.getContent();
+					
+					FileOutputStream fos = new FileOutputStream(new File("/Users/mar/test.jpg"));
+					byte[] b = new byte[1024];
+					while((is.read(b)) != -1){
+					fos.write(b);
+					}
+					
+					is.close();
+					fos.close();
+//					return httpResponseAsString(is, encode);
+					
+				}
+				
+			} finally{
+				response.close();
+			}
+			
+		} catch (ClientProtocolException e) {
+//			LOG.error("Error occurred when get url. Message:"+e.getMessage(), e);
+		} catch (IOException e) {
+//			LOG.error("Error occurred when get url. Message:"+e.getMessage(), e);
+		}
+
+
 	}
 
 	@Override
@@ -277,7 +354,9 @@ public class EverydayServiceImpl implements EverydayService{
 			throw new ServiceException("INVALID_ID");
 		}
 		
-		everyday.setPageTitle(Jsoup.clean(everyday.getContent(), Whitelist.none()));
+		if(!Strings.isNullOrEmpty(everyday.getContent())){
+			everyday.setPageTitle(Jsoup.clean(everyday.getContent(), Whitelist.none()));
+		}
 		
 		everyday.setMaxDayIndex(everydayMapper.queryMaxDayIndex(everyday.getWxOpenid(), null, null));
 		if (everyday.getMaxDayIndex() == null || everyday.getMaxDayIndex() <= 0
@@ -338,4 +417,89 @@ public class EverydayServiceImpl implements EverydayService{
 		}
 		return list;
 	}
+
+	@Override
+	public String saveImage(EventMessage message) throws ServiceException {
+		Preconditions.checkNotNull(message);
+		
+		if(Strings.isNullOrEmpty(message.getMediaId())){
+			return null;
+		}
+		
+		//"R-767F1kwehf5F02TSrIqv4PiIVXY2aup0KkYG_E_iZfXqZGwoc_k2q5dRPaw52L"
+		
+//		byte[] mediaByte = MediaAPI.mediaGet(weixinService.remoteAccessToken(), message.getMediaId());
+		byte[] mediaByte = mediaGet(message.getPicUrl());
+		
+		
+//		FileOutputStream fos;
+//		try {
+//			fos = new FileOutputStream(new File("/Users/mar/a1.jpg"));
+//			fos.write(mediaByte);
+//			fos.close();
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		if(mediaByte.length==0){
+			throw new ServiceException("INVALID_MEDIA_ID");
+		}
+		
+		UpYun upYun = UpyunUtils.getClient(UpyunNamespaceEnum.IMAGE.getNamespace());
+		String fullpath = UpyunUtils.getMonthPath(message.getMediaId()+".jpg");
+		Boolean result = upYun.writeFile(fullpath, mediaByte, true);
+		
+		if(!result){
+			throw new ServiceException("UPLOAD_FAILURE");
+		}
+		
+		return fullpath;
+	}
+	
+	private byte[] mediaGet(String url) {
+		CloseableHttpResponse response = null;
+		try {
+
+			response = HttpRequestUtil.httpGetResponse(url);
+
+			try {
+				HttpEntity entity = response.getEntity();
+				entity.getContentType();
+				if (entity != null) {
+					InputStream is = null;
+
+					try {
+						is = entity.getContent();
+
+						ByteArrayOutputStream bos = new ByteArrayOutputStream();
+						byte[] buff = new byte[1024];
+						
+						while((is.read(buff)) != -1){
+							bos.write(buff);
+						}
+						
+						return bos.toByteArray();
+					} finally {
+						is.close();
+					}
+
+					// return httpResponseAsString(is, encode);
+				}
+			} finally {
+				response.close();
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return new byte[0];
+	}
+	
+	
 }

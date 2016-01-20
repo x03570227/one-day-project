@@ -23,6 +23,7 @@
 		</div>
 	</div>
 	
+	#if(${everyday.wxMsgtype} == "text")
     <div class="panel-body" style="word-break:break-all">
 		<h4>
 			$!{everyday.content}
@@ -44,11 +45,26 @@
 			</div>
 		</div>
 	</div>
+	#end
+	
+		#if(${everyday.wxMsgtype} == "image")
+            <div class="panel-body" style="word-break:break-all">
+        		<div class="text-center">
+					<image src="$!{everyday.imageUrl}" width="100%"/>
+				</div>
+        	</div>
+        	<div class="panel-footer">
+				<div class="text-muted">$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}</div>
+        	</div>
+	#end
+	
 </div>
 
 #foreach($everyday in ${todays})
+	
 <div class=" panel panel-$!{everyday.panelClass} mt8" >
 
+	#if(${everyday.wxMsgtype} == "text")
     <div class="panel-body" style="word-break:break-all">
 		<h4>
 			$!{everyday.content}
@@ -70,7 +86,21 @@
 			</div>
 		</div>
 	</div>
+#end
+
+#if(${everyday.wxMsgtype} == "image")
+            <div class="panel-body" style="word-break:break-all">
+        		<div class="text-center">
+					<image src="$!{everyday.imageUrl}" width="100%"/>
+				</div>
+        	</div>
+        	<div class="panel-heading">
+				<div class="text-muted">$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}</div>
+        	</div>
+#end
+
 </div>
+
 #end
 
 <nav>

@@ -9,13 +9,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,29 +53,41 @@ public class ApiController extends BaseController {
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
-	public ModelAndView validWeixin(HttpServletRequest request, ModelMap model,
-			String signature, String timestamp, String nonce, String echostr,
-			String encrypt_type, String msg_signature, String get
-			){
-		
-		LOG.info("signature:"+signature+" timestamp:"+timestamp+" noce:"+nonce+" echostr:"+echostr+" encrypt_type:"+encrypt_type+" msg_signature:"+msg_signature);
-		
-		if(!weixinService.validSign(signature, timestamp, nonce)){
-			LOG.warn("WEIXIN VALID FAILURE.");
-			return null;
+	@RequestMapping
+	@ResponseBody
+	public Map<String, Object> genWxActoken(HttpServletRequest request, HttpServletResponse response){
+		try {
+			String token = weixinService.genAccessToken();
+			return ajaxResult(true, token);
+		} catch (ServiceException e) {
+//			serverError(request, response, e.getMessage());
+			return ajaxResult(false, e.getMessage());
 		}
-		
-		// VALID 
-		if(!Strings.isNullOrEmpty(echostr)){
-			model.put("echost", echostr);
-			return null;
-		}
-		
-		return null;
 	}
+//	
+//	@RequestMapping(method=RequestMethod.GET)
+//	public ModelAndView validWeixin(HttpServletRequest request, ModelMap model,
+//			String signature, String timestamp, String nonce, String echostr,
+//			String encrypt_type, String msg_signature, String get
+//			){
+//		
+//		LOG.info("signature:"+signature+" timestamp:"+timestamp+" noce:"+nonce+" echostr:"+echostr+" encrypt_type:"+encrypt_type+" msg_signature:"+msg_signature);
+//		
+//		if(!weixinService.validSign(signature, timestamp, nonce)){
+//			LOG.warn("WEIXIN VALID FAILURE.");
+//			return null;
+//		}
+//		
+//		// VALID 
+//		if(!Strings.isNullOrEmpty(echostr)){
+//			model.put("echost", echostr);
+//			return null;
+//		}
+//		
+//		return null;
+//	}
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping
 	public ModelAndView validWeixin(HttpServletRequest request, ModelMap model,
 			String signature, String timestamp, String nonce, String echostr,
 			String encrypt_type, String msg_signature
@@ -87,6 +99,13 @@ public class ApiController extends BaseController {
 		if(!weixinService.validSign(signature, timestamp, nonce)){
 			LOG.warn("WEIXIN VALID FAILURE.");
 			return null;
+		}
+		
+		if(request.getMethod().equalsIgnoreCase("get")){
+			if(!Strings.isNullOrEmpty(echostr)){
+				model.put("echost", echostr);
+				return null;
+			}
 		}
 		
 		InputStream is=request.getInputStream();
@@ -138,4 +157,5 @@ public class ApiController extends BaseController {
 //		return null;
 	}
 	
+
 }

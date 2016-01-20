@@ -8,7 +8,7 @@ package net.caiban.pc.erp.domain;
  *
  */
 public enum RedisKeyEnum {
-	WX_MSGID
+	WX_MSGID,ACCESSTOKEN
 	;
 	public String getKey(String key){
 		return this.toString()+":"+key;

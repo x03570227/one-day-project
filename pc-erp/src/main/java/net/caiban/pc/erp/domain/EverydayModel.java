@@ -90,4 +90,16 @@ public class EverydayModel extends Everyday{
 		}
 		return DateUtil.toString(getGmtCreated(), AppConst.DATE_FORMAT_DATE);
 	}
+	
+	public String getImageUrl(){
+		if(Strings.isNullOrEmpty(getWxPicurl())){
+			return null;
+		}
+		
+		if(getWxPicurl().startsWith("http")){
+			return getWxPicurl();
+		}
+		
+		return UpyunNamespaceEnum.IMAGE.getHost()+getWxPicurl();
+	}
 }
