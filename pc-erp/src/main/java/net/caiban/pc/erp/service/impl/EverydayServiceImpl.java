@@ -2,6 +2,7 @@ package net.caiban.pc.erp.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,6 +53,7 @@ import net.caiban.pc.erp.service.EverydayService;
 import net.caiban.pc.erp.service.WeixinService;
 import net.caiban.pc.erp.utils.UpyunUtils;
 import net.caiban.utils.DateUtil;
+import net.caiban.utils.file.FileUtil;
 import net.caiban.utils.http.HttpRequestUtil;
 import weixin.popular.api.MediaAPI;
 import weixin.popular.bean.EventMessage;
@@ -290,7 +293,7 @@ try {
 //	
 //	CloseableHttpClient client = HttpClients.custom().setConnectionManager(cm).build().execute(httpGet, context);
 	
-			CloseableHttpResponse response = HttpRequestUtil.httpGetResponse("http://mmbiz.qpic.cn/mmbiz/bAvvgWOL0YicaIO7bmJnKsakXnOljav3tRPiaG2R4qpbzUstA8ZJPFYJn5ItzLRQrryToibEBNcRe79ZxOia2syjag/0");
+			CloseableHttpResponse response = HttpRequestUtil.httpGetResponse("http://mmbiz.qpic.cn/mmbiz/bAvvgWOL0YicaIO7bmJnKsakXnOljav3tDrPu0msibKdLtibzlYeQGNm5LwkBYPDWKE43ouNlz4ibqBc4yqY89XFTg/0");
 			
 			try {
 				
@@ -299,7 +302,9 @@ try {
 				if(entity!=null){
 					InputStream is = entity.getContent();
 					
-					FileOutputStream fos = new FileOutputStream(new File("/Users/mar/test.jpg"));
+					String tmpfilepath = "/tmp/"+UUID.randomUUID()+".jpg";
+					
+					FileOutputStream fos = new FileOutputStream(new File(tmpfilepath));
 					byte[] b = new byte[1024];
 					while((is.read(b)) != -1){
 					fos.write(b);
@@ -468,23 +473,45 @@ try {
 
 			try {
 				HttpEntity entity = response.getEntity();
-				entity.getContentType();
+				
 				if (entity != null) {
 					InputStream is = null;
-
+					FileOutputStream fos = null;
+					
+					FileInputStream fis=null;
+					ByteArrayOutputStream bos=null;
 					try {
 						is = entity.getContent();
-
-						ByteArrayOutputStream bos = new ByteArrayOutputStream();
-						byte[] buff = new byte[1024];
 						
-						while((is.read(buff)) != -1){
-							bos.write(buff);
+						String tmpfilepath = "/mnt/tmp/"+UUID.randomUUID()+".jpg";
+						fos = new FileOutputStream(new File(tmpfilepath));
+						byte[] b = new byte[1024];
+						while((is.read(b)) != -1){
+							fos.write(b);
 						}
 						
+						fis = new FileInputStream(new File(tmpfilepath));
+						bos = new ByteArrayOutputStream();
+						
+						byte[] buff = new byte[fis.available()];
+						fis.read(buff);
+						bos.write(buff);
+						
 						return bos.toByteArray();
+//						ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//						byte[] buff = new byte[1024];
+//						
+//						while((is.read(buff)) != -1){
+//							bos.write(buff);
+//						}
+//						
+//						return bos.toByteArray();
 					} finally {
 						is.close();
+						fos.close();
+						
+						fis.close();
+						bos.close();
 					}
 
 					// return httpResponseAsString(is, encode);
