@@ -265,6 +265,10 @@ public class EverydayServiceImpl implements EverydayService{
 		
 		EverydayModel everyday = everydayMapper.queryById(id);
 		
+		if(everyday==null){
+			throw new ServiceException("INVALID_ID");
+		}
+		
 		everyday.setMaxDayIndex(everydayMapper.queryMaxDayIndex(everyday.getWxOpenid(), null, null));
 		if (everyday.getMaxDayIndex() == null || everyday.getMaxDayIndex() <= 0
 				|| everyday.getDayIndex() > everyday.getMaxDayIndex()) {
