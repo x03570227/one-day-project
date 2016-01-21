@@ -181,20 +181,17 @@ public class WeixinServiceImpl implements WeixinService {
 		}
 		
 		if(MESSAGE_TYPE.image.name().equalsIgnoreCase(eventMessage.getMsgType())){
-			try {
-				//保存图片
-				String imgPath = everydayService.saveImage(eventMessage);
-				eventMessage.setPicUrl(Strings.isNullOrEmpty(imgPath)?eventMessage.getPicUrl():imgPath);
-				XMLTextMessage resultmsg = everydayService.save(eventMessage);
-				return resultmsg.toXML();
-			} catch (ServiceException e) {
-				LOG.error("FAILURE SAVE TEXT MESSAGE:"+e.getMessage());
-			}
+//			try {
+//				//保存图片
+//				String imgPath = everydayService.saveImage(eventMessage);
+//				eventMessage.setPicUrl(Strings.isNullOrEmpty(imgPath)?eventMessage.getPicUrl():imgPath);
+//				XMLTextMessage resultmsg = everydayService.save(eventMessage);
+//				return resultmsg.toXML();
+//			} catch (ServiceException e) {
+//				LOG.error("FAILURE SAVE TEXT MESSAGE:"+e.getMessage());
+//			}
 		}
 		
-		//TODO 为用户保存信息，需要分享标签等信息
-		
-//		return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "暂无法处理这类信息");
 		return null;
 	}
 	

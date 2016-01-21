@@ -24,5 +24,6 @@ public interface EverydayService {
 	
 	public List<EverydayModel> queryTheDayByEveryday(Everyday everyday);
 	
+	@Deprecated
 	public String saveImage(EventMessage message) throws ServiceException;
 }
