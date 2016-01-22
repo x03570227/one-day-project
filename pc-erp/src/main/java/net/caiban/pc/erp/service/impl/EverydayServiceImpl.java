@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -16,6 +18,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -28,15 +31,17 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
+import main.java.com.UpYun;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.Everyday;
 import net.caiban.pc.erp.domain.EverydayCond;
 import net.caiban.pc.erp.domain.EverydayModel;
 import net.caiban.pc.erp.domain.Pager;
+import net.caiban.pc.erp.domain.UpyunNamespaceEnum;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.EverydayMapper;
 import net.caiban.pc.erp.service.EverydayService;
-import net.caiban.pc.erp.service.WeixinService;
+import net.caiban.pc.erp.utils.UpyunUtils;
 import net.caiban.utils.DateUtil;
 import net.caiban.utils.http.HttpRequestUtil;
 import weixin.popular.bean.EventMessage;
@@ -417,6 +422,17 @@ try {
 //		byte[] mediaByte = MediaAPI.mediaGet(weixinService.remoteAccessToken(), message.getMediaId());
 //		byte[] mediaByte1 = mediaGet(message.getPicUrl());
 		
+		byte[] mediaByte=null;
+		try {
+			mediaByte = IOUtils.toByteArray(new URL(message.getPicUrl()));
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			throw new ServiceException("FAILURE_READ_WX_PIC");
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new ServiceException("FAILURE_READ_WX_PIC");
+		}
+		
 //		
 //		FileOutputStream fos;
 //		try {
@@ -447,85 +463,85 @@ try {
 //			throw new ServiceException("INVALID_MEDIA_ID");
 //		}
 		
-//		UpYun upYun = UpyunUtils.getClient(UpyunNamespaceEnum.IMAGE.getNamespace());
-//		String fullpath = UpyunUtils.getMonthPath(message.getMediaId()+".jpg");
-//		Boolean result = upYun.writeFile(fullpath, mediaByte, true);
-//		
-//		if(!result){
-//			throw new ServiceException("UPLOAD_FAILURE");
-//		}
+		UpYun upYun = UpyunUtils.getClient(UpyunNamespaceEnum.IMAGE.getNamespace());
+		String fullpath = UpyunUtils.getMonthPath(message.getMediaId()+".jpg");
+		Boolean result = upYun.writeFile(fullpath, mediaByte, true);
+		
+		if(!result){
+			throw new ServiceException("UPLOAD_FAILURE");
+		}
 //		
 //		return fullpath;
 		
 		return null;
 	}
 //	
-//	private byte[] mediaGet(String url) {
-//		CloseableHttpResponse response = null;
-//		try {
-//
-//			response = HttpRequestUtil.httpGetResponse(url);
-//
-//			try {
-//				HttpEntity entity = response.getEntity();
-//				
-//				if (entity != null) {
-//					InputStream is = null;
-////					FileOutputStream fos = null;
-////					
-////					FileInputStream fis=null;
+	private byte[] mediaGet(String url) {
+		CloseableHttpResponse response = null;
+		try {
+
+			response = HttpRequestUtil.httpGetResponse(url);
+
+			try {
+				HttpEntity entity = response.getEntity();
+				
+				if (entity != null) {
+					InputStream is = null;
+//					FileOutputStream fos = null;
+//					
+//					FileInputStream fis=null;
 //					ByteArrayOutputStream bos=null;
-//					try {
-//						is = entity.getContent();
-//						
-////						String tmpfilepath = "/mnt/tmp/"+UUID.randomUUID()+".jpg";
-////						fos = new FileOutputStream(new File(tmpfilepath));
-////						byte[] b = new byte[1024];
-////						while((is.read(b)) != -1){
-////							fos.write(b);
-////						}
-//						
-////						fis = new FileInputStream(new File(tmpfilepath));
+					try {
+						is = entity.getContent();
+						
+//						String tmpfilepath = "/mnt/tmp/"+UUID.randomUUID()+".jpg";
+//						fos = new FileOutputStream(new File(tmpfilepath));
+//						byte[] b = new byte[1024];
+//						while((is.read(b)) != -1){
+//							fos.write(b);
+//						}
+						
+//						fis = new FileInputStream(new File(tmpfilepath));
 //						bos = new ByteArrayOutputStream();
-//						
-////						byte[] buff = new byte[fis.available()];
-////						fis.read(buff);
+						
+//						byte[] buff = new byte[fis.available()];
+//						fis.read(buff);
 //						byte[] b = new byte[1024];
 //						while((is.read(b)) != -1){
 //							bos.write(b);
 //						}
-////						bos.write(buff);
+//						bos.write(buff);
+						
+//						return bos.toByteArray();
+//						ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//						byte[] buff = new byte[1024];
+//						
+//						while((is.read(buff)) != -1){
+//							bos.write(buff);
+//						}
 //						
 //						return bos.toByteArray();
-////						ByteArrayOutputStream bos = new ByteArrayOutputStream();
-////						byte[] buff = new byte[1024];
-////						
-////						while((is.read(buff)) != -1){
-////							bos.write(buff);
-////						}
-////						
-////						return bos.toByteArray();
-//					} finally {
-//						is.close();
-////						fos.close();
-////						
-////						fis.close();
+					} finally {
+						is.close();
+//						fos.close();
+//						
+//						fis.close();
 //						bos.close();
-//					}
-//
-//					// return httpResponseAsString(is, encode);
-//				}
-//			} finally {
-//				response.close();
-//			}
-//		} catch (ClientProtocolException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return new byte[0];
-//	}
+					}
+
+					// return httpResponseAsString(is, encode);
+				}
+			} finally {
+				response.close();
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return new byte[0];
+	}
 //	
 	
 }

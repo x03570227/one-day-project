@@ -7,6 +7,9 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -181,15 +184,15 @@ public class WeixinServiceImpl implements WeixinService {
 		}
 		
 		if(MESSAGE_TYPE.image.name().equalsIgnoreCase(eventMessage.getMsgType())){
-//			try {
-//				//保存图片
-//				String imgPath = everydayService.saveImage(eventMessage);
-//				eventMessage.setPicUrl(Strings.isNullOrEmpty(imgPath)?eventMessage.getPicUrl():imgPath);
-//				XMLTextMessage resultmsg = everydayService.save(eventMessage);
-//				return resultmsg.toXML();
-//			} catch (ServiceException e) {
-//				LOG.error("FAILURE SAVE TEXT MESSAGE:"+e.getMessage());
-//			}
+			try {
+				//保存图片
+				String imgPath = everydayService.saveImage(eventMessage);
+				eventMessage.setPicUrl(Strings.isNullOrEmpty(imgPath)?eventMessage.getPicUrl():imgPath);
+				XMLTextMessage resultmsg = everydayService.save(eventMessage);
+				return resultmsg.toXML();
+			} catch (ServiceException e) {
+				LOG.error("FAILURE SAVE TEXT MESSAGE:"+e.getMessage());
+			}
 		}
 		
 		return null;
