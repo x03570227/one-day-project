@@ -17,14 +17,14 @@
 			</a>
 		#end
 		</h4>
-		<div class="text-muted">$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}</div>
 	</div>
 	<div class="panel-heading">
 		##<a href='#springUrl("/f/feveryday/detail.do")?id=$!{everyday.id}' ></a>
 		##<span class="label label-danger">$!{everyday.dayIndex}</span>
-		#foreach($tag in ${everyday.tagList})
-			#$!{tag}
-		#end
+##		#foreach($tag in ${everyday.tagList})
+##			#$!{tag}
+##		#end
+		$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}
 	</div>
 	#end
 	#if(${everyday.wxMsgtype} == "image")

@@ -89,12 +89,12 @@ public class EverydayServiceImpl implements EverydayService{
 		StringBuffer sb =new StringBuffer();
 		sb.append("每1天,1件事,记1笔 \n")
 		.append(Strings.nullToEmpty(everyday.getContent()))
-		.append("(<a href='")
+		.append("(<a href=\"")
 		.append(AppConst.getConfig("app.host"))
 		.append("/f/feveryday/detail.do?viewWxOpenid=").append(message.getFromUserName())
 		.append("&id=")
 		.append(everyday.getId())
-		.append("' >")
+		.append("\" >")
 		.append("#D").append(everyday.getDayIndex())
 		.append("</a>) \n");
 		
@@ -233,11 +233,11 @@ public class EverydayServiceImpl implements EverydayService{
 		
 		int idx = 1;
 		for(EverydayModel everyday: list){
-			sb.append(idx).append(". <a href='")
+			sb.append(idx).append(". <a href=\"")
 				.append(AppConst.getConfig("app.host"))
 				.append("/f/feveryday/detail.do?id=")
 				.append(everyday.getId())
-				.append("' >");
+				.append("\" >");
 			if(everyday.getContent().length()<=14){
 				sb.append(everyday.getContent());
 			}else{
