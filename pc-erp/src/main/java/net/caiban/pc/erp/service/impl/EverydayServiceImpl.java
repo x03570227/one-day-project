@@ -59,7 +59,11 @@ public class EverydayServiceImpl implements EverydayService{
 	public XMLTextMessage save(EventMessage message) throws ServiceException{
 		
 		EverydayModel everyday = new EverydayModel();
-		everyday.setContent(message.getContent());
+		if(message.getContent()==null){
+			everyday.setContent(message.getMsgType());
+		}else{
+			everyday.setContent(message.getContent());
+		}
 		everyday.setWxOpenid(message.getFromUserName());
 		everyday.setWxMsgid(message.getMsgId());
 		everyday.setWxDescription(message.getDescription());
@@ -238,6 +242,7 @@ public class EverydayServiceImpl implements EverydayService{
 				.append("/f/feveryday/detail.do?id=")
 				.append(everyday.getId())
 				.append("\" >");
+			everyday.setContent(Strings.nullToEmpty(everyday.getContent()));
 			if(everyday.getContent().length()<=14){
 				sb.append(everyday.getContent());
 			}else{
