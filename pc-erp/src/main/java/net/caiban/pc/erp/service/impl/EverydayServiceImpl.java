@@ -471,9 +471,9 @@ try {
 			throw new ServiceException("UPLOAD_FAILURE");
 		}
 //		
-//		return fullpath;
+		return fullpath;
 		
-		return null;
+//		return null;
 	}
 //	
 	private byte[] mediaGet(String url) {
