@@ -28,9 +28,11 @@
 	</developers>
 
 	<modules>
+<!--
 		<module>pc-event</module>
-		<module>pc-erp</module>
 		<module>pc-utils</module>
+-->
+		<module>pc-erp</module>
 	</modules>
 
 	<dependencyManagement>
