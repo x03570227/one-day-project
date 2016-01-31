@@ -77,7 +77,7 @@ public interface SysUserService {
 	 * @param account
 	 * @return
 	 */
-	public Integer queryIdByAccount(String account);
+	public Long queryIdByAccount(String account);
 	
 	/**
 	 * 密码重置
@@ -86,18 +86,18 @@ public interface SysUserService {
 	 * @param confirm
 	 * @throws ServiceException
 	 */
-	public void doResetPassword(Integer uid, String origin, String password,
+	public void doResetPassword(Long uid, String origin, String password,
 			String confirm) throws ServiceException;
 	
 	public Pager<SysUser> pager(SysUserCond cond, Pager<SysUser> pager);
 	
 	public List<SysUser> excludeMainAccount(List<SysUser> userList);
 	
-	public SysUser doRegistByCompany(String mainAccount, Integer cid, String account,
+	public SysUser doRegistByCompany(String mainAccount, Long cid, String account,
 			String password, String confirm) throws ServiceException;
 	
-	public Integer doCountUserOfCompany(Integer cid, Boolean withMainUser);
+	public Integer doCountUserOfCompany(Long cid, Boolean withMainUser);
 	
-	public void doResetPasswordByAdmin(Integer adminUid, Integer uid, String password,
+	public void doResetPasswordByAdmin(Long adminUid, Long uid, String password,
 			String confirm) throws ServiceException;
 }

@@ -22,23 +22,11 @@ public class ProductGroup extends BaseDomain {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer cid;
-	private Integer uidCreated;
+	private Long cid;
+	private Long uidCreated;
 	private String name;
 	private String remark;
 	
-	public Integer getCid() {
-		return cid;
-	}
-	public void setCid(Integer cid) {
-		this.cid = cid;
-	}
-	public Integer getUidCreated() {
-		return uidCreated;
-	}
-	public void setUidCreated(Integer uidCreated) {
-		this.uidCreated = uidCreated;
-	}
 	public String getName() {
 		return name;
 	}
@@ -51,6 +39,20 @@ public class ProductGroup extends BaseDomain {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
-	
+
+	public Long getCid() {
+		return cid;
+	}
+
+	public void setCid(Long cid) {
+		this.cid = cid;
+	}
+
+	public Long getUidCreated() {
+		return uidCreated;
+	}
+
+	public void setUidCreated(Long uidCreated) {
+		this.uidCreated = uidCreated;
+	}
 }

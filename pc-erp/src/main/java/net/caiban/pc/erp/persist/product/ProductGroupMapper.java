@@ -17,7 +17,7 @@ import net.caiban.pc.erp.domain.product.ProductGroupModel;
  */
 public interface ProductGroupMapper {
 
-	public Integer queryIdByName(String name);
+	public Long queryIdByName(String name);
 	
 	public Integer insert(ProductGroupModel group);
 	
@@ -25,12 +25,12 @@ public interface ProductGroupMapper {
 	
 	public List<ProductGroupModel> queryGroups(@Param("cond") ProductCond cond);
 	
-	public Integer delete(Integer id);
+	public Integer delete(Long id);
 	
-	public Integer deleteItem(@Param("groupId") Integer groupId,
-			@Param("productId") Integer productId);
+	public Integer deleteItem(@Param("groupId") Long groupId,
+			@Param("productId") Long productId);
 
-	public Integer countItem(@Param("groupId") Integer groupId,
-			@Param("productId") Integer productId);
+	public Integer countItem(@Param("groupId") Long groupId,
+			@Param("productId") Long productId);
 
 }

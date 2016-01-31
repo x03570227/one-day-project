@@ -19,9 +19,9 @@ public interface TradeService {
 
 	public Pager<TradeFull> pager(TradeCond cond, Pager<TradeFull> page);
 	
-	public Integer doCountToday(Integer cid, Integer status);
+	public Integer doCountToday(Long cid, Integer status);
 	
 	public List<TradeSummary> summary(TradeCond cond);
 	
-	public void doDelete(Integer id, Integer cid);
+	public void doDelete(Long id, Long cid);
 }

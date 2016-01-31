@@ -22,7 +22,7 @@ public class TradeCond extends BaseCond{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer cid;
+	private Long cid;
 	
 	private String tradeNum;
 	private Integer status;
@@ -33,20 +33,13 @@ public class TradeCond extends BaseCond{
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date gmtCreatedMax;
 	
-	private Integer idMax;
+	private Long idMax;
 	
 	private String sourceDomain;
 	private String sourceType;
 	
-	private Integer pidFirst;
+	private Long pidFirst;
 
-	public Integer getCid() {
-		return cid;
-	}
-
-	public void setCid(Integer cid) {
-		this.cid = cid;
-	}
 
 	public String getTradeNumMatchBefore() {
 		return tradeNumMatchBefore;
@@ -104,20 +97,27 @@ public class TradeCond extends BaseCond{
 		this.sourceType = sourceType;
 	}
 
-	public Integer getIdMax() {
+	public Long getCid() {
+		return cid;
+	}
+
+	public void setCid(Long cid) {
+		this.cid = cid;
+	}
+
+	public Long getIdMax() {
 		return idMax;
 	}
 
-	public void setIdMax(Integer idMax) {
+	public void setIdMax(Long idMax) {
 		this.idMax = idMax;
 	}
 
-	public Integer getPidFirst() {
+	public Long getPidFirst() {
 		return pidFirst;
 	}
 
-	public void setPidFirst(Integer pidFirst) {
+	public void setPidFirst(Long pidFirst) {
 		this.pidFirst = pidFirst;
 	}
-	
 }

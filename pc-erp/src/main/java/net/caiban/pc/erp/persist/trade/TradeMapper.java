@@ -25,14 +25,14 @@ public interface TradeMapper {
 	
 	public Integer insert(Trade trade);
 	
-	public Integer queryIdByTradeNum(@Param("cid") Integer cid, @Param("tradeNum") String tradeNum);
+	public Long queryIdByTradeNum(@Param("cid") Long cid, @Param("tradeNum") String tradeNum);
 	
-	public Integer updateStatus(@Param("cid") Integer cid,
+	public Integer updateStatus(@Param("cid") Long cid,
 			@Param("tradeNum") String tradeNum, @Param("status") Integer status);
 	
 	public List<TradeDefine> queryDefine(@Param("cond") TradeCond cond);
 	
-	public Integer delete(@Param("id") Integer id, @Param("cid") Integer cid);
+	public Integer delete(@Param("id") Long id, @Param("cid") Long cid);
 	
 	public List<Trade> pageByCond(@Param("cond") TradeCond cond);
 }

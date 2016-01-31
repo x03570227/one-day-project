@@ -68,7 +68,7 @@ public class SysUserServiceImpl implements SysUserService {
 		
 		String classify = classifyOfAccount(user.getAccount());
 		
-		Integer uid = sysUserMapper.queryUidByAccount(rebuildAccount(classify, user.getAccount()));
+		Long uid = sysUserMapper.queryUidByAccount(rebuildAccount(classify, user.getAccount()));
 		if(uid==null || uid.intValue()<=0){
 			throw new ServiceException("e.login.account.not.exist");
 		}
@@ -149,7 +149,7 @@ public class SysUserServiceImpl implements SysUserService {
 		return RESERVED_AC.contains(account);
 	}
 	
-	private SysUser saveAccount(SysUser user, Integer cid, String rebuildedAccount) throws ServiceException{
+	private SysUser saveAccount(SysUser user, Long cid, String rebuildedAccount) throws ServiceException{
 		SysUser registUser = new SysUser();
 		registUser.setSalt(randomSalt());
 		registUser.setClassify(classifyOfAccount(user.getAccount()));
@@ -261,7 +261,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public Integer queryIdByAccount(String account) {
+	public Long queryIdByAccount(String account) {
 		
 		if(StringUtils.isEmpty(account)){
 			return null;
@@ -281,7 +281,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public void doResetPassword(Integer uid, String origin, String password, String confirm)
+	public void doResetPassword(Long uid, String origin, String password, String confirm)
 			throws ServiceException {
 		if(Strings.isNullOrEmpty(password)){
 			throw new ServiceException("e.sys.user.reset.password.invalid");
@@ -313,7 +313,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public SysUser doRegistByCompany(String mainAccount, Integer cid, String account,
+	public SysUser doRegistByCompany(String mainAccount, Long cid, String account,
 			String password, String confirm) throws ServiceException {
 		if(mainAccount.contains(":")){
 			throw new ServiceException("e.sys.user.accoun.save.noauth");
@@ -339,7 +339,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public Integer doCountUserOfCompany(Integer cid, Boolean withMainUser) {
+	public Integer doCountUserOfCompany(Long cid, Boolean withMainUser) {
 		
 		SysUserCond cond = new SysUserCond();
 		cond.setCid(cid);
@@ -367,7 +367,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public void doResetPasswordByAdmin(Integer adminUid, Integer uid, String password,
+	public void doResetPasswordByAdmin(Long adminUid, Long uid, String password,
 			String confirm) throws ServiceException {
 		
 		SysUser adminUser = sysUserMapper.queryById(adminUid);

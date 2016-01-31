@@ -34,9 +34,9 @@ public class Product extends BaseDomain {
 	private String name;
 	private String categoryCode;
 	private String remark;
-	private Integer cid;
-	private Integer uidCreated;
-	private Integer uidModified;
+	private Long cid;
+	private Long uidCreated;
+	private Long uidModified;
 	private String statusLife;
 	
 	public String getCode() {
@@ -57,24 +57,6 @@ public class Product extends BaseDomain {
 	public void setCategoryCode(String categoryCode) {
 		this.categoryCode = categoryCode;
 	}
-	public Integer getCid() {
-		return cid;
-	}
-	public void setCid(Integer cid) {
-		this.cid = cid;
-	}
-	public Integer getUidCreated() {
-		return uidCreated;
-	}
-	public void setUidCreated(Integer uidCreated) {
-		this.uidCreated = uidCreated;
-	}
-	public Integer getUidModified() {
-		return uidModified;
-	}
-	public void setUidModified(Integer uidModified) {
-		this.uidModified = uidModified;
-	}
 	public String getRemark() {
 		return remark;
 	}
@@ -87,6 +69,28 @@ public class Product extends BaseDomain {
 	public void setStatusLife(String statusLife) {
 		this.statusLife = statusLife;
 	}
-	
 
+	public Long getCid() {
+		return cid;
+	}
+
+	public void setCid(Long cid) {
+		this.cid = cid;
+	}
+
+	public Long getUidCreated() {
+		return uidCreated;
+	}
+
+	public void setUidCreated(Long uidCreated) {
+		this.uidCreated = uidCreated;
+	}
+
+	public Long getUidModified() {
+		return uidModified;
+	}
+
+	public void setUidModified(Long uidModified) {
+		this.uidModified = uidModified;
+	}
 }

@@ -20,14 +20,14 @@ public class ProductGroupModel extends ProductGroup{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer productId;
+	private Long productId;
 	private Integer itemCount;
 
-	public Integer getProductId() {
+	public Long getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 

@@ -22,22 +22,26 @@ public class ProductGroupItem extends BaseDomain {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer productGroupId;
-	private Integer productId;
+	private Long productGroupId;
+	private Long productId;
 	private String isPrimary;
-	
-	public Integer getProductGroupId() {
-		return productGroupId;
-	}
-	public void setProductGroupId(Integer productGroupId) {
-		this.productGroupId = productGroupId;
-	}
-	public Integer getProductId() {
+
+	public Long getProductId() {
 		return productId;
 	}
-	public void setProductId(Integer productId) {
+
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
+
+	public Long getProductGroupId() {
+		return productGroupId;
+	}
+
+	public void setProductGroupId(Long productGroupId) {
+		this.productGroupId = productGroupId;
+	}
+
 	public String getIsPrimary() {
 		return isPrimary;
 	}

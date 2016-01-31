@@ -27,7 +27,7 @@ public class ProductPrice extends BaseDomain {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Integer productId;
+	private Long productId;
 	private String priceCode;
 	private String priceUnitCode;
 	private BigDecimal priceValue;
@@ -35,13 +35,15 @@ public class ProductPrice extends BaseDomain {
 	private Date gmtExpired;
 	private String archived;
 	private String remark;
-	
-	public Integer getProductId() {
+
+	public Long getProductId() {
 		return productId;
 	}
-	public void setProductId(Integer productId) {
+
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
+
 	public String getPriceCode() {
 		return priceCode;
 	}

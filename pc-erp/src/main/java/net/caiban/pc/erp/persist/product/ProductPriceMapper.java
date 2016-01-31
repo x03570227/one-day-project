@@ -19,16 +19,16 @@ public interface ProductPriceMapper {
 
 	public Integer insert(ProductPrice price);
 	
-	public List<ProductPriceModel> queryByPid(@Param("pid") Integer pid,
+	public List<ProductPriceModel> queryByPid(@Param("pid") Long pid,
 			@Param("minExpired") Date minExpired,
 			@Param("maxExpired") Date maxExpired);
 	
-	public Integer delete(Integer id);
+	public Integer delete(Long id);
 	
-	public Integer deleteByPid(Integer pid);
+	public Integer deleteByPid(Long pid);
 	
 	public Integer update(ProductPrice price);
 	
-	public Integer updateArchive(@Param("id") Integer id, @Param("archive") String archive);
+	public Integer updateArchive(@Param("id") Long id, @Param("archive") String archive);
 	
 }

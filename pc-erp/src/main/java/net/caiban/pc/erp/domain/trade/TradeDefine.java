@@ -21,15 +21,9 @@ public class TradeDefine extends BaseDomain {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer tradeId;
+	private Long tradeId;
 	private String details;
 	
-	public Integer getTradeId() {
-		return tradeId;
-	}
-	public void setTradeId(Integer tradeId) {
-		this.tradeId = tradeId;
-	}
 	public String getDetails() {
 		return details;
 	}
@@ -37,4 +31,11 @@ public class TradeDefine extends BaseDomain {
 		this.details = details;
 	}
 
+	public Long getTradeId() {
+		return tradeId;
+	}
+
+	public void setTradeId(Long tradeId) {
+		this.tradeId = tradeId;
+	}
 }

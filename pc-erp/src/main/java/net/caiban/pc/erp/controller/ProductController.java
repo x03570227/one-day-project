@@ -39,8 +39,6 @@ public class ProductController extends BaseController {
 	 * 普通搜索列表页面 暂时不做按属性搜索功能，按属性搜索功能通过solr搜索实现
 	 * 
 	 * @param request
-	 * @param out
-	 * @param pager
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
@@ -94,14 +92,14 @@ public class ProductController extends BaseController {
 	
 	@RequestMapping
 	@ResponseBody
-	public ProductFull queryFull(HttpServletRequest request, Integer id){
+	public ProductFull queryFull(HttpServletRequest request, Long id){
 		SessionUser user = getSessionUser(request);
 		return productService.queryOneFull(id, true, user);
 	}
 	
 	@RequestMapping
 	@ResponseBody
-	public Map<String, Object> doDelete(HttpServletRequest request, Integer id){
+	public Map<String, Object> doDelete(HttpServletRequest request, Long id){
 		SessionUser user = getSessionUser(request);
 		Integer impact = productService.remove(user, id);
 		

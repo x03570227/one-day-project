@@ -65,7 +65,7 @@ public class PriceController extends BaseController{
 	@RequestMapping
 	@ResponseBody
 	public Map<String, Object> doDelete(HttpServletRequest request, HttpServletResponse response,
-			Integer productId, Integer id, Locale locale){
+			Long productId, Long id, Locale locale){
 		try {
 			productService.removePrice(id, productId);
 			return ajaxResult(true, null);

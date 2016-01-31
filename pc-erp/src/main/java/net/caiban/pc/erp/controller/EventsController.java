@@ -46,31 +46,31 @@ public class EventsController extends BaseController {
 		return null;
 	}
 	
-	@RequestMapping
-	public ModelAndView doCreate(HttpServletRequest request, Map<String, Object> out,
-			Events event, String gmtStartStr, String gmtEndStr, String invitedAccountId){
-		
-		eventsService.initGmt(event, gmtStartStr, gmtEndStr);
-		event.setUid(getSessionUser(request).getUid());
-		
-		Integer id = eventsService.saveEvent(event);
-		
-		if(id!=null && id.intValue()>0){
-//			eventsService.appendJoiner(id, invitedAccountId);
-			return new ModelAndView("redirect:index.do");
-		}
-		
-		return new ModelAndView("/events/create");
-	}
+//	@RequestMapping
+//	public ModelAndView doCreate(HttpServletRequest request, Map<String, Object> out,
+//			Events event, String gmtStartStr, String gmtEndStr, String invitedAccountId){
+//
+//		eventsService.initGmt(event, gmtStartStr, gmtEndStr);
+//		event.setUid(getSessionUser(request).getUid());
+//
+//		Integer id = eventsService.saveEvent(event);
+//
+//		if(id!=null && id.intValue()>0){
+////			eventsService.appendJoiner(id, invitedAccountId);
+//			return new ModelAndView("redirect:index.do");
+//		}
+//
+//		return new ModelAndView("/events/create");
+//	}
 	
-	@Deprecated
-	@RequestMapping
-	@ResponseBody
-	public Map<String, Integer> ajaxAppendJoin(HttpServletRequest request, Map<String, Object> out, 
-			String origin, String originId, String append){
-		
-		return eventsService.filterAppendJoiner(origin, originId, append);
-	}
+//	@Deprecated
+//	@RequestMapping
+//	@ResponseBody
+//	public Map<String, Integer> ajaxAppendJoin(HttpServletRequest request, Map<String, Object> out,
+//			String origin, String originId, String append){
+//
+//		return eventsService.filterAppendJoiner(origin, originId, append);
+//	}
 	
 	@RequestMapping
 	public ModelAndView ajaxAttend(HttpServletRequest request, ModelMap out, String account){

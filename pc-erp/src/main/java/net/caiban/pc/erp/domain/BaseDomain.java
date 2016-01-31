@@ -14,16 +14,10 @@ public class BaseDomain implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
+	private Long id;
 	private Date gmtCreated;
 	private Date gmtModified;
 	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
 	public Date getGmtCreated() {
 		return gmtCreated;
 	}
@@ -36,6 +30,12 @@ public class BaseDomain implements Serializable{
 	public void setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;
 	}
-	
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

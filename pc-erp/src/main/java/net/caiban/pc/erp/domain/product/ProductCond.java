@@ -25,7 +25,7 @@ public class ProductCond extends BaseCond{
 	private String code;
 	private String name;
 	private String categoryCode;
-	private Integer cid;
+	private Long cid;
 	private String statusLife;
 	
 	private String categoryCodeMatchBefore; //前匹配
@@ -33,83 +33,104 @@ public class ProductCond extends BaseCond{
 	private String nameFuzzy; //按名称模糊查询
 	private String codeMatchBefore;
 	
-	private Integer productId;
+	private Long productId;
 	private String archived;
 	
-	private Integer groupId;
-	
+	private Long groupId;
+
 	public String getCode() {
 		return code;
 	}
+
 	public void setCode(String code) {
 		this.code = code;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getCategoryCode() {
 		return categoryCode;
 	}
+
 	public void setCategoryCode(String categoryCode) {
 		this.categoryCode = categoryCode;
 	}
-	public Integer getCid() {
+
+	public Long getCid() {
 		return cid;
 	}
-	public void setCid(Integer cid) {
+
+	public void setCid(Long cid) {
 		this.cid = cid;
 	}
+
 	public String getStatusLife() {
 		return statusLife;
 	}
+
 	public void setStatusLife(String statusLife) {
 		this.statusLife = statusLife;
 	}
+
 	public String getCategoryCodeMatchBefore() {
 		return categoryCodeMatchBefore;
 	}
+
 	public void setCategoryCodeMatchBefore(String categoryCodeMatchBefore) {
 		this.categoryCodeMatchBefore = categoryCodeMatchBefore;
 	}
+
 	public String getNameMatchBefore() {
 		return nameMatchBefore;
 	}
+
 	public void setNameMatchBefore(String nameMatchBefore) {
 		this.nameMatchBefore = nameMatchBefore;
 	}
+
 	public String getNameFuzzy() {
 		return nameFuzzy;
 	}
+
 	public void setNameFuzzy(String nameFuzzy) {
 		this.nameFuzzy = nameFuzzy;
 	}
+
 	public String getCodeMatchBefore() {
 		return codeMatchBefore;
 	}
+
 	public void setCodeMatchBefore(String codeMatchBefore) {
 		this.codeMatchBefore = codeMatchBefore;
 	}
-	public Integer getProductId() {
+
+	public Long getProductId() {
 		return productId;
 	}
-	public void setProductId(Integer productId) {
+
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
+
 	public String getArchived() {
 		return archived;
 	}
+
 	public void setArchived(String archived) {
 		this.archived = archived;
 	}
-	public Integer getGroupId() {
+
+	public Long getGroupId() {
 		return groupId;
 	}
-	public void setGroupId(Integer groupId) {
+
+	public void setGroupId(Long groupId) {
 		this.groupId = groupId;
 	}
-	
-
 }

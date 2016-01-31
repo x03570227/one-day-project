@@ -28,19 +28,19 @@ public interface ProductService {
 	
 	public Product update(Product product);
 	
-	public Integer remove(SessionUser user, Integer id);
+	public Integer remove(SessionUser user, Long id);
 	
-	public Product queryOne(Integer id, SessionUser user);
+	public Product queryOne(Long id, SessionUser user);
 	
-	public ProductFull queryOneFull(Integer id, Boolean readDefine, SessionUser user);
+	public ProductFull queryOneFull(Long id, Boolean readDefine, SessionUser user);
 	
 	public ProductFull updateFull(ProductFull productFull);
 	
 	public ProductFull initFull(SessionUser user, Product product, ProductDefine define);
 	
-	public Integer countProduct(Integer cid);
+	public Integer countProduct(Long cid);
 	
-	public Product queryOneByCode(Integer cid, String code);
+	public Product queryOneByCode(Long cid, String code);
 	
 	public List<ProductPriceModel> queryPriceModels(ProductCond cond);
 	
@@ -58,7 +58,7 @@ public interface ProductService {
 	 * @param productId
 	 * @throws ServiceException
 	 */
-	public void removePrice(Integer id, Integer productId) throws ServiceException;
+	public void removePrice(Long id, Long productId) throws ServiceException;
 	
 	/**
 	 * Add product to a group, if the group does not exist, create it.
@@ -81,21 +81,19 @@ public interface ProductService {
 	/**
 	 * Remove group and all related product's id.
 	 * @param user
-	 * @param id
 	 * @throws ServiceException
 	 */
-	public void removeGroup(SessionUser user, Integer groupId)
+	public void removeGroup(SessionUser user, Long groupId)
 			throws ServiceException;
 	
 	/**
 	 * Remove product from group. If it's last one, also remove group.
 	 * @param user
-	 * @param id
 	 * @param productId
 	 * @throws ServiceException
 	 */
-	public void removeProductFromGroup(SessionUser user, Integer groupId,
-			Integer productId) throws ServiceException;
+	public void removeProductFromGroup(SessionUser user, Long groupId,
+			Long productId) throws ServiceException;
 	
 	/**
 	 * Query all products of group.

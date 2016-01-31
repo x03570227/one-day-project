@@ -24,17 +24,19 @@ public class SysLoginRemember extends BaseDomain {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Integer uid;
+	private Long uid;
 	private Date gmtExpired;
 	private String rememberToken;
 	private Date gmtRefresh;
-	
-	public Integer getUid() {
+
+	public Long getUid() {
 		return uid;
 	}
-	public void setUid(Integer uid) {
+
+	public void setUid(Long uid) {
 		this.uid = uid;
 	}
+
 	public Date getGmtExpired() {
 		return gmtExpired;
 	}

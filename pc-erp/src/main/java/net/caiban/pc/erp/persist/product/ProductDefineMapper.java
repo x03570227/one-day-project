@@ -13,13 +13,13 @@ public interface ProductDefineMapper {
 
 	public Integer insert(ProductDefine define);
 	
-	public ProductDefine queryOne(Integer id);
+	public ProductDefine queryOne(Long id);
 	
-	public ProductDefine queryOneByPid(Integer pid);
+	public ProductDefine queryOneByPid(Long pid);
 	
-	public Integer delete(Integer id);
+	public Integer delete(Long id);
 	
-	public Integer deleteByPid(Integer pid);
+	public Integer deleteByPid(Long pid);
 	
 	public Integer update(ProductDefine define);
 	

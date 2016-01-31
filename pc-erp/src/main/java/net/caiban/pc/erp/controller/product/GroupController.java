@@ -65,7 +65,7 @@ public class GroupController extends BaseController {
 	@ResponseBody
 	public Map<String, Object> doLeave(HttpServletRequest request,
 			HttpServletResponse response, Locale locale,
-			Integer productId, Integer groupId){
+			Long productId, Long groupId){
 		
 		SessionUser user = getSessionUser(request);
 		

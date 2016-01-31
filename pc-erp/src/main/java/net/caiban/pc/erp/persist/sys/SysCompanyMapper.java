@@ -23,5 +23,5 @@ public interface SysCompanyMapper {
 	
 	public Integer insert(SysCompany company);
 	
-	public SysCompany queryOne(Integer cid);
+	public SysCompany queryOne(Long cid);
 }

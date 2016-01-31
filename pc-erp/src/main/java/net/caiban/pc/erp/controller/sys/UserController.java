@@ -54,7 +54,7 @@ public class UserController extends BaseController {
 	public ModelAndView doReset(HttpServletRequest request, ModelMap model,
 			String origin, String password, String confirm, Locale locale){
 		
-		Integer uid=getSessionUser(request).getUid();
+		Long uid=getSessionUser(request).getUid();
 		
 		String error=null;
 		try {
@@ -107,9 +107,9 @@ public class UserController extends BaseController {
 	@RequestMapping
 	@ResponseBody
 	public Map<String, Object> doResetByAdmin(HttpServletRequest request,
-			Integer uid, String password, String confirm, Locale locale) {
+			Long uid, String password, String confirm, Locale locale) {
 		
-		Integer myid=getSessionUser(request).getUid();
+		Long myid=getSessionUser(request).getUid();
 		try {
 			sysUserService.doResetPasswordByAdmin(myid, uid, password, confirm);
 			return ajaxResult(true,messageSource.getMessage("e.sys.user.reset.password.success", null, locale));

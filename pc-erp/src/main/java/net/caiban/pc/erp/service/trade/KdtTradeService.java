@@ -17,16 +17,16 @@ import net.sf.json.JSONObject;
  */
 public interface KdtTradeService {
 
-	public JSONObject checkTicket(Integer cid, String tradeNum) throws ServiceException;
+	public JSONObject checkTicket(Long cid, String tradeNum) throws ServiceException;
 	
-	public void marksign(Integer cid, String tradeNum) throws ServiceException;
+	public void marksign(Long cid, String tradeNum) throws ServiceException;
 	
-	public TradeDefine queryDefineBytradeNum(Integer cid, String tradeNum);
+	public TradeDefine queryDefineBytradeNum(Long cid, String tradeNum);
 	
 	public JSONObject getDetails(TradeDefine define);
 	
 	public List<TradeSummary> summary(TradeCond cond);
 	
-	public List<JSONObject> queryBeMarkedTrade(Integer cid, Integer pid, String mobile) throws ServiceException;
+	public List<JSONObject> queryBeMarkedTrade(Long cid, Long pid, String mobile) throws ServiceException;
 	
 }

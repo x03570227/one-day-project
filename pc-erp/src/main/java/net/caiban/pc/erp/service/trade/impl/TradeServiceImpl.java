@@ -72,7 +72,7 @@ public class TradeServiceImpl implements TradeService {
 	}
 
 	@Override
-	public Integer doCountToday(Integer cid, Integer status) {
+	public Integer doCountToday(Long cid, Integer status) {
 		
 		TradeCond cond = new TradeCond();
 		cond.setCid(cid);
@@ -132,7 +132,7 @@ public class TradeServiceImpl implements TradeService {
 	}
 
 	@Override
-	public void doDelete(Integer id, Integer cid) {
+	public void doDelete(Long id, Long cid) {
 		tradeMapper.delete(id, cid);
 		tradeDefineMapper.deleteByTradeId(id);
 	}

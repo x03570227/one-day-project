@@ -13,23 +13,17 @@ public class SessionUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer uid;
+	private Long uid;
 	private String account;
-	private Integer cid;
+	private Long cid;
 	
-	public SessionUser(Integer uid, String account, Integer cid) {
+	public SessionUser(Long uid, String account, Long cid) {
 		super();
 		this.uid = uid;
 		this.account = account;
 		this.cid=cid;
 	}
 	
-	public Integer getUid() {
-		return uid;
-	}
-	public void setUid(Integer uid) {
-		this.uid = uid;
-	}
 	public String getAccount() {
 		return account;
 	}
@@ -40,12 +34,19 @@ public class SessionUser implements Serializable {
 		super();
 	}
 
-	public Integer getCid() {
+	public Long getCid() {
 		return cid;
 	}
-	public void setCid(Integer cid) {
+
+	public void setCid(Long cid) {
 		this.cid = cid;
 	}
-	
-	
+
+	public Long getUid() {
+		return uid;
+	}
+
+	public void setUid(Long uid) {
+		this.uid = uid;
+	}
 }

@@ -38,19 +38,21 @@ public class SysApp extends BaseDomain {
 		}
 	}
 
-	private Integer cid;
+	private Long cid;
 	private String domain;
 	private String appKey;
 	private String appSecret;
 	private String refreshToken;
 	private String accessToken;
-	
-	public Integer getCid() {
+
+	public Long getCid() {
 		return cid;
 	}
-	public void setCid(Integer cid) {
+
+	public void setCid(Long cid) {
 		this.cid = cid;
 	}
+
 	public String getDomain() {
 		return domain;
 	}

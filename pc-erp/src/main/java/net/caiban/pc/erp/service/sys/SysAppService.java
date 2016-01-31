@@ -13,7 +13,7 @@ import net.caiban.pc.erp.domain.sys.SysApp;
  */
 public interface SysAppService {
 
-	public SysApp queryByDomain(Integer cid, String domain);
+	public SysApp queryByDomain(Long cid, String domain);
 	
 	public SysApp saveOrUpdate(SysApp app);
 	

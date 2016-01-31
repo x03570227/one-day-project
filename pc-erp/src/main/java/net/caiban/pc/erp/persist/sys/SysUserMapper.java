@@ -30,7 +30,7 @@ public interface SysUserMapper {
 	 * @param uid
 	 * @return
 	 */
-	public String querySaltByUid(@Param("uid") Integer uid);
+	public String querySaltByUid(@Param("uid") Long uid);
 	/**
 	 * 密码验证，返回 UID
 	 * @param account
@@ -41,7 +41,7 @@ public interface SysUserMapper {
 	public SysUser queryUidByLogin(@Param("account") String account, 
 			@Param("password") String password);
 	
-	public SysUser queryUserByPassword(@Param("uid") Integer uid,
+	public SysUser queryUserByPassword(@Param("uid") Long uid,
 			@Param("password") String password);
 	
 	/**
@@ -57,25 +57,25 @@ public interface SysUserMapper {
 	 * @param id
 	 * @return
 	 */
-	public Integer updateUid(@Param("uid")Integer uid, @Param("id")Integer id);
+	public Integer updateUid(@Param("uid")Long uid, @Param("id")Long id);
 	
 	/**
 	 * 根据用户账号查询用户UID
 	 * @param account
 	 * @return
 	 */
-	public Integer queryUidByAccount(String account);
+	public Long queryUidByAccount(String account);
 	
 	public Integer countByAccount(String account);
 	
-	public Integer countByPassword(@Param("uid")Integer uid, @Param("password")String password);
+	public Integer countByPassword(@Param("uid")Long uid, @Param("password")String password);
 	
-	public Integer updatePassword(@Param("uid")Integer uid, @Param("password")String password);
+	public Integer updatePassword(@Param("uid")Long uid, @Param("password")String password);
 	
 	public List<SysUser> pageDefault(@Param("cond") SysUserCond cond, @Param("pager") Pager<SysUser> pager);
 	
 	public Integer pageDefaultCount(@Param("cond") SysUserCond cond);
 	
-	public SysUser queryById(Integer id);
+	public SysUser queryById(Long id);
 	
 }

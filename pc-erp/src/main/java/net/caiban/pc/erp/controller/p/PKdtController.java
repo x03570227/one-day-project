@@ -48,7 +48,7 @@ public class PKdtController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView mytrade(HttpServletRequest request, ModelMap model, 
-			String mobile, Integer pid, Integer cid, Locale locale){
+			String mobile, Long pid, Long cid, Locale locale){
 		
 		model.put("cid", cid);
 		model.put("pid", pid);
@@ -68,7 +68,7 @@ public class PKdtController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView doMark(HttpServletRequest request, ModelMap model,
-			Integer cid, Integer pid, String tradeNum, Locale locale){
+			Long cid, Long pid, String tradeNum, Locale locale){
 		
 		model.put("cid", cid);
 		model.put("pid", pid);

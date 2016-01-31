@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Integer remove(SessionUser user, Integer id) {
+	public Integer remove(SessionUser user, Long id) {
 		if(!available(id, user)){
 			return null;
 		}
@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product queryOne(Integer id, SessionUser user) {
+	public Product queryOne(Long id, SessionUser user) {
 		
 		if(!available(id, user)){
 			return null;
@@ -113,7 +113,7 @@ public class ProductServiceImpl implements ProductService {
 		product.setStatusLife(Strings.isNullOrEmpty(product.getStatusLife())?Product.STATUS_LIFE.SAILING.name():product.getStatusLife());
 		
 		Integer impact = productMapper.insert(product);
-		if(!AssertHelper.positiveInt(impact) || !AssertHelper.positiveInt(product.getId())){
+		if(!AssertHelper.positiveInt(impact) || !AssertHelper.positiveLong(product.getId())){
 			return null;
 		}
 		
@@ -139,7 +139,7 @@ public class ProductServiceImpl implements ProductService {
 //	}
 	
 	@Override
-	public ProductFull queryOneFull(Integer id, Boolean readDefine, SessionUser user) {
+	public ProductFull queryOneFull(Long id, Boolean readDefine, SessionUser user) {
 		
 		if(!available(id, user)){
 			return null;
@@ -161,8 +161,8 @@ public class ProductServiceImpl implements ProductService {
 		return full;
 	}
 
-	public boolean available(Integer id, SessionUser user){
-		if(id==null||id.intValue()<=0){
+	public boolean available(Long id, SessionUser user){
+		if(id==null||id.longValue()<=0){
 			return false;
 		}
 		
@@ -181,7 +181,7 @@ public class ProductServiceImpl implements ProductService {
 		Product product = productFull.getProduct();
 		
 		Integer impact = productMapper.update(productFull.getProduct());
-		if(!AssertHelper.positiveInt(impact) || !AssertHelper.positiveInt(product.getId())){
+		if(!AssertHelper.positiveInt(impact) || !AssertHelper.positiveLong(product.getId())){
 			return null;
 		}
 		
@@ -207,7 +207,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Integer countProduct(Integer cid) {
+	public Integer countProduct(Long cid) {
 		ProductCond cond = new ProductCond();
 		cond.setCid(cid);
 //		cond.setStatusLife(Product.LIFE_SALING);
@@ -215,7 +215,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product queryOneByCode(Integer cid, String code) {
+	public Product queryOneByCode(Long cid, String code) {
 		return productMapper.queryOneByCode(cid, code);
 	}
 
@@ -256,7 +256,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void removePrice(Integer id, Integer productId)
+	public void removePrice(Long id, Long productId)
 			throws ServiceException {
 		Preconditions.checkNotNull(productId);
 		Preconditions.checkNotNull(id);
@@ -277,15 +277,15 @@ public class ProductServiceImpl implements ProductService {
 		Preconditions.checkNotNull(model.getName());
 		Preconditions.checkNotNull(model.getProductId());
 		
-		Integer groupId = productGroupMapper.queryIdByName(model.getName());
+		Long groupId = productGroupMapper.queryIdByName(model.getName());
 		
-		if(!AssertHelper.positiveInt(groupId)){
+		if(!AssertHelper.positiveLong(groupId)){
 			ProductGroupModel group = new ProductGroupModel();
 			group.setCid(user.getCid());
 			group.setUidCreated(user.getUid());
 			group.setName(model.getName());
 			productGroupMapper.insert(group);
-			if(!AssertHelper.positiveInt(group.getId())){
+			if(!AssertHelper.positiveLong(group.getId())){
 				throw new ServiceException("e.product.group.save.failure");
 			}
 			groupId = group.getId();
@@ -301,14 +301,14 @@ public class ProductServiceImpl implements ProductService {
 		item.setProductId(model.getProductId());
 		productGroupMapper.insertItem(item);
 		
-		if (!AssertHelper.positiveInt(item.getId())) {
+		if (!AssertHelper.positiveLong(item.getId())) {
 			throw new ServiceException("e.product.group.save.failure");
 		}
 		
 		return model;
 	}
 	
-	private boolean existItem(Integer groupId, Integer productId){
+	private boolean existItem(Long groupId, Long productId){
 		
 		Integer countItem = productGroupMapper.countItem(groupId, productId);
 		
@@ -338,7 +338,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void removeGroup(SessionUser user, Integer groupId)
+	public void removeGroup(SessionUser user, Long groupId)
 			throws ServiceException {
 		Preconditions.checkNotNull(user);
 		Preconditions.checkNotNull(user.getCid());
@@ -350,8 +350,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void removeProductFromGroup(SessionUser user, Integer groupId,
-			Integer productId) throws ServiceException {
+	public void removeProductFromGroup(SessionUser user, Long groupId,
+			Long productId) throws ServiceException {
 		Preconditions.checkNotNull(user);
 		Preconditions.checkNotNull(user.getCid());
 		Preconditions.checkNotNull(groupId);

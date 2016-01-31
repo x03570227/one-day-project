@@ -22,21 +22,22 @@ public class SysUserCond extends BaseCond{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Integer cid;
-	private Integer uidNot;
-	
-	public Integer getCid() {
+	private Long cid;
+	private Long uidNot;
+
+	public Long getCid() {
 		return cid;
 	}
-	public void setCid(Integer cid) {
+
+	public void setCid(Long cid) {
 		this.cid = cid;
 	}
-	public Integer getUidNot() {
+
+	public Long getUidNot() {
 		return uidNot;
 	}
-	public void setUidNot(Integer uidNot) {
+
+	public void setUidNot(Long uidNot) {
 		this.uidNot = uidNot;
 	}
-	
-	
 }

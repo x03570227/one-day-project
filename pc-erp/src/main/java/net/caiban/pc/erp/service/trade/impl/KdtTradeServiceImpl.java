@@ -63,7 +63,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 	final static String READY_STATUS = "WAIT_BUYER_CONFIRM_GOODS";
 	
 	@Override
-	public JSONObject checkTicket(Integer cid, String tradeNum)
+	public JSONObject checkTicket(Long cid, String tradeNum)
 			throws ServiceException {
 		//获取appkey throw e.sys.app.unfound
 		//从appclient获取订单 throw e.trade.unfound, e.sys.app.client.exception
@@ -92,9 +92,9 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 			throw new ServiceException("e.trade.status.not.ready");
 		}
 		
-		Integer tid = tradeMapper.queryIdByTradeNum(cid, tradeNum);
+		Long tid = tradeMapper.queryIdByTradeNum(cid, tradeNum);
 		
-		if(tid!=null && tid.intValue()>0){
+		if(tid!=null && tid.longValue()>0){
 			TradeDefine define = new TradeDefine();
 			define.setTradeId(tid);
 			define.setDetails(tradeJson.toString());
@@ -140,7 +140,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 	}
 	
 	@Override
-	public void marksign(Integer cid, String tradeNum) throws ServiceException {
+	public void marksign(Long cid, String tradeNum) throws ServiceException {
 		SysApp app = sysAppMapper.queryByDomain(cid, SOURCE_DOMAIN);
 		
 		if (app == null || Strings.isNullOrEmpty(app.getAppKey())
@@ -175,13 +175,13 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 	}
 
 	@Override
-	public TradeDefine queryDefineBytradeNum(Integer cid, String tradeNum) {
+	public TradeDefine queryDefineBytradeNum(Long cid, String tradeNum) {
 		
 		if(Strings.isNullOrEmpty(tradeNum)){
 			return null;
 		}
 		
-		Integer tradeId = tradeMapper.queryIdByTradeNum(cid, tradeNum);
+		Long tradeId = tradeMapper.queryIdByTradeNum(cid, tradeNum);
 		
 		return tradeDefineMapper.queryByTradeId(tradeId);
 	}
@@ -213,7 +213,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 	@Override
 	public List<TradeSummary> summary(TradeCond cond) {
 		
-		cond.setIdMax(0);
+		cond.setIdMax(0l);
 		
 		Map<Long, TradeSummary> summaryMap = new HashMap<Long, TradeSummary>();
 		
@@ -272,7 +272,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 	}
 
 	@Override
-	public List<JSONObject> queryBeMarkedTrade(Integer cid, Integer pid,
+	public List<JSONObject> queryBeMarkedTrade(Long cid, Long pid,
 			String mobile) throws ServiceException {
 		
 		if(pid==null||cid==null){
@@ -293,12 +293,12 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		return localTrade;
 	}
 	
-	private List<JSONObject> localTradeFilter(Integer cid, Integer pid, String mobile, String productCode){
+	private List<JSONObject> localTradeFilter(Long cid, Long pid, String mobile, String productCode){
 		
 		TradeCond cond = new TradeCond();
 		cond.setCid(cid);
 		cond.setPidFirst(pid);
-		cond.setIdMax(0);
+		cond.setIdMax(0l);
 		cond.setLimit(100);
 		cond.setStatus(Trade.STATUS.DEFAULT.getKey());
 		
@@ -330,7 +330,7 @@ public class KdtTradeServiceImpl implements KdtTradeService {
 		return result;
 	}
 	
-	private List<JSONObject> remoteTradeFilter(Integer cid, Integer pid,
+	private List<JSONObject> remoteTradeFilter(Long cid, Long pid,
 			String mobile, String productCode) throws ServiceException {
 		
 		SysApp app = sysAppMapper.queryByDomain(cid, SOURCE_DOMAIN);

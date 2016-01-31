@@ -91,7 +91,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<include refid="where_cond" />
 	</select>
 	
-	<select id="queryIdByTradeNum" resultType="java.lang.Integer">
+	<select id="queryIdByTradeNum" resultType="java.lang.Long">
 		select id from trade 
 		where cid=#{cid} and trade_num=#{tradeNum}
 	</select>

@@ -92,7 +92,7 @@ public class TradeController extends BaseController {
 	
 	@RequestMapping
 	@ResponseBody
-	public Map<String, Object> doDelete(HttpServletRequest request, Integer id){
+	public Map<String, Object> doDelete(HttpServletRequest request, Long id){
 		
 		SessionUser user = getSessionUser(request);
 		

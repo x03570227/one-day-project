@@ -15,8 +15,8 @@ public interface TradeDefineMapper {
 	
 	public Integer insert(TradeDefine define);
 	
-	public TradeDefine queryByTradeId(Integer tradeId);
+	public TradeDefine queryByTradeId(Long tradeId);
 	
-	public Integer deleteByTradeId(Integer tradeId);
+	public Integer deleteByTradeId(Long tradeId);
 	
 }

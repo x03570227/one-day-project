@@ -53,7 +53,7 @@ public class EventsServiceImpl implements EventsService {
 	}
 
 	@Override
-	public Map<String, Integer> filterAppendJoiner(String origin,
+	public Map<String, Long> filterAppendJoiner(String origin,
 			String originId, String append) {
 		
 		origin = filterEmpty(origin);
@@ -77,14 +77,14 @@ public class EventsServiceImpl implements EventsService {
 			appendArr = append.split(",");
 		}
 		
-		Map<String, Integer> map = new HashMap<String, Integer>();
+		Map<String, Long> map = new HashMap<String, Long>();
 		for(int i=0; i<accountArr.length; i++ ){
-			map.put(accountArr[i], idArr[i]);
+			map.put(accountArr[i], Long.valueOf(idArr[i]));
 		}
 		
 		for(String account: appendArr){
 			if(map.get(account)==null){
-				Integer id = sysUserService.queryIdByAccount(account);
+				Long id = sysUserService.queryIdByAccount(account);
 				if(id!=null && id.intValue()>0){
 					map.put(account, id);
 				}
@@ -121,7 +121,7 @@ public class EventsServiceImpl implements EventsService {
 	}
 
 	@Override
-	public Integer saveEvent(Events event) {
+	public Long saveEvent(Events event) {
 		if(event == null){
 			return null;
 		}

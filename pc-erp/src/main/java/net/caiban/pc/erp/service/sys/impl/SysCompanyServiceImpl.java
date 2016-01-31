@@ -29,7 +29,7 @@ public class SysCompanyServiceImpl implements SysCompanyService{
 	}
 
 	@Override
-	public SysCompany queryOne(Integer cid) {
+	public SysCompany queryOne(Long cid) {
 		if(cid==null || cid.intValue()<=0){
 			return null;
 		}

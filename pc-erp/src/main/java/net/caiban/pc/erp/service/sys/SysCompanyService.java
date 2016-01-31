@@ -15,5 +15,5 @@ public interface SysCompanyService {
 
 	public List<SysCompany> query();
 	
-	public SysCompany queryOne(Integer cid);
+	public SysCompany queryOne(Long cid);
 }

@@ -26,21 +26,31 @@ public class SysUser extends BaseDomain {
 	public final static String CLASSIFY_M="M";
 	public final static String CLASSIFY_E="E";
 	public final static int ACCEPT_TRUE=1;
-	public final static int DEFAULT_UID=0;
+	public final static long DEFAULT_UID=0;
 	
-	private Integer uid;
+	private Long uid;
 	private String classify;
 	private String account;
 	private String password;
 	private String salt;
-	private Integer cid;
-	
-	public Integer getUid() {
+	private Long cid;
+
+	public Long getUid() {
 		return uid;
 	}
-	public void setUid(Integer uid) {
+
+	public void setUid(Long uid) {
 		this.uid = uid;
 	}
+
+	public Long getCid() {
+		return cid;
+	}
+
+	public void setCid(Long cid) {
+		this.cid = cid;
+	}
+
 	public String getClassify() {
 		return classify;
 	}
@@ -65,12 +75,6 @@ public class SysUser extends BaseDomain {
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-	public Integer getCid() {
-		return cid;
-	}
-	public void setCid(Integer cid) {
-		this.cid = cid;
-	}
-	
+
 	
 }

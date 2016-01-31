@@ -17,7 +17,7 @@ public interface SysAppMapper {
 	
 	public Integer update(SysApp sysApp);
 	
-	public SysApp queryByDomain(@Param("cid") Integer cid,
+	public SysApp queryByDomain(@Param("cid") Long cid,
 			@Param("domain") String domain);
 	
 }

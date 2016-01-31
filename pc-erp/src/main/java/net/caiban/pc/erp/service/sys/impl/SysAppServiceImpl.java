@@ -28,7 +28,7 @@ public class SysAppServiceImpl implements SysAppService {
 	private SysAppMapper sysAppMapper;
 	
 	@Override
-	public SysApp queryByDomain(Integer cid, String domain) {
+	public SysApp queryByDomain(Long cid, String domain) {
 		if(cid==null){
 			return null;
 		}

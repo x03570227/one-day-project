@@ -31,25 +31,13 @@ public class Trade extends BaseDomain {
 		}
 	}
 	
-	private Integer cid;
-	private Integer pidFirst;
+	private Long cid;
+	private Long pidFirst;
 	private String tradeNum;
 	private String sourceDomain;
 	private String sourceType;
 	private Integer status;
 	
-	public Integer getCid() {
-		return cid;
-	}
-	public void setCid(Integer cid) {
-		this.cid = cid;
-	}
-	public Integer getPidFirst() {
-		return pidFirst;
-	}
-	public void setPidFirst(Integer pidFirst) {
-		this.pidFirst = pidFirst;
-	}
 	public String getTradeNum() {
 		return tradeNum;
 	}
@@ -75,4 +63,19 @@ public class Trade extends BaseDomain {
 		this.status = status;
 	}
 
+	public Long getCid() {
+		return cid;
+	}
+
+	public void setCid(Long cid) {
+		this.cid = cid;
+	}
+
+	public Long getPidFirst() {
+		return pidFirst;
+	}
+
+	public void setPidFirst(Long pidFirst) {
+		this.pidFirst = pidFirst;
+	}
 }

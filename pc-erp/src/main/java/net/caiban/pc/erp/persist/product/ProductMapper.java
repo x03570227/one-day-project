@@ -24,17 +24,17 @@ public interface ProductMapper {
 	
 	public Integer pagerDefaultCount(@Param("cond") ProductCond cond);
 	
-	public Integer delete(Integer id);
+	public Integer delete(Long id);
 	
 	public Integer update(Product product);
 	
-	public Product queryOne(Integer id);
+	public Product queryOne(Long id);
 	
-	public Product queryOneByCode(@Param("cid")Integer cid, @Param("code") String code);
+	public Product queryOneByCode(@Param("cid")Long cid, @Param("code") String code);
 	
-	public String queryCode(Integer id);
+	public String queryCode(Long id);
 	
-	public Integer countByCid(@Param("id") Integer id, @Param("cid") Integer cid);
+	public Integer countByCid(@Param("id") Long id, @Param("cid") Long cid);
 	
 	public List<ProductModel> queryProductOfGroup(@Param("cond") ProductCond cond);
 	
