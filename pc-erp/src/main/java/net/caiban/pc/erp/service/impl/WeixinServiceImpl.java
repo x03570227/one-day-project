@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import net.caiban.pc.erp.domain.SessionUser;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -285,7 +286,19 @@ public class WeixinServiceImpl implements WeixinService {
 		}
 		return jobj.optString("data");
 	}
-	
+
+	@Override
+	public SessionUser oauth(String code) throws ServiceException {
+
+		if(Strings.isNullOrEmpty(code)){
+			throw new ServiceException("AUTH_DENIED");
+		}
+
+//		String accessToken =
+
+		return null;
+	}
+
 //	public static void main(String[] args) {
 //		JedisUtil.initPool(null);
 //		System.out.println(duplicateMsgid("k2"));

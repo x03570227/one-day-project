@@ -5,12 +5,15 @@ package net.caiban.pc.erp.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.caiban.pc.erp.config.AppConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -155,6 +158,37 @@ public class ApiController extends BaseController {
 //		LOG.info("REQUEST PARAMS:"+new Gson().toJson(paramsMap));
 		
 //		return null;
+	}
+
+	@RequestMapping
+	@ResponseBody
+	public ModelAndView gowxauth(HttpServletRequest request, HttpServletResponse response)
+			throws UnsupportedEncodingException {
+
+		//https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+
+		StringBuffer url = new StringBuffer();
+		url.append("https://open.weixin.qq.com/connect/oauth2/authorize?appid=")
+				.append(AppConst.getConfig("weixin.web.app.id"))
+				.append("&redirect_uri=")
+				.append(URLEncoder.encode(AppConst.getConfig("weixin.web.oauth"), "utf-8"))
+				.append("&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
+
+		return new ModelAndView("redirect:" + url.toString());
+	}
+
+	@RequestMapping
+	@ResponseBody
+	public ModelAndView wxauth(HttpServletRequest request, HttpServletResponse response,
+		String code, String state){
+
+		if (Strings.isNullOrEmpty(code)){
+			return new ModelAndView("");
+		}
+
+		weixinService.oauth(code);
+
+		return null;
 	}
 	
 
