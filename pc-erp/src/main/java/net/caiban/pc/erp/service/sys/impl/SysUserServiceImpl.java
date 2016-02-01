@@ -19,10 +19,7 @@ import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.config.LogHelper;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
-import net.caiban.pc.erp.domain.sys.SysCompany;
-import net.caiban.pc.erp.domain.sys.SysLoginRemember;
-import net.caiban.pc.erp.domain.sys.SysUser;
-import net.caiban.pc.erp.domain.sys.SysUserCond;
+import net.caiban.pc.erp.domain.sys.*;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.sys.SysCompanyMapper;
 import net.caiban.pc.erp.persist.sys.SysLoginRememberMapper;
@@ -176,14 +173,14 @@ public class SysUserServiceImpl implements SysUserService {
 	public String classifyOfAccount(String account){
 		
 		if(StringUtils.isEmail(account)){
-			return SysUser.CLASSIFY_E;
+			return SysUser.CLASSIFY.E.toString();
 		}
 		
 		if(ValidateUtil.isMobile(account)){
-			return SysUser.CLASSIFY_M;
+			return SysUser.CLASSIFY.M.toString();
 		}
 		
-		return SysUser.CLASSIFY_A;
+		return SysUser.CLASSIFY.A.toString();
 	}
 	
 	/**
@@ -393,5 +390,11 @@ public class SysUserServiceImpl implements SysUserService {
 		if(impact==null || impact.intValue()<=0){
 			throw new ServiceException("e.sys.user.reset.password.failure");
 		}		
+	}
+
+	@Override
+	public SessionUser doRegistByOauth(SysUserAuthModel auth, SysUserProfileModel profile) throws ServiceException {
+		//TODO 模拟注册
+		return null;
 	}
 }

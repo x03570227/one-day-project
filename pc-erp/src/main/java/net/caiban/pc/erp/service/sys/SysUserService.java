@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
-import net.caiban.pc.erp.domain.sys.SysCompany;
-import net.caiban.pc.erp.domain.sys.SysUser;
-import net.caiban.pc.erp.domain.sys.SysUserCond;
+import net.caiban.pc.erp.domain.sys.*;
 import net.caiban.pc.erp.exception.ServiceException;
 
 /**
@@ -100,4 +98,7 @@ public interface SysUserService {
 	
 	public void doResetPasswordByAdmin(Long adminUid, Long uid, String password,
 			String confirm) throws ServiceException;
+
+	public SessionUser doRegistByOauth(SysUserAuthModel auth, SysUserProfileModel profile) throws ServiceException;
+
 }

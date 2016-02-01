@@ -3,11 +3,19 @@ package net.caiban.pc.erp.service.impl;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.annotation.Resource;
 
 import com.google.common.util.concurrent.Service;
+import com.google.gson.JsonArray;
 import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.domain.sys.SysUser;
+import net.caiban.pc.erp.domain.sys.SysUserAuthModel;
+import net.caiban.pc.erp.domain.sys.SysUserProfile;
+import net.caiban.pc.erp.domain.sys.SysUserProfileModel;
+import net.caiban.pc.erp.service.sys.SysUserService;
+import net.sf.json.JSONArray;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -47,7 +55,9 @@ public class WeixinServiceImpl implements WeixinService {
 	
 	@Resource
 	private EverydayService everydayService;
-	
+	@Resource
+	private SysUserService sysUserService;
+
 	static enum MESSAGE_CMD{
 		//帮助命令
 		HELP("帮助,help,h"),
@@ -291,11 +301,52 @@ public class WeixinServiceImpl implements WeixinService {
 	@Override
 	public SessionUser oauth(String code) throws ServiceException {
 
-		String accessToken = remoteOauthAccessToken(code);
-		return null;
+		SysUserAuthModel userAuth = remoteOauthAccessToken(code);
+
+		SysUserProfileModel profile = remoteOauthProfile(userAuth.getAccessToken(), userAuth.getOpenid());
+
+		return sysUserService.doRegistByOauth(userAuth, profile);
+
 	}
 
-	private String remoteOauthAccessToken(String code) throws ServiceException{
+	private SysUserProfileModel remoteOauthProfile(String accessToken, String openid) throws ServiceException{
+
+		//ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+		StringBuffer url = new StringBuffer();
+		url.append("https://api.weixin.qq.com/sns/userinfo?access_token=")
+			.append(accessToken)
+			.append("&openid=").append(openid)
+			.append("&lang=zh_CN");
+
+		String resp = HttpRequestUtil.httpGet(url.toString());
+
+		if (!JSONUtils.mayBeJSON(resp)) {
+			LOG.error("Invalid response: " + resp);
+			throw new ServiceException("INVALID_RESPONSE");
+		}
+
+		JSONObject jobj = JSONObject.fromObject(resp);
+		if (jobj.has("errcode")) {
+			LOG.error("Error access oauth token, response is: " + resp);
+			throw new ServiceException("FAILURE_GET_ACCESS_TOKEN");
+		}
+
+		SysUserProfileModel profile = new SysUserProfileModel();
+		profile.setOpenid(openid);
+		profile.setNickname(jobj.optString("nickname"));
+		profile.setSex(jobj.optString("sex"));
+		profile.setProvince(jobj.optString("province"));
+		profile.setCity(jobj.optString("city"));
+		profile.setCountry(jobj.optString("country"));
+		profile.setHeadimgurl(jobj.optString("headimgurl"));
+		profile.setUnionid(jobj.optString("unionid"));
+		profile.setPrivilege(jobj.optString("privilege"));
+
+		return profile;
+
+	}
+
+	private SysUserAuthModel remoteOauthAccessToken(String code) throws ServiceException{
 
 		if(Strings.isNullOrEmpty(code)){
 			throw new ServiceException("AUTH_DENIED");
@@ -314,19 +365,32 @@ public class WeixinServiceImpl implements WeixinService {
 
 		String resp = HttpRequestUtil.httpGet(url.toString());
 
-		if(!JSONUtils.mayBeJSON(resp)){
-			LOG.error("Invalid oauth response: "+resp);
+		return buildAuthFromResp(resp);
+
+	}
+
+	private SysUserAuthModel buildAuthFromResp(String resp) throws ServiceException {
+		if (!JSONUtils.mayBeJSON(resp)) {
+			LOG.error("Invalid oauth response: " + resp);
 			throw new ServiceException("INVALID_RESPONSE");
 		}
 
 		JSONObject jobj = JSONObject.fromObject(resp);
-		if(jobj.has("errcode")){
-			LOG.error("Error access oauth token, response is: " +resp);
+		if (jobj.has("errcode")) {
+			LOG.error("Error access oauth token, response is: " + resp);
 			throw new ServiceException("FAILURE_GET_ACCESS_TOKEN");
 		}
 
-		return null;
+		SysUserAuthModel userAuth = new SysUserAuthModel();
+		userAuth.setClassify(SysUser.CLASSIFY.W.toString());
+		userAuth.setOpenid(jobj.optString("openid"));
+		userAuth.setAccessToken(jobj.optString("access_token"));
+		userAuth.setRefreshToken(jobj.optString("refresh_token"));
+		userAuth.setExpiresIn(jobj.optInt("expires_in"));
+		userAuth.setScope(jobj.optString("scope"));
+		userAuth.setUnionid(jobj.optString("unionid"));
 
+		return userAuth;
 	}
 
 }
