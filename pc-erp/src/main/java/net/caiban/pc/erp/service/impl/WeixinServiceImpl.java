@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.google.common.util.concurrent.Service;
 import net.caiban.pc.erp.domain.SessionUser;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -290,18 +291,42 @@ public class WeixinServiceImpl implements WeixinService {
 	@Override
 	public SessionUser oauth(String code) throws ServiceException {
 
+		String accessToken = remoteOauthAccessToken(code);
+		return null;
+	}
+
+	private String remoteOauthAccessToken(String code) throws ServiceException{
+
 		if(Strings.isNullOrEmpty(code)){
 			throw new ServiceException("AUTH_DENIED");
 		}
 
-//		String accessToken =
+//		https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+
+		StringBuffer url = new StringBuffer();
+		url.append("https://api.weixin.qq.com/sns/oauth2/access_token?appid=")
+				.append(AppConst.getConfig("weixin.web.app.id"))
+				.append("&secret=").append(AppConst.getConfig("weixin.web.app.secret"))
+				.append("&code=").append(code)
+				.append("&grant_type=authorization_code");
+
+		LOG.info("Get oauth access token from: "+url.toString());
+
+		String resp = HttpRequestUtil.httpGet(url.toString());
+
+		if(!JSONUtils.mayBeJSON(resp)){
+			LOG.error("Invalid oauth response: "+resp);
+			throw new ServiceException("INVALID_RESPONSE");
+		}
+
+		JSONObject jobj = JSONObject.fromObject(resp);
+		if(jobj.has("errcode")){
+			LOG.error("Error access oauth token, response is: " +resp);
+			throw new ServiceException("FAILURE_GET_ACCESS_TOKEN");
+		}
 
 		return null;
-	}
 
-//	public static void main(String[] args) {
-//		JedisUtil.initPool(null);
-//		System.out.println(duplicateMsgid("k2"));
-//	}
+	}
 
 }

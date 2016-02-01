@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.caiban.pc.erp.config.AppConst;
+import net.caiban.pc.erp.service.sys.SysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,8 @@ public class ApiController extends BaseController {
 	private SysLoginRememberService sysLoginRememberService;
 	@Resource
 	private WeixinService weixinService;
+	@Resource
+	private SysUserService sysUserService;
 	
 	final static Logger LOG = LoggerFactory.getLogger(ApiController.class);
 	
@@ -183,12 +186,21 @@ public class ApiController extends BaseController {
 		String code, String state){
 
 		if (Strings.isNullOrEmpty(code)){
-			return new ModelAndView("");
+			return new ModelAndView("redirect:/"); //跳转到错误页面
 		}
 
-		weixinService.oauth(code);
+		try {
+			SessionUser sessionUser = weixinService.oauth(code);
 
-		return null;
+			setSessionUser(request, sessionUser);
+			sysUserService.rememberMe(response, sessionUser, 1);
+
+			return new ModelAndView(""); //跳转到业务页面
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("redirect:"); //跳转到错误页面
 	}
 	
 
