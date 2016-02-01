@@ -1,46 +1,29 @@
 package net.caiban.pc.erp.service.impl;
 
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.function.Consumer;
-
-import javax.annotation.Resource;
-
-import com.google.common.util.concurrent.Service;
-import com.google.gson.JsonArray;
-import net.caiban.pc.erp.domain.SessionUser;
-import net.caiban.pc.erp.domain.sys.SysUser;
-import net.caiban.pc.erp.domain.sys.SysUserAuthModel;
-import net.caiban.pc.erp.domain.sys.SysUserProfile;
-import net.caiban.pc.erp.domain.sys.SysUserProfileModel;
-import net.caiban.pc.erp.service.sys.SysUserService;
-import net.sf.json.JSONArray;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
-
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.RedisKeyEnum;
+import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.domain.sys.SysUser;
+import net.caiban.pc.erp.domain.sys.SysUserAuthModel;
+import net.caiban.pc.erp.domain.sys.SysUserProfileModel;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.EverydayService;
 import net.caiban.pc.erp.service.WeixinService;
+import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.utils.cache.JedisUtil;
 import net.caiban.utils.http.HttpRequestUtil;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONUtils;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 import weixin.popular.api.TokenAPI;
@@ -48,6 +31,12 @@ import weixin.popular.bean.EventMessage;
 import weixin.popular.bean.Token;
 import weixin.popular.bean.xmlmessage.XMLTextMessage;
 import weixin.popular.util.XMLConverUtil;
+
+import javax.annotation.Resource;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 @Component("weixinService")
 public class WeixinServiceImpl implements WeixinService {
