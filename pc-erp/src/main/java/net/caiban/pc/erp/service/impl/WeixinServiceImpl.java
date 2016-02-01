@@ -2,6 +2,7 @@ package net.caiban.pc.erp.service.impl;
 
 import java.io.InputStream;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -389,6 +390,10 @@ public class WeixinServiceImpl implements WeixinService {
 		userAuth.setExpiresIn(jobj.optInt("expires_in"));
 		userAuth.setScope(jobj.optString("scope"));
 		userAuth.setUnionid(jobj.optString("unionid"));
+
+		userAuth.setGmtAuth(new Date());
+		Date gmtExpires= new Date(userAuth.getGmtAuth().getTime()+(userAuth.getExpiresIn()*1000l));
+		userAuth.setGmtExpires(gmtExpires);
 
 		return userAuth;
 	}

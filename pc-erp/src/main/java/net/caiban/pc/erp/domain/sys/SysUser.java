@@ -44,6 +44,8 @@ public class SysUser extends BaseDomain {
 	private String salt;
 	private Long cid;
 
+	private String oauthProfile;
+
 	public Long getUid() {
 		return uid;
 	}
@@ -85,5 +87,11 @@ public class SysUser extends BaseDomain {
 		this.salt = salt;
 	}
 
-	
+	public String getOauthProfile() {
+		return oauthProfile;
+	}
+
+	public void setOauthProfile(String oauthProfile) {
+		this.oauthProfile = oauthProfile;
+	}
 }

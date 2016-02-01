@@ -15,6 +15,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.config.LogHelper;
 import net.caiban.pc.erp.domain.Pager;
@@ -23,6 +24,7 @@ import net.caiban.pc.erp.domain.sys.*;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.sys.SysCompanyMapper;
 import net.caiban.pc.erp.persist.sys.SysLoginRememberMapper;
+import net.caiban.pc.erp.persist.sys.SysUserAuthMapper;
 import net.caiban.pc.erp.persist.sys.SysUserMapper;
 import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.pc.erp.utils.ValidateUtil;
@@ -48,6 +50,8 @@ public class SysUserServiceImpl implements SysUserService {
 	private SysCompanyMapper sysCompanyMapper;
 	@Resource
 	private SysLoginRememberMapper sysLoginRememberMapper;
+	@Resource
+	private SysUserAuthMapper sysUserAuthMapper;
 
 	@Override
 	public SessionUser doLogin(SysUser user) throws ServiceException {
@@ -394,7 +398,31 @@ public class SysUserServiceImpl implements SysUserService {
 
 	@Override
 	public SessionUser doRegistByOauth(SysUserAuthModel auth, SysUserProfileModel profile) throws ServiceException {
-		//TODO 模拟注册
-		return null;
+
+		SysUser registUser = new SysUser();
+		registUser.setSalt(randomSalt());
+		registUser.setClassify(SysUser.CLASSIFY.W.toString());
+		registUser.setAccount(rebuildAccount(SysUser.CLASSIFY.W.toString(),auth.getOpenid()));
+		registUser.setPassword(auth.getAccessToken());
+		registUser.setUid(SysUser.DEFAULT_UID);
+		registUser.setCid(0l);
+		registUser.setOauthProfile(new Gson().toJson(profile));
+
+		try {
+			sysUserMapper.insert(registUser);
+		} catch (Exception e) {
+			throw new ServiceException("e.regist");
+		}
+
+		if(registUser.getId()==null || registUser.getId().intValue()<=0){
+			throw new ServiceException("e.regist");
+		}
+		sysUserMapper.updateUid(registUser.getId(), registUser.getId());
+
+		auth.setUid(registUser.getUid());
+
+		sysUserAuthMapper.insertSelective(auth);
+
+		return new SessionUser(registUser.getUid(), registUser.getAccount(), registUser.getCid());
 	}
 }

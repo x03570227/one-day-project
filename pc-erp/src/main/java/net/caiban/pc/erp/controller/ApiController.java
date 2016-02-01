@@ -164,7 +164,6 @@ public class ApiController extends BaseController {
 	}
 
 	@RequestMapping
-	@ResponseBody
 	public ModelAndView gowxauth(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException {
 
@@ -181,7 +180,6 @@ public class ApiController extends BaseController {
 	}
 
 	@RequestMapping
-	@ResponseBody
 	public ModelAndView wxauth(HttpServletRequest request, HttpServletResponse response,
 		String code, String state){
 
