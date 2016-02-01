@@ -7,6 +7,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.caiban.pc.erp.config.AppConst;
+import net.caiban.utils.DateUtil;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,9 @@ import net.caiban.pc.erp.domain.EverydayModel;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.EverydayService;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author mar
@@ -44,12 +50,28 @@ public class FeverydayController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response,
-			ModelMap model, Long id, String viewWxOpenid){
+							   ModelMap model, Long id, String viewWxOpenid,
+							   @DateTimeFormat(pattern = "yyyy-MM-dd")Date day, String wxOpenid){
 		try {
 			//XXX 利用 wxopenid 判断用户与 everyday 的关系，判断用户绑定状态
-			EverydayModel everydayModel = everydayService.queryById(id);
-			model.put("everyday", everydayModel);
-			model.put("todays", everydayService.queryTheDayByEveryday(everydayModel));
+			if(day!=null){
+				List<EverydayModel> list = everydayService.queryTheDayByDay(day, wxOpenid, null);
+				model.put("todays", list);
+				model.put("wxOpenid", wxOpenid);
+				model.put("pre", DateUtil.toString(DateUtil.getDateAfterDays(day, -1), AppConst.DATE_FORMAT_DATE));
+				model.put("next", DateUtil.toString(DateUtil.getDateAfterDays(day, 1), AppConst.DATE_FORMAT_DATE));
+				model.put("todayEveryday", (list==null || list.size()<=0)?null:list.get(0));
+
+			}else {
+				EverydayModel everydayModel = everydayService.queryById(id);
+				model.put("everyday", everydayModel);
+				model.put("todayEveryday", everydayModel);
+				model.put("todays", everydayService.queryTheDayByEveryday(everydayModel));
+				model.put("wxOpenid", everydayModel.getWxOpenid());
+				model.put("pre", DateUtil.toString(DateUtil.getDateAfterDays(everydayModel.getGmtCreated(), -1), AppConst.DATE_FORMAT_DATE));
+				model.put("next", DateUtil.toString(DateUtil.getDateAfterDays(everydayModel.getGmtCreated(), 1), AppConst.DATE_FORMAT_DATE));
+			}
+
 		} catch (ServiceException e) {
 			serverError(request, response, e.getMessage());
 		}

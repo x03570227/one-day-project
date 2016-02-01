@@ -386,22 +386,24 @@ try {
 	@Override
 	public List<EverydayModel> queryTheDayByEveryday(Everyday everyday) {
 		Preconditions.checkNotNull(everyday);
+
+		return queryTheDayByDay(everyday.getGmtCreated(), everyday.getWxOpenid(), everyday.getId());
 		
-		Date from=null;
-		try {
-			from = DateUtil.getDate(everyday.getGmtCreated(), AppConst.DATE_FORMAT_DATE);
-		} catch (ParseException e) {
-		}
-		Date to =DateUtil.getDateAfterDays(from, 1);
-		
-		EverydayCond cond = new EverydayCond();
-		cond.setGmtCreatedMin(from);
-		cond.setGmtCreatedMax(to);
-		cond.setExcludeId(Long.valueOf(everyday.getId()));
-		cond.setWxOpenid(everyday.getWxOpenid());
-		
-		List<EverydayModel> list = everydayMapper.queryByCond(cond);
-		return rebuildEveryday(list);
+//		Date from=null;
+//		try {
+//			from = DateUtil.getDate(everyday.getGmtCreated(), AppConst.DATE_FORMAT_DATE);
+//		} catch (ParseException e) {
+//		}
+//		Date to =DateUtil.getDateAfterDays(from, 1);
+//
+//		EverydayCond cond = new EverydayCond();
+//		cond.setGmtCreatedMin(from);
+//		cond.setGmtCreatedMax(to);
+//		cond.setExcludeId(Long.valueOf(everyday.getId()));
+//		cond.setWxOpenid(everyday.getWxOpenid());
+//
+//		List<EverydayModel> list = everydayMapper.queryByCond(cond);
+//		return rebuildEveryday(list);
 	}
 	
 	private List<EverydayModel> rebuildEveryday(List<EverydayModel> list){
@@ -422,11 +424,6 @@ try {
 			return null;
 		}
 		
-		//"R-767F1kwehf5F02TSrIqv4PiIVXY2aup0KkYG_E_iZfXqZGwoc_k2q5dRPaw52L"
-		
-//		byte[] mediaByte = MediaAPI.mediaGet(weixinService.remoteAccessToken(), message.getMediaId());
-//		byte[] mediaByte1 = mediaGet(message.getPicUrl());
-		
 		byte[] mediaByte=null;
 		try {
 			mediaByte = IOUtils.toByteArray(new URL(message.getPicUrl()));
@@ -438,36 +435,7 @@ try {
 			throw new ServiceException("FAILURE_READ_WX_PIC");
 		}
 		
-//		
-//		FileOutputStream fos;
-//		try {
-//			fos = new FileOutputStream(new File("/Users/mar/m0.jpg"));
-//			fos.write(mediaByte);
-//			fos.close();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		try {
-//			fos = new FileOutputStream(new File("/Users/mar/m1.jpg"));
-//			fos.write(mediaByte1);
-//			fos.close();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-//		if(mediaByte.length==0){
-//			throw new ServiceException("INVALID_MEDIA_ID");
-//		}
-		
+
 		UpYun upYun = UpyunUtils.getClient(UpyunNamespaceEnum.IMAGE.getNamespace());
 		String fullpath = UpyunUtils.getMonthPath(message.getMediaId()+".jpg");
 		Boolean result = upYun.writeFile(fullpath, mediaByte, true);
@@ -480,73 +448,28 @@ try {
 		
 //		return null;
 	}
-//	
-	private byte[] mediaGet(String url) {
-		CloseableHttpResponse response = null;
+
+	@Override
+	public List<EverydayModel> queryTheDayByDay(Date day, String wxOpenid, Long excludeId) {
+
+		Preconditions.checkNotNull(day);
+
+		wxOpenid = Strings.emptyToNull(wxOpenid);
+
+		Date from=null;
 		try {
-
-			response = HttpRequestUtil.httpGetResponse(url);
-
-			try {
-				HttpEntity entity = response.getEntity();
-				
-				if (entity != null) {
-					InputStream is = null;
-//					FileOutputStream fos = null;
-//					
-//					FileInputStream fis=null;
-//					ByteArrayOutputStream bos=null;
-					try {
-						is = entity.getContent();
-						
-//						String tmpfilepath = "/mnt/tmp/"+UUID.randomUUID()+".jpg";
-//						fos = new FileOutputStream(new File(tmpfilepath));
-//						byte[] b = new byte[1024];
-//						while((is.read(b)) != -1){
-//							fos.write(b);
-//						}
-						
-//						fis = new FileInputStream(new File(tmpfilepath));
-//						bos = new ByteArrayOutputStream();
-						
-//						byte[] buff = new byte[fis.available()];
-//						fis.read(buff);
-//						byte[] b = new byte[1024];
-//						while((is.read(b)) != -1){
-//							bos.write(b);
-//						}
-//						bos.write(buff);
-						
-//						return bos.toByteArray();
-//						ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//						byte[] buff = new byte[1024];
-//						
-//						while((is.read(buff)) != -1){
-//							bos.write(buff);
-//						}
-//						
-//						return bos.toByteArray();
-					} finally {
-						is.close();
-//						fos.close();
-//						
-//						fis.close();
-//						bos.close();
-					}
-
-					// return httpResponseAsString(is, encode);
-				}
-			} finally {
-				response.close();
-			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			from = DateUtil.getDate(day, AppConst.DATE_FORMAT_DATE);
+		} catch (ParseException e) {
 		}
+		Date to =DateUtil.getDateAfterDays(from, 1);
 
-		return new byte[0];
+		EverydayCond cond = new EverydayCond();
+		cond.setGmtCreatedMin(from);
+		cond.setGmtCreatedMax(to);
+		cond.setExcludeId(excludeId);
+		cond.setWxOpenid(wxOpenid);
+
+		List<EverydayModel> list = everydayMapper.queryByCond(cond);
+		return rebuildEveryday(list);
 	}
-//	
-	
 }

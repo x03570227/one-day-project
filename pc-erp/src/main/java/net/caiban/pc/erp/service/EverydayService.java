@@ -1,5 +1,6 @@
 package net.caiban.pc.erp.service;
 
+import java.util.Date;
 import java.util.List;
 
 import net.caiban.pc.erp.domain.Everyday;
@@ -23,7 +24,8 @@ public interface EverydayService {
 	public EverydayModel queryById(Long id) throws ServiceException;
 	
 	public List<EverydayModel> queryTheDayByEveryday(Everyday everyday);
+
+	public List<EverydayModel> queryTheDayByDay(Date day, String wxOpenid, Long excludeId);
 	
-	@Deprecated
 	public String saveImage(EventMessage message) throws ServiceException;
 }

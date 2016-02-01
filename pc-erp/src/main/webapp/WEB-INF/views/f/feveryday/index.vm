@@ -30,7 +30,11 @@
 	#if(${everyday.wxMsgtype} == "image")
             <div class="panel-body" style="word-break:break-all">
         		<div class="text-center">
-					<image src="$!{everyday.imageUrl}" width="100%"/>
+                    <a href="$!{everyday.imageUrl}" target="_blank">
+                        <a href="$!{everyday.imageUrl}" target="_blank">
+							<image src="$!{everyday.imageUrl}" width="100%"/>
+						</a>
+					</a>
 				</div>
         	</div>
         	<div class="panel-heading">

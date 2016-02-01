@@ -1,18 +1,23 @@
 #set($layout="/layout/everyday_page.vm")
 
 <div class="container">
-	
-	#if(0 < $!{everyday.dayIndex} )
+
+	#if($todayEveryday)
+
+	#if(0 < $!{todayEveryday.dayIndex} )
 	<div class="progress mt8">
-      <div class="progress-bar progress-bar-danger" style="width: ${everyday.nowDayPercent}%;min-width: 4em;">
+      <div class="progress-bar progress-bar-danger" style="width: ${todayEveryday.nowDayPercent}%;min-width: 4em;">
         <span class="sr-only"></span>
-		连续$!{everyday.dayIndex}天
+		连续$!{todayEveryday.dayIndex}天
       </div>
     </div>
 	#else
 		<div class="mt8"></div>
 	#end
 
+	#end
+
+#if($everyday)
 <div class=" panel panel-$!{everyday.panelClass}" >
 
 	<div class="panel-heading">
@@ -48,18 +53,21 @@
 	</div>
 	#end
 	
-		#if(${everyday.wxMsgtype} == "image")
+	#if(${everyday.wxMsgtype} == "image")
             <div class="panel-body" style="word-break:break-all">
         		<div class="text-center">
-					<image src="$!{everyday.imageUrl}" width="100%"/>
+                    <a href="$!{everyday.imageUrl}" target="_blank">
+                        <image src="$!{everyday.imageUrl}" width="100%"/>
+					</a>
 				</div>
         	</div>
         	<div class="panel-footer">
-				<div class="text-muted">$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}</div>
+                <div class="text-muted">$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}</div>
         	</div>
 	#end
 	
 </div>
+#end
 
 #foreach($everyday in ${todays})
 	
@@ -93,7 +101,9 @@
 #if(${everyday.wxMsgtype} == "image")
             <div class="panel-body" style="word-break:break-all">
         		<div class="text-center">
+                    <a href="$!{everyday.imageUrl}" target="_blank">
 					<image src="$!{everyday.imageUrl}" width="100%"/>
+					</a>
 				</div>
         	</div>
         	<div class="panel-heading">
@@ -107,7 +117,9 @@
 
 <nav>
   <ul class="pager">
+    <li class="previous"><a href="#springUrl('/f/feveryday/detail.do')?wxOpenid=${wxOpenid}&day=${pre}">前一天</a></li>
     <li><a href="#springUrl('/f/feveryday/index.do')">更多每1天</a></li>
+    <li class="next"><a href="#springUrl('/f/feveryday/detail.do')?wxOpenid=${wxOpenid}&day=${next}">后一天</a></li>
   </ul>
 </nav>
 
