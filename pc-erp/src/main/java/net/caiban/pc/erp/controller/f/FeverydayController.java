@@ -60,7 +60,7 @@ public class FeverydayController extends BaseController {
 				model.put("wxOpenid", wxOpenid);
 				model.put("pre", DateUtil.toString(DateUtil.getDateAfterDays(day, -1), AppConst.DATE_FORMAT_DATE));
 				model.put("next", DateUtil.toString(DateUtil.getDateAfterDays(day, 1), AppConst.DATE_FORMAT_DATE));
-				model.put("todayEveryday", (list==null || list.size()<=0)?null:list.get(0));
+				model.put("todayEveryday", (list==null || list.size()<=0)?null:everydayService.rebuildEveryday(list.get(0)));
 
 			}else {
 				EverydayModel everydayModel = everydayService.queryById(id);

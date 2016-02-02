@@ -28,4 +28,11 @@ public interface EverydayService {
 	public List<EverydayModel> queryTheDayByDay(Date day, String wxOpenid, Long excludeId);
 	
 	public String saveImage(EventMessage message) throws ServiceException;
+
+	/**
+	 * 重新构建 everyday 对象，加入最大连续天数和百分比
+	 * @param everyday
+	 * @return
+	 */
+	public EverydayModel rebuildEveryday(EverydayModel everyday);
 }

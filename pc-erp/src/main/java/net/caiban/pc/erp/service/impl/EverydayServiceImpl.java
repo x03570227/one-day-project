@@ -353,17 +353,10 @@ try {
 		if(!Strings.isNullOrEmpty(everyday.getContent())){
 			everyday.setPageTitle(Jsoup.clean(everyday.getContent(), Whitelist.none()));
 		}
+
+		return rebuildEveryday(everyday);
 		
-		everyday.setMaxDayIndex(everydayMapper.queryMaxDayIndex(everyday.getWxOpenid(), null, null));
-		if (everyday.getMaxDayIndex() == null || everyday.getMaxDayIndex() <= 0
-				|| everyday.getDayIndex() > everyday.getMaxDayIndex()) {
-			everyday.setNowDayPercent(new BigDecimal("100"));
-		}else{
-			everyday.setNowDayPercent(new BigDecimal(String.valueOf(everyday.getDayIndex())).divide(new BigDecimal(String.valueOf(everyday.getMaxDayIndex())), 2, RoundingMode.HALF_UP).multiply(new BigDecimal("100")));
-		}
-		
-		everyday.setContent(buildContentHtml(everyday.getContent()));
-		return everyday;
+
 	}
 	
 	private String buildContentHtml(String content){
@@ -471,5 +464,22 @@ try {
 
 		List<EverydayModel> list = everydayMapper.queryByCond(cond);
 		return rebuildEveryday(list);
+	}
+
+	@Override
+	public EverydayModel rebuildEveryday(EverydayModel everyday) {
+
+		Preconditions.checkNotNull(everyday);
+
+		everyday.setMaxDayIndex(everydayMapper.queryMaxDayIndex(everyday.getWxOpenid(), null, null));
+		if (everyday.getMaxDayIndex() == null || everyday.getMaxDayIndex() <= 0
+				|| everyday.getDayIndex() > everyday.getMaxDayIndex()) {
+			everyday.setNowDayPercent(new BigDecimal("100"));
+		}else{
+			everyday.setNowDayPercent(new BigDecimal(String.valueOf(everyday.getDayIndex())).divide(new BigDecimal(String.valueOf(everyday.getMaxDayIndex())), 2, RoundingMode.HALF_UP).multiply(new BigDecimal("100")));
+		}
+
+		everyday.setContent(buildContentHtml(everyday.getContent()));
+		return everyday;
 	}
 }
