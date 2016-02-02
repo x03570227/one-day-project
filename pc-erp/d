@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -m
+
 case $1 in
 
 d)
@@ -36,6 +38,7 @@ d)
     #/usr/local/tomcat/bin/startup.sh -config /home/wcc/config/tomcat/wcc.xml
     #tailf /usr/local/tomcat/logs/catalina.out
     tail -f /mnt/logs/odp/erp.log
+    echo 'tail -f /mnt/logs/odp/erp.log'
 ;;
 r)
     tpid=`ps -ef | grep -w "tomcat" | grep -v "grep" | awk '{print $2}'`    
@@ -49,6 +52,7 @@ r)
     #tail -f /home/wcc/config/logs/wcc.log
     /mnt/program/apache-tomcat-7.0.57/bin/startup.sh
     tail -f /mnt/logs/odp/erp.log
+    echo 'tail -f /mnt/logs/odp/erp.log'
 ;;
 b)
     git fetch origin release-product
