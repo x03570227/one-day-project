@@ -117,7 +117,9 @@
 
 <nav>
   <ul class="pager">
+      #if( ${todayEveryday.hasPre} )
     <li class="previous"><a href="#springUrl('/f/feveryday/detail.do')?wxOpenid=${wxOpenid}&day=${pre}">前一天</a></li>
+      #end
     <li><a href="#springUrl('/f/feveryday/index.do')">更多每1天</a></li>
     <li class="next"><a href="#springUrl('/f/feveryday/detail.do')?wxOpenid=${wxOpenid}&day=${next}">后一天</a></li>
   </ul>

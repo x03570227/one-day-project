@@ -4,9 +4,12 @@
 package net.caiban.pc.erp.domain;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
@@ -34,7 +37,9 @@ public class EverydayModel extends Everyday{
 	private Integer maxDayIndex;
 	private BigDecimal nowDayPercent;
 	private String pageTitle;
-	
+    private Boolean hasPre;
+    private Boolean hasNext;
+
 	public Integer getMaxDayIndex() {
 		return maxDayIndex;
 	}
@@ -102,4 +107,23 @@ public class EverydayModel extends Everyday{
 		
 		return UpyunNamespaceEnum.IMAGE.getHost()+getWxPicurl();
 	}
+
+    public Boolean getHasNext() {
+        return hasNext;
+    }
+
+    public void setHasNext(Boolean hasNext) {
+        this.hasNext = hasNext;
+    }
+
+    public Boolean getHasPre() {
+        if(getDayIndex()!=null && getDayIndex()>0){
+            return true;
+        }
+        return hasPre;
+    }
+
+    public void setHasPre(Boolean hasPre) {
+        this.hasPre = hasPre;
+    }
 }

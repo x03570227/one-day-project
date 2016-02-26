@@ -55,6 +55,7 @@ public class FeverydayController extends BaseController {
 		try {
 			//XXX 利用 wxopenid 判断用户与 everyday 的关系，判断用户绑定状态
 			if(day!=null){
+
 				List<EverydayModel> list = everydayService.queryTheDayByDay(day, wxOpenid, null);
 				model.put("todays", list);
 				model.put("wxOpenid", wxOpenid);
