@@ -22,7 +22,7 @@
 
 	<div class="panel-heading">
 		<div class="row">
-			<div class="col-sm-offset-4 col-sm-8 ">
+			<div class="col-sm-8 ">
 				每1天，1件事，记1笔
 			</div>
 		</div>
@@ -42,7 +42,7 @@
 	</div>
 	<div class="panel-footer">
 		<div class="row">
-			<div class="col-sm-offset-4 col-sm-8 ">
+			<div class="col-sm-8 ">
 				$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}
 				##<span class="label label-danger">D$!{everyday.dayIndex}</span>
 ##				#foreach($tag in ${everyday.tagList})
@@ -87,7 +87,7 @@
 	</div>
 	<div class="panel-heading">
 		<div class="row">
-			<div class="col-sm-offset-4 col-sm-8 ">
+			<div class="col-sm-8 ">
 				$!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}
 				##<span class="label label-danger">D$!{everyday.dayIndex}</span>
 ##				#foreach($tag in ${everyday.tagList})
