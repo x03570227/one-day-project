@@ -6,9 +6,9 @@
 
 	#if(0 < $!{todayEveryday.dayIndex} )
 	<div class="progress mt8">
-      <div class="progress-bar progress-bar-danger" style="width: ${todayEveryday.nowDayPercent}%;min-width: 4em;">
+      <div class="progress-bar progress-bar-danger" style="width: ${todayEveryday.nowDayPercent}%;min-width: 8em;">
         <span class="sr-only"></span>
-		连续$!{todayEveryday.dayIndex}天
+		连续$!{todayEveryday.dayIndex}天,目标:$!{todayEveryday.nextTarget}天
       </div>
     </div>
 	#else

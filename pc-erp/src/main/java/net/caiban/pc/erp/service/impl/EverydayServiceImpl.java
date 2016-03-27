@@ -476,10 +476,34 @@ try {
 				|| everyday.getDayIndex() > everyday.getMaxDayIndex()) {
 			everyday.setNowDayPercent(new BigDecimal("100"));
 		}else{
-			everyday.setNowDayPercent(new BigDecimal(String.valueOf(everyday.getDayIndex())).divide(new BigDecimal(String.valueOf(everyday.getMaxDayIndex())), 2, RoundingMode.HALF_UP).multiply(new BigDecimal("100")));
-		}
+            everyday.setNextTarget(getNextTarget(everyday.getDayIndex()));
+            everyday.setNowDayPercent(new BigDecimal(String.valueOf(everyday.getDayIndex()))
+                    .divide(new BigDecimal(String.valueOf(everyday.getNextTarget())), 2, RoundingMode.HALF_UP)
+                    .multiply(new BigDecimal("100")));
+        }
 
 		everyday.setContent(buildContentHtml(everyday.getContent()));
 		return everyday;
 	}
+
+    private Integer getNextTarget(Integer dayIndex){
+        Integer nextTarget = 7;
+
+        if(dayIndex<7){ //week
+            nextTarget = 7;
+        }else if(dayIndex<21){ //
+            nextTarget = 21;
+        }else if(dayIndex<30){
+            nextTarget = 30;
+        }else if(dayIndex<100){
+            nextTarget = 100;
+        }else if(dayIndex<365){
+            nextTarget = 365;
+        }else if(dayIndex<1000){
+            nextTarget=1000;
+        }else{
+            nextTarget=2000;
+        }
+        return nextTarget;
+    }
 }

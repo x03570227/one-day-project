@@ -39,6 +39,7 @@ public class EverydayModel extends Everyday{
 	private String pageTitle;
     private Boolean hasPre;
     private Boolean hasNext;
+    private Integer nextTarget;
 
 	public Integer getMaxDayIndex() {
 		return maxDayIndex;
@@ -125,5 +126,13 @@ public class EverydayModel extends Everyday{
 
     public void setHasPre(Boolean hasPre) {
         this.hasPre = hasPre;
+    }
+
+    public Integer getNextTarget() {
+        return nextTarget;
+    }
+
+    public void setNextTarget(Integer nextTarget) {
+        this.nextTarget = nextTarget;
     }
 }
