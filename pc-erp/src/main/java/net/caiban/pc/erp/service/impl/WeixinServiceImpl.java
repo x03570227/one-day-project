@@ -70,6 +70,9 @@ public class WeixinServiceImpl implements WeixinService {
 			if(Strings.isNullOrEmpty(cmd)){
 				return false;
 			}
+
+            cmd=cmd.trim();
+            cmd=cmd.replace("\n", "");
 			
 			List<String> cmdList = Splitter.on(",").splitToList(cmds);
 			for(String c:cmdList){
@@ -141,7 +144,7 @@ public class WeixinServiceImpl implements WeixinService {
 			LOG.debug("DUPLICATE MESSAGE ID:"+eventMessage.getMsgId());
 			return null;
 		}
-		
+
 		if(MESSAGE_TYPE.event.name().equalsIgnoreCase(eventMessage.getMsgType())){
 			if(EVENT_TYPE.subscribe.name().equalsIgnoreCase(eventMessage.getEvent())){
 				//订阅后的回复
