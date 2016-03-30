@@ -15,6 +15,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.config.LogHelper;
@@ -425,4 +426,32 @@ public class SysUserServiceImpl implements SysUserService {
 
 		return new SessionUser(registUser.getUid(), registUser.getAccount(), registUser.getCid());
 	}
+
+    @Override
+    public SessionUser doRegist(SysUserModel user) throws ServiceException {
+
+        Preconditions.checkNotNull(user);
+
+        if(user.getAccept() == null || user.getAccept().intValue()!=SysUser.ACCEPT_TRUE){
+            throw new ServiceException("e.regist");
+        }
+
+        if (StringUtils.isEmpty(user.getPasswordRepeat()) || !user.getPasswordRepeat().equals(user.getPassword())) {
+            throw new ServiceException("e.regist");
+        }
+
+        if(reservedAccount(user.getAccount())){
+            throw new ServiceException("e.regist.exist.account");
+        }
+
+        String rebuildedAccount = rebuildAccount(classifyOfAccount(user.getAccount()), user.getAccount());
+        if(existAccount(rebuildedAccount)){
+            throw new ServiceException("e.regist.exist.account");
+        }
+
+        SysUser registedUser = saveAccount(user, 0l, rebuildedAccount);
+
+
+        return new SessionUser(registedUser.getId(), user.getAccount(), 0l);
+    }
 }
