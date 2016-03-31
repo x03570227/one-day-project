@@ -93,6 +93,10 @@ public class SysUserServiceImpl implements SysUserService {
 			throw new ServiceException("e.login.password.not.confirmed");
 		}
 
+        if (confirmedUser.getCid() == null || confirmedUser.getCid().longValue() <= 0) {
+            throw new ServiceException("e.login.company.disable");
+        }
+
 		return new SessionUser(confirmedUser.getUid(), user.getAccount(), confirmedUser.getCid());
 	}
 

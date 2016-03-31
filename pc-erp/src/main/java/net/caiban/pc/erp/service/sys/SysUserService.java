@@ -19,7 +19,7 @@ import net.caiban.pc.erp.exception.ServiceException;
 public interface SysUserService {
 	
 	/**
-	 * 登录认证
+	 * 登录认证(ERP,未开通用户无法登录)
 	 * @param user
 	 * @return
 	 * @throws ServiceException
