@@ -458,4 +458,10 @@ public class SysUserServiceImpl implements SysUserService {
 
         return new SessionUser(registedUser.getId(), user.getAccount(), 0l);
     }
+
+    @Override
+    public SessionUser doWxLogin(SysUserModel user) throws ServiceException {
+        //TODO 普通用户登录操作
+        return null;
+    }
 }

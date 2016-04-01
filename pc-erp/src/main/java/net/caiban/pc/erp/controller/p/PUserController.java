@@ -154,7 +154,10 @@ public class PUserController extends BaseController {
 //		}
 //		return new ModelAndView("redirect:/");
 //	}
-	
+
+    /**
+     * 用户登出操作
+     * */
 	@RequestMapping
 	public ModelAndView doLogout(HttpServletRequest request, Map<String, Object> out){
 		removeSession(request, AppConst.SESSION_KEY);
@@ -165,4 +168,23 @@ public class PUserController extends BaseController {
 		
 		return new ModelAndView("redirect:/");
 	}
+
+    /**
+     * 微信公众号用户登录操作
+     * */
+    @RequestMapping
+    @ResponseBody
+    public Map<String, Object> doWxLogin(HttpServletRequest request){
+         return null;
+    }
+
+    /**
+     * 微信公众号用户注册操作
+     * */
+    @RequestMapping
+    @ResponseBody
+    public Map<String, Object> doWxRegist(HttpServletRequest request){
+        return null;
+    }
+
 }
