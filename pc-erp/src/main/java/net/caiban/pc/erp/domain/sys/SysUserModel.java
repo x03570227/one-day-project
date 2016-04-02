@@ -8,6 +8,7 @@ public class SysUserModel extends SysUser {
     private Integer accept;
     private String passwordRepeat;
     private String originPassword;
+    private Integer rememberMe;
 
     public Integer getAccept() {
         return accept;
@@ -31,5 +32,13 @@ public class SysUserModel extends SysUser {
 
     public void setOriginPassword(String originPassword) {
         this.originPassword = originPassword;
+    }
+
+    public Integer getRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(Integer rememberMe) {
+        this.rememberMe = rememberMe;
     }
 }

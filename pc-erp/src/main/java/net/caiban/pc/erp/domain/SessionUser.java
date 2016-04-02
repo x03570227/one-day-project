@@ -16,15 +16,23 @@ public class SessionUser implements Serializable {
 	private Long uid;
 	private String account;
 	private Long cid;
-	
+
+    private static final long DEFAULT_CID = 0l;
+
 	public SessionUser(Long uid, String account, Long cid) {
 		super();
 		this.uid = uid;
 		this.account = account;
 		this.cid=cid;
 	}
-	
-	public String getAccount() {
+
+    public SessionUser(Long uid, String account) {
+        this.uid = uid;
+        this.account = account;
+        this.cid = DEFAULT_CID;
+    }
+
+    public String getAccount() {
 		return account;
 	}
 	public void setAccount(String account) {

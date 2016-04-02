@@ -15,6 +15,7 @@ import net.caiban.pc.erp.controller.BaseController;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.SysCompany;
 import net.caiban.pc.erp.domain.sys.SysUser;
+import net.caiban.pc.erp.domain.sys.SysUserModel;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.sys.SysCompanyService;
 import net.caiban.pc.erp.service.sys.SysLoginRememberService;
@@ -174,8 +175,17 @@ public class PUserController extends BaseController {
      * */
     @RequestMapping
     @ResponseBody
-    public Map<String, Object> doWxLogin(HttpServletRequest request){
-         return null;
+    public Map<String, Object> doWxLogin(HttpServletRequest request, HttpServletResponse response,
+                                         SysUserModel user, Locale locale) {
+        try {
+            SessionUser sessionUser = sysUserService.doWxLogin(user);
+            setSessionUser(request, sessionUser);
+            sysUserService.rememberMe(response, sessionUser, user.getRememberMe());
+            return ajaxResult(true, null);
+        } catch (ServiceException e) {
+            serverError(request, response, messageSource.getMessage(e.getMessage(), null, locale));
+        }
+        return null;
     }
 
     /**

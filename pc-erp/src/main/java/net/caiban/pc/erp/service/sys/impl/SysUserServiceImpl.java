@@ -57,41 +57,7 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public SessionUser doLogin(SysUser user) throws ServiceException {
 
-		if (user == null) {
-			throw new ServiceException("e.login");
-		}
-
-		if (StringUtils.isEmpty(user.getAccount())
-				|| StringUtils.isEmpty(user.getPassword())) {
-			throw new ServiceException("e.login");
-		}
-		
-		user.setAccount(user.getAccount().replace("：", ":"));
-		
-		String classify = classifyOfAccount(user.getAccount());
-		
-		Long uid = sysUserMapper.queryUidByAccount(rebuildAccount(classify, user.getAccount()));
-		if(uid==null || uid.intValue()<=0){
-			throw new ServiceException("e.login.account.not.exist");
-		}
-		
-		String salt = sysUserMapper.querySaltByUid(uid);
-		
-//		String salt = sysUserMapper.querySalt(rebuildAccount(classify,
-//				user.getAccount()));
-		if (StringUtils.isEmpty(salt)) {
-			throw new ServiceException("e.login");
-		}
-
-		SysUser confirmedUser = sysUserMapper.queryUserByPassword(uid,
-				encodePassword(user.getPassword(), salt));
-		
-//		SysUser confirmedUser = sysUserMapper.queryUidByLogin(
-//				rebuildAccount(classify, user.getAccount()),
-//				encodePassword(user.getPassword(), salt));
-		if (confirmedUser == null) {
-			throw new ServiceException("e.login.password.not.confirmed");
-		}
+		SysUser confirmedUser = doLoginConfirm(user);
 
         if (confirmedUser.getCid() == null || confirmedUser.getCid().longValue() <= 0) {
             throw new ServiceException("e.login.company.disable");
@@ -99,6 +65,40 @@ public class SysUserServiceImpl implements SysUserService {
 
 		return new SessionUser(confirmedUser.getUid(), user.getAccount(), confirmedUser.getCid());
 	}
+
+    private SysUser doLoginConfirm(SysUser user) throws ServiceException{
+        if (user == null) {
+            throw new ServiceException("e.login");
+        }
+
+        if (StringUtils.isEmpty(user.getAccount())
+                || StringUtils.isEmpty(user.getPassword())) {
+            throw new ServiceException("e.login");
+        }
+
+        user.setAccount(user.getAccount().replace("：", ":"));
+
+        String classify = classifyOfAccount(user.getAccount());
+
+        Long uid = sysUserMapper.queryUidByAccount(rebuildAccount(classify, user.getAccount()));
+        if(uid==null || uid.intValue()<=0){
+            throw new ServiceException("e.login.account.not.exist");
+        }
+
+        String salt = sysUserMapper.querySaltByUid(uid);
+
+        if (StringUtils.isEmpty(salt)) {
+            throw new ServiceException("e.login");
+        }
+
+        SysUser confirmedUser = sysUserMapper.queryUserByPassword(uid,
+                encodePassword(user.getPassword(), salt));
+
+        if (confirmedUser == null) {
+            throw new ServiceException("e.login.password.not.confirmed");
+        }
+        return confirmedUser;
+    }
 
 	@Override
 	public SessionUser doRegist(SysUser user, SysCompany company,
@@ -455,13 +455,15 @@ public class SysUserServiceImpl implements SysUserService {
 
         SysUser registedUser = saveAccount(user, 0l, rebuildedAccount);
 
-
-        return new SessionUser(registedUser.getId(), user.getAccount(), 0l);
+        return new SessionUser(registedUser.getId(), user.getAccount());
     }
 
     @Override
     public SessionUser doWxLogin(SysUserModel user) throws ServiceException {
-        //TODO 普通用户登录操作
-        return null;
+
+        SysUser confirmedUser = doLoginConfirm(user);
+
+        return new SessionUser(confirmedUser.getUid(), user.getAccount());
     }
+
 }
