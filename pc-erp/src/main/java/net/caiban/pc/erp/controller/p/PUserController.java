@@ -194,6 +194,7 @@ public class PUserController extends BaseController {
     @RequestMapping
     @ResponseBody
     public Map<String, Object> doWxRegist(HttpServletRequest request){
+
         return null;
     }
 

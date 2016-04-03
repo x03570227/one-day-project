@@ -9,6 +9,15 @@ public class SysUserModel extends SysUser {
     private String passwordRepeat;
     private String originPassword;
     private Integer rememberMe;
+    private String rebuildedAccount;
+
+    public String getRebuildedAccount() {
+        return rebuildedAccount;
+    }
+
+    public void setRebuildedAccount(String rebuildedAccount) {
+        this.rebuildedAccount = rebuildedAccount;
+    }
 
     public Integer getAccept() {
         return accept;
