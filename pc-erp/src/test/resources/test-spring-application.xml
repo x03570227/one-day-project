@@ -17,31 +17,31 @@
     <context:annotation-config />
 	<!--主动扫描Controller的配置，使得控制器能够扫描到相关的类 -->
 	<context:component-scan base-package="net.caiban.pc.erp.controller" />
-	<import resource="spring-service.xml" />
+	<import resource="test-spring-service.xml" />
 
-	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="webBindingInitializer">
-			<bean
-				class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-				<property name="conversionService" ref="conversionService" />
-			</bean>
-		</property>
-		<property name="messageConverters">
-			<list>
-				<ref bean="mappingJacksonHttpMessageConverter" /><!-- json转换器 -->
-			</list>
-		</property>
-	</bean>
+	<!--<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>-->
+	<!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">-->
+		<!--<property name="webBindingInitializer">-->
+			<!--<bean-->
+				<!--class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">-->
+				<!--<property name="conversionService" ref="conversionService" />-->
+			<!--</bean>-->
+		<!--</property>-->
+		<!--<property name="messageConverters">-->
+			<!--<list>-->
+				<!--<ref bean="mappingJacksonHttpMessageConverter" />&lt;!&ndash; json转换器 &ndash;&gt;-->
+			<!--</list>-->
+		<!--</property>-->
+	<!--</bean>-->
 
-	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-	
-	<bean
-		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
-		<property name="caseSensitive"  value="false" />
-		<property name="basePackage"    value="net.caiban.pc.erp.controller" />
-		<property name="defaultHandler" value="rootController" />
-	</bean>
+	<!--<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />-->
+	<!---->
+	<!--<bean-->
+		<!--class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">-->
+		<!--<property name="caseSensitive"  value="false" />-->
+		<!--<property name="basePackage"    value="net.caiban.pc.erp.controller" />-->
+		<!--<property name="defaultHandler" value="rootController" />-->
+	<!--</bean>-->
 
 <!-- 	<bean id="velocityConfigurer"
 		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">

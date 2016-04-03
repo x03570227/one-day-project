@@ -35,11 +35,11 @@
 	</bean>
 	-->
 
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="104857600" />
-		<property name="maxInMemorySize" value="4096" />
-	</bean>
+	<!--<bean id="multipartResolver"-->
+		<!--class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+		<!--<property name="maxUploadSize" value="104857600" />-->
+		<!--<property name="maxInMemorySize" value="4096" />-->
+	<!--</bean>-->
 	
 
 	<context:property-placeholder location="classpath:persist.properties" ignore-unresolvable="true" />
@@ -56,7 +56,6 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
             <property name="configLocation" value="classpath:sql-map-config.xml" />
             <property name="dataSource" ref="dataSource" />
-
     </bean>
     
     <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">

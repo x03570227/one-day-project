@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.caiban.pc.erp.kdt;
+package test.kdt;
 
 import java.util.HashMap;
 

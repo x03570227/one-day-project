@@ -1,4 +1,4 @@
-package net.caiban.pc.erp;
+package test.service;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import test.BaseServiceTestCase;
 
 /**
  * @author parox
@@ -38,15 +39,9 @@ public class TradeServiceTest extends BaseServiceTestCase {
 	
 	@Test
 	public void saveTest(){
-//		TradeMapper tradeMapper = mock(TradeMapper.class);
-		
-//		when(cond).thenReturn(new TradeCond());
 		when(tradeMapper.pageDefaultCount(Mockito.any(TradeCond.class))).thenReturn(8);
-		
-		Integer a = tradeService.doCountToday(1,Trade.STATUS.DONE.getKey());
-		
+		Integer a = tradeService.doCountToday(1l,Trade.STATUS.DONE.getKey());
 		Assert.assertEquals(8, a.intValue());
-	
 	}
 	
 	
