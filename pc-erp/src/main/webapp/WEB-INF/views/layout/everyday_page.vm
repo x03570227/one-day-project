@@ -11,13 +11,13 @@
 	
 	#loadCss([
 		"/plugin/bootstrap/dist/css/bootstrap.min.css",
-		"/plugin/metisMenu/dist/metisMenu.min.css",
-		"/plugin/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css",
-		"/plugin/font-awesome/css/font-awesome.min.css",
-		"/plugin/messenger/build/css/messenger.css",
-		"/plugin/messenger/build/css/messenger-theme-flat.css"
+		"/plugin/font-awesome/css/font-awesome.min.css"
 	], "http://s0.caiban.net", "")
-	
+
+##      "/plugin/metisMenu/dist/metisMenu.min.css",
+##      "/plugin/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css",
+##        "/plugin/messenger/build/css/messenger.css",
+##        "/plugin/messenger/build/css/messenger-theme-flat.css"
     <script type="text/javascript" >
 		var CONTEXT_PATH="#springUrl('')";
 		var LOCALE="$!{locale}"==""?"zh":"$!{locale}";
@@ -37,7 +37,7 @@
 	],"http://s0.caiban.net")
 
 	#loadScript([
-		"/js/main.js"
+		"/js/main.everyday.js"
 	],"","$!{scriptVersion}")
   <!--
 	<script src="#springUrl('/js/require.js')" ></script>
