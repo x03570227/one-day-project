@@ -108,7 +108,7 @@ public interface SysUserService {
     /**
      * 非商家用户注册,默认不关联Company, 不开通 ERP
      * */
-    SessionUser doRegist(SysUserModel user) throws ServiceException;
+    SessionUser doWxRegist(SysUserModel user) throws ServiceException;
 
     /**
      * 普通用户登录（非商家用户）

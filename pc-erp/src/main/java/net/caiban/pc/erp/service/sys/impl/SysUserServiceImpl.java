@@ -424,7 +424,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
     @Override
-    public SessionUser doRegist(SysUserModel user) throws ServiceException {
+    public SessionUser doWxRegist(SysUserModel user) throws ServiceException {
 
         Preconditions.checkNotNull(user);
 
