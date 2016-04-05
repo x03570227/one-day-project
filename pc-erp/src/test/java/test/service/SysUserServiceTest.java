@@ -1,13 +1,18 @@
 package test.service;
 
+import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.domain.sys.SysUser;
 import net.caiban.pc.erp.domain.sys.SysUserModel;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.sys.SysUserMapper;
 import net.caiban.pc.erp.service.sys.SysUserService;
+import net.caiban.utils.lang.RandomUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import test.BaseServiceTestCase;
 
@@ -26,22 +31,39 @@ public class SysUserServiceTest extends BaseServiceTestCase{
     private SysUserMapper sysUserMapper;
 
     @Before
-    private void before(){
-        MockitoAnnotations.initMocks(SysUserServiceTest.class);
+    public void before(){
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void test_doWxRegist(){
+    public void test_doWxRegist_mobile(){
 
 
-        SysUserModel mockUser = new SysUserModel();
+        Mockito.when(sysUserMapper.countByAccount(Mockito.anyString())).thenReturn(0);
+        Mockito.when(sysUserMapper.updateUid(Mockito.anyLong(), Mockito.anyLong())).thenReturn(1);
+        Mockito.when(sysUserMapper.insert(Mockito.any(SysUser.class))).thenCallRealMethod();
+
+
+
+        SysUserModel mockUser = randomModel();
+        mockUser.setAccount("13666624372");
 
         try {
-            sysUserService.doWxRegist(mockUser);
+            SessionUser user = sysUserService.doWxRegist(mockUser);
+            Assert.assertEquals(mockUser.getAccount(), user.getAccount());
         } catch (ServiceException e) {
-
+            Assert.fail();
         }
 
+    }
+
+    private SysUserModel randomModel(){
+        SysUserModel user = new SysUserModel();
+        user.setAccount(RandomUtils.buildRandom(8));
+        user.setPassword(RandomUtils.buildRandom(8));
+        user.setPasswordRepeat(user.getPassword());
+        user.setAccept(SysUser.ACCEPT_TRUE);
+        return user;
     }
 
 }

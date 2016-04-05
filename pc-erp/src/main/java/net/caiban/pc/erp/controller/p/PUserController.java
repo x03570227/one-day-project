@@ -195,7 +195,7 @@ public class PUserController extends BaseController {
     @RequestMapping
     @ResponseBody
     public Map<String, Object> doWxRegist(HttpServletRequest request, HttpServletResponse response,
-                                          SysUserModel user, Local locale){
+                                          SysUserModel user, Locale locale){
         try {
             SessionUser sessionUser = sysUserService.doWxRegist(user);
             setSessionUser(request, sessionUser);
