@@ -50,11 +50,11 @@ public class SysUser extends BaseDomain {
 		return uid;
 	}
 
-	public void setUid(Long uid) {
-		this.uid = uid;
-	}
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
 
-	public Long getCid() {
+    public Long getCid() {
 		return cid;
 	}
 

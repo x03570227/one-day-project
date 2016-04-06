@@ -103,28 +103,20 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public SessionUser doRegist(SysUser user, SysCompany company,
 			String passwordRepeat, Integer accept) throws ServiceException {
-		
-		if(accept == null || accept.intValue()!=SysUser.ACCEPT_TRUE){
-			throw new ServiceException("e.regist");
-		}
-		
-		if(user==null){
-			throw new ServiceException("e.regist");
-		}
-		
-		if(StringUtils.isEmpty(passwordRepeat) || !passwordRepeat.equals(user.getPassword())){
-			throw new ServiceException("e.regist");
-		}
-		
-		if(reservedAccount(user.getAccount())){
-			throw new ServiceException("e.regist.exist.account");
-		}
-		
+
+        Preconditions.checkNotNull(user);
+
+        SysUserModel userModel = new SysUserModel();
+        userModel.setAccept(accept);
+        userModel.setPasswordRepeat(user.getPassword());
+        userModel.setAccount(user.getAccount());
+		userModel.setPassword(user.getPassword());
+
 		String rebuildedAccount = rebuildAccount(classifyOfAccount(user.getAccount()), user.getAccount());
-		if(existAccount(rebuildedAccount)){
-			throw new ServiceException("e.regist.exist.account");
-		}
-		
+        userModel.setRebuildedAccount(rebuildedAccount);
+
+        doRegistCheck(userModel);
+
 		sysCompanyMapper.insert(company);
 		if(company.getId()==null || company.getId().intValue()==0){
 			throw new ServiceException("e.regist");
@@ -432,26 +424,14 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
     @Override
-    public SessionUser doRegist(SysUserModel user) throws ServiceException {
+    public SessionUser doWxRegist(SysUserModel user) throws ServiceException {
 
         Preconditions.checkNotNull(user);
 
-        if(user.getAccept() == null || user.getAccept().intValue()!=SysUser.ACCEPT_TRUE){
-            throw new ServiceException("e.regist");
-        }
-
-        if (StringUtils.isEmpty(user.getPasswordRepeat()) || !user.getPasswordRepeat().equals(user.getPassword())) {
-            throw new ServiceException("e.regist");
-        }
-
-        if(reservedAccount(user.getAccount())){
-            throw new ServiceException("e.regist.exist.account");
-        }
-
         String rebuildedAccount = rebuildAccount(classifyOfAccount(user.getAccount()), user.getAccount());
-        if(existAccount(rebuildedAccount)){
-            throw new ServiceException("e.regist.exist.account");
-        }
+        user.setRebuildedAccount(rebuildedAccount);
+
+        doRegistCheck(user);
 
         SysUser registedUser = saveAccount(user, 0l, rebuildedAccount);
 
@@ -464,6 +444,24 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser confirmedUser = doLoginConfirm(user);
 
         return new SessionUser(confirmedUser.getUid(), user.getAccount());
+    }
+
+    private void doRegistCheck(SysUserModel user) throws ServiceException{
+        if(user.getAccept() == null || user.getAccept().intValue()!=SysUser.ACCEPT_TRUE){
+            throw new ServiceException("e.regist");
+        }
+
+        if(StringUtils.isEmpty(user.getPasswordRepeat()) || !user.getPasswordRepeat().equals(user.getPassword())){
+            throw new ServiceException("e.regist");
+        }
+
+        if(reservedAccount(user.getAccount())){
+            throw new ServiceException("e.regist.exist.account");
+        }
+
+        if(existAccount(user.getRebuildedAccount())){
+            throw new ServiceException("e.regist.exist.account");
+        }
     }
 
 }

@@ -22,6 +22,7 @@ import net.caiban.pc.erp.service.sys.SysLoginRememberService;
 import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.utils.http.CookiesUtil;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -193,7 +194,15 @@ public class PUserController extends BaseController {
      * */
     @RequestMapping
     @ResponseBody
-    public Map<String, Object> doWxRegist(HttpServletRequest request){
+    public Map<String, Object> doWxRegist(HttpServletRequest request, HttpServletResponse response,
+                                          SysUserModel user, Locale locale){
+        try {
+            SessionUser sessionUser = sysUserService.doWxRegist(user);
+            setSessionUser(request, sessionUser);
+        } catch (ServiceException e) {
+            serverError(request, response, messageSource.getMessage(e.getMessage(), null, locale));
+        }
+
         return null;
     }
 
