@@ -41,16 +41,17 @@ public class SysUserServiceTest extends BaseServiceTestCase{
 
         Mockito.when(sysUserMapper.countByAccount(Mockito.anyString())).thenReturn(0);
         Mockito.when(sysUserMapper.updateUid(Mockito.anyLong(), Mockito.anyLong())).thenReturn(1);
-        Mockito.when(sysUserMapper.insert(Mockito.any(SysUser.class))).thenCallRealMethod();
-
-
 
         SysUserModel mockUser = randomModel();
         mockUser.setAccount("13666624372");
+        mockUser.setAccept(SysUser.ACCEPT_TRUE);
+        mockUser.setPassword("12345");
+        mockUser.setPasswordRepeat("12345");
 
         try {
             SessionUser user = sysUserService.doWxRegist(mockUser);
             Assert.assertEquals(mockUser.getAccount(), user.getAccount());
+            Assert.assertEquals(27l, user.getUid().longValue());
         } catch (ServiceException e) {
             Assert.fail();
         }
