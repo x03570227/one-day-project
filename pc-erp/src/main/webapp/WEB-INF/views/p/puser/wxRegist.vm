@@ -1,0 +1,226 @@
+#set($layout="/layout/simple_page.vm")
+
+<div class="container">
+<div class="panel panel-default mt8">
+	<div class="panel-heading">
+		<a href="#springUrl('/index.do')">
+		<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
+		</a>
+    </div>
+	
+    <div class="panel-body">
+		
+        <form id="formRegist" 
+			name="formRegist" 
+			class="form-horizontal" 
+			role="form" 
+			method="post" 
+			action="#springUrl('/p/puser/doRegist.do')"
+			onsubmit="return false;"
+			>
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-6 text-center">
+					<h1 >#springMessage("addon.regist.title")</h1>
+                </div>
+			</div>
+			
+			  <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+					<label for="account">#springMessage("lb.sys.company.name")</label>
+					<input type="text" class="form-control" 
+						id="companyName" name="name" value="$!{company.name}" 
+						placeholder="#springMessage('ph.sys.company.name')" 
+						required />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+					<label for="account">#springMessage("sys.user.account")</label>
+					<input type="text" class="form-control" 
+						id="account" name="account" value="$!{user.account}" 
+						placeholder="#springMessage('ph.sys.user.account')" 
+						pattern="^([a-zA-Z0-9\u4E00-\u9FA5]{3,16})$" 
+						required />
+    				##<p class="help-block"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+					<label for="inputPassword3">#springMessage("sys.user.password")</label>
+					<input type="password" class="form-control" id="password" name="password" value="" placeholder="#springMessage('ph.sys.user.password')" required />
+    			  ##<p class="help-block"></p>
+                </div>
+              </div>
+			  
+			  <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-4">
+					<label for="inputPassword3">#springMessage("sys.user.password.repeat")</label>
+					<input type="password" class="form-control" 
+						name="passwordRepeat" value="" 
+						placeholder="#springMessage('ph.sys.user.password.repeat')" 
+						required
+						data-match="#password"
+						 />
+					##<p class="help-block with-errors"></p>
+                </div>
+              </div>
+			  
+##               <div class="form-group">
+##                <div class="col-sm-offset-4 col-sm-4">
+##					<label for="inputPassword3">#springMessage("lb.sys.user.phone.number")</label>
+##					<input type="text" class="form-control" 
+##						name="mobileNum" value="" 
+##						pattern="^[1][358][0-9]{9}$" 
+##						required
+##						placeholder="#springMessage("ph.sys.user.phone.number")" "
+##						 />
+##					##<p class="help-block with-errors"></p>
+##                </div>
+##              </div>
+##              
+##              <div class="form-group">
+##                <div class="col-sm-offset-4 col-sm-4">
+##					<label for="inputPassword3">#springMessage("lb.sys.user.phone.verifycode")</label>
+##					<button type="button" id="mobileBtn"  class="btn btn-lg btn-success btn-block" style="float:right;width:180px;margin-top:13px;">#springMessage("btn.verifycode")</button>
+##					<input type="text" class="form-control" style="width:150px;"
+##						name="moblieVerifyCode" value="" 
+##						pattern="^\w{4}$" 
+##						required
+##						placeholder="#springMessage("ph.sys.user.phone.verifycode")" "
+##						 />
+##					
+##					##<p class="help-block with-errors"></p>
+##                </div>
+##              </div>
+			  
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8 ">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="accept" value="1" checked />#springMessage('addon.regist.accept')
+					  <a href="#springUrl('/p/about/termOfService.do')" target="_blank" >#springMessage("addon.regist.term.service")</a>
+                    </label>
+                  </div>
+                </div>
+              </div>
+			  
+			  <div class="form-group" >
+				<div class="col-sm-offset-4 col-sm-4">
+                  <button id="registn_btn"  type="submit" class="btn btn-lg btn-primary btn-block">#springMessage('btn.regist')</button>
+                </div>
+			  </div>
+              </a>
+            </form>
+    	</div>
+		<div >
+			<div class="panel-footer">
+        		<div class="row">
+        			<div class="col-sm-offset-4 col-sm-8">
+						<a href="https://github.com/x03570227/one-day-project" target="_blank">
+        					<i class="fa fa-github fa-lg text-muted" ></i>
+        				</a>
+        				#springMessage("tip.login.3")
+                        <a href="#springUrl('/p/puser/login.do')" >#springMessage("tip.header.login")</a>
+        			</div>
+        		</div>
+        	</div>
+		</div>
+    </div>
+</div>
+<script type="text/javascript">
+	require([	"jquery","js/app/i18n_zh_CN","js/erp/sysUser","Bootstrap","validator"],
+    	function(jQuery,i18n,                            sysUser){
+    		jQuery("#formRegist").validator();
+    		
+    		//提交表单事件
+    		jQuery("#registn_btn").click(function(e){
+    			
+    			if(jQuery("#registn_btn").hasClass("disabled")){
+					noty({
+						text:i18n.get('FORM_INVALID'),
+						type:"warning",
+						timeout:2500
+					});
+					return false;
+				}
+				
+    			sysUser.doRegist(jQuery("#formRegist"), "$!{refurl}");
+				
+##	  			var mobile=jQuery("input[name='mobileNum']").val();
+##    			var moblieVerifyCode=jQuery("input[name='moblieVerifyCode']").val();
+##    			var statusNum=0;
+##    			jQuery.ajax({    
+##			        type:'post',        
+##			        url:"#springUrl('/checkcode/checkMobileCode.do')",    
+##			        data:{
+##			       		 mobileNum:mobile,
+##			       		 verifyCode:moblieVerifyCode
+##			       		 
+##			        },      
+##			        dataType:'JSON',    
+##			        async: false, 
+##			        success:function(data){
+##			        	statusNum=1;
+##			        }
+##			    });
+##			    if(parseInt(statusNum)==0){
+##    				return false;
+##    			}
+    		});
+    		
+##    		jQuery("#mobileBtn").click(function(){
+##    			var mobile=jQuery("input[name='mobileNum']").val();
+##		    	var reMobile=/^[1][358][0-9]{9}$/;
+##		    	var btn = document.getElementById("mobileBtn");
+##		    	if(!reMobile.test(mobile)){
+##		    	 	noty({
+##					text:i18n.get('MOBILE_NUM_ERROR'),
+##					type:"warning",
+##					timeout:2500
+##					});
+##					return false;
+##		    	}
+##		    	sendBtn.init(btn);
+##				jQuery.ajax({    
+##			        type:'post',        
+##			        url:"#springUrl('/checkcode/mobileCode.do')",    
+##			        data:{
+##			       		 mobileNum:mobile
+##			        },      
+##			        dataType:'JSON',    
+##			        success:function(data){
+##			        	jQuery("input[name='mobileNum']").attr("disabled",true);
+##						alert("验证码是:"+data.data.mobileCode);
+##			        }
+##			    });  
+##    		});
+    	}
+    );
+    
+    
+##    var sendBtn = {
+##       node:null,
+##       count:60,
+##       start:function(){
+##          //console.log(this.count);
+##          if(this.count > 0){
+##             this.node.innerHTML = this.count--+"秒后可再次发送";
+##             var _this = this;
+##             setTimeout(function(){
+##                 _this.start();
+##             },1000);
+##          }else{
+##             this.node.removeAttribute("disabled");
+##             this.node.innerHTML = "再次发送";
+##             this.count = 60;
+##          }
+##       },
+##       //初始化
+##       init:function(node){
+##          this.node = node;
+##          this.node.setAttribute("disabled",true);
+##          this.start();
+##       }
+##    };
+</script>
+</div>

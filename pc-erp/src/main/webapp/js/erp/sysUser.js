@@ -58,6 +58,26 @@ define(		["jquery","util/table","noty"],
 				}
 			}, "json");
 		}
+
+        def["doWxLogin"]=function(form, redirect){
+            jQuery.post(CONTEXT_PATH+"/p/puser/doWxLogin.do", form.serialize(), function(resp){
+                if(redirect!=""){
+                    window.location.href=redirect;
+                }else{
+                    window.location.href=CONTEXT_PATH+"/f/feveryday/index.do";
+                }
+            }, "json");
+        }
+
+        def["doWxRegist"]=function(form, redirect){
+            jQuery.post(CONTEXT_PATH+"/p/puser/doRegist.do", form.serialize(), function(resp){
+                if(redirect!=""){
+                    window.location.href=redirect;
+                }else{
+                    window.location.href=CONTEXT_PATH+"/f/feveryday/index.do";
+                }
+            }, "json");
+        }
 		return def;
 	}
 );
