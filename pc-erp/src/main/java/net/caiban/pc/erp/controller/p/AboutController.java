@@ -31,4 +31,9 @@ public class AboutController extends BaseController {
 		
 		return null;
 	}
+
+    @RequestMapping
+    public ModelAndView termOfServiceEd(){
+        return null;
+    }
 }

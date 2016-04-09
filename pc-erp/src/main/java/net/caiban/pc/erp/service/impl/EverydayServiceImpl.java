@@ -327,7 +327,8 @@ try {
 		Preconditions.checkNotNull(pager);
 		
 		cond.setWxOpenid(Strings.emptyToNull(cond.getWxOpenid()));
-		
+		cond.setWxMsgtype(Strings.isNullOrEmpty(cond.getWxMsgtype())?"text":cond.getWxMsgtype());
+
 		pager.setDir("desc");
 		pager.setSort("gmt_created");
 		

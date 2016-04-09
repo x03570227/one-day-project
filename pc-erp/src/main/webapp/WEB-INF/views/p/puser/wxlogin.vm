@@ -13,7 +13,7 @@
 			<input type="hidden" name="refparam" value="$!{refparam}" />
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-6 text-center">
-					<h1 >#springMessage("addon.login.title")</h1>
+					<h1 >#springMessage("addon.wx.login.title")</h1>
                 </div>
 			</div>
 			
@@ -57,7 +57,7 @@
 				<a href="https://github.com/x03570227/one-day-project" target="_blank">
 					<i class="fa fa-github fa-lg text-muted" ></i>
 				</a>
-				#springMessage("tip.login.1")
+				#springMessage("tip.wx.login.1")
                 <a href="#springUrl('/p/puser/regist.do')" >#springMessage("tip.login.2")</a>
 			</div>
 		</div>

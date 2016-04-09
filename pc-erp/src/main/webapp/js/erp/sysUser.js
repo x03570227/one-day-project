@@ -70,7 +70,7 @@ define(		["jquery","util/table","noty"],
         }
 
         def["doWxRegist"]=function(form, redirect){
-            jQuery.post(CONTEXT_PATH+"/p/puser/doRegist.do", form.serialize(), function(resp){
+            jQuery.post(CONTEXT_PATH+"/p/puser/doWxRegist.do", form.serialize(), function(resp){
                 if(redirect!=""){
                     window.location.href=redirect;
                 }else{

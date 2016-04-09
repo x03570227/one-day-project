@@ -144,7 +144,7 @@
 					return false;
 				}
 				
-    			sysUser.doRegist(jQuery("#formRegist"), "$!{refurl}");
+    			sysUser.doWxRegist(jQuery("#formRegist"), "$!{refurl}");
 				
 ##	  			var mobile=jQuery("input[name='mobileNum']").val();
 ##    			var moblieVerifyCode=jQuery("input[name='moblieVerifyCode']").val();
