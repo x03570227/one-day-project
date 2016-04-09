@@ -58,7 +58,7 @@
 					<i class="fa fa-github fa-lg text-muted" ></i>
 				</a>
 				#springMessage("tip.wx.login.1")
-                <a href="#springUrl('/p/puser/regist.do')" >#springMessage("tip.login.2")</a>
+                <a href="#springUrl('/p/puser/wxRegist.do')" >#springMessage("tip.login.2")</a>
 			</div>
 		</div>
 	</div>
@@ -85,7 +85,7 @@ require([   "jquery","js/erp/sysUser","js/app/i18n_zh_CN"
 				return false;
 			}
 			
-			sysUser.doLogin(jQuery("#formLogin"), "$!{refurl}");
+			sysUser.doWxLogin(jQuery("#formLogin"), "$!{refurl}");
 			
 			return false;
 		});

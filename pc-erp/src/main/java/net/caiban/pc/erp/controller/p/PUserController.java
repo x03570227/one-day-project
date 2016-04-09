@@ -210,6 +210,7 @@ public class PUserController extends BaseController {
         try {
             SessionUser sessionUser = sysUserService.doWxRegist(user);
             setSessionUser(request, sessionUser);
+            return ajaxResult(true, null);
         } catch (ServiceException e) {
             serverError(request, response, messageSource.getMessage(e.getMessage(), null, locale));
         }

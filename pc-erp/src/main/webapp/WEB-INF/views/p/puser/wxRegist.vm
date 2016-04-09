@@ -20,7 +20,7 @@
 			>
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-6 text-center">
-					<h1 >#springMessage("addon.regist.title")</h1>
+					<h1 >#springMessage("addon.wx.regist.title")</h1>
                 </div>
 			</div>
 			
