@@ -1,8 +1,11 @@
 #set($layout="/layout/everyday_page.vm")
+#loadCss(["/css/timeline.css"], "", "")
+
+#parse("/common/everyday_header_top.vm")
 
 <div class="container">
 
-	<div class="alert alert-success mt8" role="alert">每1天，1件事，记1笔，进步1点点！</div>
+##	<div class="alert alert-success mt8" role="alert">每1天，1件事，记1笔，进步1点点！</div>
 
     <ul class="nav nav-tabs">
         <li role="presentation"
@@ -17,53 +20,101 @@
         ><a href="?wxMsgtype=image">图片</a></li>
     </ul>
 
-#foreach($everyday in ${pager.records})
-	
-<div class=" panel panel-$!{everyday.panelClass} mt8" >
-	#if(${everyday.wxMsgtype} == "text")
-    <div class="panel-body" style="word-break:break-all">
-		<h4>
-			$!{everyday.content}
-		#if($!{everyday.url} != "")
-			<a href="$!{everyday.url}" target="_blank">
-                <i class="fa fa-link" ></i>
-			</a>
-		#end
-		</h4>
-	</div>
-    <div class="panel-heading">
-        ##<a href='#springUrl("/f/feveryday/detail.do")?id=$!{everyday.id}' ></a>
-        ##<span class="label label-danger">$!{everyday.dayIndex}</span>
-        ##		#foreach($tag in ${everyday.tagList})
-        ##			#$!{tag}
-        ##		#end
-            <a href="#springUrl('/f/feveryday/detail.do')?id=$!{everyday.id}">
-                <i class="fa fa-link"></i>
-            </a>
-            $!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}
-	</div>
-	#end
-	#if(${everyday.wxMsgtype} == "image")
-            <div class="panel-body" style="word-break:break-all">
-        		<div class="text-center">
-                    <a href="$!{everyday.imageUrl}" target="_blank">
+    <section id="cd-timeline" class="cd-container">
+
+    #foreach($everyday in ${pager.records})
+
+        <div class="cd-timeline-block">
+            <div class="cd-timeline-img cd-$!{everyday.panelClass}">
+                #if(${everyday.wxMsgtype} == "text")
+                    <span class="fa fa-tags"></span>
+                #elseif(${everyday.wxMsgtype} == "image")
+                    <span class="fa fa-image"></span>
+                #else
+                    <span class="fa fa-link"></span>
+                #end
+            </div><!-- cd-timeline-img -->
+
+            <div class="cd-timeline-content">
+
+                #if(${everyday.wxMsgtype} == "text")
+                    <p>
+                        $!{everyday.content}
+                        #if($!{everyday.url} != "")
+                            <a href="$!{everyday.url}" target="_blank">
+                                <i class="fa fa-link" ></i>
+                            </a>
+                        #end
+                    </p>
+                #elseif(${everyday.wxMsgtype} == "image")
+                    <p>
                         <a href="$!{everyday.imageUrl}" target="_blank">
-							<image src="$!{everyday.imageUrl}" width="100%"/>
-						</a>
-					</a>
-				</div>
-        	</div>
-        	<div class="panel-heading">
-                <div class="text-muted">
-                    <a href="#springUrl('/f/feveryday/detail.do')?id=$!{everyday.id}">
-                        <i class="fa fa-link"></i>
-                    </a>
+                            <image src="$!{everyday.imageUrl}" width="100%"/>
+                        </a>
+                    </p>
+                #else
+                    <p></p>
+                #end
+
+                <a href="#springUrl('/f/feveryday/detail.do')?id=$!{everyday.id}" class="btn btn-success btn-more btn-sm">
+                    <i class="fa fa-external-link" ></i>
+                </a>
+
+                <span class="cd-date">
                     $!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}
-                </div>
-        	</div>
-	#end
-</div>
+                </span>
+
+            </div> <!-- cd-timeline-content -->
+        </div> <!-- cd-timeline-block -->
+
+##
+##<div class=" panel panel-$!{everyday.panelClass} mt8" >
+##	#if(${everyday.wxMsgtype} == "text")
+##    <div class="panel-body" style="word-break:break-all">
+##		<h4>
+##			$!{everyday.content}
+##		#if($!{everyday.url} != "")
+##			<a href="$!{everyday.url}" target="_blank">
+##                <i class="fa fa-link" ></i>
+##			</a>
+##		#end
+##		</h4>
+##	</div>
+##    <div class="panel-heading">
+##        ##<a href='#springUrl("/f/feveryday/detail.do")?id=$!{everyday.id}' ></a>
+##        ##<span class="label label-danger">$!{everyday.dayIndex}</span>
+##        ##		#foreach($tag in ${everyday.tagList})
+##        ##			#$!{tag}
+##        ##		#end
+##            <a href="#springUrl('/f/feveryday/detail.do')?id=$!{everyday.id}">
+##                <i class="fa fa-link"></i>
+##            </a>
+##            $!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}
+##	</div>
+##	#end
+##	#if(${everyday.wxMsgtype} == "image")
+##            <div class="panel-body" style="word-break:break-all">
+##        		<div class="text-center">
+##                    <a href="$!{everyday.imageUrl}" target="_blank">
+##                        <a href="$!{everyday.imageUrl}" target="_blank">
+##							<image src="$!{everyday.imageUrl}" width="100%"/>
+##						</a>
+##					</a>
+##				</div>
+##        	</div>
+##        	<div class="panel-heading">
+##                <div class="text-muted">
+##                    <a href="#springUrl('/f/feveryday/detail.do')?id=$!{everyday.id}">
+##                        <i class="fa fa-link"></i>
+##                    </a>
+##                    $!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}
+##                </div>
+##        	</div>
+##	#end
+##</div>
+##
 #end
+    </section>
 
 <nav>
   <ul class="pager">

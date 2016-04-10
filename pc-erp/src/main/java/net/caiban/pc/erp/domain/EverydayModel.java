@@ -68,18 +68,18 @@ public class EverydayModel extends Everyday{
 	}
 
 	public String getPanelClass() {
-		int i = new Random().nextInt(4);
+		int i = new Random().nextInt(3);
 		switch (i) {
 		case 0:
 			return "warning";
 		case 1:
 			return "success";
 		case 2:
-			return "info";
-		case 3:
-			return "danger";
+			return "success";
+//		case 3:
+//			return "danger";
 		default:
-			return "default";
+			return "danger";
 		}
 	}
 	
