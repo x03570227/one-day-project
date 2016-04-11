@@ -6,20 +6,6 @@
 
 <div class="container">
 
-	#if($todayEveryday)
-
-        #if(0 < $!{todayEveryday.dayIndex} )
-        <div class="progress mt8">
-          <div class="progress-bar progress-bar-danger" style="width: ${todayEveryday.nowDayPercent}%;min-width: 8em;">
-            <span class="sr-only"></span>
-            连续$!{todayEveryday.dayIndex}天,目标:$!{todayEveryday.nextTarget}天
-          </div>
-        </div>
-        #else
-            <div class="mt8"></div>
-        #end
-
-	#end
 
 ###if($everyday)
 ##<div class=" panel panel-$!{everyday.panelClass}" >
@@ -74,7 +60,26 @@
 ###end
 
 
+
     <section id="cd-timeline" class="cd-container">
+        #if($todayEveryday)
+            #if(0 < $!{todayEveryday.dayIndex} )
+            <div class="cd-timeline-block">
+                <div class="cd-timeline-img cd-danger">
+                    <span class="fa fa-arrow-right"></span>
+                </div>
+                <div class="cd-timeline-content">
+                    <div class="progress mt8">
+                        <div class="progress-bar progress-bar-danger" style="width: ${todayEveryday.nowDayPercent}%;min-width: 8em;">
+                            <span class="sr-only"></span>
+                            连续$!{todayEveryday.dayIndex}天,目标:$!{todayEveryday.nextTarget}天
+                        </div>
+                    </div>
+                </div>
+            </div>
+            #end
+        #end
+
         #if($everyday)
         <div class="cd-timeline-block">
             <div class="cd-timeline-img cd-$!{everyday.panelClass}">
@@ -202,15 +207,16 @@
     #end
     </section>
 
-<nav>
-  <ul class="pager">
-      #if( ${todayEveryday.hasPre} )
-    <li class="previous"><a href="#springUrl('/f/feveryday/detail.do')?wxOpenid=${wxOpenid}&day=${pre}">前一天</a></li>
-      #end
-    <li><a href="#springUrl('/f/feveryday/index.do')">更多每1天</a></li>
-    <li class="next"><a href="#springUrl('/f/feveryday/detail.do')?wxOpenid=${wxOpenid}&day=${next}">后一天</a></li>
-  </ul>
-</nav>
+
+    <nav>
+      <ul class="pager">
+          #if( ${todayEveryday.hasPre} )
+        <li class="previous"><a href="#springUrl('/f/feveryday/detail.do')?wxOpenid=${wxOpenid}&day=${pre}">前一天</a></li>
+          #end
+        <li><a href="#springUrl('/f/feveryday/index.do')">更多每1天</a></li>
+        <li class="next"><a href="#springUrl('/f/feveryday/detail.do')?wxOpenid=${wxOpenid}&day=${next}">后一天</a></li>
+      </ul>
+    </nav>
 
 </div>
 

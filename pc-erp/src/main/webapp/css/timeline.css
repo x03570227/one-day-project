@@ -20,15 +20,15 @@ body {
   background-color: #e9f0f5;
 }
 
-a {
-  color: #acb7c0;
-  text-decoration: none;
-  font-family: "Microsoft yahei", sans-serif;
-}
+/*a {*/
+  /*color: #acb7c0;*/
+  /*text-decoration: none;*/
+  /*font-family: "Microsoft yahei", sans-serif;*/
+/*}*/
 
-img {
-  max-width: 100%;
-}
+/*img {*/
+  /*max-width: 100%;*/
+/*}*/
 
 h1, h2 {
   font-family: "Microsoft yahei", sans-serif;
@@ -46,6 +46,7 @@ Modules - reusable parts of our design
   max-width: 1170px;
   margin: 0 auto;
 }
+
 .cd-container::after {
   /* clearfix */
   content: '';
