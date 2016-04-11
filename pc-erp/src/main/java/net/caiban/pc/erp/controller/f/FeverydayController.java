@@ -38,6 +38,9 @@ public class FeverydayController extends BaseController {
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response,
 			ModelMap model, EverydayCond cond, Pager<EverydayModel> pager, String viewWxOpenid){
+
+        accessSession(request);
+
 		try {
 			pager = everydayService.pagerRecent(cond, pager);
 			model.put("pager", pager);
@@ -52,6 +55,9 @@ public class FeverydayController extends BaseController {
 	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response,
 							   ModelMap model, Long id, String viewWxOpenid,
 							   @DateTimeFormat(pattern = "yyyy-MM-dd")Date day, String wxOpenid){
+
+        accessSession(request);
+
 		try {
 			// XXX 利用 wxopenid 判断用户与 everyday 的关系，判断用户绑定状态
 			if(day!=null){
