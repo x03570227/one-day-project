@@ -81,7 +81,7 @@ public class EverydayServiceImpl implements EverydayService{
 		everyday.setTags(Joiner.on(",").join(tags));
 		
 		everyday.setUrl(parseURL(everyday.getContent()));
-		
+
 		everyday.setDayIndex(parseDayIdx(everyday.getWxOpenid()));
 		everyday.setDayItemIndex(parseDayItemIdx(everyday.getWxOpenid()));
 		
@@ -199,18 +199,20 @@ public class EverydayServiceImpl implements EverydayService{
 //		return urls;
 //	}
 
-	@Override
-	public XMLTextMessage queryRecent(EventMessage message) {
-		
-		EverydayCond cond = new EverydayCond();
-		cond.setLimit(5);
-		
-		StringBuffer sb = buildRespByCond(cond);
-		
-		sb.append("<a href='").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?viewWxOpenid=").append(message.getFromUserName()).append("'>查看更多</a>");
-		
-		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
-	}
+    @Override
+    public XMLTextMessage queryRecent(EventMessage message) {
+
+        EverydayCond cond = new EverydayCond();
+        cond.setLimit(5);
+
+        StringBuffer sb = buildRespByCond(cond);
+
+        sb.append("<a href='").append(AppConst.getConfig("app.host"))
+                .append("/f/feveryday/index.do?viewWxOpenid=")
+                .append(message.getFromUserName()).append("'>查看更多</a>");
+
+        return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
+    }
 
 	@Override
 	public XMLTextMessage queryMy(EventMessage message) {
@@ -237,18 +239,28 @@ public class EverydayServiceImpl implements EverydayService{
 		
 		int idx = 1;
 		for(EverydayModel everyday: list){
-			sb.append(idx).append(". <a href=\"")
-				.append(AppConst.getConfig("app.host"))
-				.append("/f/feveryday/detail.do?id=")
-				.append(everyday.getId())
-				.append("\" >");
 			everyday.setContent(Strings.nullToEmpty(everyday.getContent()));
-			if(everyday.getContent().length()<=14){
-				sb.append(everyday.getContent());
-			}else{
-				sb.append(everyday.getContent().substring(0, 14));
-			}
-				sb.append("</a> \n");
+
+
+            sb.append(idx).append(". ");
+
+            if(Strings.isNullOrEmpty(everyday.getUrl())){
+                sb.append(everyday.getContent());
+            }else {
+                sb.append(everyday.getContent().replace(everyday.getUrl(), "<a href=\""+everyday.getUrl()+"\">引用文章</a>"));
+            }
+
+//            if(everyday.getContent().length()<=14){
+//			}else{
+//				sb.append(everyday.getContent().substring(0, 14));
+//			}
+            sb.append("(<a href=\"")
+                    .append(AppConst.getConfig("app.host"))
+                    .append("/f/feveryday/detail.do?id=")
+                    .append(everyday.getId())
+                    .append("\" >");
+            sb.append("#D").append(everyday.getDayIndex());
+            sb.append("</a>) \n");
 			idx++;
 		}
 		
