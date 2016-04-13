@@ -247,7 +247,8 @@ public class EverydayServiceImpl implements EverydayService{
             if(Strings.isNullOrEmpty(everyday.getUrl())){
                 sb.append(everyday.getContent());
             }else {
-                sb.append(everyday.getContent().replace(everyday.getUrl(), "<a href=\""+everyday.getUrl()+"\">引用文章</a>"));
+//                sb.append(everyday.getContent().replace(everyday.getUrl(), "<a href=\""+everyday.getUrl()+"\">引用文章</a>"));
+                sb.append(everyday.getContent().replace(everyday.getUrl(), ""));
             }
 
 //            if(everyday.getContent().length()<=14){
