@@ -55,5 +55,9 @@ public class BaseController {
 			e.printStackTrace();
 		}
 	}
+
+    public void accessSession(HttpServletRequest request){
+        request.setAttribute("sessionUser", getSessionUser(request));
+    }
 	
 }
