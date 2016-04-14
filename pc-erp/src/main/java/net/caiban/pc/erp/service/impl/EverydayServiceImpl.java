@@ -98,11 +98,11 @@ public class EverydayServiceImpl implements EverydayService{
 		.append("/f/feveryday/detail.do?viewWxOpenid=").append(message.getFromUserName())
 		.append("&id=")
 		.append(everyday.getId())
-		.append("\" >")
+		.append("\"> ")
 		.append("#D").append(everyday.getDayIndex())
 		.append("</a>) \n");
 		
-		sb.append("<a href='").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?wxOpenid=").append(message.getFromUserName()).append("'>查看更多</a>");
+		sb.append("<a href=\"").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?wxOpenid=").append(message.getFromUserName()).append("\">查看更多</a>");
 		
 		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
 	}
@@ -450,10 +450,8 @@ try {
 		if(!result){
 			throw new ServiceException("UPLOAD_FAILURE");
 		}
-//		
+
 		return fullpath;
-		
-//		return null;
 	}
 
 	@Override
@@ -511,6 +509,8 @@ try {
             nextTarget = 30;
         }else if(dayIndex<100){
             nextTarget = 100;
+        }else if(dayIndex<180){
+            nextTarget = 180;
         }else if(dayIndex<365){
             nextTarget = 365;
         }else if(dayIndex<1000){
