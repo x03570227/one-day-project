@@ -96,6 +96,13 @@ public class EverydayModel extends Everyday{
 		}
 		return DateUtil.toString(getGmtCreated(), AppConst.DATE_FORMAT_DATE);
 	}
+
+    public String getGmtCreatedTimeStr(){
+        if(getGmtCreated()==null){
+            return  null;
+        }
+        return DateUtil.toString(getGmtCreated(), AppConst.DATE_FORMAT_TIME);
+    }
 	
 	public String getImageUrl(){
 		if(Strings.isNullOrEmpty(getWxPicurl())){

@@ -114,7 +114,7 @@
                 #end
 
                 <span class="cd-date">
-                $!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}
+                $!{everyday.gmtCreatedTimeStr} #D$!{everyday.dayIndex}
             </span>
 
             </div> <!-- cd-timeline-content -->
@@ -155,7 +155,7 @@
             #end
 
             <span class="cd-date">
-                $!{everyday.gmtCreatedStr} #D$!{everyday.dayIndex}
+                $!{everyday.gmtCreatedTimeStr} #D$!{everyday.dayIndex}
             </span>
 
         </div> <!-- cd-timeline-content -->
