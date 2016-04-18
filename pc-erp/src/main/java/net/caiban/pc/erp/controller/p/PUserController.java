@@ -22,7 +22,6 @@ import net.caiban.pc.erp.service.sys.SysLoginRememberService;
 import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.utils.http.CookiesUtil;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -173,12 +172,12 @@ public class PUserController extends BaseController {
 	}
 
     @RequestMapping
-    public ModelAndView wxLogin(HttpServletRequest request, ModelMap model){
+    public ModelAndView everydayLogin(HttpServletRequest request, ModelMap model){
         return null;
     }
 
     @RequestMapping
-    public ModelAndView wxRegist(HttpServletRequest request, ModelMap model){
+    public ModelAndView everydayRegist(HttpServletRequest request, ModelMap model){
         return null;
     }
 
@@ -187,10 +186,10 @@ public class PUserController extends BaseController {
      * */
     @RequestMapping
     @ResponseBody
-    public Map<String, Object> doWxLogin(HttpServletRequest request, HttpServletResponse response,
+    public Map<String, Object> doEverydayLogin(HttpServletRequest request, HttpServletResponse response,
                                          SysUserModel user, Locale locale) {
         try {
-            SessionUser sessionUser = sysUserService.doWxLogin(user);
+            SessionUser sessionUser = sysUserService.doLoginByEveryday(user);
             setSessionUser(request, sessionUser);
             sysUserService.rememberMe(response, sessionUser, user.getRememberMe());
             return ajaxResult(true, null);
@@ -205,10 +204,10 @@ public class PUserController extends BaseController {
      * */
     @RequestMapping
     @ResponseBody
-    public Map<String, Object> doWxRegist(HttpServletRequest request, HttpServletResponse response,
+    public Map<String, Object> doEverydayRegist(HttpServletRequest request, HttpServletResponse response,
                                           SysUserModel user, Locale locale){
         try {
-            SessionUser sessionUser = sysUserService.doWxRegist(user);
+            SessionUser sessionUser = sysUserService.doRegistByEveryday(user);
             setSessionUser(request, sessionUser);
             return ajaxResult(true, null);
         } catch (ServiceException e) {

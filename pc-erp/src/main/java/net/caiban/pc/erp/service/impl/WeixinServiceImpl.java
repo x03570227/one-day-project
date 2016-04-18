@@ -12,6 +12,7 @@ import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.SysUser;
 import net.caiban.pc.erp.domain.sys.SysUserAuthModel;
 import net.caiban.pc.erp.domain.sys.SysUserProfileModel;
+import net.caiban.pc.erp.enums.UserClassifyEnum;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.EverydayService;
 import net.caiban.pc.erp.service.WeixinService;
@@ -375,7 +376,7 @@ public class WeixinServiceImpl implements WeixinService {
 		}
 
 		SysUserAuthModel userAuth = new SysUserAuthModel();
-		userAuth.setClassify(SysUser.CLASSIFY.W.toString());
+		userAuth.setClassify(UserClassifyEnum.WEIXIN_OAUTH.getCode());
 		userAuth.setOpenid(jobj.optString("openid"));
 		userAuth.setAccessToken(jobj.optString("access_token"));
 		userAuth.setRefreshToken(jobj.optString("refresh_token"));

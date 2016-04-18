@@ -108,10 +108,10 @@ public interface SysUserService {
     /**
      * 非商家用户注册,默认不关联Company, 不开通 ERP
      * */
-    SessionUser doWxRegist(SysUserModel user) throws ServiceException;
+    SessionUser doRegistByEveryday(SysUserModel user) throws ServiceException;
 
     /**
-     * 普通用户登录（非商家用户）
+     * 普通用户登录（每1天用户）
      * */
-    SessionUser doWxLogin(SysUserModel user) throws ServiceException;
+    SessionUser doLoginByEveryday(SysUserModel user) throws ServiceException;
 }

@@ -59,8 +59,8 @@ define(		["jquery","util/table","noty"],
 			}, "json");
 		}
 
-        def["doWxLogin"]=function(form, redirect){
-            jQuery.post(CONTEXT_PATH+"/p/puser/doWxLogin.do", form.serialize(), function(resp){
+        def["doEverydayLogin"]=function(form, redirect){
+            jQuery.post(CONTEXT_PATH+"/p/puser/doEverydayLogin.do", form.serialize(), function(resp){
                 if(redirect!=""){
                     window.location.href=redirect;
                 }else{
@@ -69,8 +69,8 @@ define(		["jquery","util/table","noty"],
             }, "json");
         }
 
-        def["doWxRegist"]=function(form, redirect){
-            jQuery.post(CONTEXT_PATH+"/p/puser/doWxRegist.do", form.serialize(), function(resp){
+        def["doEverydayRegist"]=function(form, redirect){
+            jQuery.post(CONTEXT_PATH+"/p/puser/doEverydayRegist.do", form.serialize(), function(resp){
                 debugger;
                 if(redirect!=""){
                     window.location.href=redirect;

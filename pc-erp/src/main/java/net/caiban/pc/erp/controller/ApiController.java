@@ -165,7 +165,15 @@ public class ApiController extends BaseController {
 //		return null;
 	}
 
-	@RequestMapping
+    /**
+     * 跳转到微信 oauth 服务
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    @RequestMapping
 	public ModelAndView gowxauth(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException {
 
@@ -181,7 +189,16 @@ public class ApiController extends BaseController {
 		return new ModelAndView("redirect:" + url.toString());
 	}
 
-	@RequestMapping
+    /**
+     * 微信 oauth 服务回调
+     *
+     * @param request
+     * @param response
+     * @param code
+     * @param state
+     * @return
+     */
+    @RequestMapping
 	public ModelAndView wxauth(HttpServletRequest request, HttpServletResponse response,
 		String code, String state){
 

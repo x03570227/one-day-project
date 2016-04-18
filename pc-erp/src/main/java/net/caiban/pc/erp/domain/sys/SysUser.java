@@ -26,13 +26,13 @@ public class SysUser extends BaseDomain {
 //	public final static String CLASSIFY_M="M";
 //	public final static String CLASSIFY_E="E";
 
-	public enum CLASSIFY{
-		A, //普通账户（默认情况）
-		M, //手机号账户
-		E, //邮件账户
-		W  //微信 oauth2 账户
-		;
-	}
+//	public enum CLASSIFY{
+//		A, //普通账户（默认情况）
+//		M, //手机号账户
+//		E, //邮件账户
+//		W,  //微信 oauth2 账户
+//		;
+//	}
 
 	public final static int ACCEPT_TRUE=1;
 	public final static long DEFAULT_UID=0;

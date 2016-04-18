@@ -22,6 +22,7 @@ import net.caiban.pc.erp.config.LogHelper;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.*;
+import net.caiban.pc.erp.enums.UserClassifyEnum;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.sys.SysCompanyMapper;
 import net.caiban.pc.erp.persist.sys.SysLoginRememberMapper;
@@ -174,14 +175,14 @@ public class SysUserServiceImpl implements SysUserService {
 	public String classifyOfAccount(String account){
 		
 		if(StringUtils.isEmail(account)){
-			return SysUser.CLASSIFY.E.toString();
+			return UserClassifyEnum.EMAIL.getCode();
 		}
 		
 		if(ValidateUtil.isMobile(account)){
-			return SysUser.CLASSIFY.M.toString();
+			return UserClassifyEnum.MOBILE.getCode();
 		}
 		
-		return SysUser.CLASSIFY.A.toString();
+		return UserClassifyEnum.ACCOUNT.getCode();
 	}
 	
 	/**
@@ -396,14 +397,14 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public SessionUser doRegistByOauth(SysUserAuthModel auth, SysUserProfileModel profile) throws ServiceException {
 
-		SysUser registUser = new SysUser();
-		registUser.setSalt(randomSalt());
-		registUser.setClassify(SysUser.CLASSIFY.W.toString());
-		registUser.setAccount(rebuildAccount(SysUser.CLASSIFY.W.toString(),auth.getOpenid()));
-		registUser.setPassword(auth.getAccessToken());
-		registUser.setUid(SysUser.DEFAULT_UID);
-		registUser.setCid(0l);
-		registUser.setOauthProfile(new Gson().toJson(profile));
+        SysUser registUser = new SysUser();
+        registUser.setSalt(randomSalt());
+        registUser.setClassify(auth.getClassify());
+        registUser.setAccount(rebuildAccount(auth.getClassify(), auth.getOpenid()));
+        registUser.setPassword(auth.getAccessToken());
+        registUser.setUid(SysUser.DEFAULT_UID);
+        registUser.setCid(0l);
+        registUser.setOauthProfile(new Gson().toJson(profile));
 
 		try {
 			sysUserMapper.insert(registUser);
@@ -424,7 +425,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
     @Override
-    public SessionUser doWxRegist(SysUserModel user) throws ServiceException {
+    public SessionUser doRegistByEveryday(SysUserModel user) throws ServiceException {
 
         Preconditions.checkNotNull(user);
 
@@ -439,7 +440,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public SessionUser doWxLogin(SysUserModel user) throws ServiceException {
+    public SessionUser doLoginByEveryday(SysUserModel user) throws ServiceException {
 
         SysUser confirmedUser = doLoginConfirm(user);
 

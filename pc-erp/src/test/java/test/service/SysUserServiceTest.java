@@ -49,7 +49,7 @@ public class SysUserServiceTest extends BaseServiceTestCase{
         mockUser.setPasswordRepeat("12345");
 
         try {
-            SessionUser user = sysUserService.doWxRegist(mockUser);
+            SessionUser user = sysUserService.doRegistByEveryday(mockUser);
             Assert.assertEquals(mockUser.getAccount(), user.getAccount());
             Assert.assertEquals(27l, user.getUid().longValue());
         } catch (ServiceException e) {
