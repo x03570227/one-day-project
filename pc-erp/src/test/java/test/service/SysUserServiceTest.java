@@ -14,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import test.BaseServiceTestCase;
 
 import javax.annotation.Resource;
@@ -41,6 +43,16 @@ public class SysUserServiceTest extends BaseServiceTestCase{
 
         Mockito.when(sysUserMapper.countByAccount(Mockito.anyString())).thenReturn(0);
         Mockito.when(sysUserMapper.updateUid(Mockito.anyLong(), Mockito.anyLong())).thenReturn(1);
+
+        Mockito.when(sysUserMapper.insert(Mockito.any(SysUser.class))).thenAnswer(new Answer<Integer>() {
+            @Override
+            public Integer answer(InvocationOnMock invocation) throws Throwable {
+                Object[] args = invocation.getArguments();
+                SysUser user = (SysUser) args[0];
+                user.setId(27l);
+                return 1;
+            }
+        });
 
         SysUserModel mockUser = randomModel();
         mockUser.setAccount("13666624372");
