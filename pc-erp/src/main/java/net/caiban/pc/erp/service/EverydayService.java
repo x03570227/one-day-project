@@ -12,10 +12,23 @@ import weixin.popular.bean.EventMessage;
 import weixin.popular.bean.xmlmessage.XMLTextMessage;
 
 public interface EverydayService {
-	
-	public XMLTextMessage save(EventMessage message) throws ServiceException;
-	
-	public XMLTextMessage queryRecent(EventMessage message);
+
+    /**
+     * 通过微信公众号提供的信息保存 Everyday
+     *
+     * @param message
+     * @return
+     * @throws ServiceException
+     */
+    public XMLTextMessage save(EventMessage message) throws ServiceException;
+
+    /**
+     * 查询最新每1天信息,返回给微信公众号
+     *
+     * @param message
+     * @return
+     */
+    public XMLTextMessage queryRecent(EventMessage message);
 	
 	public XMLTextMessage queryMy(EventMessage message) ;
 	
