@@ -23,6 +23,7 @@ import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.utils.http.CookiesUtil;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -217,5 +218,10 @@ public class PUserController extends BaseController {
         return null;
     }
 
-    
+    @RequestMapping
+    public ModelAndView bindWeixinFollower(HttpServletRequest request, ModelMap model,
+                                           String wxOpenid){
+        model.put("wxOpenid", wxOpenid);
+        return null;
+    }
 }

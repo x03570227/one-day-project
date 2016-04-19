@@ -1,0 +1,62 @@
+#set($layout="/layout/everyday_weixin.vm")
+
+
+<div class="weui_tab">
+    <div class="weui_tab_bd">
+
+    </div>
+    <div class="weui_tabbar">
+        <a href="javascript:;" class="weui_tabbar_item weui_bar_item_on">
+            <div class="weui_tabbar_icon">
+                <img src="./images/icon_nav_button.png" alt="">
+            </div>
+            <p class="weui_tabbar_label">微信</p>
+        </a>
+        <a href="javascript:;" class="weui_tabbar_item">
+            <div class="weui_tabbar_icon">
+                <img src="./images/icon_nav_msg.png" alt="">
+            </div>
+            <p class="weui_tabbar_label">通讯录</p>
+        </a>
+        <a href="javascript:;" class="weui_tabbar_item">
+            <div class="weui_tabbar_icon">
+                <img src="./images/icon_nav_article.png" alt="">
+            </div>
+            <p class="weui_tabbar_label">发现</p>
+        </a>
+        <a href="javascript:;" class="weui_tabbar_item">
+            <div class="weui_tabbar_icon">
+                <img src="./images/icon_nav_cell.png" alt="">
+            </div>
+            <p class="weui_tabbar_label">我</p>
+        </a>
+    </div>
+</div>
+
+##<script type="text/javascript">
+##
+##require([   "jquery","js/erp/sysUser","js/app/i18n_zh_CN"
+##	,"Bootstrap","validator","noty"],
+##	function(jQuery,  sysUser,               i18n){
+##		jQuery("#formLogin").validator();
+##
+##		jQuery("#login_btn").click(function(e){
+##
+##			if(jQuery("#login_btn").hasClass("disabled")){
+##				noty({
+##					text:i18n.get('FORM_INVALID'),
+##					type:"warning",
+##					timeout:2500
+##				});
+##				return false;
+##			}
+##
+##			sysUser.doLogin(jQuery("#formLogin"), "$!{refurl}");
+##
+##			return false;
+##		});
+##
+##	}
+##);
+##
+##</script>
