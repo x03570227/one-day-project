@@ -141,10 +141,10 @@
 	
 	<sql id="where_cond" >
 		<where >
-			<if test="cond.wxOpenid!=null" >
+			<if test="cond.wxOpenid!=null and cond.wxOpenid != '' " >
 				and wx_openid=#{cond.wxOpenid}
 			</if>
-			<if test="cond.wxMsgtype!=null" >
+			<if test="cond.wxMsgtype!=null and cond.wxMsgtype != '' " >
 				and wx_msgtype=#{cond.wxMsgtype}
 			</if>
 			<if test="cond.excludeId!=null">
