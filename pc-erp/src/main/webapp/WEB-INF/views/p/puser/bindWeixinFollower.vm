@@ -1,37 +1,54 @@
 #set($layout="/layout/everyday_weixin.vm")
+<div class="bd" style="height: 100%;">
 
+    <div class="weui_tab">
+        <div class="weui_navbar">
+            <div class="weui_navbar_item weui_bar_item_on">
+                登录
+            </div>
+            <div class="weui_navbar_item">
+                注册
+            </div>
+        </div>
 
-<div class="weui_tab">
-    <div class="weui_tab_bd">
+        <div class="weui_tab_bd">
 
-    </div>
-    <div class="weui_tabbar">
-        <a href="javascript:;" class="weui_tabbar_item weui_bar_item_on">
-            <div class="weui_tabbar_icon">
-                <img src="./images/icon_nav_button.png" alt="">
+            <div class="hd">
+                <h1 class="page_title">登录</h1>
             </div>
-            <p class="weui_tabbar_label">微信</p>
-        </a>
-        <a href="javascript:;" class="weui_tabbar_item">
-            <div class="weui_tabbar_icon">
-                <img src="./images/icon_nav_msg.png" alt="">
+
+            <div class="bd">
+                <div class="weui_cells_title">登录后绑定</div>
+
+                <div class="weui_cells weui_cells_form">
+                    <div class="weui_cell">
+                        <div class="weui_cell_hd"><label class="weui_label">账号</label></div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入账号"/>
+                        </div>
+                    </div>
+##                </div>
+##
+##                <div class="weui_cells weui_cells_form">
+                    <div class="weui_cell">
+                        <div class="weui_cell_hd"><label class="weui_label">密码</label></div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <input class="weui_input" type="password" placeholder="请输入密码"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weui_btn_area">
+                    <a class="weui_btn weui_btn_primary" href="javascript:" id="showTooltips">登录并绑定</a>
+                </div>
+
             </div>
-            <p class="weui_tabbar_label">通讯录</p>
-        </a>
-        <a href="javascript:;" class="weui_tabbar_item">
-            <div class="weui_tabbar_icon">
-                <img src="./images/icon_nav_article.png" alt="">
-            </div>
-            <p class="weui_tabbar_label">发现</p>
-        </a>
-        <a href="javascript:;" class="weui_tabbar_item">
-            <div class="weui_tabbar_icon">
-                <img src="./images/icon_nav_cell.png" alt="">
-            </div>
-            <p class="weui_tabbar_label">我</p>
-        </a>
+
+        </div>
     </div>
 </div>
+
+
 
 ##<script type="text/javascript">
 ##
