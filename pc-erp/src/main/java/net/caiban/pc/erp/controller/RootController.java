@@ -18,6 +18,7 @@ import net.caiban.pc.erp.service.trade.TradeService;
 
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -78,5 +79,12 @@ public class RootController extends BaseController{
 	
 		return null;
 	}
-	
+
+    @RequestMapping
+    public ModelAndView error_wx(HttpServletRequest request,ModelMap model,
+                                     String errorCode, Locale locale){
+        model.put("errorCode", errorCode);
+        model.put("errorMessage", messageSource.getMessage(errorCode, null, locale));
+        return null;
+    }
 }

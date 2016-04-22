@@ -220,7 +220,18 @@ public class PUserController extends BaseController {
 
     @RequestMapping
     public ModelAndView bindWeixinFollower(HttpServletRequest request, ModelMap model,
-                                           String wxOpenid){
+                                           String wxOpenid, Locale locale){
+
+        SessionUser sessionUser = getSessionUser(request);
+        if(sessionUser!=null){
+            try {
+                sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
+            }catch (ServiceException e){
+                model.put("errorCode", e.getMessage());
+                return new ModelAndView("redirect:/error_404_wx.do");
+            }
+        }
+
         model.put("wxOpenid", wxOpenid);
         return null;
     }

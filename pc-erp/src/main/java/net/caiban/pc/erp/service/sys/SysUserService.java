@@ -102,16 +102,37 @@ public interface SysUserService {
 
     /**
      * 第三登录自动注册系统账号
-     * */
+     *
+     * @param auth
+     * @param profile
+     * @return
+     * @throws ServiceException
+     */
 	SessionUser doRegistByOauth(SysUserAuthModel auth, SysUserProfileModel profile) throws ServiceException;
 
     /**
      * 非商家用户注册,默认不关联Company, 不开通 ERP
-     * */
+     *
+     * @param user
+     * @return
+     * @throws ServiceException
+     */
     SessionUser doRegistByEveryday(SysUserModel user) throws ServiceException;
 
     /**
      * 普通用户登录（每1天用户）
-     * */
+     *
+     * @param user
+     * @return
+     * @throws ServiceException
+     */
     SessionUser doLoginByEveryday(SysUserModel user) throws ServiceException;
+
+    /**
+     * 绑定系统用户与公众号 follower
+     *
+     * @param wxOpenid
+     * @throws ServiceException
+     */
+    void doBindWeixinFollower(Long userId, String wxOpenid) throws ServiceException;
 }
