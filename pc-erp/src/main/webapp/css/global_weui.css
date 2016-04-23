@@ -276,6 +276,11 @@ body {
     animation: b .25s forwards
 }
 
+/*user define class*/
+
+.hide{
+    display: none;
+}
 
 .index_img_banner {width:100%; max-height:100px;}
 .index_event_list {width:241px; float:left;margin:0px 8px 8px 0px;}
