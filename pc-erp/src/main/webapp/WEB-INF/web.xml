@@ -37,7 +37,8 @@
 				|/find/*
 				|/f/*
 				|/checkcode/*
-                |/error*
+                |/error_*
+                |/message_*
 			</param-value>
 		</init-param>
 		

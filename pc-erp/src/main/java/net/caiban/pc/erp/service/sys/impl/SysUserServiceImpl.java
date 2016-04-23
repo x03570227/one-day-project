@@ -473,11 +473,6 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public void doBindWeixinFollower(Long uid, String wxOpenid) throws ServiceException {
-        //【1】检测有没有这个 follower
-        //【2】检测用户是否已经有绑定
-        //【3】如果已经绑定,原来的作废（or 保留?）
-        //【4】绑定 follower
-        //TODO 实现绑定功能
 
         Preconditions.checkNotNull(uid);
         Preconditions.checkNotNull(Strings.emptyToNull(wxOpenid));

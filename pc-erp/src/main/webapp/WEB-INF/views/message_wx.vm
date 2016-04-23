@@ -1,0 +1,21 @@
+#set($layout="/layout/everyday_weixin.vm")
+<div class="weui_msg">
+    <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+    <div class="weui_text_area">
+        <h2 class="weui_msg_title">消息</h2>
+        <p class="weui_msg_desc">$!{message}</p>
+    </div>
+    <div class="weui_opr_area">
+        <p class="weui_btn_area">
+            #if("$!{okurl}" != "")
+                <a href="javascript:;" class="weui_btn weui_btn_primary">确定</a>
+            #end
+            #if("$!{cancelurl}" != "")
+                <a href="javascript:;" class="weui_btn weui_btn_default">取消</a>
+            #end
+        </p>
+    </div>
+##    <div class="weui_extra_area">
+##        <a href="">查看详情</a>
+##    </div>
+</div>
