@@ -131,38 +131,6 @@ public class ApiController extends BaseController {
 		}
 		
 		return null;
-		
-		
-		
-		//TODO 接入微信
-		
-//		List<String> params = Lists.newArrayList();
-//		params.add(timestamp);
-//		params.add(nonce);
-//		params.add(AppConst.getConfig("weixin.token", ""));
-//		
-//		LOG.info("REQUEST FROM WEIXIN: "+new Gson().toJson(params)+" sign is:"+signature);
-//		
-//		Collections.sort(params);
-//		
-//		LOG.info("RESORT PARAMS: "+new Gson().toJson(params));
-//		
-//		String paramsStr = Joiner.on("").join(params);
-//		
-//		String genSign = DigestUtils.shaHex(paramsStr);
-//		
-//		LOG.info("GENERATE SIGN: "+genSign);
-//		
-//		if(genSign.equals(signature)){
-//			model.put("echost", echostr);
-//		}
-//		
-//		
-//		Map paramsMap = request.getParameterMap();
-//		
-//		LOG.info("REQUEST PARAMS:"+new Gson().toJson(paramsMap));
-		
-//		return null;
 	}
 
     /**

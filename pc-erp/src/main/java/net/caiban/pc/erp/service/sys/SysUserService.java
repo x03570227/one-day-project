@@ -11,6 +11,7 @@ import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.*;
 import net.caiban.pc.erp.exception.ServiceException;
+import weixin.popular.bean.EventMessage;
 
 /**
  * @author mays
@@ -88,16 +89,54 @@ public interface SysUserService {
 	public void doResetPassword(Long uid, String origin, String password,
 			String confirm) throws ServiceException;
 
-	public Pager<SysUser> pager(SysUserCond cond, Pager<SysUser> pager);
+    /**
+     * 分页查询用户信息
+     * @param cond
+     * @param pager
+     * @return
+     */
+    public Pager<SysUser> pager(SysUserCond cond, Pager<SysUser> pager);
 
-	public List<SysUser> excludeMainAccount(List<SysUser> userList);
+    /**
+     * 排除主账号
+     * @param userList
+     * @return
+     */
+    public List<SysUser> excludeMainAccount(List<SysUser> userList);
 
-	public SysUser doRegistByCompany(String mainAccount, Long cid, String account,
+    /**
+     * 企业账户注册
+     *
+     * @param mainAccount
+     * @param cid
+     * @param account
+     * @param password
+     * @param confirm
+     * @return
+     * @throws ServiceException
+     */
+    public SysUser doRegistByCompany(String mainAccount, Long cid, String account,
 			String password, String confirm) throws ServiceException;
 
-	public Integer doCountUserOfCompany(Long cid, Boolean withMainUser);
+    /**
+     * 计算企业员工数
+     *
+     * @param cid
+     * @param withMainUser
+     * @return
+     */
+    public Integer doCountUserOfCompany(Long cid, Boolean withMainUser);
 
-	public void doResetPasswordByAdmin(Long adminUid, Long uid, String password,
+    /**
+     * 管理员重置密码
+     *
+     * @param adminUid
+     * @param uid
+     * @param password
+     * @param confirm
+     * @throws ServiceException
+     */
+    public void doResetPasswordByAdmin(Long adminUid, Long uid, String password,
 			String confirm) throws ServiceException;
 
     /**
@@ -131,8 +170,23 @@ public interface SysUserService {
     /**
      * 绑定系统用户与公众号 follower
      *
+     * @param uid
      * @param wxOpenid
      * @throws ServiceException
      */
-    void doBindWeixinFollower(Long userId, String wxOpenid) throws ServiceException;
+    void doBindWeixinFollower(Long uid, String wxOpenid) throws ServiceException;
+
+    /**
+     * 通过关注添加第三方账号授权
+     *
+     * @param eventMessage
+     */
+    void doAuthByFollow(EventMessage eventMessage);
+
+    /**
+     * 用户取消关注
+     *
+     * @param eventMessage
+     */
+    void doUnauthByUunfollow(EventMessage eventMessage);
 }

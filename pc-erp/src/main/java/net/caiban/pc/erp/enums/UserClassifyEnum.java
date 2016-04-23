@@ -29,6 +29,7 @@ public enum UserClassifyEnum implements BaseEnum{
      * 微信公众号粉丝ID
      */
     WEIXIN_FOLLOW("WF", "微信公众号粉丝ID"),
+
     ;
 
     private String code;

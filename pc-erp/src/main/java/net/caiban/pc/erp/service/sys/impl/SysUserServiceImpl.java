@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.Service;
 import com.google.gson.Gson;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.config.LogHelper;
@@ -35,9 +36,12 @@ import net.caiban.utils.MD5;
 import net.caiban.utils.http.CookiesUtil;
 import net.caiban.utils.lang.StringUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
+import weixin.popular.bean.EventMessage;
 
 /**
  * @author mays
@@ -46,14 +50,16 @@ import com.google.common.base.Strings;
 @Component("sysUserService")
 public class SysUserServiceImpl implements SysUserService {
 
-	@Resource
-	private SysUserMapper sysUserMapper;
-	@Resource
-	private SysCompanyMapper sysCompanyMapper;
-	@Resource
-	private SysLoginRememberMapper sysLoginRememberMapper;
-	@Resource
-	private SysUserAuthMapper sysUserAuthMapper;
+    @Resource
+    private SysUserMapper sysUserMapper;
+    @Resource
+    private SysCompanyMapper sysCompanyMapper;
+    @Resource
+    private SysLoginRememberMapper sysLoginRememberMapper;
+    @Resource
+    private SysUserAuthMapper sysUserAuthMapper;
+
+    private final static Logger LOG = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
 	@Override
 	public SessionUser doLogin(SysUser user) throws ServiceException {
@@ -466,23 +472,59 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public void doBindWeixinFollower(Long userId, String wxOpenid) throws ServiceException {
+    public void doBindWeixinFollower(Long uid, String wxOpenid) throws ServiceException {
         //【1】检测有没有这个 follower
         //【2】检测用户是否已经有绑定
         //【3】如果已经绑定,原来的作废（or 保留?）
         //【4】绑定 follower
         //TODO 实现绑定功能
 
-        Preconditions.checkNotNull(userId);
+        Preconditions.checkNotNull(uid);
         Preconditions.checkNotNull(Strings.emptyToNull(wxOpenid));
 
         if(!availableFollower(wxOpenid)){
             throw new ServiceException("e.wx.follower.unavailable");
         }
 
+        if(isBinded(wxOpenid)){
+            throw new ServiceException("e.wx.follower.uid.exist");
+        }
+
+        sysUserAuthMapper.updateUidByOpenid(uid, wxOpenid);
+
+    }
+
+    private boolean isBinded(String openid){
+        Long uid = sysUserAuthMapper.queryUidByOpenid(openid);
+        return (uid != null && uid.longValue() > 0);
     }
 
     private boolean availableFollower(String wxOpenid){
-        return false;
+        Integer existedCount=sysUserAuthMapper.countByOpenid(wxOpenid);
+        return (existedCount!=null && existedCount.intValue()>0);
+    }
+
+    @Override
+    public void doAuthByFollow(EventMessage eventMessage) {
+
+        if(availableFollower(eventMessage.getFromUserName())){
+            LOG.warn("Follower authed. openid: {0}, message: {1}", eventMessage.getFromUserName(), eventMessage);
+            return ;
+        }
+
+        SysUserAuthModel authModel = new SysUserAuthModel();
+        authModel.setOpenid(eventMessage.getFromUserName());
+        authModel.setOrgOpenid(eventMessage.getToUserName());
+        authModel.setResp(new Gson().toJson(eventMessage));
+        authModel.setGmtAuth(new Date());
+        authModel.setClassify(UserClassifyEnum.WEIXIN_FOLLOW.getCode());
+
+        sysUserAuthMapper.insertSelective(authModel);
+    }
+
+    @Override
+    public void doUnauthByUunfollow(EventMessage eventMessage) {
+        LOG.warn("Unauth by unfollow. openid: {0}, message: {1}", eventMessage.getFromUserName(), eventMessage);
+        sysUserAuthMapper.deleteByOpenid(eventMessage.getFromUserName());
     }
 }

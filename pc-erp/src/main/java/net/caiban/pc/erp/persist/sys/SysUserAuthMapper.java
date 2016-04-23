@@ -9,4 +9,11 @@ public interface SysUserAuthMapper {
 
     public Integer insertSelective(SysUserAuthModel auth);
 
+    public Integer countByOpenid(String openid);
+
+    public Integer deleteByOpenid(String openid);
+
+    public Long queryUidByOpenid(String openid);
+
+    public Integer updateUidByOpenid(Long uid, String openid);
 }
