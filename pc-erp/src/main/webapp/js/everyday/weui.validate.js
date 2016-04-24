@@ -14,6 +14,7 @@ define(		["jquery", "template"],
                     if(value==""){
                         def.addCellWarn(jQuery(this).parent().parent());
                         def.disableSubmit(formid);
+                        jQuery(this).attr("data-validate-result","false");
                         return ;
                     }
                 }
@@ -24,12 +25,15 @@ define(		["jquery", "template"],
                         if(!pattern.test(value)){
                             def.addCellWarn(jQuery(this).parent().parent());
                             def.disableSubmit(formid);
+                            jQuery(this).attr("data-validate-result","false");
                             return ;
                         }
                     }
                 }
 
+                jQuery(this).attr("data-validate-result","true");
                 def.removeCellWarn(jQuery(this).parent().parent());
+                def.enableSubmit(formid);
             });
 
             if(jQuery("#"+formid+" input[data-validate]").length>0){
@@ -56,6 +60,21 @@ define(		["jquery", "template"],
                 }
                 jQuery(this).addClass("weui_btn_disabled");
             });
+        }
+
+        def["enableSubmit"]=function(formid){
+            var result = true;
+
+            jQuery("#"+formid+" input[data-validate]").each(function(){
+                if(jQuery(this).attr("data-validate-result") != "true"){
+                    result = false;
+                    return ;
+                }
+            });
+
+            if(result){
+                jQuery("#"+formid+" input[type=submit]").removeClass("weui_btn_disabled");
+            }
         }
 
 		return def;

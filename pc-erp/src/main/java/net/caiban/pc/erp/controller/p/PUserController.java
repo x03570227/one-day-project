@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.base.Strings;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.controller.BaseController;
 import net.caiban.pc.erp.domain.SessionUser;
@@ -185,6 +186,7 @@ public class PUserController extends BaseController {
     /**
      * 微信公众号用户登录操作
      * */
+    @Deprecated
     @RequestMapping
     @ResponseBody
     public Map<String, Object> doEverydayLogin(HttpServletRequest request, HttpServletResponse response,
@@ -203,6 +205,7 @@ public class PUserController extends BaseController {
     /**
      * 微信公众号用户注册操作
      * */
+    @Deprecated
     @RequestMapping
     @ResponseBody
     public Map<String, Object> doEverydayRegist(HttpServletRequest request, HttpServletResponse response,
@@ -228,11 +231,11 @@ public class PUserController extends BaseController {
      * @return
      */
     @RequestMapping
-    public ModelAndView bindWeixinFollower(HttpServletRequest request, ModelMap model,
+    public ModelAndView wxgate(HttpServletRequest request, ModelMap model,
                                            String wxOpenid, Locale locale){
 
         SessionUser sessionUser = getSessionUser(request);
-        if(sessionUser!=null){
+        if(sessionUser!=null && !Strings.isNullOrEmpty(wxOpenid)){
             try {
                 sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
             }catch (ServiceException e){
@@ -257,7 +260,7 @@ public class PUserController extends BaseController {
      */
     @RequestMapping
     @ResponseBody
-    public Map<String, Object> doFollowerLogin(HttpServletRequest request, HttpServletResponse response,
+    public Map<String, Object> doWxLogin(HttpServletRequest request, HttpServletResponse response,
                                            SysUserModel user, String wxOpenid, Locale locale) {
         //TODO 登录->成功后绑定
 
@@ -265,7 +268,9 @@ public class PUserController extends BaseController {
             SessionUser sessionUser = sysUserService.doLoginByEveryday(user);
             setSessionUser(request, sessionUser);
             sysUserService.rememberMe(response, sessionUser, user.getRememberMe());
-            sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
+            if(!Strings.isNullOrEmpty(wxOpenid)){
+                sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
+            }
             return ajaxResult(true, null);
         } catch (ServiceException e) {
 
@@ -276,15 +281,15 @@ public class PUserController extends BaseController {
 
     @RequestMapping
     @ResponseBody
-    public Map<String, Object> doFollowerRegist(HttpServletRequest request, HttpServletResponse response,
+    public Map<String, Object> doWxRegist(HttpServletRequest request, HttpServletResponse response,
                                                SysUserModel user, String wxOpenid, Locale locale) {
-        //TODO 登录->成功后绑定
-
         try {
             SessionUser sessionUser = sysUserService.doRegistByEveryday(user);
             setSessionUser(request, sessionUser);
             sysUserService.rememberMe(response, sessionUser, user.getRememberMe());
-            sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
+            if(!Strings.isNullOrEmpty(wxOpenid)){
+                sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
+            }
             return ajaxResult(true, null);
         } catch (ServiceException e) {
 

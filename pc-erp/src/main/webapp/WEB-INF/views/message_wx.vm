@@ -8,10 +8,10 @@
     <div class="weui_opr_area">
         <p class="weui_btn_area">
             #if("$!{okurl}" != "")
-                <a href="javascript:;" class="weui_btn weui_btn_primary">确定</a>
+                <a href="$!{okurl}" class="weui_btn weui_btn_primary">确定</a>
             #end
             #if("$!{cancelurl}" != "")
-                <a href="javascript:;" class="weui_btn weui_btn_default">取消</a>
+                <a href="$!{cancelurl}" class="weui_btn weui_btn_default">取消</a>
             #end
         </p>
     </div>

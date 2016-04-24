@@ -45,7 +45,7 @@
                             <div class="weui_cell">
                                 <div class="weui_cell_hd"><label class="weui_label">#springMessage("sys.user.password")</label></div>
                                 <div class="weui_cell_bd weui_cell_primary">
-                                    <input class="weui_input" type="password" placeholder="#springMessage('ph.sys.user.password')"
+                                    <input class="weui_input" type="password" name="password" placeholder="#springMessage('ph.sys.user.password')"
                                        data-validate='{"required":true}'
                                     />
                                 </div>
@@ -100,7 +100,7 @@
                         <div class="weui_cell">
                             <div class="weui_cell_hd"><label class="weui_label">密码</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" type="password" placeholder="请输入密码"
+                                <input class="weui_input" type="password" name="originPassword" placeholder="请输入密码"
                                    data-validate='{"required":true}'
                                 />
                             </div>
@@ -112,7 +112,7 @@
                         <div class="weui_cell weui_cell_switch">
                             <div class="weui_cell_hd"><label class="weui_label">确认</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" type="password" placeholder="请再次输入密码"
+                                <input class="weui_input" type="password" name="passwordRepeat" placeholder="请再次输入密码"
                                    data-validate='{"required":true}'
                                 />
                             </div>
@@ -137,7 +137,6 @@
 
 <!--BEGIN dialog1-->
 <div class="weui_dialog_confirm" id="dialog" style="display: none;">
-
 </div>
 <!--END dialog1-->
 
@@ -178,18 +177,17 @@ require([   "jquery","js/everyday/weui.validate","js/app/i18n_zh_CN", "template"
                 return false;
             }
 
-            jQuery.post("#springUrl('/p/puser/doFollowerLogin.do')", jQuery("#loginForm").serialize(), function(resp){
-                if(resp.success){
-                    window.location.href="#springUrl('/message_wx.do')?code=msg.wx.bind.success";
+            jQuery.post("#springUrl('/p/puser/doWxLogin.do')", jQuery("#loginForm").serialize(), function(resp){
+                if(resp.result){
+                    window.location.href="#springUrl('/message_wx.do')?code=msg.wx.bind.success&okurl="+encodeURI("#springUrl('/f/feveryday/index.do')");
                 }else{
-                    var dialogHtml = template("tpl_dialog",{title:"提示",message:resp.message});
+                    var dialogHtml = template("tpl_dialog",{title:"提示",message:resp.data});
                     jQuery("#dialog").html(dialogHtml);
                     jQuery("#dialog").show();
                 }
             },"json");
 
             return false;
-
         });
 
         jQuery("#registForm").submit(function(){
@@ -201,11 +199,11 @@ require([   "jquery","js/everyday/weui.validate","js/app/i18n_zh_CN", "template"
                 return false;
             }
 
-            jQuery.post("#springUrl('/p/puser/doFollowerRegist.do')", jQuery("#loginForm").serialize(), function(resp){
-                if(resp.success){
+            jQuery.post("#springUrl('/p/puser/doWxRegist.do')", jQuery("#loginForm").serialize(), function(resp){
+                if(resp.result){
                     window.location.href="#springUrl('/message_wx.do')?code=msg.wx.bind.success";
                 }else{
-                    var dialogHtml = template("tpl_dialog",{title:"提示",message:resp.message});
+                    var dialogHtml = template("tpl_dialog",{title:"提示",message:resp.data});
                     jQuery("#dialog").html(dialogHtml);
                     jQuery("#dialog").show();
                 }
