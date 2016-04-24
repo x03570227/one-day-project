@@ -13,7 +13,6 @@ define(		["jquery", "template"],
                 if(typeof rule["required"] != "undefined" && rule["required"]){
                     if(value==""){
                         def.addCellWarn(jQuery(this).parent().parent());
-                        //def.addCellFt(jQuery(this).parent().parent());
                         def.disableSubmit(formid);
                         return ;
                     }
@@ -24,7 +23,6 @@ define(		["jquery", "template"],
                         var pattern =eval(rule["pattern"]);
                         if(!pattern.test(value)){
                             def.addCellWarn(jQuery(this).parent().parent());
-                            //def.addCellFt(jQuery(this).parent().parent());
                             def.disableSubmit(formid);
                             return ;
                         }
@@ -32,7 +30,6 @@ define(		["jquery", "template"],
                 }
 
                 def.removeCellWarn(jQuery(this).parent().parent());
-                //def.removeCellFt(jQuery(this).parent().parent());
             });
 
             if(jQuery("#"+formid+" input[data-validate]").length>0){
@@ -48,33 +45,9 @@ define(		["jquery", "template"],
             obj.addClass("weui_cell_warn");
         }
 
-        //def["addCellFt"]=function(obj){
-        //    var children = obj.children(".weui_cell_ft");
-        //
-        //    if(children.length>0){
-        //        return ;
-        //    }
-        //
-        //    var source ="<div class=\"weui_cell_ft\">"+
-        //        "<i class=\"weui_icon_warn\"></i>"+
-        //        "</div>";
-        //    var render = template.compile(source);
-        //
-        //    obj.append(render);
-        //}
-
         def["removeCellWarn"]=function(obj){
             obj.removeClass("weui_cell_warn");
         }
-
-        //def["removeCellFt"]=function(obj){
-        //    //var children = obj.children(".weui_cell_ft");
-        //
-        //    //if(children.length>0){
-        //    //
-        //    //}
-        //    obj.remove(".weui_cell_ft");
-        //}
 
         def["disableSubmit"]=function(formid){
             jQuery("#"+formid+" input[type=submit]").each(function(){

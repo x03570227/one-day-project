@@ -218,6 +218,15 @@ public class PUserController extends BaseController {
         return null;
     }
 
+    /**
+     * 微信粉丝绑定
+     *
+     * @param request
+     * @param model
+     * @param wxOpenid
+     * @param locale
+     * @return
+     */
     @RequestMapping
     public ModelAndView bindWeixinFollower(HttpServletRequest request, ModelMap model,
                                            String wxOpenid, Locale locale){
@@ -234,5 +243,53 @@ public class PUserController extends BaseController {
 
         model.put("wxOpenid", wxOpenid);
         return null;
+    }
+
+    /**
+     * 微信公众号关注者登录
+     *
+     * @param request
+     * @param response
+     * @param user
+     * @param wxOpenid
+     * @param locale
+     * @return
+     */
+    @RequestMapping
+    @ResponseBody
+    public Map<String, Object> doFollowerLogin(HttpServletRequest request, HttpServletResponse response,
+                                           SysUserModel user, String wxOpenid, Locale locale) {
+        //TODO 登录->成功后绑定
+
+        try {
+            SessionUser sessionUser = sysUserService.doLoginByEveryday(user);
+            setSessionUser(request, sessionUser);
+            sysUserService.rememberMe(response, sessionUser, user.getRememberMe());
+            sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
+            return ajaxResult(true, null);
+        } catch (ServiceException e) {
+
+            return ajaxResult(false, messageSource.getMessage(e.getMessage(), null, locale));
+        }
+
+    }
+
+    @RequestMapping
+    @ResponseBody
+    public Map<String, Object> doFollowerRegist(HttpServletRequest request, HttpServletResponse response,
+                                               SysUserModel user, String wxOpenid, Locale locale) {
+        //TODO 登录->成功后绑定
+
+        try {
+            SessionUser sessionUser = sysUserService.doRegistByEveryday(user);
+            setSessionUser(request, sessionUser);
+            sysUserService.rememberMe(response, sessionUser, user.getRememberMe());
+            sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
+            return ajaxResult(true, null);
+        } catch (ServiceException e) {
+
+            return ajaxResult(false, messageSource.getMessage(e.getMessage(), null, locale));
+        }
+
     }
 }
