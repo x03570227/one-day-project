@@ -88,7 +88,7 @@
                         <div class="weui_cell">
                             <div class="weui_cell_hd"><label class="weui_label">账号</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" type="text" placeholder="请输入账号"
+                                <input class="weui_input" type="text" name="account" placeholder="请输入账号"
                                    data-validate='{"required":true}'
                                 />
                             </div>
@@ -100,7 +100,7 @@
                         <div class="weui_cell">
                             <div class="weui_cell_hd"><label class="weui_label">密码</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" type="password" name="originPassword" placeholder="请输入密码"
+                                <input class="weui_input" type="password" name="password" placeholder="请输入密码"
                                    data-validate='{"required":true}'
                                 />
                             </div>
@@ -179,7 +179,11 @@ require([   "jquery","js/everyday/weui.validate","js/app/i18n_zh_CN", "template"
 
             jQuery.post("#springUrl('/p/puser/doWxLogin.do')", jQuery("#loginForm").serialize(), function(resp){
                 if(resp.result){
-                    window.location.href="#springUrl('/message_wx.do')?code=msg.wx.bind.success&okurl="+encodeURI("#springUrl('/f/feveryday/index.do')");
+                    #if("$!{wxOpenid}"!="")
+                        window.location.href="#springUrl('/message_wx.do')?code=msg.wx.bind.success&okurl="+encodeURI("#springUrl('/f/feveryday/index.do')");
+                    #else
+                        window.location.href="#springUrl('/f/feveryday/index.do')";
+                    #end
                 }else{
                     var dialogHtml = template("tpl_dialog",{title:"提示",message:resp.data});
                     jQuery("#dialog").html(dialogHtml);
@@ -199,9 +203,13 @@ require([   "jquery","js/everyday/weui.validate","js/app/i18n_zh_CN", "template"
                 return false;
             }
 
-            jQuery.post("#springUrl('/p/puser/doWxRegist.do')", jQuery("#loginForm").serialize(), function(resp){
+            jQuery.post("#springUrl('/p/puser/doWxRegist.do')", jQuery("#registForm").serialize(), function(resp){
                 if(resp.result){
-                    window.location.href="#springUrl('/message_wx.do')?code=msg.wx.bind.success";
+                    #if("$!{wxOpenid}"!="")
+                        window.location.href="#springUrl('/message_wx.do')?code=msg.wx.bind.success&okurl="+encodeURI("#springUrl('/f/feveryday/index.do')");
+                    #else
+                        window.location.href="#springUrl('/message_wx.do')?code=msg.regist.success&okurl="+encodeURI("#springUrl('/f/feveryday/index.do')");
+                    #end
                 }else{
                     var dialogHtml = template("tpl_dialog",{title:"提示",message:resp.data});
                     jQuery("#dialog").html(dialogHtml);

@@ -455,11 +455,11 @@ public class SysUserServiceImpl implements SysUserService {
 
     private void doRegistCheck(SysUserModel user) throws ServiceException{
         if(user.getAccept() == null || user.getAccept().intValue()!=SysUser.ACCEPT_TRUE){
-            throw new ServiceException("e.regist");
+            throw new ServiceException("e.regist.accept.false");
         }
 
         if(StringUtils.isEmpty(user.getPasswordRepeat()) || !user.getPasswordRepeat().equals(user.getPassword())){
-            throw new ServiceException("e.regist");
+            throw new ServiceException("e.regist.password.confirm.false");
         }
 
         if(reservedAccount(user.getAccount())){
