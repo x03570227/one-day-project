@@ -1,6 +1,7 @@
 package net.caiban.pc.erp.persist.sys;
 
 import net.caiban.pc.erp.domain.sys.SysUserAuthModel;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Created by mar on 16/2/1.
@@ -15,5 +16,5 @@ public interface SysUserAuthMapper {
 
     public Long queryUidByOpenid(String openid);
 
-    public Integer updateUidByOpenid(Long uid, String openid);
+    public Integer updateUidByOpenid(@Param("uid") Long uid, @Param("openid") String openid);
 }
