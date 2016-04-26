@@ -7,6 +7,7 @@ import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.sys.SysUserMapper;
 import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.utils.lang.RandomUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import test.BaseServiceTestCase;
+import weixin.popular.bean.EventMessage;
 
 import javax.annotation.Resource;
 
@@ -68,6 +70,14 @@ public class SysUserServiceTest extends BaseServiceTestCase{
             Assert.fail();
         }
 
+    }
+
+    @Test
+    public void test_doAuthByFollow(){
+        EventMessage eventMessage = new EventMessage();
+        eventMessage.setFromUserName(RandomStringUtils.randomAlphanumeric(32));
+        eventMessage.setToUserName("aorgusername");
+        sysUserService.doAuthByFollow(eventMessage);
     }
 
     private SysUserModel randomModel(){

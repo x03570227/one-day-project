@@ -502,8 +502,13 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void doAuthByFollow(EventMessage eventMessage) {
 
+        if(Strings.isNullOrEmpty(eventMessage.getFromUserName())){
+            LOG.warn("Follower unavailable. openid: "+eventMessage.getFromUserName()+" message: "+new Gson().toJson(eventMessage));
+            return ;
+        }
+
         if(availableFollower(eventMessage.getFromUserName())){
-            LOG.warn("Follower authed. openid: {0}, message: {1}", eventMessage.getFromUserName(), eventMessage);
+            LOG.warn("Follower authed. openid: "+eventMessage.getFromUserName()+" message: "+new Gson().toJson(eventMessage));
             return ;
         }
 
