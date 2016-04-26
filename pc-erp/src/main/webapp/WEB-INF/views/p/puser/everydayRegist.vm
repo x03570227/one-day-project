@@ -3,7 +3,7 @@
 <div class="container">
 <div class="panel panel-default mt8">
 	<div class="panel-heading">
-		<a href="#springUrl('/index.do')">
+		<a href="#springUrl('/f/feveryday/index.do')">
 		<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
 		</a>
     </div>
@@ -15,7 +15,7 @@
 			class="form-horizontal" 
 			role="form" 
 			method="post" 
-			action="#springUrl('/p/puser/doRegist.do')"
+			action="#springUrl('/p/puser/doEverydayRegist.do')"
 			onsubmit="return false;"
 			>
 			<div class="form-group">
@@ -120,7 +120,7 @@
         					<i class="fa fa-github fa-lg text-muted" ></i>
         				</a>
         				#springMessage("tip.login.3")
-                        <a href="#springUrl('/p/puser/wxLogin.do')" >#springMessage("tip.header.login")</a>
+                        <a href="#springUrl('/p/puser/everydayLogin.do')" >#springMessage("tip.header.login")</a>
         			</div>
         		</div>
         	</div>
@@ -144,7 +144,7 @@
 					return false;
 				}
 				
-    			sysUser.doWxRegist(jQuery("#formRegist"), "$!{refurl}");
+    			sysUser.doEverydayRegist(jQuery("#formRegist"), "$!{refurl}");
 				
 ##	  			var mobile=jQuery("input[name='mobileNum']").val();
 ##    			var moblieVerifyCode=jQuery("input[name='moblieVerifyCode']").val();

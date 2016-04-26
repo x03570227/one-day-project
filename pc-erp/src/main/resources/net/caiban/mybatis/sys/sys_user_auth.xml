@@ -8,15 +8,116 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<insert id="insertSelective" keyProperty="id" parameterType="net.caiban.pc.erp.domain.sys.SysUserAuthModel">
 
 		INSERT INTO `sys_user_auth` (
-			`uid`, `classify`, `openid`, `access_token`, `refresh_token`, `gmt_auth`,
-			 `expires_in`, `scope`, `unionid`, `resp`, `gmt_created`, `gmt_modified`,
-			  `gmt_expires`)
+			<if test="uid!=null">
+              `uid`,
+            </if>
+			<if test="classify != null" >
+              `classify`,
+            </if>
+			<if test="openid != null" >
+              `openid`,
+            </if>
+			<if test="accessToken != null" >
+              `access_token`,
+            </if>
+			<if test="refreshToken != null" >
+              `refresh_token`,
+            </if>
+			<if test="gmtAuth != null" >
+              `gmt_auth`,
+            </if>
+			<if test="expiresIn != null" >
+              `expires_in`,
+            </if>
+			<if test="scope != null" >
+              `scope`,
+            </if>
+			<if test="unionid != null" >
+              `unionid`,
+            </if>
+			<if test="resp != null" >
+              `resp`,
+            </if>
+			<if test="gmtExpires != null" >
+              `gmt_expires`,
+            </if>
+			<if test="remark != null" >
+              `remark`,
+            </if>
+			<if test="orgOpenid != null" >
+              `org_openid`,
+            </if>
+              `gmt_created`,
+              `gmt_modified`
+			 )
 		VALUES (
-			`uid`, `classify`, `openid`, `access_token`, `refresh_token`, `gmt_auth`,
-			 `expires_in`, `scope`, `unionid`, `resp`, `gmt_created`, `gmt_modified`,
-			  `gmt_expires`
+            <if test="uid!=null">
+                #{uid},
+            </if>
+            <if test="classify != null" >
+                #{classify},
+            </if>
+            <if test="openid != null" >
+                #{openid},
+            </if>
+            <if test="accessToken != null" >
+                #{accessToken},
+            </if>
+            <if test="refreshToken != null" >
+                #{refreshToken},
+            </if>
+            <if test="gmtAuth != null" >
+                #{gmtAuth},
+            </if>
+            <if test="expiresIn != null" >
+                #{expiresIn},
+            </if>
+            <if test="scope != null" >
+                #{scope},
+            </if>
+            <if test="unionid != null" >
+                #{unionid},
+            </if>
+            <if test="resp != null" >
+                #{resp},
+            </if>
+            <if test="gmtExpires != null" >
+                #{gmtExpires},
+            </if>
+            <if test="remark != null" >
+                #{remark},
+            </if>
+            <if test="orgOpenid != null" >
+                #{orgOpenid},
+            </if>
+            now(),now()
 		);
 	</insert>
+
+    <select id="countByOpenid" resultType="java.lang.Integer">
+        SELECT count(1) as c FROM sys_user_auth
+        WHERE openid=#{openid}
+    </select>
+
+    <delete id="deleteByOpenid" >
+        DELETE FROM sys_user_auth
+        WHERE openid=#{openid}
+    </delete>
+
+    <select id="queryUidByOpenid" resultType="java.lang.Long">
+        SELECT uid FROM sys_user_auth
+        WHERE openid = #{openid}
+        ORDER BY uid DESC
+        LIMIT 1
+    </select>
+
+    <update id="updateUidByOpenid" >
+        UPDATE sys_user_auth
+        SET
+          uid=#{uid},
+          gmt_modified = now()
+        WHERE openid=#{openid}
+    </update>
 
 </mapper>
 

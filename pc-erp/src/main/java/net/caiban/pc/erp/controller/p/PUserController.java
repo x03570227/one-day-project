@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.base.Strings;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.controller.BaseController;
 import net.caiban.pc.erp.domain.SessionUser;
@@ -22,8 +23,8 @@ import net.caiban.pc.erp.service.sys.SysLoginRememberService;
 import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.utils.http.CookiesUtil;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -173,24 +174,25 @@ public class PUserController extends BaseController {
 	}
 
     @RequestMapping
-    public ModelAndView wxLogin(HttpServletRequest request, ModelMap model){
+    public ModelAndView everydayLogin(HttpServletRequest request, ModelMap model){
         return null;
     }
 
     @RequestMapping
-    public ModelAndView wxRegist(HttpServletRequest request, ModelMap model){
+    public ModelAndView everydayRegist(HttpServletRequest request, ModelMap model){
         return null;
     }
 
     /**
      * 微信公众号用户登录操作
      * */
+    @Deprecated
     @RequestMapping
     @ResponseBody
-    public Map<String, Object> doWxLogin(HttpServletRequest request, HttpServletResponse response,
+    public Map<String, Object> doEverydayLogin(HttpServletRequest request, HttpServletResponse response,
                                          SysUserModel user, Locale locale) {
         try {
-            SessionUser sessionUser = sysUserService.doWxLogin(user);
+            SessionUser sessionUser = sysUserService.doLoginByEveryday(user);
             setSessionUser(request, sessionUser);
             sysUserService.rememberMe(response, sessionUser, user.getRememberMe());
             return ajaxResult(true, null);
@@ -203,12 +205,13 @@ public class PUserController extends BaseController {
     /**
      * 微信公众号用户注册操作
      * */
+    @Deprecated
     @RequestMapping
     @ResponseBody
-    public Map<String, Object> doWxRegist(HttpServletRequest request, HttpServletResponse response,
+    public Map<String, Object> doEverydayRegist(HttpServletRequest request, HttpServletResponse response,
                                           SysUserModel user, Locale locale){
         try {
-            SessionUser sessionUser = sysUserService.doWxRegist(user);
+            SessionUser sessionUser = sysUserService.doRegistByEveryday(user);
             setSessionUser(request, sessionUser);
             return ajaxResult(true, null);
         } catch (ServiceException e) {
@@ -218,4 +221,80 @@ public class PUserController extends BaseController {
         return null;
     }
 
+    /**
+     * 微信粉丝绑定
+     *
+     * @param request
+     * @param model
+     * @param wxOpenid
+     * @param locale
+     * @return
+     */
+    @RequestMapping
+    public ModelAndView wxgate(HttpServletRequest request, ModelMap model,
+                                           String wxOpenid, Locale locale){
+
+        SessionUser sessionUser = getSessionUser(request);
+        if(sessionUser!=null && !Strings.isNullOrEmpty(wxOpenid)){
+            try {
+                sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
+            }catch (ServiceException e){
+                model.put("errorCode", e.getMessage());
+                return new ModelAndView("redirect:/error_404_wx.do");
+            }
+        }
+
+        model.put("wxOpenid", wxOpenid);
+        return null;
+    }
+
+    /**
+     * 微信公众号关注者登录
+     *
+     * @param request
+     * @param response
+     * @param user
+     * @param wxOpenid
+     * @param locale
+     * @return
+     */
+    @RequestMapping
+    @ResponseBody
+    public Map<String, Object> doWxLogin(HttpServletRequest request, HttpServletResponse response,
+                                           SysUserModel user, String wxOpenid, Locale locale) {
+        //TODO 登录->成功后绑定
+
+        try {
+            SessionUser sessionUser = sysUserService.doLoginByEveryday(user);
+            setSessionUser(request, sessionUser);
+            sysUserService.rememberMe(response, sessionUser, user.getRememberMe());
+            if(!Strings.isNullOrEmpty(wxOpenid)){
+                sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
+            }
+            return ajaxResult(true, null);
+        } catch (ServiceException e) {
+
+            return ajaxResult(false, messageSource.getMessage(e.getMessage(), null, locale));
+        }
+
+    }
+
+    @RequestMapping
+    @ResponseBody
+    public Map<String, Object> doWxRegist(HttpServletRequest request, HttpServletResponse response,
+                                               SysUserModel user, String wxOpenid, Locale locale) {
+        try {
+            SessionUser sessionUser = sysUserService.doRegistByEveryday(user);
+            setSessionUser(request, sessionUser);
+            sysUserService.rememberMe(response, sessionUser, user.getRememberMe());
+            if(!Strings.isNullOrEmpty(wxOpenid)){
+                sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
+            }
+            return ajaxResult(true, null);
+        } catch (ServiceException e) {
+
+            return ajaxResult(false, messageSource.getMessage(e.getMessage(), null, locale));
+        }
+
+    }
 }

@@ -24,6 +24,7 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
         <mapper resource="net/caiban/mybatis/everyday.xml" />
         
         <mapper resource="net/caiban/mybatis/sys/sys_user.xml" />
+        <mapper resource="net/caiban/mybatis/sys/sys_user_auth.xml" />
         <mapper resource="net/caiban/mybatis/sys/sys_company.xml" />
         <mapper resource="net/caiban/mybatis/sys/sys_app.xml" />
         <mapper resource="net/caiban/mybatis/sys/sys_login_remember.xml" />

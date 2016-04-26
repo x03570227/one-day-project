@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>#springMessage("ed.seo.title") - $!{everyday.pageTitle}</title>
+	<meta name="keywords" content="#springMessage('ed.seo.keywords')" />
+	<meta name="description" content="#springMessage('ed.seo.description')" />
+	<link rel="shortcut icon" href="http://img.caiban.net/caiban/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	#loadCss(["/css/global_weui.css"], "", "$!{scriptVersion}")
+
+##	#loadCss([
+##		"/plugin/bootstrap/dist/css/bootstrap.min.css",
+##		"/plugin/font-awesome/css/font-awesome.min.css"
+##	], "http://s0.caiban.net", "")
+
+      #loadCss([
+          "/plugin/weui/dist/style/weui.min.css"
+      ], "http://s0.caiban.net", "")
+
+    <script type="text/javascript" >
+		var CONTEXT_PATH="#springUrl('')";
+		var LOCALE="$!{locale}"==""?"zh":"$!{locale}";
+		var SCRIPT_VERSION="$!{scriptVersion}";
+		//var JU=eval('$!{juser}');
+	</script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	#loadScript([
+		"/plugin/requirejs/require.js"
+	],"http://s0.caiban.net")
+
+	#loadScript([
+		"/js/main.weui.js"
+	],"","$!{scriptVersion}")
+
+  </head>
+  <body>
+  <div class="container" id="container">
+      $screen_content
+  </div>
+
+		#parse("/common/globalFooter.vm")
+  </body>
+</html>
+

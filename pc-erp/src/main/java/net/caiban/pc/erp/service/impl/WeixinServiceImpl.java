@@ -10,8 +10,10 @@ import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.RedisKeyEnum;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.SysUser;
+import net.caiban.pc.erp.domain.sys.SysUserAuth;
 import net.caiban.pc.erp.domain.sys.SysUserAuthModel;
 import net.caiban.pc.erp.domain.sys.SysUserProfileModel;
+import net.caiban.pc.erp.enums.UserClassifyEnum;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.EverydayService;
 import net.caiban.pc.erp.service.WeixinService;
@@ -47,6 +49,7 @@ public class WeixinServiceImpl implements WeixinService {
 	private EverydayService everydayService;
 	@Resource
 	private SysUserService sysUserService;
+
 
 	static enum MESSAGE_CMD{
 		//帮助命令
@@ -148,8 +151,15 @@ public class WeixinServiceImpl implements WeixinService {
 		if(MESSAGE_TYPE.event.name().equalsIgnoreCase(eventMessage.getMsgType())){
 			if(EVENT_TYPE.subscribe.name().equalsIgnoreCase(eventMessage.getEvent())){
 				//订阅后的回复
+                sysUserService.doAuthByFollow(eventMessage);
 				return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "每1天，1件事，记1笔 \n发送 1 试试看");
 			}
+
+            if(EVENT_TYPE.unsubscribe.name().equalsIgnoreCase(eventMessage.getEvent())){
+                //订阅后的回复
+                sysUserService.doUnauthByUunfollow(eventMessage);
+                return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "每1天，1件事，记1笔 \n发送 1 试试看");
+            }
 		}
 		
 		if(MESSAGE_TYPE.text.name().equalsIgnoreCase(eventMessage.getMsgType())){
@@ -375,7 +385,7 @@ public class WeixinServiceImpl implements WeixinService {
 		}
 
 		SysUserAuthModel userAuth = new SysUserAuthModel();
-		userAuth.setClassify(SysUser.CLASSIFY.W.toString());
+		userAuth.setClassify(UserClassifyEnum.WEIXIN_OAUTH.getCode());
 		userAuth.setOpenid(jobj.optString("openid"));
 		userAuth.setAccessToken(jobj.optString("access_token"));
 		userAuth.setRefreshToken(jobj.optString("refresh_token"));
@@ -386,6 +396,8 @@ public class WeixinServiceImpl implements WeixinService {
 		userAuth.setGmtAuth(new Date());
 		Date gmtExpires= new Date(userAuth.getGmtAuth().getTime()+(userAuth.getExpiresIn()*1000l));
 		userAuth.setGmtExpires(gmtExpires);
+
+        userAuth.setResp(resp);
 
 		return userAuth;
 	}

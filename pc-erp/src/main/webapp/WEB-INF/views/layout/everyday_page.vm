@@ -7,7 +7,7 @@
 	<link rel="shortcut icon" href="http://img.caiban.net/caiban/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
-	#loadCss(["/css/global.css"], "", "$!{scriptVersion}")
+	#loadCss(["/css/global_everyday.css"], "", "$!{scriptVersion}")
 	
 	#loadCss([
 		"/plugin/bootstrap/dist/css/bootstrap.min.css",

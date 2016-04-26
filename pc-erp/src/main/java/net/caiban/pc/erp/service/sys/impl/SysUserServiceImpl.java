@@ -16,12 +16,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.Service;
 import com.google.gson.Gson;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.config.LogHelper;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.*;
+import net.caiban.pc.erp.enums.UserClassifyEnum;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.sys.SysCompanyMapper;
 import net.caiban.pc.erp.persist.sys.SysLoginRememberMapper;
@@ -34,9 +36,12 @@ import net.caiban.utils.MD5;
 import net.caiban.utils.http.CookiesUtil;
 import net.caiban.utils.lang.StringUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
+import weixin.popular.bean.EventMessage;
 
 /**
  * @author mays
@@ -45,14 +50,16 @@ import com.google.common.base.Strings;
 @Component("sysUserService")
 public class SysUserServiceImpl implements SysUserService {
 
-	@Resource
-	private SysUserMapper sysUserMapper;
-	@Resource
-	private SysCompanyMapper sysCompanyMapper;
-	@Resource
-	private SysLoginRememberMapper sysLoginRememberMapper;
-	@Resource
-	private SysUserAuthMapper sysUserAuthMapper;
+    @Resource
+    private SysUserMapper sysUserMapper;
+    @Resource
+    private SysCompanyMapper sysCompanyMapper;
+    @Resource
+    private SysLoginRememberMapper sysLoginRememberMapper;
+    @Resource
+    private SysUserAuthMapper sysUserAuthMapper;
+
+    private final static Logger LOG = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
 	@Override
 	public SessionUser doLogin(SysUser user) throws ServiceException {
@@ -174,14 +181,14 @@ public class SysUserServiceImpl implements SysUserService {
 	public String classifyOfAccount(String account){
 		
 		if(StringUtils.isEmail(account)){
-			return SysUser.CLASSIFY.E.toString();
+			return UserClassifyEnum.EMAIL.getCode();
 		}
 		
 		if(ValidateUtil.isMobile(account)){
-			return SysUser.CLASSIFY.M.toString();
+			return UserClassifyEnum.MOBILE.getCode();
 		}
 		
-		return SysUser.CLASSIFY.A.toString();
+		return UserClassifyEnum.ACCOUNT.getCode();
 	}
 	
 	/**
@@ -396,14 +403,14 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public SessionUser doRegistByOauth(SysUserAuthModel auth, SysUserProfileModel profile) throws ServiceException {
 
-		SysUser registUser = new SysUser();
-		registUser.setSalt(randomSalt());
-		registUser.setClassify(SysUser.CLASSIFY.W.toString());
-		registUser.setAccount(rebuildAccount(SysUser.CLASSIFY.W.toString(),auth.getOpenid()));
-		registUser.setPassword(auth.getAccessToken());
-		registUser.setUid(SysUser.DEFAULT_UID);
-		registUser.setCid(0l);
-		registUser.setOauthProfile(new Gson().toJson(profile));
+        SysUser registUser = new SysUser();
+        registUser.setSalt(randomSalt());
+        registUser.setClassify(auth.getClassify());
+        registUser.setAccount(rebuildAccount(auth.getClassify(), auth.getOpenid()));
+        registUser.setPassword(auth.getAccessToken());
+        registUser.setUid(SysUser.DEFAULT_UID);
+        registUser.setCid(0l);
+        registUser.setOauthProfile(new Gson().toJson(profile));
 
 		try {
 			sysUserMapper.insert(registUser);
@@ -424,7 +431,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
     @Override
-    public SessionUser doWxRegist(SysUserModel user) throws ServiceException {
+    public SessionUser doRegistByEveryday(SysUserModel user) throws ServiceException {
 
         Preconditions.checkNotNull(user);
 
@@ -439,7 +446,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public SessionUser doWxLogin(SysUserModel user) throws ServiceException {
+    public SessionUser doLoginByEveryday(SysUserModel user) throws ServiceException {
 
         SysUser confirmedUser = doLoginConfirm(user);
 
@@ -448,11 +455,11 @@ public class SysUserServiceImpl implements SysUserService {
 
     private void doRegistCheck(SysUserModel user) throws ServiceException{
         if(user.getAccept() == null || user.getAccept().intValue()!=SysUser.ACCEPT_TRUE){
-            throw new ServiceException("e.regist");
+            throw new ServiceException("e.regist.accept.false");
         }
 
         if(StringUtils.isEmpty(user.getPasswordRepeat()) || !user.getPasswordRepeat().equals(user.getPassword())){
-            throw new ServiceException("e.regist");
+            throw new ServiceException("e.regist.password.confirm.false");
         }
 
         if(reservedAccount(user.getAccount())){
@@ -464,4 +471,60 @@ public class SysUserServiceImpl implements SysUserService {
         }
     }
 
+    @Override
+    public void doBindWeixinFollower(Long uid, String wxOpenid) throws ServiceException {
+
+        Preconditions.checkNotNull(uid);
+        Preconditions.checkNotNull(Strings.emptyToNull(wxOpenid));
+
+        if(!availableFollower(wxOpenid)){
+            throw new ServiceException("e.wx.follower.unavailable");
+        }
+
+        if(isBinded(wxOpenid)){
+            throw new ServiceException("e.wx.follower.uid.exist");
+        }
+
+        sysUserAuthMapper.updateUidByOpenid(uid, wxOpenid);
+
+    }
+
+    private boolean isBinded(String openid){
+        Long uid = sysUserAuthMapper.queryUidByOpenid(openid);
+        return (uid != null && uid.longValue() > 0);
+    }
+
+    private boolean availableFollower(String wxOpenid){
+        Integer existedCount=sysUserAuthMapper.countByOpenid(wxOpenid);
+        return (existedCount!=null && existedCount.intValue()>0);
+    }
+
+    @Override
+    public void doAuthByFollow(EventMessage eventMessage) {
+
+        if(Strings.isNullOrEmpty(eventMessage.getFromUserName())){
+            LOG.warn("Follower unavailable. openid: "+eventMessage.getFromUserName()+" message: "+new Gson().toJson(eventMessage));
+            return ;
+        }
+
+        if(availableFollower(eventMessage.getFromUserName())){
+            LOG.warn("Follower authed. openid: "+eventMessage.getFromUserName()+" message: "+new Gson().toJson(eventMessage));
+            return ;
+        }
+
+        SysUserAuthModel authModel = new SysUserAuthModel();
+        authModel.setOpenid(eventMessage.getFromUserName());
+        authModel.setOrgOpenid(eventMessage.getToUserName());
+        authModel.setResp(new Gson().toJson(eventMessage));
+        authModel.setGmtAuth(new Date());
+        authModel.setClassify(UserClassifyEnum.WEIXIN_FOLLOW.getCode());
+
+        sysUserAuthMapper.insertSelective(authModel);
+    }
+
+    @Override
+    public void doUnauthByUunfollow(EventMessage eventMessage) {
+        LOG.warn("Unauth by unfollow. openid: {0}, message: {1}", eventMessage.getFromUserName(), eventMessage);
+        sysUserAuthMapper.deleteByOpenid(eventMessage.getFromUserName());
+    }
 }

@@ -131,41 +131,17 @@ public class ApiController extends BaseController {
 		}
 		
 		return null;
-		
-		
-		
-		//TODO 接入微信
-		
-//		List<String> params = Lists.newArrayList();
-//		params.add(timestamp);
-//		params.add(nonce);
-//		params.add(AppConst.getConfig("weixin.token", ""));
-//		
-//		LOG.info("REQUEST FROM WEIXIN: "+new Gson().toJson(params)+" sign is:"+signature);
-//		
-//		Collections.sort(params);
-//		
-//		LOG.info("RESORT PARAMS: "+new Gson().toJson(params));
-//		
-//		String paramsStr = Joiner.on("").join(params);
-//		
-//		String genSign = DigestUtils.shaHex(paramsStr);
-//		
-//		LOG.info("GENERATE SIGN: "+genSign);
-//		
-//		if(genSign.equals(signature)){
-//			model.put("echost", echostr);
-//		}
-//		
-//		
-//		Map paramsMap = request.getParameterMap();
-//		
-//		LOG.info("REQUEST PARAMS:"+new Gson().toJson(paramsMap));
-		
-//		return null;
 	}
 
-	@RequestMapping
+    /**
+     * 跳转到微信 oauth 服务
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    @RequestMapping
 	public ModelAndView gowxauth(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException {
 
@@ -181,7 +157,16 @@ public class ApiController extends BaseController {
 		return new ModelAndView("redirect:" + url.toString());
 	}
 
-	@RequestMapping
+    /**
+     * 微信 oauth 服务回调
+     *
+     * @param request
+     * @param response
+     * @param code
+     * @param state
+     * @return
+     */
+    @RequestMapping
 	public ModelAndView wxauth(HttpServletRequest request, HttpServletResponse response,
 		String code, String state){
 

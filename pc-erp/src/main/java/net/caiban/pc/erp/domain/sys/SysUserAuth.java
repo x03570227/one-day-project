@@ -20,6 +20,8 @@ public class SysUserAuth extends BaseDomain{
     private String unionid;
     private String resp;
     private Date gmtExpires;
+    private String remark;
+    private String orgOpenid;
 
     public Long getUid() {
         return uid;
@@ -107,5 +109,21 @@ public class SysUserAuth extends BaseDomain{
 
     public void setGmtExpires(Date gmtExpires) {
         this.gmtExpires = gmtExpires;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getOrgOpenid() {
+        return orgOpenid;
+    }
+
+    public void setOrgOpenid(String orgOpenid) {
+        this.orgOpenid = orgOpenid;
     }
 }

@@ -1,0 +1,239 @@
+#set($layout="/layout/everyday_weixin.vm")
+<div class="bd" >
+
+    <div class="weui_tab">
+        <div class="weui_navbar">
+            <div class="weui_navbar_item weui_bar_item_on"
+                 id="tab_login"
+            >
+                登录
+            </div>
+            <div class="weui_navbar_item"
+                 id="tab_regist"
+            >
+                注册
+            </div>
+        </div>
+
+        <div class="weui_tab_bd">
+
+            <div id="loginpanel" >
+                <form id="loginForm" onsubmit="return false;">
+                    <input type="hidden" name="wxOpenid" value="$!{wxOpenid}" />
+
+                    <div class="hd">
+                        <h1 class="page_title">#springMessage("addon.wx.login.title")</h1>
+                    </div>
+
+                    <div class="bd">
+                        <div class="weui_cells_title">登录后绑定</div>
+
+                        <div class="weui_cells weui_cells_form">
+                            <div class="weui_cell">
+                                <div class="weui_cell_hd"><label class="weui_label">#springMessage("sys.user.account")</label></div>
+                                <div class="weui_cell_bd weui_cell_primary">
+                                    <input class="weui_input" type="text" name="account"
+                                           placeholder="#springMessage('ph.sys.user.account')"
+                                        data-validate='{"required":true}'
+                                    />
+                                </div>
+                                <div class="weui_cell_ft">
+                                    <i class="weui_icon_warn"></i>
+                                </div>
+                            </div>
+
+                            <div class="weui_cell">
+                                <div class="weui_cell_hd"><label class="weui_label">#springMessage("sys.user.password")</label></div>
+                                <div class="weui_cell_bd weui_cell_primary">
+                                    <input class="weui_input" type="password" name="password" placeholder="#springMessage('ph.sys.user.password')"
+                                       data-validate='{"required":true}'
+                                    />
+                                </div>
+                                <div class="weui_cell_ft">
+                                    <i class="weui_icon_warn"></i>
+                                </div>
+                            </div>
+
+                            <div class="weui_cell weui_cell_switch">
+                                <div class="weui_cell_hd weui_cell_primary">记住密码</div>
+                                <div class="weui_cell_ft">
+                                    <input class="weui_switch" type="checkbox" name="rememberMe" value="1"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="weui_btn_area">
+                            <input type="submit" class="weui_btn weui_btn_primary" id="login_btn" value="登录并绑定" />
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+            <div id="registpanel" class="hide">
+                <form id="registForm" onsubmit="return false;">
+                    <input type="hidden" name="rememberMe" value="1" />
+                    <input type="hidden" name="accept" value="1" />
+                    <input type="hidden" name="wxOpenid" value="$!{wxOpenid}" />
+
+                    <div class="hd">
+                        <h1 class="page_title">#springMessage("addon.wx.regist.title")</h1>
+                    </div>
+
+                    <div class="bd">
+                    <div class="weui_cells_title">注册后绑定</div>
+
+                    <div class="weui_cells weui_cells_form">
+
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label class="weui_label">账号</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" name="account" placeholder="请输入账号"
+                                   data-validate='{"required":true}'
+                                />
+                            </div>
+                            <div class="weui_cell_ft">
+                                <i class="weui_icon_warn"></i>
+                            </div>
+                        </div>
+
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label class="weui_label">密码</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="password" name="password" placeholder="请输入密码"
+                                   data-validate='{"required":true}'
+                                />
+                            </div>
+                            <div class="weui_cell_ft">
+                                <i class="weui_icon_warn"></i>
+                            </div>
+                        </div>
+
+                        <div class="weui_cell weui_cell_switch">
+                            <div class="weui_cell_hd"><label class="weui_label">确认</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="password" name="passwordRepeat" placeholder="请再次输入密码"
+                                   data-validate='{"required":true}'
+                                />
+                            </div>
+                            <div class="weui_cell_ft">
+                                <i class="weui_icon_warn"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="weui_btn_area">
+                        <input type="submit" class="weui_btn weui_btn_primary" id="login_btn" value="注册并绑定" />
+                    </div>
+
+                </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!--BEGIN dialog1-->
+<div class="weui_dialog_confirm" id="dialog" style="display: none;">
+</div>
+<!--END dialog1-->
+
+<script type="text/javascript">
+
+require([   "jquery","js/everyday/weui.validate","js/app/i18n_zh_CN", "template"],
+	function(jQuery,  validate,                   i18n,                template){
+
+        jQuery("#tab_login").click(function(){
+            jQuery("#tab_regist").removeClass("weui_bar_item_on");
+            jQuery(this).addClass("weui_bar_item_on");
+            jQuery("#registpanel").hide();
+            jQuery("#loginpanel").show();
+        });
+
+        jQuery("#tab_regist").click(function(){
+            jQuery("#tab_login").removeClass("weui_bar_item_on");
+            jQuery(this).addClass("weui_bar_item_on");
+            jQuery("#registpanel").show();
+            jQuery("#loginpanel").hide();
+        });
+
+        validate.target("loginForm");
+        validate.target("registForm");
+
+        jQuery("#loginForm input[type=text]:first").focus();
+
+        jQuery("#dialog").on("click", ".weui_btn_dialog", function(){
+            $('#dialog').hide();
+        });
+
+        jQuery("#loginForm").submit(function () {
+
+            if(jQuery("#login_btn").hasClass("weui_btn_disabled")){
+                var dialogHtml = template("tpl_dialog",{title:"提示",message:"请按照要求填写"});
+                jQuery("#dialog").html(dialogHtml);
+                jQuery("#dialog").show();
+                return false;
+            }
+
+            jQuery.post("#springUrl('/p/puser/doWxLogin.do')", jQuery("#loginForm").serialize(), function(resp){
+                if(resp.result){
+                    #if("$!{wxOpenid}"!="")
+                        window.location.href="#springUrl('/message_wx.do')?code=msg.wx.bind.success&okurl="+encodeURI("#springUrl('/f/feveryday/index.do')");
+                    #else
+                        window.location.href="#springUrl('/f/feveryday/index.do')";
+                    #end
+                }else{
+                    var dialogHtml = template("tpl_dialog",{title:"提示",message:resp.data});
+                    jQuery("#dialog").html(dialogHtml);
+                    jQuery("#dialog").show();
+                }
+            },"json");
+
+            return false;
+        });
+
+        jQuery("#registForm").submit(function(){
+
+            if(jQuery("#regist_btn").hasClass("weui_btn_disabled")){
+                var dialogHtml = template("tpl_dialog",{title:"提示",message:"请按照要求填写"});
+                jQuery("#dialog").html(dialogHtml);
+                jQuery("#dialog").show();
+                return false;
+            }
+
+            jQuery.post("#springUrl('/p/puser/doWxRegist.do')", jQuery("#registForm").serialize(), function(resp){
+                if(resp.result){
+                    #if("$!{wxOpenid}"!="")
+                        window.location.href="#springUrl('/message_wx.do')?code=msg.wx.bind.success&okurl="+encodeURI("#springUrl('/f/feveryday/index.do')");
+                    #else
+                        window.location.href="#springUrl('/message_wx.do')?code=msg.regist.success&okurl="+encodeURI("#springUrl('/f/feveryday/index.do')");
+                    #end
+                }else{
+                    var dialogHtml = template("tpl_dialog",{title:"提示",message:resp.data});
+                    jQuery("#dialog").html(dialogHtml);
+                    jQuery("#dialog").show();
+                }
+            },"json");
+
+            return false;
+
+        });
+
+	}
+);
+
+</script>
+
+<script type="text/html" id="tpl_dialog">
+    <div class="weui_mask"></div>
+    <div class="weui_dialog">
+        <div class="weui_dialog_hd"><strong class="weui_dialog_title">{{title}}</strong></div>
+        <div class="weui_dialog_bd">{{message}}</div>
+        <div class="weui_dialog_ft">
+        ##            <a href="javascript:;" class="weui_btn_dialog default">取消</a>
+            <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+        </div>
+    </div>
+</script>

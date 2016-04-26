@@ -3,7 +3,7 @@
 	
 <div class=" panel panel-default mt8" >
 	<div class="panel-heading">
-		<a href="#springUrl('/index.do')">
+		<a href="#springUrl('/f/feveryday/index.do')">
 		<img src="http://img.caiban.net/caiban/logo.128.png" width="96"/>
 		</a>
     </div>
@@ -59,7 +59,7 @@
 					<i class="fa fa-github fa-lg text-muted" ></i>
 				</a>
 				#springMessage("tip.wx.login.1")
-                <a href="#springUrl('/p/puser/wxRegist.do')" >#springMessage("tip.login.2")</a>
+                <a href="#springUrl('/p/puser/everydayRegist.do')" >#springMessage("tip.login.2")</a>
 			</div>
 		</div>
 	</div>
@@ -86,7 +86,7 @@ require([   "jquery","js/erp/sysUser","js/app/i18n_zh_CN"
 				return false;
 			}
 			
-			sysUser.doWxLogin(jQuery("#formLogin"), "$!{refurl}");
+			sysUser.doEverydayLogin(jQuery("#formLogin"), "$!{refurl}");
 			
 			return false;
 		});
