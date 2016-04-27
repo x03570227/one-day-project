@@ -240,6 +240,7 @@ public class PUserController extends BaseController {
                 sysUserService.doBindWeixinFollower(sessionUser.getUid(), wxOpenid);
             }catch (ServiceException e){
                 model.put("errorCode", e.getMessage());
+                model.put("okurl","/f/feveryday/index.do");
                 return new ModelAndView("redirect:/error_wx.do");
             }
         }
