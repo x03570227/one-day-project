@@ -219,7 +219,7 @@ public class WeixinServiceImpl implements WeixinService {
                 .append("/p/puser/wxgate.do?wxOpenid=").append(event.getFromUserName())
                 .append("\">绑定账号</a>");
 
-        XMLTextMessage textMessage = new XMLTextMessage(event.getFromUserName(), event.getToUserName(), content);
+        XMLTextMessage textMessage = new XMLTextMessage(event.getFromUserName(), event.getToUserName(), content+sb.toString());
         return textMessage.toXML();
     }
 	
