@@ -9,8 +9,6 @@ import com.google.gson.Gson;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.RedisKeyEnum;
 import net.caiban.pc.erp.domain.SessionUser;
-import net.caiban.pc.erp.domain.sys.SysUser;
-import net.caiban.pc.erp.domain.sys.SysUserAuth;
 import net.caiban.pc.erp.domain.sys.SysUserAuthModel;
 import net.caiban.pc.erp.domain.sys.SysUserProfileModel;
 import net.caiban.pc.erp.enums.UserClassifyEnum;
@@ -152,13 +150,13 @@ public class WeixinServiceImpl implements WeixinService {
 			if(EVENT_TYPE.subscribe.name().equalsIgnoreCase(eventMessage.getEvent())){
 				//订阅后的回复
                 sysUserService.doAuthByFollow(eventMessage);
-				return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "每1天，1件事，记1笔 \n发送 1 试试看");
-			}
+                return buildTextResponse(eventMessage, "每1天，1件事，记1笔 \n发送 1 试试看");
+            }
 
             if(EVENT_TYPE.unsubscribe.name().equalsIgnoreCase(eventMessage.getEvent())){
                 //订阅后的回复
                 sysUserService.doUnauthByUunfollow(eventMessage);
-                return buildXmlTextMessage(eventMessage.getFromUserName(), eventMessage.getToUserName(), "每1天，1件事，记1笔 \n发送 1 试试看");
+                return buildTextResponse(eventMessage, "每1天，1件事，记1笔 \n发送 1 试试看");
             }
 		}
 		
@@ -178,19 +176,18 @@ public class WeixinServiceImpl implements WeixinService {
 			
 			if(MESSAGE_CMD.SHOW.isCmd(eventMessage.getContent())){
 				LOG.info("RESPONSE SHOW CMD.");
-				return everydayService.queryRecent(eventMessage).toXML();
+				return  buildTextResponse(eventMessage, everydayService.queryRecent(eventMessage));
 			}
 			
 			if(MESSAGE_CMD.MY.isCmd(eventMessage.getContent())){
 				LOG.info("RESPONSE MY CMD.");
 				//拉取自己发布信息命令
-				return everydayService.queryMy(eventMessage).toXML();
+				return buildTextResponse(eventMessage, everydayService.queryMy(eventMessage));
 			}
 			
 			//保存文本信息
 			try {
-				XMLTextMessage resultmsg = everydayService.save(eventMessage);
-				return resultmsg.toXML();
+                return buildTextResponse(eventMessage, everydayService.save(eventMessage));
 			} catch (ServiceException e) {
 				LOG.error("FAILURE SAVE TEXT MESSAGE:"+e.getMessage());
 			}
@@ -203,8 +200,7 @@ public class WeixinServiceImpl implements WeixinService {
 				//保存图片
 				String imgPath = everydayService.saveImage(eventMessage);
 				eventMessage.setPicUrl(Strings.isNullOrEmpty(imgPath)?eventMessage.getPicUrl():imgPath);
-				XMLTextMessage resultmsg = everydayService.save(eventMessage);
-				return resultmsg.toXML();
+                return buildTextResponse(eventMessage, everydayService.save(eventMessage));
 			} catch (ServiceException e) {
 				LOG.error("FAILURE SAVE TEXT MESSAGE:"+e.getMessage());
 			}
@@ -212,6 +208,20 @@ public class WeixinServiceImpl implements WeixinService {
 		
 		return null;
 	}
+
+    private String buildTextResponse(EventMessage event, String content){
+
+        sysUserService.doAuthByFollow(event);
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(" \n<a href=\"")
+                .append(AppConst.getConfig("app.host"))
+                .append("/p/puser/wxgate.do?wxOpenid=").append(event.getFromUserName())
+                .append("\">绑定账号</a>");
+
+        XMLTextMessage textMessage = new XMLTextMessage(event.getFromUserName(), event.getToUserName(), content);
+        return textMessage.toXML();
+    }
 	
 	private boolean duplicateMsgid(String msgid){
 		
@@ -243,11 +253,6 @@ public class WeixinServiceImpl implements WeixinService {
 			}
 		}
 		
-	}
-	
-	private String buildXmlTextMessage(String fromUserName, String toUserName, String content){
-		XMLTextMessage xmlTextMessage = new XMLTextMessage(fromUserName, toUserName, content);
-		return xmlTextMessage.toXML();
 	}
 
 	@Override

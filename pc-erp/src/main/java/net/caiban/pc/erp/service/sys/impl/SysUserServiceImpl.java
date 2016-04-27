@@ -512,6 +512,11 @@ public class SysUserServiceImpl implements SysUserService {
             return ;
         }
 
+        SysUserAuthModel model = sysUserAuthMapper.queryByOpenid(eventMessage.getFromUserName(), UserClassifyEnum.WEIXIN_FOLLOW.getCode());
+        if(model!=null){
+            return ;
+        }
+
         SysUserAuthModel authModel = new SysUserAuthModel();
         authModel.setOpenid(eventMessage.getFromUserName());
         authModel.setOrgOpenid(eventMessage.getToUserName());

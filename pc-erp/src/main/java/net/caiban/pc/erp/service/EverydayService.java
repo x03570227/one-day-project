@@ -20,7 +20,7 @@ public interface EverydayService {
      * @return
      * @throws ServiceException
      */
-    public XMLTextMessage save(EventMessage message) throws ServiceException;
+    public String save(EventMessage message) throws ServiceException;
 
     /**
      * 查询最新每1天信息,返回给微信公众号
@@ -28,9 +28,9 @@ public interface EverydayService {
      * @param message
      * @return
      */
-    public XMLTextMessage queryRecent(EventMessage message);
+    public String queryRecent(EventMessage message);
 	
-	public XMLTextMessage queryMy(EventMessage message) ;
+	public String queryMy(EventMessage message) ;
 	
 	public Pager<EverydayModel> pagerRecent(EverydayCond cond, Pager<EverydayModel> pager) throws ServiceException;
 	

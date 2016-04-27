@@ -56,7 +56,7 @@ public class EverydayServiceImpl implements EverydayService{
 	final static String TAG_HTML_TPL="<span class='text-tag' >#{0}</span>";
 	
 	@Override
-	public XMLTextMessage save(EventMessage message) throws ServiceException{
+	public String save(EventMessage message) throws ServiceException{
 		
 		EverydayModel everyday = new EverydayModel();
 		if(message.getContent()==null){
@@ -103,8 +103,9 @@ public class EverydayServiceImpl implements EverydayService{
 		.append("</a>) \n");
 		
 		sb.append("<a href=\"").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?wxOpenid=").append(message.getFromUserName()).append("\">查看更多</a>");
-		
-		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
+
+        return sb.toString();
+//		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
 	}
 	
 	private Integer parseDayIdx(String openid){
@@ -200,7 +201,7 @@ public class EverydayServiceImpl implements EverydayService{
 //	}
 
     @Override
-    public XMLTextMessage queryRecent(EventMessage message) {
+    public String queryRecent(EventMessage message) {
 
         EverydayCond cond = new EverydayCond();
         cond.setLimit(5);
@@ -211,11 +212,12 @@ public class EverydayServiceImpl implements EverydayService{
                 .append("/f/feveryday/index.do?viewWxOpenid=")
                 .append(message.getFromUserName()).append("'>查看更多</a>");
 
-        return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
+        return sb.toString();
+//        return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
     }
 
 	@Override
-	public XMLTextMessage queryMy(EventMessage message) {
+	public String queryMy(EventMessage message) {
 		
 		EverydayCond cond = new EverydayCond();
 		cond.setWxOpenid(message.getFromUserName());
@@ -227,8 +229,9 @@ public class EverydayServiceImpl implements EverydayService{
 				.append(message.getFromUserName())
 				.append("&viewWxOpenid=").append(message.getFromUserName())
 				.append("'>查看更多</a>");
-		
-		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
+
+        return sb.toString();
+//		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
 	}
 	
 	private StringBuffer buildRespByCond(EverydayCond cond){

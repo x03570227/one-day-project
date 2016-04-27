@@ -119,5 +119,26 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         WHERE openid=#{openid}
     </update>
 
+    <select id="queryByOpenid" resultType="net.caiban.pc.erp.domain.sys.SysUserAuthModel" >
+        SELECT
+            `uid`,
+            `classify`,
+            `openid`,
+            `access_token`,
+            `refresh_token`,
+            `gmt_auth`,
+            `expires_in`,
+            `scope`,
+            `unionid`,
+            `resp`,
+            `gmt_created`,
+            `gmt_modified`,
+            `gmt_expires`,
+            `remark`,
+            `org_openid`
+        FROM sys_user_auth
+        WHERE openid=#{openid} and classify=#{classify}
+    </select>
+
 </mapper>
 
