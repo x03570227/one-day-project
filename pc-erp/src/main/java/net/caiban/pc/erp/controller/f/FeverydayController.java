@@ -34,8 +34,19 @@ public class FeverydayController extends BaseController {
 	
 	@Resource
 	private EverydayService everydayService;
-	
-	@RequestMapping
+
+    /**
+     * 每1天首页
+     *
+     * @param request
+     * @param response
+     * @param model
+     * @param cond
+     * @param pager
+     * @param viewWxOpenid
+     * @return
+     */
+    @RequestMapping
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response,
 			ModelMap model, EverydayCond cond, Pager<EverydayModel> pager, String viewWxOpenid){
 
@@ -50,8 +61,20 @@ public class FeverydayController extends BaseController {
 		}
 		return new ModelAndView();
 	}
-	
-	@RequestMapping
+
+    /**
+     * 每1天详细信息页面
+     *
+     * @param request
+     * @param response
+     * @param model
+     * @param id
+     * @param viewWxOpenid
+     * @param day
+     * @param wxOpenid
+     * @return
+     */
+    @RequestMapping
 	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response,
 							   ModelMap model, Long id, String viewWxOpenid,
 							   @DateTimeFormat(pattern = "yyyy-MM-dd")Date day, String wxOpenid){
@@ -84,5 +107,17 @@ public class FeverydayController extends BaseController {
 		}
 		return new ModelAndView();
 	}
+
+    /**
+     * 每1天主题页面
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping
+    public ModelAndView topic(HttpServletRequest request){
+
+        return null;
+    }
 
 }
