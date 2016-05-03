@@ -3,10 +3,7 @@ package net.caiban.pc.erp.service;
 import java.util.Date;
 import java.util.List;
 
-import net.caiban.pc.erp.domain.Everyday;
-import net.caiban.pc.erp.domain.EverydayCond;
-import net.caiban.pc.erp.domain.EverydayModel;
-import net.caiban.pc.erp.domain.Pager;
+import net.caiban.pc.erp.domain.*;
 import net.caiban.pc.erp.exception.ServiceException;
 import weixin.popular.bean.EventMessage;
 import weixin.popular.bean.xmlmessage.XMLTextMessage;
@@ -48,4 +45,12 @@ public interface EverydayService {
 	 * @return
 	 */
 	public EverydayModel rebuildEveryday(EverydayModel everyday);
+
+    /**
+     * 按照 subject id 查找 subject
+     *
+     * @param id
+     * @return
+     */
+    public EverydaySubject querySubject(Long id);
 }

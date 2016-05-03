@@ -115,7 +115,9 @@ public class FeverydayController extends BaseController {
      * @return
      */
     @RequestMapping
-    public ModelAndView topic(HttpServletRequest request){
+    public ModelAndView topic(HttpServletRequest request, Long id){
+
+
 
         return null;
     }

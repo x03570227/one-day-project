@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
+import net.caiban.pc.erp.domain.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -33,11 +34,6 @@ import com.google.common.collect.Lists;
 
 import main.java.com.UpYun;
 import net.caiban.pc.erp.config.AppConst;
-import net.caiban.pc.erp.domain.Everyday;
-import net.caiban.pc.erp.domain.EverydayCond;
-import net.caiban.pc.erp.domain.EverydayModel;
-import net.caiban.pc.erp.domain.Pager;
-import net.caiban.pc.erp.domain.UpyunNamespaceEnum;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.EverydayMapper;
 import net.caiban.pc.erp.service.EverydayService;
@@ -52,6 +48,8 @@ public class EverydayServiceImpl implements EverydayService{
 
 	@Resource
 	private EverydayMapper everydayMapper;
+
+
 	
 	final static String TAG_HTML_TPL="<span class='text-tag' >#{0}</span>";
 	
@@ -522,5 +520,12 @@ try {
             nextTarget=2000;
         }
         return nextTarget;
+    }
+
+    @Override
+    public EverydaySubject querySubject(Long id) {
+
+
+        return null;
     }
 }
