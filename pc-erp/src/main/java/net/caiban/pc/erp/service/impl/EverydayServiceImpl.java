@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Resource;
 
 import net.caiban.pc.erp.domain.*;
+import net.caiban.pc.erp.persist.EverydaySubjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -48,6 +49,9 @@ public class EverydayServiceImpl implements EverydayService{
 
 	@Resource
 	private EverydayMapper everydayMapper;
+
+    @Resource
+    private EverydaySubjectMapper everydaySubjectMapper;
 
 
 	
@@ -504,7 +508,7 @@ try {
 
         if(dayIndex<7){ //week
             nextTarget = 7;
-        }else if(dayIndex<21){ //
+        }else if(dayIndex<21){
             nextTarget = 21;
         }else if(dayIndex<30){
             nextTarget = 30;
@@ -525,7 +529,14 @@ try {
     @Override
     public EverydaySubject querySubject(Long id) {
 
+        Preconditions.checkNotNull(id);
 
+        return everydaySubjectMapper.queryOne(id);
+    }
+
+    @Override
+    public List<EverydayModel> queryBySubject(Long id, Date day) {
+        //TODO 获取某主题下的 everyday
         return null;
     }
 }

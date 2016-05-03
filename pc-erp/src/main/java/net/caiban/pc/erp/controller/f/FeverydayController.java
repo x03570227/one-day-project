@@ -115,9 +115,14 @@ public class FeverydayController extends BaseController {
      * @return
      */
     @RequestMapping
-    public ModelAndView topic(HttpServletRequest request, Long id){
+    public ModelAndView topic(HttpServletRequest request,ModelMap model,
+                              Long id, @DateTimeFormat(pattern = "yyyy-MM-dd")Date day){
 
+        model.put("subject", everydayService.querySubject(id));
 
+        model.put("everydays", everydayService.queryBySubject(id, day));
+
+        model.put("day", day);
 
         return null;
     }

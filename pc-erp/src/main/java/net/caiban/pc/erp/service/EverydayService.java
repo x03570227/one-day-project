@@ -53,4 +53,13 @@ public interface EverydayService {
      * @return
      */
     public EverydaySubject querySubject(Long id);
+
+    /**
+     * 获取某主题某一天的所有 everyday 信息
+     *
+     * @param id
+     * @param day
+     * @return
+     */
+    public List<EverydayModel> queryBySubject(Long id, Date day);
 }

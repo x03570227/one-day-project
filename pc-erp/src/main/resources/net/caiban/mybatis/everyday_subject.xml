@@ -12,7 +12,12 @@
         wx_openid
     </sql>
 
-
+    <select id="queryOne" parameterType="java.lang.Long">
+        SELECT
+          <include refid="Base_column" />
+        FROM everyday_subject
+        WHERE id=#{id}
+    </select>
 
 
 
