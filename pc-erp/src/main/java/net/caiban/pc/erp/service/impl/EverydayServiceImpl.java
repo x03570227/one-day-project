@@ -537,6 +537,18 @@ try {
     @Override
     public List<EverydayModel> queryBySubject(Long id, Date day) {
         //TODO 获取某主题下的 everyday
-        return null;
+        EverydayCond cond=new EverydayCond();
+        cond.setSubjectId(id);
+        if(day!=null){
+            try {
+                cond.setGmtCreatedMin(DateUtil.getDate(day, AppConst.DATE_FORMAT_DATE));
+                cond.setGmtCreatedMax(DateUtil.getDateAfterDays(cond.getGmtCreatedMin(), 1));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        List<EverydayModel> list = everydayMapper.queryByCond(cond);
+        return list;
     }
 }

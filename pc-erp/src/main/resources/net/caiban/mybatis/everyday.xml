@@ -156,6 +156,9 @@
 			<if test="cond.gmtCreatedMax!=null">
 				and #{cond.gmtCreatedMax} > gmt_created 
 			</if>
+            <if test="cond.subjectId!=null">
+                and subject_id = #{subjectId}
+            </if>
 			
 		</where>
 	</sql>

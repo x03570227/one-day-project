@@ -21,6 +21,7 @@ public class EverydayCond extends BaseCond {
 	private Date gmtCreatedMin;
 	private Date gmtCreatedMax;
 	private Long excludeId;
+    private Long subjectId;
 
 	public String getWxOpenid() {
 		
@@ -62,6 +63,12 @@ public class EverydayCond extends BaseCond {
 	public void setExcludeId(Long excludeId) {
 		this.excludeId = excludeId;
 	}
-	
 
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
 }
