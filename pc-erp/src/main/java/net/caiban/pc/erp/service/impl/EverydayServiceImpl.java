@@ -19,7 +19,9 @@ import java.util.regex.Pattern;
 import javax.annotation.Resource;
 
 import net.caiban.pc.erp.domain.*;
+import net.caiban.pc.erp.enums.UserClassifyEnum;
 import net.caiban.pc.erp.persist.EverydaySubjectMapper;
+import net.caiban.pc.erp.persist.sys.SysUserAuthMapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -52,6 +54,9 @@ public class EverydayServiceImpl implements EverydayService{
 
     @Resource
     private EverydaySubjectMapper everydaySubjectMapper;
+
+    @Resource
+    private SysUserAuthMapper sysUserAuthMapper;
 
 
 	
@@ -86,7 +91,9 @@ public class EverydayServiceImpl implements EverydayService{
 
 		everyday.setDayIndex(parseDayIdx(everyday.getWxOpenid()));
 		everyday.setDayItemIndex(parseDayItemIdx(everyday.getWxOpenid()));
-		
+
+        everyday.setUid(sysUserAuthMapper.queryUidByOpenid(everyday.getWxOpenid(), UserClassifyEnum.WEIXIN_FOLLOW.getCode()));
+
 		everydayMapper.insertSelective(everyday);
 		if(everyday.getId()==null || everyday.getId()<=0){
 			throw new ServiceException("FAILURE_SAVE_EVERYDAY");

@@ -38,6 +38,9 @@ public class Everyday extends BaseDomain {
 	private String wxLabel;
 	private String wxTitle;
 	private String wxDescription;
+
+    private Long uid;
+    private Long subjectId;
 	
 	public String getWxOpenid() {
 		return wxOpenid;
@@ -141,7 +144,20 @@ public class Everyday extends BaseDomain {
 	public void setWxLy(Double wxLy) {
 		this.wxLy = wxLy;
 	}
-	
-	
 
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
+
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
 }
