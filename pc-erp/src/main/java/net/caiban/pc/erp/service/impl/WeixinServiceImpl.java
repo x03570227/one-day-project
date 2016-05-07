@@ -117,16 +117,16 @@ public class WeixinServiceImpl implements WeixinService {
 		List<String> params = Lists.newArrayList();
 		params.add(timestamp);
 		params.add(nonce);
-        if(cid==null){
-            params.add(AppConst.getConfig("weixin.token", ""));
-        }else{
-            SysApp app = sysAppService.queryByDomain(cid, "mp.weixin.qq.com");
-            if(app==null){
-                LOG.error("Company app unconfig. cid=" + cid);
-                return false;
-            }
-            params.add(app.getAccessToken());
-        }
+//        if(cid==null){
+        params.add(AppConst.getConfig("weixin.token", ""));
+//        }else{
+//            SysApp app = sysAppService.queryByDomain(cid, "mp.weixin.qq.com");
+//            if(app==null){
+//                LOG.error("Company app unconfig. cid=" + cid);
+//                return false;
+//            }
+//            params.add(app.getAccessToken());
+//        }
 
 		LOG.info("REQUEST FROM WEIXIN: "+new Gson().toJson(params)+" sign is:"+signature);
 		

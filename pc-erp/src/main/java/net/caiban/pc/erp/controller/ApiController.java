@@ -119,12 +119,6 @@ public class ApiController extends BaseController {
 		
 		InputStream is=request.getInputStream();
 		
-//		try {
-//		} catch (IOException e) {
-//			LOG.error("REQUEST INPUT STREAM FAILURE. "+e.getMessage());
-//			return null;
-//		}
-		
 		if(is!=null){
 			model.put("echost", weixinService.autoResp(is));
 			LOG.info("返回echost:"+model.get("echost"));
@@ -133,40 +127,6 @@ public class ApiController extends BaseController {
 		
 		return null;
 	}
-
-    @RequestMapping
-    public ModelAndView lclm(HttpServletRequest request, ModelMap model,
-                             String signature, String timestamp, String nonce, String echostr,
-                             String encrypt_type, String msg_signature
-    ) throws IOException {
-        request.setCharacterEncoding("utf-8");
-        LOG.info("LCLM接收参数： signature:{0}, timestamp:{1}, noce:{2}, echostr:{3}, encrypt_type:{4}, msg_signature:{5}",
-                signature, timestamp, nonce, echostr, encrypt_type, msg_signature);
-
-        LOG.info("LCLM接收参数： signature:" + signature + " timestamp:" + timestamp + " noce:" + nonce + " echostr:" + echostr + " encrypt_type:" + encrypt_type + " msg_signature:" + msg_signature);
-
-        if (!weixinService.validSign(signature, timestamp, nonce, 4l)) {
-            LOG.warn("WEIXIN VALID FAILURE.");
-            return null;
-        }
-
-        if (request.getMethod().equalsIgnoreCase("get")) {
-            if (!Strings.isNullOrEmpty(echostr)) {
-                model.put("echost", echostr);
-                return null;
-            }
-        }
-
-        InputStream is = request.getInputStream();
-
-        if (is != null) {
-            model.put("echost", weixinService.autoResp(is));
-            LOG.info("返回echost:" + model.get("echost"));
-            return null;
-        }
-
-        return null;
-    }
 
     /**
      * 跳转到微信 oauth 服务
