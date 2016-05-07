@@ -481,7 +481,7 @@ public class SysUserServiceImpl implements SysUserService {
             throw new ServiceException("e.wx.follower.unavailable");
         }
 
-        if(isBinded(wxOpenid)){
+        if(isBinded(wxOpenid, UserClassifyEnum.WEIXIN_FOLLOW)){
             throw new ServiceException("e.wx.follower.uid.exist");
         }
 
@@ -489,8 +489,8 @@ public class SysUserServiceImpl implements SysUserService {
 
     }
 
-    private boolean isBinded(String openid){
-        Long uid = sysUserAuthMapper.queryUidByOpenid(openid);
+    private boolean isBinded(String openid, UserClassifyEnum classify){
+        Long uid = sysUserAuthMapper.queryUidByOpenid(openid, classify.getCode());
         return (uid != null && uid.longValue() > 0);
     }
 

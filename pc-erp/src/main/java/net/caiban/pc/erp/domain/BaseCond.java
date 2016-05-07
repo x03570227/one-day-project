@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author mays
  *
  */
-public class BaseCond implements Serializable{
+public class BaseCond extends ToString implements Serializable{
 
 	/**
 	 * 

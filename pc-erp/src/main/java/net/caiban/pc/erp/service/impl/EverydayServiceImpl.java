@@ -538,7 +538,7 @@ try {
 
         Preconditions.checkNotNull(id);
 
-        return everydaySubjectMapper.queryOne(id);
+        return  everydaySubjectMapper.queryOne(id);
     }
 
     @Override
