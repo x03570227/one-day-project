@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -104,7 +105,7 @@ public class ApiController extends BaseController {
 		
 		LOG.info("接收参数： signature:"+signature+" timestamp:"+timestamp+" noce:"+nonce+" echostr:"+echostr+" encrypt_type:"+encrypt_type+" msg_signature:"+msg_signature);
 		
-		if(!weixinService.validSign(signature, timestamp, nonce)){
+		if(!weixinService.validSign(signature, timestamp, nonce, null)){
 			LOG.warn("WEIXIN VALID FAILURE.");
 			return null;
 		}
@@ -132,6 +133,40 @@ public class ApiController extends BaseController {
 		
 		return null;
 	}
+
+    @RequestMapping
+    public ModelAndView lclm(HttpServletRequest request, ModelMap model,
+                             String signature, String timestamp, String nonce, String echostr,
+                             String encrypt_type, String msg_signature
+    ) throws IOException {
+        request.setCharacterEncoding("utf-8");
+        LOG.info("LCLM接收参数： signature:{0}, timestamp:{1}, noce:{2}, echostr:{3}, encrypt_type:{4}, msg_signature:{5}",
+                signature, timestamp, nonce, echostr, encrypt_type, msg_signature);
+
+        LOG.info("LCLM接收参数： signature:" + signature + " timestamp:" + timestamp + " noce:" + nonce + " echostr:" + echostr + " encrypt_type:" + encrypt_type + " msg_signature:" + msg_signature);
+
+        if (!weixinService.validSign(signature, timestamp, nonce, 4l)) {
+            LOG.warn("WEIXIN VALID FAILURE.");
+            return null;
+        }
+
+        if (request.getMethod().equalsIgnoreCase("get")) {
+            if (!Strings.isNullOrEmpty(echostr)) {
+                model.put("echost", echostr);
+                return null;
+            }
+        }
+
+        InputStream is = request.getInputStream();
+
+        if (is != null) {
+            model.put("echost", weixinService.autoResp(is));
+            LOG.info("返回echost:" + model.get("echost"));
+            return null;
+        }
+
+        return null;
+    }
 
     /**
      * 跳转到微信 oauth 服务

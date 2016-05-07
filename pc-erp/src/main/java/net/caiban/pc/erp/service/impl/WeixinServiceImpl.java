@@ -9,12 +9,14 @@ import com.google.gson.Gson;
 import net.caiban.pc.erp.config.AppConst;
 import net.caiban.pc.erp.domain.RedisKeyEnum;
 import net.caiban.pc.erp.domain.SessionUser;
+import net.caiban.pc.erp.domain.sys.SysApp;
 import net.caiban.pc.erp.domain.sys.SysUserAuthModel;
 import net.caiban.pc.erp.domain.sys.SysUserProfileModel;
 import net.caiban.pc.erp.enums.UserClassifyEnum;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.EverydayService;
 import net.caiban.pc.erp.service.WeixinService;
+import net.caiban.pc.erp.service.sys.SysAppService;
 import net.caiban.pc.erp.service.sys.SysUserService;
 import net.caiban.utils.cache.JedisUtil;
 import net.caiban.utils.http.HttpRequestUtil;
@@ -47,7 +49,8 @@ public class WeixinServiceImpl implements WeixinService {
 	private EverydayService everydayService;
 	@Resource
 	private SysUserService sysUserService;
-
+    @Resource
+    private SysAppService sysAppService;
 
 	static enum MESSAGE_CMD{
 		//帮助命令
@@ -105,7 +108,7 @@ public class WeixinServiceImpl implements WeixinService {
 	}
 
 	@Override
-	public boolean validSign(String signature, String timestamp, String nonce) {
+	public boolean validSign(String signature, String timestamp, String nonce, Long cid) {
 		
 		Preconditions.checkNotNull(signature);
 		Preconditions.checkNotNull(timestamp);
@@ -114,8 +117,17 @@ public class WeixinServiceImpl implements WeixinService {
 		List<String> params = Lists.newArrayList();
 		params.add(timestamp);
 		params.add(nonce);
-		params.add(AppConst.getConfig("weixin.token", ""));
-		
+        if(cid==null){
+            params.add(AppConst.getConfig("weixin.token", ""));
+        }else{
+            SysApp app = sysAppService.queryByDomain(cid, "mp.weixin.qq.com");
+            if(app==null){
+                LOG.error("Company app unconfig. cid=" + cid);
+                return false;
+            }
+            params.add(app.getAccessToken());
+        }
+
 		LOG.info("REQUEST FROM WEIXIN: "+new Gson().toJson(params)+" sign is:"+signature);
 		
 		Collections.sort(params);

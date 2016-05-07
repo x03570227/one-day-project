@@ -14,7 +14,7 @@ import net.caiban.pc.erp.exception.ServiceException;
  */
 public interface WeixinService {
 
-	public boolean validSign(String signature, String timestamp, String nonce);
+	public boolean validSign(String signature, String timestamp, String nonce, Long cid);
 	
 	public String autoResp(InputStream is);
 	
