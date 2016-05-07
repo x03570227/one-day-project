@@ -100,12 +100,13 @@ public class ApiController extends BaseController {
 			String encrypt_type, String msg_signature
 			) throws IOException{
 		request.setCharacterEncoding("utf-8");
-        LOG.info("接收参数： signature:{0}, timestamp:{1}, noce:{2}, echostr:{3}, encrypt_type:{4}, msg_signature:{5}",
-                signature, timestamp, nonce, echostr, encrypt_type, msg_signature);
-		
-		LOG.info("接收参数： signature:"+signature+" timestamp:"+timestamp+" noce:"+nonce+" echostr:"+echostr+" encrypt_type:"+encrypt_type+" msg_signature:"+msg_signature);
-		
-		if(!weixinService.validSign(signature, timestamp, nonce, null)){
+//        LOG.info("接收参数： signature:{0}, timestamp:{1}, noce:{2}, echostr:{3}, encrypt_type:{4}, msg_signature:{5}",
+//                signature, timestamp, nonce, echostr, encrypt_type, msg_signature);
+
+        LOG.info("接收参数： signature:" + signature + " timestamp:" + timestamp + " noce:" + nonce +
+                " echostr:" + echostr + " encrypt_type:" + encrypt_type + " msg_signature:" + msg_signature);
+
+        if(!weixinService.validSign(signature, timestamp, nonce, null)){
 			LOG.warn("WEIXIN VALID FAILURE.");
 			return null;
 		}
