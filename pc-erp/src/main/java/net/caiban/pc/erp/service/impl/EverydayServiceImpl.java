@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Resource;
 
 import net.caiban.pc.erp.domain.*;
+import net.caiban.pc.erp.enums.UpyunNamespaceEnum;
 import net.caiban.pc.erp.enums.UserClassifyEnum;
 import net.caiban.pc.erp.persist.EverydaySubjectMapper;
 import net.caiban.pc.erp.persist.sys.SysUserAuthMapper;
@@ -44,7 +45,6 @@ import net.caiban.pc.erp.utils.UpyunUtils;
 import net.caiban.utils.DateUtil;
 import net.caiban.utils.http.HttpRequestUtil;
 import weixin.popular.bean.EventMessage;
-import weixin.popular.bean.xmlmessage.XMLTextMessage;
 
 @Component("everydayService")
 public class EverydayServiceImpl implements EverydayService{
@@ -373,7 +373,7 @@ try {
 		EverydayModel everyday = everydayMapper.queryById(id);
 		
 		if(everyday==null){
-			throw new ServiceException("INVALID_ID");
+			return null;
 		}
 		
 		if(!Strings.isNullOrEmpty(everyday.getContent())){

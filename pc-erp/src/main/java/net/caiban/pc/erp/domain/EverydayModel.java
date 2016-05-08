@@ -4,12 +4,10 @@
 package net.caiban.pc.erp.domain;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import net.caiban.pc.erp.enums.UpyunNamespaceEnum;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;

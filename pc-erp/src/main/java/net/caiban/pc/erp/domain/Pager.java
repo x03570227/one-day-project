@@ -8,6 +8,7 @@ package net.caiban.pc.erp.domain;
 import java.util.List;
 
 import com.google.common.base.Strings;
+import net.caiban.pc.erp.enums.DirEnum;
 
 /**
  * @author Mays (x03570227@gmail.com)

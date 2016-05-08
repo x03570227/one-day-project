@@ -115,12 +115,21 @@ public class FeverydayController extends BaseController {
      * @return
      */
     @RequestMapping
-    public ModelAndView subject(HttpServletRequest request,ModelMap model,
-                              Long id, @DateTimeFormat(pattern = "yyyy-MM-dd")Date day){
+    public ModelAndView subject(HttpServletRequest request, HttpServletResponse response, ModelMap model,
+                                Long id, Long everydayId, @DateTimeFormat(pattern = "yyyy-MM-dd") Date day) {
 
-        model.put("subject", everydayService.querySubject(id));
-        model.put("everydays", everydayService.queryBySubject(id, day));
-        model.put("day", day);
+        accessSession(request);
+
+        try {
+
+            model.put("everyday", everydayService.queryById(everydayId));
+            model.put("subject", everydayService.querySubject(id));
+            model.put("everydays", everydayService.queryBySubject(id, day));
+            model.put("day", day);
+
+        } catch (ServiceException e) {
+            serverError(request, response, e.getMessage());
+        }
 
         return null;
 

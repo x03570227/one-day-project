@@ -37,6 +37,8 @@ require.config({
 		"messenger":STATIC+"plugin/messenger/build/js/messenger.min",
 		"validator":STATIC+"plugin/bootstrap-validator/dist/validator.min",
 		"noty":STATIC+"plugin/noty/js/noty/packaged/jquery.noty.packaged.min",
+
+        "jssdk":"//res.wx.qq.com/open/js/jweixin-1.0.0.js",
 		
 		//项目自定义模块
 		"Global":"js/app/globalConfig"
