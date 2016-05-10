@@ -183,6 +183,15 @@ public class ApiController extends BaseController {
 
 		return new ModelAndView("redirect:"); //跳转到错误页面
 	}
-	
+
+
+    org.apache.log4j.Logger LOG4J= org.apache.log4j.Logger.getLogger(ApiController.class);
+    @RequestMapping
+    @ResponseBody
+    public Object testMDC(){
+        LOG.error("test MDC {0}", "output");
+        LOG4J.error("log4j test MDC");
+        return ajaxResult(true, null);
+    }
 
 }
