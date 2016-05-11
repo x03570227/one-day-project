@@ -122,17 +122,23 @@ public class FeverydayController extends BaseController {
 
         try {
 
-            model.put("everyday", everydayService.queryById(everydayId));
+            if(everydayId!=null && everydayId.longValue()>0){
+                model.put("everyday", everydayService.queryById(everydayId));
+            }
             model.put("subject", everydayService.querySubject(id));
             model.put("everydays", everydayService.queryBySubject(id, day));
-            model.put("day", day);
+            model.put("day", day==null?new Date():day);
 
+//            model.put("subjectIndex", everydayService.querySubjectIndex(id));
+
+            return new ModelAndView();
         } catch (ServiceException e) {
-            serverError(request, response, e.getMessage());
+            model.put("errorCode",e.getMessage());
+        } catch (Exception e){
+            model.put("errorCode", "e.global.server.error");
         }
 
-        return null;
-
+        return new ModelAndView("redirect:/error_wx.do");
     }
 
     @RequestMapping

@@ -62,4 +62,5 @@ public interface EverydayService {
      * @return
      */
     public List<EverydayModel> queryBySubject(Long id, Date day);
+
 }

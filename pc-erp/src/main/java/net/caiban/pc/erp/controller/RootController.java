@@ -106,7 +106,9 @@ public class RootController extends BaseController{
         model.put("okurl", okurl);
         model.put("cancelurl", cancelurl);
         model.put("errorCode", errorCode);
-        model.put("errorMessage", messageSource.getMessage(errorCode, null, locale));
+        if(!Strings.isNullOrEmpty(errorCode)){
+            model.put("errorMessage", messageSource.getMessage(errorCode, null, locale));
+        }
         return null;
     }
 
