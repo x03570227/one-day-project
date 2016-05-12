@@ -126,10 +126,16 @@ public class FeverydayController extends BaseController {
                 model.put("everyday", everydayService.queryById(everydayId));
             }
             model.put("subject", everydayService.querySubject(id));
-            model.put("everydays", everydayService.queryBySubject(id, day));
+
+            List<EverydayModel> everydays = everydayService.queryBySubject(id, day);
+            model.put("everydays", everydays);
             model.put("day", day==null?new Date():day);
 
-//            model.put("subjectIndex", everydayService.querySubjectIndex(id));
+            if(everydays.size()>0){
+                model.put("subjectIndex", everydays.get(0).getSubjectIndex());
+            }else {
+                model.put("subjectIndex", 0);
+            }
 
             return new ModelAndView();
         } catch (ServiceException e) {

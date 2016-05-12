@@ -41,6 +41,8 @@ public class Everyday extends BaseDomain {
 
     private Long uid;
     private Long subjectId;
+
+    private Integer subjectIndex;
 	
 	public String getWxOpenid() {
 		return wxOpenid;
@@ -159,5 +161,13 @@ public class Everyday extends BaseDomain {
 
     public void setSubjectId(Long subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public Integer getSubjectIndex() {
+        return subjectIndex;
+    }
+
+    public void setSubjectIndex(Integer subjectIndex) {
+        this.subjectIndex = subjectIndex;
     }
 }

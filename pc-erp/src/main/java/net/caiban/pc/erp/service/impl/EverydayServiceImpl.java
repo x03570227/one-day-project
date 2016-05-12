@@ -543,8 +543,9 @@ try {
 
     @Override
     public List<EverydayModel> queryBySubject(Long id, Date day) {
-        //TODO 获取某主题下的 everyday
+
         EverydayCond cond=new EverydayCond();
+        cond.setLimit(AppConst.LIMIT_MAX);
         cond.setSubjectId(id);
         if(day!=null){
             try {
@@ -556,6 +557,9 @@ try {
         }
 
         List<EverydayModel> list = everydayMapper.queryByCond(cond);
+
+        //xxx 数据少的时候没关系
+
         return list;
     }
 }
