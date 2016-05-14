@@ -52,7 +52,7 @@ public interface EverydayService {
      * @param id
      * @return
      */
-    public EverydaySubject querySubject(Long id);
+    public EverydaySubjectModel querySubject(Long id);
 
     /**
      * 获取某主题某一天的所有 everyday 信息
@@ -62,5 +62,13 @@ public interface EverydayService {
      * @return
      */
     public List<EverydayModel> queryBySubject(Long id, Date day);
+
+    /**
+     * 重新构建subject,加入最大连续天数和百分比
+     *
+     * @param subject
+     * @return
+     */
+    public EverydaySubjectModel rebuildEverydaySubject(EverydaySubjectModel subject);
 
 }

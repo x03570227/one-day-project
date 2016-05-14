@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.caiban.pc.erp.config.AppConst;
+import net.caiban.pc.erp.domain.EverydaySubjectModel;
 import net.caiban.utils.DateUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -125,17 +126,20 @@ public class FeverydayController extends BaseController {
             if(everydayId!=null && everydayId.longValue()>0){
                 model.put("everyday", everydayService.queryById(everydayId));
             }
-            model.put("subject", everydayService.querySubject(id));
 
+            EverydaySubjectModel subjectModel = everydayService.querySubject(id);
             List<EverydayModel> everydays = everydayService.queryBySubject(id, day);
+
+            if(everydays.size()>0){
+                subjectModel.setSubjectIndex(everydays.get(0).getSubjectIndex());
+            }else {
+                subjectModel.setSubjectIndex(0);
+            }
+
             model.put("everydays", everydays);
             model.put("day", day==null?new Date():day);
 
-            if(everydays.size()>0){
-                model.put("subjectIndex", everydays.get(0).getSubjectIndex());
-            }else {
-                model.put("subjectIndex", 0);
-            }
+            model.put("subject", everydayService.rebuildEverydaySubject(subjectModel));
 
             return new ModelAndView();
         } catch (ServiceException e) {

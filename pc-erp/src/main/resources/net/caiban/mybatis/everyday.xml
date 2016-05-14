@@ -219,6 +219,12 @@
 			wx_openid=#{openid}
 			and gmt_created >= #{minGmtCreated} 
 	</select>
+
+    <select id="queryMaxSubjectIndex" resultType="java.lang.Integer" >
+        select max(subject_index) from everyday
+        WHERE
+          subject_id=#{subjectId}
+    </select>
 	
 </mapper>
 

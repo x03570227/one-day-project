@@ -38,6 +38,10 @@ public class EverydayModel extends Everyday{
     private Boolean hasPre;
     private Boolean hasNext;
     private Integer nextTarget;
+    private List<String> tagList;
+
+    /**列表中的图片*/
+    private String titleImage;
 
 	public Integer getMaxDayIndex() {
 		return maxDayIndex;
@@ -139,5 +143,25 @@ public class EverydayModel extends Everyday{
 
     public void setNextTarget(Integer nextTarget) {
         this.nextTarget = nextTarget;
+    }
+
+    public String getTitleImage() {
+        if(Strings.isNullOrEmpty(getTitleImage())){
+            return null;
+        }
+
+        if(getTitleImage().startsWith("http")){
+            return getWxPicurl();
+        }
+
+        return UpyunNamespaceEnum.IMAGE.getHost()+getTitleImage();
+    }
+
+    public void setTitleImage(String titleImage) {
+        this.titleImage = titleImage;
+    }
+
+    public void setTagList(List<String> tagList) {
+        this.tagList = tagList;
     }
 }
