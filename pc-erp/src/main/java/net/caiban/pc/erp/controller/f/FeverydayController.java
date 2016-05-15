@@ -120,6 +120,7 @@ public class FeverydayController extends BaseController {
                                 Long id, Long everydayId, @DateTimeFormat(pattern = "yyyy-MM-dd") Date day) {
 
         accessSession(request);
+        day = day == null ? new Date() : day;
 
         try {
 
@@ -137,7 +138,7 @@ public class FeverydayController extends BaseController {
             }
 
             model.put("everydays", everydays);
-            model.put("day", day==null?new Date():day);
+            model.put("day", day);
 
             model.put("subject", everydayService.rebuildEverydaySubject(subjectModel));
 

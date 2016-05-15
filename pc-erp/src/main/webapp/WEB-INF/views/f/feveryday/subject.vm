@@ -25,7 +25,7 @@
 <div class="bd">
 
     <div class="weui_panel weui_panel_access">
-        <div class="weui_panel_hd">每1天 1件事 #D$!{subjectIndex} #$date.format($day, "yyyy年MM月dd日")</div>
+        <div class="weui_panel_hd">每1天 1件事 #D$!{subjectIndex} #$!date.format($day, "yyyy年MM月dd日")</div>
         <div class="weui_panel_bd">
 
             #foreach($everyday in $everydays)
