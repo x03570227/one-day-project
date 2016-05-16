@@ -146,15 +146,15 @@ public class EverydayModel extends Everyday{
     }
 
     public String getTitleImage() {
-        if(Strings.isNullOrEmpty(getTitleImage())){
+        if(Strings.isNullOrEmpty(this.titleImage)){
             return null;
         }
 
-        if(getTitleImage().startsWith("http")){
-            return getWxPicurl();
+        if(this.titleImage.startsWith("http")){
+            return this.titleImage;
         }
 
-        return UpyunNamespaceEnum.IMAGE.getHost()+getTitleImage();
+        return UpyunNamespaceEnum.IMAGE.getHost()+this.titleImage;
     }
 
     public void setTitleImage(String titleImage) {

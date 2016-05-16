@@ -25,26 +25,26 @@
 <div class="bd">
 
     <div class="weui_panel weui_panel_access">
-        <div class="weui_panel_hd">每1天 1件事 #D$!{subjectIndex} #$!date.format($day, "yyyy年MM月dd日")</div>
+        <div class="weui_panel_hd">每1天 1件事 #D$!{subject.subjectIndex} $!date.format( "yyyy年MM月dd日", $day)</div>
         <div class="weui_panel_bd">
 
-            #foreach($everyday in $everydays)
-            <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+            #foreach($entity in $everydays)
+            <a href="#springUrl('/f/feveryday/detail.do')?id=$!{entity.id}" class="weui_media_box weui_media_appmsg">
                 <div class="weui_media_hd">
-                    #if("$!{everyday.titleImage}" != "")
-                        <img class="weui_media_appmsg_thumb" src="${everyday.titleImage}" alt="" >
+                    #if("$!{entity.titleImage}" != "")
+                        <img class="weui_media_appmsg_thumb" src="${entity.titleImage}" alt="" >
                     #else
                         <img class="weui_media_appmsg_thumb" src="http://img.caiban.net/caiban/qrcode_08.jpg" alt="" >
                     #end
                 </div>
                 <div class="weui_media_bd">
                     <h4 class="weui_media_title">
-                        #D$!{everyday.dayIndex}
-                        #foreach($tag in $everyday.tagList)
+                        #D$!{entity.dayIndex}
+                        #foreach($tag in $entity.tagList)
                             #$!{tag}
                         #end
                     </h4>
-                    <p class="weui_media_desc">$!{everyday.content}</p>
+                    <p class="weui_media_desc">$!{entity.content}</p>
                 </div>
             </a>
             #end
@@ -55,7 +55,7 @@
 ##        <a class="weui_panel_ft" href="javascript:void(0);">后1天</a>
     </div>
 
-    <div class="weui_cells_title">记1笔</div>
+##    <div class="weui_cells_title">记1笔</div>
 ##    <div class="weui_cells weui_cells_form">
 ##
 ##        <div class="weui_cell">

@@ -23,7 +23,7 @@
 		wx_label as wxLabel,
 		wx_title as wxTitle,
 		wx_description as wxDescription,
-		subjct_index as subjectIndex
+		subject_index as subjectIndex
 	</sql>
 
 	<insert id="insertSelective" parameterType="net.caiban.pc.erp.domain.EverydayModel" keyProperty="id">
