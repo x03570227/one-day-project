@@ -120,7 +120,10 @@ public class FeverydayController extends BaseController {
                                 Long id, Long everydayId, @DateTimeFormat(pattern = "yyyy-MM-dd") Date day) {
 
         accessSession(request);
+
         day = day == null ? new Date() : day;
+        model.put("pre", DateUtil.toString(DateUtil.getDateAfterDays(day, -1), AppConst.DATE_FORMAT_DATE));
+        model.put("next", DateUtil.toString(DateUtil.getDateAfterDays(day, 1), AppConst.DATE_FORMAT_DATE));
 
         try {
 
