@@ -15,7 +15,7 @@ public interface SysUserAuthMapper {
 
     public Integer deleteByOpenid(String openid);
 
-    public Long queryUidByOpenid(String openid);
+    public Long queryUidByOpenid(@Param("openid") String openid, @Param("classify") String classify);
 
     public Integer updateUidByOpenid(@Param("uid") Long uid, @Param("openid") String openid);
 

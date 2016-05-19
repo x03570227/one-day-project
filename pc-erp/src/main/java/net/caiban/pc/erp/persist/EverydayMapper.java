@@ -31,4 +31,6 @@ public interface EverydayMapper {
 	public Integer queryMaxDayIndex(@Param("openid") String openid, @Param("from") Date from, @Param("to")Date to);
 	
 	public Integer queryMaxItemIdx(@Param("openid") String openid, @Param("minGmtCreated") Date minGmtCreated);
+
+    public Integer queryMaxSubjectIndex(@Param("subjectId") Long subjectId);
 }

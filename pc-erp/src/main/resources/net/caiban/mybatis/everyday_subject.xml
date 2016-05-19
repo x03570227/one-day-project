@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.caiban.pc.erp.persist.EverydaySubjectMapper" >
+
+    <sql id="Base_column">
+        id ,
+        gmt_created as gmtCreated ,
+        gmt_modified as gmtModified,
+        uid,
+        title,
+        content,
+        wx_openid
+    </sql>
+
+    <select id="queryOne" parameterType="java.lang.Long" resultType="net.caiban.pc.erp.domain.EverydaySubjectModel">
+        SELECT
+          <include refid="Base_column" />
+        FROM everyday_subject
+        WHERE id=#{id}
+    </select>
+	
+</mapper>
+

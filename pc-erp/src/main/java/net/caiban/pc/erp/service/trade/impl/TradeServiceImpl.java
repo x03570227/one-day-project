@@ -13,7 +13,7 @@ import java.util.TimeZone;
 import javax.annotation.Resource;
 
 import net.caiban.pc.erp.config.AppConst;
-import net.caiban.pc.erp.domain.DirEnum;
+import net.caiban.pc.erp.enums.DirEnum;
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.sys.SysApp;
 import net.caiban.pc.erp.domain.trade.Trade;

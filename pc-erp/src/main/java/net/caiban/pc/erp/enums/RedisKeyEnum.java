@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.caiban.pc.erp.domain;
+package net.caiban.pc.erp.enums;
 
 /**
  * @author mar

@@ -21,7 +21,6 @@
 ##    </ul>
 
     <section id="cd-timeline" class="cd-container">
-
     #foreach($everyday in ${pager.records})
 
         <div class="cd-timeline-block">

@@ -4,12 +4,10 @@
 package net.caiban.pc.erp.domain;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import net.caiban.pc.erp.enums.UpyunNamespaceEnum;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
@@ -40,6 +38,10 @@ public class EverydayModel extends Everyday{
     private Boolean hasPre;
     private Boolean hasNext;
     private Integer nextTarget;
+    private List<String> tagList;
+
+    /**列表中的图片*/
+    private String titleImage;
 
 	public Integer getMaxDayIndex() {
 		return maxDayIndex;
@@ -141,5 +143,25 @@ public class EverydayModel extends Everyday{
 
     public void setNextTarget(Integer nextTarget) {
         this.nextTarget = nextTarget;
+    }
+
+    public String getTitleImage() {
+        if(Strings.isNullOrEmpty(this.titleImage)){
+            return null;
+        }
+
+        if(this.titleImage.startsWith("http")){
+            return this.titleImage;
+        }
+
+        return UpyunNamespaceEnum.IMAGE.getHost()+this.titleImage;
+    }
+
+    public void setTitleImage(String titleImage) {
+        this.titleImage = titleImage;
+    }
+
+    public void setTagList(List<String> tagList) {
+        this.tagList = tagList;
     }
 }

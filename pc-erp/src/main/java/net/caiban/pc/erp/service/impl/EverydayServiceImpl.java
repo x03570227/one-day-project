@@ -18,6 +18,12 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
+import net.caiban.pc.erp.domain.*;
+import net.caiban.pc.erp.enums.MsgTypeEnum;
+import net.caiban.pc.erp.enums.UpyunNamespaceEnum;
+import net.caiban.pc.erp.enums.UserClassifyEnum;
+import net.caiban.pc.erp.persist.EverydaySubjectMapper;
+import net.caiban.pc.erp.persist.sys.SysUserAuthMapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -33,11 +39,6 @@ import com.google.common.collect.Lists;
 
 import main.java.com.UpYun;
 import net.caiban.pc.erp.config.AppConst;
-import net.caiban.pc.erp.domain.Everyday;
-import net.caiban.pc.erp.domain.EverydayCond;
-import net.caiban.pc.erp.domain.EverydayModel;
-import net.caiban.pc.erp.domain.Pager;
-import net.caiban.pc.erp.domain.UpyunNamespaceEnum;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.persist.EverydayMapper;
 import net.caiban.pc.erp.service.EverydayService;
@@ -45,14 +46,19 @@ import net.caiban.pc.erp.utils.UpyunUtils;
 import net.caiban.utils.DateUtil;
 import net.caiban.utils.http.HttpRequestUtil;
 import weixin.popular.bean.EventMessage;
-import weixin.popular.bean.xmlmessage.XMLTextMessage;
 
 @Component("everydayService")
 public class EverydayServiceImpl implements EverydayService{
 
 	@Resource
 	private EverydayMapper everydayMapper;
-	
+
+    @Resource
+    private EverydaySubjectMapper everydaySubjectMapper;
+
+    @Resource
+    private SysUserAuthMapper sysUserAuthMapper;
+
 	final static String TAG_HTML_TPL="<span class='text-tag' >#{0}</span>";
 	
 	@Override
@@ -64,6 +70,7 @@ public class EverydayServiceImpl implements EverydayService{
 		}else{
 			everyday.setContent(message.getContent());
 		}
+
 		everyday.setWxOpenid(message.getFromUserName());
 		everyday.setWxMsgid(message.getMsgId());
 		everyday.setWxDescription(message.getDescription());
@@ -84,7 +91,9 @@ public class EverydayServiceImpl implements EverydayService{
 
 		everyday.setDayIndex(parseDayIdx(everyday.getWxOpenid()));
 		everyday.setDayItemIndex(parseDayItemIdx(everyday.getWxOpenid()));
-		
+
+        everyday.setUid(sysUserAuthMapper.queryUidByOpenid(everyday.getWxOpenid(), UserClassifyEnum.WEIXIN_FOLLOW.getCode()));
+
 		everydayMapper.insertSelective(everyday);
 		if(everyday.getId()==null || everyday.getId()<=0){
 			throw new ServiceException("FAILURE_SAVE_EVERYDAY");
@@ -105,7 +114,6 @@ public class EverydayServiceImpl implements EverydayService{
 		sb.append("<a href=\"").append(AppConst.getConfig("app.host")).append("/f/feveryday/index.do?wxOpenid=").append(message.getFromUserName()).append("\">查看更多</a>");
 
         return sb.toString();
-//		return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
 	}
 	
 	private Integer parseDayIdx(String openid){
@@ -130,7 +138,6 @@ public class EverydayServiceImpl implements EverydayService{
 		try {
 			today = DateUtil.getDate(new Date(), AppConst.DATE_FORMAT_DATE);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -213,7 +220,6 @@ public class EverydayServiceImpl implements EverydayService{
                 .append(message.getFromUserName()).append("'>查看更多</a>");
 
         return sb.toString();
-//        return new XMLTextMessage(message.getFromUserName(), message.getToUserName(), sb.toString());
     }
 
 	@Override
@@ -364,7 +370,7 @@ try {
 		EverydayModel everyday = everydayMapper.queryById(id);
 		
 		if(everyday==null){
-			throw new ServiceException("INVALID_ID");
+			return null;
 		}
 		
 		if(!Strings.isNullOrEmpty(everyday.getContent())){
@@ -395,25 +401,10 @@ try {
 
 	@Override
 	public List<EverydayModel> queryTheDayByEveryday(Everyday everyday) {
+
 		Preconditions.checkNotNull(everyday);
 
 		return queryTheDayByDay(everyday.getGmtCreated(), everyday.getWxOpenid(), everyday.getId());
-		
-//		Date from=null;
-//		try {
-//			from = DateUtil.getDate(everyday.getGmtCreated(), AppConst.DATE_FORMAT_DATE);
-//		} catch (ParseException e) {
-//		}
-//		Date to =DateUtil.getDateAfterDays(from, 1);
-//
-//		EverydayCond cond = new EverydayCond();
-//		cond.setGmtCreatedMin(from);
-//		cond.setGmtCreatedMax(to);
-//		cond.setExcludeId(Long.valueOf(everyday.getId()));
-//		cond.setWxOpenid(everyday.getWxOpenid());
-//
-//		List<EverydayModel> list = everydayMapper.queryByCond(cond);
-//		return rebuildEveryday(list);
 	}
 	
 	private List<EverydayModel> rebuildEveryday(List<EverydayModel> list){
@@ -422,6 +413,7 @@ try {
 		}
 		for(EverydayModel everyday: list){
 			everyday.setContent(buildContentHtml(everyday.getContent()));
+            everyday.setTagList(parseTags(everyday.getTags()));
 		}
 		return list;
 	}
@@ -501,12 +493,34 @@ try {
 		return everyday;
 	}
 
+    @Override
+    public EverydaySubjectModel rebuildEverydaySubject(EverydaySubjectModel subject) {
+
+        Preconditions.checkNotNull(subject);
+        Preconditions.checkNotNull(subject.getSubjectIndex());
+
+        subject.setMaxDayIndex(everydayMapper.queryMaxSubjectIndex(subject.getId()));
+
+        if (subject.getMaxDayIndex() == null || subject.getMaxDayIndex() <= 0
+                || subject.getSubjectIndex() > subject.getMaxDayIndex()) {
+            subject.setNowDayPercent(new BigDecimal("100"));
+        }else{
+            subject.setNextTarget(getNextTarget(subject.getSubjectIndex()));
+            subject.setNowDayPercent(new BigDecimal(String.valueOf(subject.getSubjectIndex()))
+                    .divide(new BigDecimal(String.valueOf(subject.getNextTarget())), 2, RoundingMode.HALF_UP)
+                    .multiply(new BigDecimal("100")));
+        }
+
+        return subject;
+    }
+
+
     private Integer getNextTarget(Integer dayIndex){
         Integer nextTarget = 7;
 
         if(dayIndex<7){ //week
             nextTarget = 7;
-        }else if(dayIndex<21){ //
+        }else if(dayIndex<21){
             nextTarget = 21;
         }else if(dayIndex<30){
             nextTarget = 30;
@@ -523,4 +537,61 @@ try {
         }
         return nextTarget;
     }
+
+    @Override
+    public EverydaySubjectModel querySubject(Long id) {
+
+        Preconditions.checkNotNull(id);
+
+        return  everydaySubjectMapper.queryOne(id);
+    }
+
+    @Override
+    public List<EverydayModel> queryBySubject(Long id, Date day) {
+
+        EverydayCond cond=new EverydayCond();
+        cond.setLimit(AppConst.LIMIT_MAX);
+        cond.setSubjectId(id);
+        cond.setWxMsgtype(MsgTypeEnum.TEXT.getCode());
+        if(day!=null){
+            try {
+                cond.setGmtCreatedMin(DateUtil.getDate(day, AppConst.DATE_FORMAT_DATE));
+                cond.setGmtCreatedMax(DateUtil.getDateAfterDays(cond.getGmtCreatedMin(), 1));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        List<EverydayModel> list = everydayMapper.queryByCond(cond);
+
+        for(EverydayModel model: list){
+
+            EverydayCond imageCond = new EverydayCond();
+
+            if(Strings.isNullOrEmpty(model.getWxOpenid())){
+                imageCond.setWxOpenid(model.getWxOpenid());
+            }else if(model.getUid()!=null && model.getUid()>0l){
+                imageCond.setUid(model.getUid());
+            }else{
+                continue;
+            }
+
+            imageCond.setWxMsgtype(MsgTypeEnum.IMAGE.getCode());
+            imageCond.setSubjectId(id);
+            imageCond.setGmtCreatedMin(cond.getGmtCreatedMin());
+            imageCond.setGmtCreatedMax(cond.getGmtCreatedMax());
+
+            imageCond.setLimit(1);
+
+            List<EverydayModel> imageList = everydayMapper.queryByCond(imageCond);
+            if(imageList!=null && imageList.size()>0){
+                model.setTitleImage(imageList.get(0).getImageUrl());
+            }
+
+        }
+
+        return list;
+    }
+
+
 }

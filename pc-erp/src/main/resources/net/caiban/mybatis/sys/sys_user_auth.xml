@@ -106,7 +106,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
     <select id="queryUidByOpenid" resultType="java.lang.Long">
         SELECT uid FROM sys_user_auth
-        WHERE openid = #{openid}
+        WHERE openid = #{openid} and classify=#{classify}
         ORDER BY uid DESC
         LIMIT 1
     </select>

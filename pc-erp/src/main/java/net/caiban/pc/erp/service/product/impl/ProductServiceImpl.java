@@ -10,12 +10,11 @@ import javax.annotation.Resource;
 
 import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.domain.SessionUser;
-import net.caiban.pc.erp.domain.StatusEnum;
+import net.caiban.pc.erp.enums.StatusEnum;
 import net.caiban.pc.erp.domain.product.Product;
 import net.caiban.pc.erp.domain.product.ProductCond;
 import net.caiban.pc.erp.domain.product.ProductDefine;
 import net.caiban.pc.erp.domain.product.ProductFull;
-import net.caiban.pc.erp.domain.product.ProductGroup;
 import net.caiban.pc.erp.domain.product.ProductGroupItem;
 import net.caiban.pc.erp.domain.product.ProductGroupModel;
 import net.caiban.pc.erp.domain.product.ProductModel;

@@ -100,10 +100,15 @@ public class RootController extends BaseController{
      */
     @RequestMapping
     public ModelAndView error_wx(HttpServletRequest request,ModelMap model,
-                                     String errorCode, Locale locale){
+                                     String errorCode, Locale locale,
+                                 String okurl, String cancelurl){
 
+        model.put("okurl", okurl);
+        model.put("cancelurl", cancelurl);
         model.put("errorCode", errorCode);
-        model.put("errorMessage", messageSource.getMessage(errorCode, null, locale));
+        if(!Strings.isNullOrEmpty(errorCode)){
+            model.put("errorMessage", messageSource.getMessage(errorCode, null, locale));
+        }
         return null;
     }
 

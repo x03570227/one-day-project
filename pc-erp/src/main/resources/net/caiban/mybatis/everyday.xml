@@ -22,7 +22,8 @@
 		wx_scale as wxScale,
 		wx_label as wxLabel,
 		wx_title as wxTitle,
-		wx_description as wxDescription
+		wx_description as wxDescription,
+		subject_index as subjectIndex
 	</sql>
 
 	<insert id="insertSelective" parameterType="net.caiban.pc.erp.domain.EverydayModel" keyProperty="id">
@@ -156,6 +157,9 @@
 			<if test="cond.gmtCreatedMax!=null">
 				and #{cond.gmtCreatedMax} > gmt_created 
 			</if>
+            <if test="cond.subjectId!=null">
+                and subject_id = #{cond.subjectId}
+            </if>
 			
 		</where>
 	</sql>
@@ -216,6 +220,12 @@
 			wx_openid=#{openid}
 			and gmt_created >= #{minGmtCreated} 
 	</select>
+
+    <select id="queryMaxSubjectIndex" resultType="java.lang.Integer" >
+        select max(subject_index) from everyday
+        WHERE
+          subject_id=#{subjectId}
+    </select>
 	
 </mapper>
 

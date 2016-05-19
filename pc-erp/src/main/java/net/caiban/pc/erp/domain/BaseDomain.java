@@ -7,7 +7,7 @@ import java.util.Date;
  * @author mays
  *
  */
-public class BaseDomain implements Serializable{
+public class BaseDomain extends ToString implements Serializable{
 
 	/**
 	 * 

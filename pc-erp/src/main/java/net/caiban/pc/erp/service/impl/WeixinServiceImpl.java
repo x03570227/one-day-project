@@ -7,7 +7,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import net.caiban.pc.erp.config.AppConst;
-import net.caiban.pc.erp.domain.RedisKeyEnum;
+import net.caiban.pc.erp.enums.RedisKeyEnum;
 import net.caiban.pc.erp.domain.SessionUser;
 import net.caiban.pc.erp.domain.sys.SysApp;
 import net.caiban.pc.erp.domain.sys.SysUserAuthModel;

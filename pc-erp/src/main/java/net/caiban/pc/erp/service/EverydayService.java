@@ -3,10 +3,7 @@ package net.caiban.pc.erp.service;
 import java.util.Date;
 import java.util.List;
 
-import net.caiban.pc.erp.domain.Everyday;
-import net.caiban.pc.erp.domain.EverydayCond;
-import net.caiban.pc.erp.domain.EverydayModel;
-import net.caiban.pc.erp.domain.Pager;
+import net.caiban.pc.erp.domain.*;
 import net.caiban.pc.erp.exception.ServiceException;
 import weixin.popular.bean.EventMessage;
 import weixin.popular.bean.xmlmessage.XMLTextMessage;
@@ -48,4 +45,30 @@ public interface EverydayService {
 	 * @return
 	 */
 	public EverydayModel rebuildEveryday(EverydayModel everyday);
+
+    /**
+     * 按照 subject id 查找 subject
+     *
+     * @param id
+     * @return
+     */
+    public EverydaySubjectModel querySubject(Long id);
+
+    /**
+     * 获取某主题某一天的所有 everyday 信息
+     *
+     * @param id
+     * @param day
+     * @return
+     */
+    public List<EverydayModel> queryBySubject(Long id, Date day);
+
+    /**
+     * 重新构建subject,加入最大连续天数和百分比
+     *
+     * @param subject
+     * @return
+     */
+    public EverydaySubjectModel rebuildEverydaySubject(EverydaySubjectModel subject);
+
 }
