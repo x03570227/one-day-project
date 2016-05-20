@@ -189,4 +189,12 @@ public interface SysUserService {
      * @param eventMessage
      */
     void doUnauthByUunfollow(EventMessage eventMessage);
+
+    /**
+     * 判断关注者是否已绑定账号
+     *
+     * @param wxOpenid
+     * @return
+     */
+    boolean availableFollower(String wxOpenid);
 }

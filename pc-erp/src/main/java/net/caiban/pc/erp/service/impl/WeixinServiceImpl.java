@@ -226,10 +226,13 @@ public class WeixinServiceImpl implements WeixinService {
         sysUserService.doAuthByFollow(event);
 
         StringBuffer sb = new StringBuffer();
-        sb.append(" \n<a href=\"")
-                .append(AppConst.getConfig("app.host"))
-                .append("/p/puser/wxgate.do?wxOpenid=").append(event.getFromUserName())
-                .append("\">绑定账号</a>");
+
+        if(!sysUserService.availableFollower(event.getFromUserName())){
+            sb.append(" \n<a href=\"")
+                    .append(AppConst.getConfig("app.host"))
+                    .append("/p/puser/wxgate.do?wxOpenid=").append(event.getFromUserName())
+                    .append("\">绑定账号</a>");
+        }
 
         XMLTextMessage textMessage = new XMLTextMessage(event.getFromUserName(), event.getToUserName(), content+sb.toString());
         return textMessage.toXML();

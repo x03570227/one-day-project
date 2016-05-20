@@ -494,7 +494,7 @@ public class SysUserServiceImpl implements SysUserService {
         return (uid != null && uid.longValue() > 0);
     }
 
-    private boolean availableFollower(String wxOpenid){
+    public boolean availableFollower(String wxOpenid){
         Integer existedCount=sysUserAuthMapper.countByOpenid(wxOpenid);
         return (existedCount!=null && existedCount.intValue()>0);
     }
