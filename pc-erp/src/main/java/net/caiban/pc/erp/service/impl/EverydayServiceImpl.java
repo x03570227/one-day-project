@@ -514,7 +514,6 @@ try {
         return subject;
     }
 
-
     private Integer getNextTarget(Integer dayIndex){
         Integer nextTarget = 7;
 
@@ -593,5 +592,11 @@ try {
         return list;
     }
 
+    @Override
+    public Pager<EverydayModel> search(String query, Pager<EverydayModel> page) {
 
+//        TODO 按关键字模糊匹配（content）
+
+        return page;
+    }
 }

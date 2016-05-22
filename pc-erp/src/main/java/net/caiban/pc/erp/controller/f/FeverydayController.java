@@ -23,6 +23,8 @@ import net.caiban.pc.erp.domain.Pager;
 import net.caiban.pc.erp.exception.ServiceException;
 import net.caiban.pc.erp.service.EverydayService;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
 
@@ -160,6 +162,16 @@ public class FeverydayController extends BaseController {
                                       Long id){
 
         model.put("subject", everydayService.querySubject(id));
+
+        return null;
+    }
+
+    @RequestMapping
+    public ModelAndView search(HttpServletRequest request, ModelMap model, String q, Pager<EverydayModel> page) throws UnsupportedEncodingException {
+
+        String query = URLDecoder.decode(q, "UTF-8");
+
+        page = everydayService.search(query, page);
 
         return null;
     }

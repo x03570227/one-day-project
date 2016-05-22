@@ -71,4 +71,12 @@ public interface EverydayService {
      */
     public EverydaySubjectModel rebuildEverydaySubject(EverydaySubjectModel subject);
 
+    /**
+     * 搜索每1天
+     *
+     * @param query
+     * @return
+     */
+    public Pager<EverydayModel> search(String query, Pager<EverydayModel> page);
+
 }
