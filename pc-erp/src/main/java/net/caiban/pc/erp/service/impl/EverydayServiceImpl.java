@@ -594,9 +594,9 @@ try {
 
     @Override
     public Pager<EverydayModel> search(String query, Pager<EverydayModel> page) {
-
-//        TODO 按关键字模糊匹配（content）
-
+        page.setTotals(everydayMapper.searchCount(query));
+        List<EverydayModel> list = everydayMapper.search(query, page);
+        page.setRecords(list);
         return page;
     }
 }

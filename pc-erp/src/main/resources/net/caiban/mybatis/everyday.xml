@@ -226,6 +226,6 @@
         WHERE
           subject_id=#{subjectId}
     </select>
-	
+
 </mapper>
 
