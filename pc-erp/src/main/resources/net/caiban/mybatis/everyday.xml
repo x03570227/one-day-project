@@ -227,5 +227,30 @@
           subject_id=#{subjectId}
     </select>
 
+    <select id="search" resultType="net.caiban.pc.erp.domain.EverydayModel">
+        SELECT
+        <include refid="Base_column" />
+        FROM everyday
+        WHERE content LIKE CONCAT('%', #{query}, '%')
+
+        <if test="pager.sort !=null ">
+            order by ${pager.sort}
+            <if test="pager.dir != null">
+                ${pager.dir}
+            </if>
+        </if>
+        <if test="pager.start>=0 and pager.limit>0">
+            limit #{pager.start}, #{pager.limit}
+        </if>
+
+    </select>
+
+    <select id="searchCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1) as c
+        FROM everyday
+        WHERE content LIKE CONCAT('%', #{query}, '%')
+    </select>
+
 </mapper>
 
