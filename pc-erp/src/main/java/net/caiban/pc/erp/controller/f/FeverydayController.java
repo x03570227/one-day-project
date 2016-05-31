@@ -173,6 +173,8 @@ public class FeverydayController extends BaseController {
 
         page = everydayService.search(query, page);
 
+        model.put("page", page);
+
         return null;
     }
 
